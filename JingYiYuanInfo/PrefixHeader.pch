@@ -1,0 +1,157 @@
+//
+//  PrefixHeader.pch
+//  壹元服务
+//
+//  Created by VINCENT on 2017/3/22.
+//  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
+//
+
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+//masonry的两个头文件的宏（省略mas_前缀）
+#define MAS_SHORTHAND
+#define MAS_SHORTHAND_GLOBALS
+
+
+#import "macro.h"
+#import "YYConst.h"
+#import "API.h"
+
+//导入array和dictionary的相关safe类别
+//#import "NSArray+Category.h"
+//#import "NSMutableArray+Category.h"
+//#import "NSDictionary+Category.h"
+//#import "NSMutableDictionary+Category.h"
+//#import "Masonry.h"
+//#import "YYHttpNetworkTool.h"
+//#import "PPNetworkHelper.h"
+#import "UIView+YYViewFrame.h"
+#import "UIImageView+WebCache.h"
+//#import "UIButton+WebCache.h"
+#import "SVProgressHUD.h"
+//#import <DZNEmptyDataSet/DZNEmptyDataSet-umbrella.h>
+
+
+
+
+//打印该方法的名称，在方法内调用
+#define YYLogFunc YYLog(@"%s---%@", __func__,NSStringFromClass([self class]));
+
+//导航栏，主体颜色等宏设定
+#define NaviColor  YYRGB(212,60,51)
+#define ThemeColor YYRGB(212,60,51)  //壹元服务的主题色
+#define TitleColor  UIColorFromHex(0x333333)  //壹元标题文字的颜色
+#define SubTitleColor  UIColorFromHex(0x666666)  //壹元副标题文字的颜色
+#define UnenableTitleColor  UIColorFromHex(0x999999)  //壹元失活的文字或者来源时间等颜色
+#define GrayBackGroundColor   UIColorFromHex(0xeeeeee)  //壹元主体的背景色
+#define LightGraySeperatorColor    UIColorFromHex(0xe5e5e5)  //壹元浅色分隔线颜色
+#define GraySeperatorColor         UIColorFromHex(0xcccccc)  //壹元深色分隔线颜色
+
+
+#define WhiteColor [UIColor whiteColor]
+#define BlackColor [UIColor blackColor]
+#define GrayColor  [UIColor grayColor]
+#define ClearColor  [UIColor clearColor]
+#define UIColorFromHex(s) [UIColor colorWithRed:(((s & 0xFF0000) >> 16 )) / 255.0 green:((( s & 0xFF00 ) >> 8 )) / 255.0 blue:(( s & 0xFF )) / 255.0 alpha:1.0] //将Hexcoclor转成RGBcolor
+
+#define NavTitleFont sysFont(18)  //导航栏文字大小
+#define TitleFont  sysFont(16)  //壹元标题文字的字体
+#define SubTitleFont  sysFont(14)  //壹元副标题文字的字体
+#define UnenableTitleFont  sysFont(12)  //壹元失活的文字或者来源时间等字体
+
+//设置debug的两种状态下打印（发布状态下不打印，省资源）
+#ifdef DEBUG // 处于开发阶段
+#define YYLog(...) NSLog(@"%s 第%d行 \n %@\n\n",__func__,__LINE__,[NSString stringWithFormat:__VA_ARGS__])
+#else // 处于发布阶段
+#define YYLog(...)
+#endif
+
+//APP不同尺寸手机的缩放系数。以320宽的屏幕为基准，通常高度不用考虑适配，因为高度大多需要拉伸
+#define afterScale(s) (fabs(s*[[UIScreen mainScreen] bounds].size.width/320))
+
+
+///简化UIimage的图片设置方法
+#define imageNamed(name)  [UIImage imageNamed:name]
+///简化string转url的方法
+#define urlString(string)  [NSURL URLWithString:string]
+///简化系统字体大小方法
+#define sysFont(float)  [UIFont systemFontOfSize:float]
+//根据cell的类名返回reuseidentifier
+#define cellIdentifier(class)   NSStringFromClass(class)
+
+#pragma mark ------------------ 单例宏 ---------------------------
+
+///.h文件中实现 自动拼接shared在头部
+#define YYSingletonH(name) +(instancetype)share##name;
+
+///.m文件中实现
+#if __has_feature(objc_arc)
+
+#define YYSingletonM(name) static id _instance;\
++(instancetype)allocWithZone:(struct _NSZone *)zone\
+{\
+static dispatch_once_t onceToken;\
+dispatch_once(&onceToken, ^{\
+_instance = [super allocWithZone:zone];\
+});\
+return _instance;\
+}\
+\
++(instancetype)share##name\
+{\
+return [[self alloc]init];\
+}\
+-(id)copyWithZone:(NSZone *)zone\
+{\
+return _instance;\
+}\
+\
+-(id)mutableCopyWithZone:(NSZone *)zone\
+{\
+return _instance;\
+}
+
+
+#else
+#define singleM static id _instance;\
++(instancetype)allocWithZone:(struct _NSZone *)zone\
+{\
+static dispatch_once_t onceToken;\
+dispatch_once(&onceToken, ^{\
+_instance = [super allocWithZone:zone];\
+});\
+return _instance;\
+}\
+\
++(instancetype)shareTools\
+{\
+return [[self alloc]init];\
+}\
+-(id)copyWithZone:(NSZone *)zone\
+{\
+return _instance;\
+}\
+\
+-(id)mutableCopyWithZone:(NSZone *)zone\
+{\
+return _instance;\
+}\
+-(oneway void)release\
+{\
+}\
+\
+-(instancetype)retain\
+{\
+return _instance;\
+}\
+\
+-(NSUInteger)retainCount\
+{\
+return MAXFLOAT;\
+}
+#endif
+
+
+#endif /* PrefixHeader_pch */
