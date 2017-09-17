@@ -1,0 +1,39 @@
+//
+//  YYDetailToolBar.h
+//  JingYiYuanInfo
+//
+//  Created by VINCENT on 2017/9/12.
+//  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+typedef NS_OPTIONS(NSUInteger, DetailToolBarType) {
+    DetailToolBarTypeWriteComment = 1 << 0, //写品论按钮
+    DetailToolBarTypeComment = 1 << 1, //评论按钮
+    DetailToolBarTypeFavor = 1 << 2, // 收藏按钮
+    DetailToolBarTypeShare = 1 << 3, //分享按钮
+    DetailToolBarTypeReward = 1 << 4  //打赏按钮
+};
+
+typedef void(^ToolBarSelectBlock)(DetailToolBarType toolBarType);
+typedef void(^SendComment)(NSString *comment);
+
+@interface YYDetailToolBar : UIView
+
+/** toolbar的基本类型*/
+@property (nonatomic, assign) DetailToolBarType toolBarType;
+
+/** selectBlock*/
+@property (nonatomic, copy) ToolBarSelectBlock selectBlock;
+
+/** 发送评论的回调*/
+@property (nonatomic, copy) SendComment sendCommentBlock;
+
+/** favor 是否收藏了*/
+@property (nonatomic, assign) BOOL isFavor;
+
+/** 写评论按钮的文字*/
+@property (nonatomic, copy) NSString *placeHolder;
+
+@end

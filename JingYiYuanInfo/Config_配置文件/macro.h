@@ -142,5 +142,7 @@ tabCell;\
 
 #define SIGNDAYS  @"signDays" //签到天数的宏
 
+#define yyyyMMddHHmmss @"yyyy-MM-dd HH:mm:ss"
+
 
 #endif /* macro_h */

@@ -7,7 +7,7 @@
 //
 
 #import "YYBaseDetailController.h"
-
+#import "UIBarButtonItem+YYExtension.h"
 
 @interface YYBaseDetailController ()
 
@@ -17,22 +17,34 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    UIBarButtonItem *share = [UIBarButtonItem itemWithImage:@"share_32x32" highImage:@"share_32x32" target:self action:@selector(share)];
+    self.navigationItem.rightBarButtonItem = share;
+    
+    [self.view addSubview:self.wkWebview];
+    
+    if (_url) {
+        
+        NSURL *url = [NSURL URLWithString:self.url];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        [self.wkWebview loadRequest:request];
+    }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+- (WKWebView *)wkWebview {
+    
+    if (!_wkWebview) {
+        _wkWebview = [[WKWebView alloc] initWithFrame:self.view.bounds];
+        _wkWebview.navigationDelegate = self;
+        _wkWebview.UIDelegate = self;
+    }
+    return _wkWebview;
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)share {
+    
 }
-*/
 
 @end

@@ -24,16 +24,14 @@
 //#import "NSMutableArray+Category.h"
 //#import "NSDictionary+Category.h"
 //#import "NSMutableDictionary+Category.h"
-//#import "Masonry.h"
-//#import "YYHttpNetworkTool.h"
-//#import "PPNetworkHelper.h"
+#import "Masonry.h"
+#import "YYHttpNetworkTool.h"
+#import "PPNetworkHelper.h"
 #import "UIView+YYViewFrame.h"
 #import "UIImageView+WebCache.h"
-//#import "UIButton+WebCache.h"
+#import "UIButton+WebCache.h"
 #import "SVProgressHUD.h"
 //#import <DZNEmptyDataSet/DZNEmptyDataSet-umbrella.h>
-
-
 
 
 //打印该方法的名称，在方法内调用
@@ -48,6 +46,9 @@
 #define GrayBackGroundColor   UIColorFromHex(0xeeeeee)  //壹元主体的背景色
 #define LightGraySeperatorColor    UIColorFromHex(0xe5e5e5)  //壹元浅色分隔线颜色
 #define GraySeperatorColor         UIColorFromHex(0xcccccc)  //壹元深色分隔线颜色
+
+#define OrangeColor  YYRGB(255,103,0)  //产品列表的cell图片左上角的标签和在售背景色
+#define UnactiveColor YYRGB(135,136,137) //产品列表的售罄背景色
 
 
 #define WhiteColor [UIColor whiteColor]

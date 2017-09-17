@@ -9,20 +9,20 @@
 #import "YYTabBarViewController.h"
 #import "YYNavigationViewController.h"
 
-//#import "YYMainViewController.h"
-//#import "YYChannelViewController.h"
-//#import "YYCommunityViewController.h"
-//#import "YYMineViewController.h"
+#import "YYMainViewController.h"
+#import "YYChannelViewController.h"
+#import "YYCommunityViewController.h"
+#import "YYMineViewController.h"
 
-//#import "YYNewVersionViewController.h"
+#import "YYNewVersionViewController.h"
 
-//#import "YYTabBar.h"
+#import "YYTabBar.h"
 
 
 @interface YYTabBarViewController ()
 
 /** newvc*/
-//@property (nonatomic, strong) YYNewVersionViewController *versionVC;
+@property (nonatomic, strong) YYNewVersionViewController *versionVC;
 
 @end
 
@@ -74,20 +74,20 @@
 - (void)configChildViewcontrollers {
     
     //资讯首页
-//    YYMainViewController *mainViewController = [[YYMainViewController alloc] init];
-//    [self addChildController:mainViewController title:@"首页" iconNormal:@"Tab_main_normal_25x25_" iconSelected:@"Tab_main_highlighted_25x25_"];
-//    
-//    //初始化频道界面
-//    YYChannelViewController *channelViewController = [[YYChannelViewController alloc] init];
-//    [self addChildController:channelViewController title:@"频道" iconNormal:@"Tab_channel_normal_25x25_" iconSelected:@"Tab_channel_highlighted_25x25_"];
-//    
-//    //初始化服务页面
-//    YYCommunityViewController *communityViewController = [[YYCommunityViewController alloc] init];
-//    [self addChildController:communityViewController title:@"公社" iconNormal:@"Tab_community_normal_25x25_" iconSelected:@"Tab_community_highlighted_25x25_"];
-//    
-//    //初始化个人中心页面
-//    YYMineViewController *mineViewController = [[YYMineViewController alloc] init];
-//    [self addChildController:mineViewController title:@"我的" iconNormal:@"Tab_personal_normal_25x25_" iconSelected:@"Tab_personal_highlighted_25x25_"];
+    YYMainViewController *mainViewController = [[YYMainViewController alloc] init];
+    [self addChildController:mainViewController title:@"首页" iconNormal:@"Tab_main_normal_25x25_" iconSelected:@"Tab_main_highlighted_25x25_"];
+    
+    //初始化频道界面
+    YYChannelViewController *channelViewController = [[YYChannelViewController alloc] init];
+    [self addChildController:channelViewController title:@"频道" iconNormal:@"Tab_channel_normal_25x25_" iconSelected:@"Tab_channel_highlighted_25x25_"];
+    
+    //初始化服务页面
+    YYCommunityViewController *communityViewController = [[YYCommunityViewController alloc] init];
+    [self addChildController:communityViewController title:@"公社" iconNormal:@"Tab_community_normal_25x25_" iconSelected:@"Tab_community_highlighted_25x25_"];
+    
+    //初始化个人中心页面
+    YYMineViewController *mineViewController = [[YYMineViewController alloc] init];
+    [self addChildController:mineViewController title:@"我的" iconNormal:@"Tab_personal_normal_25x25_" iconSelected:@"Tab_personal_highlighted_25x25_"];
     
 }
 

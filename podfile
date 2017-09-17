@@ -14,11 +14,12 @@ target 'JingYiYuanInfo' do
   pod 'MJRefresh'
   pod 'MJExtension'
 #  pod 'RTRootNavigationController' # 导航栏
+  pod 'JPNavigationController', '~> 2.0.2'  # 导航栏
   pod 'SVProgressHUD'     # 提示弹框
   pod 'IQKeyboardManager' # 处理键盘遮挡
   pod 'ZFPlayer'          # 播放器
   pod 'PPNetworkHelper'   # 网络请求数据缓存（按请求为key缓存)
-#  pod 'DZNEmptyDataSet'   # tableview无数据时的占位
+  pod 'DZNEmptyDataSet'   # tableview无数据时的占位
 #  pod 'XHLaunchAd'        # 启动广告
   pod 'WZLBadge'          # uiview的角标
   pod 'DateTools'         # 时间计算库
@@ -28,6 +29,7 @@ target 'JingYiYuanInfo' do
 #  pod 'FMDB'              # 数据库SQLite的工具类库
   pod 'Bugly'             # 腾讯错误统计SDK
   pod 'SAMKeychain'       # 钥匙串
+  pod 'YPTabBarController' #顶部滑动选择器
   
   # 集成微信(精简版0.2M)
   pod ‘UMengUShare/Social/ReducedWeChat'
