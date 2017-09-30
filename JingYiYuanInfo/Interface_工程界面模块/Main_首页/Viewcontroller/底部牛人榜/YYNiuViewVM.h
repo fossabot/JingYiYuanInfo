@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^YYNiuViewCellSelectBlock)(NSString *url, NSIndexPath *indexPath);
+typedef void(^YYNiuViewCellSelectBlock)(id data, NSIndexPath *indexPath);
 
 @interface YYNiuViewVM : NSObject<UITableViewDelegate,UITableViewDataSource>
 

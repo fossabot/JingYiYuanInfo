@@ -32,7 +32,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    [self.view addSubview:self.tableView];
+    [self loadNewData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -43,31 +44,45 @@
 
 - (void)loadNewData {
     
+    if ([self.tableView.mj_footer isRefreshing]) {
+        [self.tableView.mj_footer endRefreshing];
+    }
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"morerollwords",@"act", nil];
+    YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:fastMsgListUrl parameters:para success:^(id response) {
-        
-        self.dataSource = [YYFastMsgSecionModel mj_objectArrayWithKeyValuesArray:response[@"roll_words"]];
-        self.lastdate = response[@"lastdate"];
+        [weakSelf.tableView.mj_header endRefreshing];
+        if (response) {
+            
+            weakSelf.dataSource = [YYFastMsgSecionModel mj_objectArrayWithKeyValuesArray:response[@"roll_words"]];
+            weakSelf.lastdate = response[@"lastdate"];
+            [weakSelf.tableView reloadData];
+        }
     } failure:^(NSError *error) {
-        
+        [weakSelf.tableView.mj_header endRefreshing];
     } showSuccessMsg:nil];
 }
 
 - (void)loadMoreData {
     
+    if ([self.tableView.mj_header isRefreshing]) {
+        [self.tableView.mj_header endRefreshing];
+    }
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"morerollwords",@"act",self.lastdate,@"lastdate", nil];
+    YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:fastMsgListUrl parameters:para success:^(id response) {
+        
         NSArray *tempArr = [YYFastMsgSecionModel mj_objectArrayWithKeyValuesArray:response[@"roll_words"]];
         if (tempArr.count) {
             
-            [self.dataSource addObjectsFromArray:tempArr];
+            [weakSelf.dataSource addObjectsFromArray:tempArr];
+            [weakSelf.tableView reloadData];
         }else {
             
-            [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
         }
         self.lastdate = response[@"lastdate"];
     } failure:^(NSError *error) {
-        
+        [weakSelf.tableView.mj_footer endRefreshing];
     } showSuccessMsg:nil];
 }
 
@@ -85,9 +100,9 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 20)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 30)];
     view.backgroundColor = WhiteColor;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, kSCREENWIDTH, 20)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, kSCREENWIDTH, 20)];
     label.textColor = UnenableTitleColor;
     label.font = UnenableTitleFont;
     YYFastMsgSecionModel *secModel = self.dataSource[section];
@@ -98,7 +113,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    return 20;
+    return 30;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -108,10 +123,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 30;
+    return 50;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     YYFastMsgSecionModel *secModel = self.dataSource[indexPath.section];
     YYMainRollwordsModel *cellModel = secModel.info[indexPath.row];
@@ -139,21 +155,39 @@
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-64) style:UITableViewStyleGrouped];
+        _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshHeader headerWithRefreshingBlock:^{
-           
+        _tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+            
             YYStrongSelf
             [strongSelf loadNewData];
         }];
         
-        _tableView.mj_footer = [MJRefreshFooter footerWithRefreshingBlock:^{
+        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
+        
+        stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
+        _tableView.mj_footer = stateFooter;
+        
+        
+        FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
+        configer.emptyImage = imageNamed(emptyImageName);
+        configer.emptyTitle = @"暂无数据,点此重新加载";
+        configer.emptyTitleColor = UnenableTitleColor;
+        configer.emptyTitleFont = SubTitleFont;
+        configer.emptyTitleColor = UnenableTitleColor;
+        configer.emptyTitleFont = SubTitleFont;
+        configer.allowScroll = NO;
+        configer.emptyViewTapBlock = ^{
+            [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        [self.tableView emptyViewConfiger:configer];
         
     }
     return _tableView;

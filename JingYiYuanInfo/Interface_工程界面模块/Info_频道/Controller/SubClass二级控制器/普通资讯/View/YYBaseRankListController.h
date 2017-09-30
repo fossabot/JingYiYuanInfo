@@ -10,4 +10,10 @@
 
 @interface YYBaseRankListController : UIViewController
 
+/** lastid*/
+@property (nonatomic, copy) NSString *lastid;
+
+/** classid*/
+@property (nonatomic, copy) NSString *classid;
+
 @end

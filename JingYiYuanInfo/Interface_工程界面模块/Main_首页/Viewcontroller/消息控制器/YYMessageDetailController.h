@@ -10,6 +10,7 @@
 
 @interface YYMessageDetailController : YYBaseDetailController
 
+#warning 修改这个属性  分享标题为导航标题
 /** shareTitle*/
 @property (nonatomic, copy) NSString *shareTitle;
 

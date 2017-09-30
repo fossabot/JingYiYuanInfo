@@ -14,7 +14,17 @@
 /** videoId*/
 @property (nonatomic, copy) NSString *videoId;
 
-/** videoUrl*/
-@property (nonatomic, copy) NSString *videoUrl;
+/** videoURL*/
+@property (nonatomic, strong) NSURL *videoURL;
+
+/** 视频标题*/
+@property (nonatomic, copy) NSString *videoTitle;
+
+/** 视频图片占位图*/
+@property (nonatomic, copy) NSString *placeHolderImageUrl;
+
+/** seekTime*/
+@property (nonatomic, assign) NSInteger seekTime;
+
 
 @end

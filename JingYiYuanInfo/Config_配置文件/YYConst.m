@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+
+/** 一年365会员的产品id*/
+NSString * const Production_VIP_1 = @"com.yyinfo_vip_1";
+
+
+
+
+
+
+
+
 /** 导航栏高度*/
 CGFloat const YYNavgationBarH = 44.f;
 /** 状态栏高度*/
@@ -18,7 +29,7 @@ CGFloat const YYTabBarH = 49.0;
 CGFloat const YYTopNaviHeight = 64.0;
 
 /** 分页cell的tab高度*/
-CGFloat const TabHeaderH = 40;
+CGFloat const TabHeaderH = 60;
 
 
 /** 新闻列表的第一个cell的标题字号*/
@@ -131,6 +142,11 @@ NSString * const YYUserInfoDidChangedNotification = @"YYUserInfoDidChangedNotifi
 /** 首页刷新的通知  热搜榜和牛人榜接收通知刷新*/
 NSString * const YYMainRefreshNotification = @"YYMainRefreshNotification";
 
+/** 资讯视频播放控制器 划出当前窗口，重置player,停止播放*/
+NSString * const YYInfoVideoResetPlayerNotification = @"YYInfoVideoResetPlayerNotification";
+
+/** 资讯音乐播放控制器 划出当前窗口，重置player,停止播放*/
+NSString * const YYInfoMusicResetPlayerNotification = @"YYInfoMusicResetPlayerNotification";
 
 
 

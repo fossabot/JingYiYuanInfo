@@ -105,7 +105,7 @@
     
     //输入框都满足条件，则注册按钮可点击
     self.sendNewPasswordButton.enabled = [self validToSend];
-    self.sendNewPasswordButton.backgroundColor = [self validToSend] ? ThemeColor : [UIColor lightGrayColor];
+    self.sendNewPasswordButton.backgroundColor = [self validToSend] ? ThemeColor : LightGraySeperatorColor;
 }
 
 - (BOOL)validToSend {

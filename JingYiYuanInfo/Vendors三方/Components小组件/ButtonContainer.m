@@ -74,10 +74,10 @@
         _buttonMargin = 10;
         _rowMargin = 10;
         
-        _buttonTitleColor = YYRGBCOLOR_HEX(0x222222);
+        _buttonTitleColor = SubTitleColor;
         _selectedTitleColor = WhiteColor;
         _selectedBackColor = ThemeColor;
-        _buttonBorderColor = YYRGBCOLOR_HEX(0x626262);
+        _buttonBorderColor = UnenableTitleColor;
         _buttonBorderWidth = 1;
         _fontSize = 15;
         _buttonMaskToBounds = NO;

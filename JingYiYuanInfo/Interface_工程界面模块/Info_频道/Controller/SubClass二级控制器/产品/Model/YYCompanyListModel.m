@@ -7,7 +7,15 @@
 //
 
 #import "YYCompanyListModel.h"
+#import <MJExtension/MJExtension.h>
 
 @implementation YYCompanyListModel
+
++ (NSDictionary *)mj_objectClassInArray {
+    
+    return @{
+             @"com_arr":@"YYCompanyModel"
+             };
+}
 
 @end

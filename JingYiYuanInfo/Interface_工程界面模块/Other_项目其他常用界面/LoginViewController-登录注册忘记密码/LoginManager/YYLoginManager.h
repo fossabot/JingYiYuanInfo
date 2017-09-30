@@ -11,6 +11,9 @@
 @interface YYLoginManager : NSObject
 
 
+/** 退出登录*/
++ (void)logOutAccountSuccess:(void(^)(BOOL))success;
+
 /**
  登录时 验证账号密码
 
@@ -52,7 +55,7 @@
  @param telephoneNum 新手机号
  @param verification 验证码
  */
-+ (void)resetTelephoneNumber:(NSString *)telephoneNum  verification:(NSString *)verification completion:(void(^)())completion;
++ (void)resetTelephoneNumber:(NSString *)telephoneNum  verification:(NSString *)verification completion:(void(^)(BOOL success))completion;
 
 
 
@@ -62,9 +65,24 @@
  @param oldPwd 旧密码
  @param newPwd 新密码
  */
-+ (void)changePasswordWithOldPassword:(NSString *)oldPwd newPwd:(NSString *)newPwd;
++ (void)changePasswordWithOldPassword:(NSString *)oldPwd newPwd:(NSString *)newPwd completion:(void(^)())completion;
 
 
+
+/**
+ 注册获取验证码
+ 
+ @param mobile 手机号
+ */
++ (void)getRegisterVerificationByMobile:(NSString *)mobile;
+
+
+/**
+ 忘记密码时获取验证码的方法
+ 
+ @param mobile 手机号
+ */
++ (void)getResetPasswordVerificationByMobile:(NSString *)mobile;
 
 
 

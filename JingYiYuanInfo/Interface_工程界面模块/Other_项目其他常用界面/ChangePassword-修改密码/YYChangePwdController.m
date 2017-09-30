@@ -26,7 +26,7 @@
 
 - (IBAction)commit:(UIButton *)sender {
     
-    [YYLoginManager changePasswordWithOldPassword:_oldPwdTextField.text newPwd:_changedPwdTextField.text];
+//    [YYLoginManager changePasswordWithOldPassword:_oldPwdTextField.text newPwd:_changedPwdTextField.text];
     
 }
 

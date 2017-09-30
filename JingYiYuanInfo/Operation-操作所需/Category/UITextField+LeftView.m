@@ -14,9 +14,22 @@
 - (void)setLeftViewWithImage:(NSString *)imageName {
     UIImage *image = imageNamed(imageName);
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-//    imageView.frame = CGRectMake(0, 0, 40, 40);
-    [self setLeftView:imageView];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.frame = CGRectMake(0, 0, 40, 30);
     self.leftViewMode = UITextFieldViewModeAlways;
+    [self setLeftView:imageView];
 }
+
+- (void)setLeftTitle:(NSString *)title {
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = [title stringByAppendingString:@":"];
+    titleLabel.font = SubTitleFont;
+    titleLabel.textColor = BlackColor;
+    titleLabel.textAlignment = NSTextAlignmentRight;
+    self.leftViewMode = UITextFieldViewModeAlways;
+    [self setLeftView:titleLabel];
+}
+
 
 @end

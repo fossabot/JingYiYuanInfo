@@ -1,0 +1,25 @@
+//
+//  YYPushCell.h
+//  JingYiYuanInfo
+//
+//  Created by VINCENT on 2017/9/27.
+//  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+static NSString * const YYPushCellId = @"YYPushCell";
+
+@class YYPushListCellModel;
+
+typedef void(^ExtendBlock)(id cell, BOOL selected);
+
+@interface YYPushCell : UITableViewCell
+
+/** pushModel*/
+@property (nonatomic, strong) YYPushListCellModel *pushModel;
+
+/** ExtendBlock*/
+@property (nonatomic, copy) ExtendBlock extendBlock;
+
+@end

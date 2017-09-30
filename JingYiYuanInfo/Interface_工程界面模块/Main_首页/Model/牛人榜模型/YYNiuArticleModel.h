@@ -49,5 +49,7 @@
 /** 牛人文章添加时间*/
 @property (nonatomic, copy) NSString *posttime;
 
+/** webUrl*/
+@property (nonatomic, copy) NSString *webUrl;
 
 @end

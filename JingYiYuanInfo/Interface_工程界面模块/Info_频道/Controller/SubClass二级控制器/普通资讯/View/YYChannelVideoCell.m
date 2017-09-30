@@ -7,6 +7,7 @@
 //
 
 #import "YYChannelVideoCell.h"
+#import <AVFoundation/AVFoundation.h>
 #import "YYEdgeLabel.h"
 #import "ShareView.h"
 #import "YYBaseVideoModel.h"
@@ -17,16 +18,16 @@
 @property (nonatomic, strong) UILabel *title;
 
 /** 视频展示图片*/
-@property (nonatomic, strong) UIImageView *videoImg;
+//@property (nonatomic, strong) UIImageView *videoImg;
 
 /** 播放按钮*/
 @property (nonatomic, strong) UIButton *play;
 
 /** 播放量*/
-@property (nonatomic, strong) UILabel *playCount;
+@property (nonatomic, strong) YYEdgeLabel *playCount;
 
 /** 时长*/
-@property (nonatomic, strong) UILabel *time;
+@property (nonatomic, strong) YYEdgeLabel *time;
 
 /** 标签1*/
 @property (nonatomic, strong) YYEdgeLabel *tag1;
@@ -68,6 +69,7 @@
     
     UIImageView *videoImg = [[UIImageView alloc] init];
     videoImg.tag = 101;
+    videoImg.userInteractionEnabled = YES;
     [self.contentView addSubview:videoImg];
     self.videoImg = videoImg;
     
@@ -77,20 +79,24 @@
     [self.videoImg addSubview:play];
     self.play = play;
     
-    UILabel *playCount = [[UILabel alloc] init];
-    playCount.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+    YYEdgeLabel *playCount = [[YYEdgeLabel alloc] init];
+    playCount.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
     playCount.layer.cornerRadius = 6.0;
     playCount.layer.masksToBounds = YES;
+    playCount.edgeInsets = UIEdgeInsetsMake(2, 3, 2, 3);
     playCount.textColor = [UIColor whiteColor];
+    playCount.layer.borderColor = [UIColor blackColor].CGColor;
     playCount.font = UnenableTitleFont;
     [self.videoImg addSubview:playCount];
     self.playCount = playCount;
     
-    UILabel *time = [[UILabel alloc] init];
-    time.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+    YYEdgeLabel *time = [[YYEdgeLabel alloc] init];
+    time.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
     time.layer.cornerRadius = 6.0;
     time.layer.masksToBounds = YES;
+    time.edgeInsets = UIEdgeInsetsMake(2, 3, 2, 3);
     time.textColor = [UIColor whiteColor];
+    time.layer.borderColor = [UIColor blackColor].CGColor;
     time.font = UnenableTitleFont;
     [self.videoImg addSubview:time];
     self.time = time;
@@ -119,7 +125,7 @@
     self.source = source;
     
     UIButton *share = [UIButton buttonWithType:UIButtonTypeCustom];
-    [share setImage:imageNamed(@"share_32x32") forState:UIControlStateNormal];
+    [share setImage:imageNamed(@"share_gray_32x32") forState:UIControlStateNormal];
     [share addTarget:self action:@selector(shareVideo) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:share];
     self.share = share;
@@ -139,7 +145,7 @@
         make.top.equalTo(self.title.bottom).offset(YYInfoCellCommonMargin);
         make.left.offset(YYInfoCellCommonMargin);
         make.right.offset(-YYInfoCellCommonMargin);
-        make.height.equalTo(self.videoImg.width).multipliedBy(9/16);
+        make.height.equalTo((kSCREENWIDTH-20)*9/16);
     }];
     
     [self.play makeConstraints:^(MASConstraintMaker *make) {
@@ -159,30 +165,34 @@
         make.bottom.offset(-YYInfoCellSubMargin);
     }];
     
+    [self.share makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.right.equalTo(self.videoImg).offset(-YYInfoCellSubMargin);
+        make.top.equalTo(self.videoImg.bottom).offset(YYInfoCellCommonMargin);
+        make.bottom.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
+    }];
+
     [self.tag1 makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.videoImg);
-        make.top.equalTo(self.videoImg.bottom).offset(YYInfoCellSubMargin);
+//        make.top.equalTo(self.videoImg.bottom).offset(YYInfoCellSubMargin);
+        make.centerY.equalTo(self.share);
     }];
     
     [self.tag2 makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.tag1.right).offset(YYInfoCellCommonMargin);
-        make.top.equalTo(self.videoImg.bottom).offset(YYInfoCellSubMargin);
+//        make.top.equalTo(self.videoImg.bottom).offset(YYInfoCellSubMargin);
+        make.centerY.equalTo(self.share);
     }];
 
     [self.source makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.tag2.right).offset(YYInfoCellCommonMargin);
-        make.top.equalTo(self.videoImg.bottom).offset(YYInfoCellSubMargin);
+//        make.top.equalTo(self.videoImg.bottom).offset(YYInfoCellSubMargin);
+        make.centerY.equalTo(self.share);
     }];
     
-    [self.share makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.right.equalTo(self.videoImg);
-        make.top.equalTo(self.videoImg.bottom).offset(YYInfoCellSubMargin);
-        make.bottom.offset(-YYInfoCellCommonMargin);
-    }];
 
 }
 
@@ -191,16 +201,28 @@
     
     _videoModel = videoModel;
     self.title.text = videoModel.v_name;
-    [self.videoImg sd_setImageWithURL:[NSURL URLWithString:videoModel.v_picture] placeholderImage:imageNamed(@"placeholder")];
+    [self.videoImg sd_setImageWithURL:[NSURL URLWithString:videoModel.v_picture] placeholderImage:imageNamed(@"loading_bgView")];
     self.playCount.text = videoModel.v_hits;
     self.time.text = videoModel.v_time;
     
     if ([videoModel.v_tag containsString:@" "]) {
+       
         NSArray *tags = [videoModel.v_tag componentsSeparatedByString:@" "];
         self.tag1.text = tags[0];
         self.tag2.text = tags[1];
+    }else if ([videoModel.v_tag containsString:@"，"]){
+        
+        NSArray *tags = [videoModel.v_tag componentsSeparatedByString:@"，"];
+        self.tag1.text = tags[0];
+        self.tag2.text = tags[1];
+    }else {
+        
+        self.tag1.text = videoModel.v_tag;
     }
+    
     self.source.text = videoModel.v_source;
+    
+    
 }
 
 /**
@@ -208,11 +230,11 @@
  */
 - (void)playVideo {
     
+//    [self hideOtherView];
     if (_playBlock) {
         _playBlock();
     }
 }
-
 
 /**
  *  分享视频
@@ -224,10 +246,7 @@
     }];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
-}
+
 
 @end

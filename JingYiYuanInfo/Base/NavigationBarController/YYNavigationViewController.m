@@ -10,6 +10,8 @@
 #import "UIBarButtonItem+YYExtension.h"
 #import "UIView+YYViewFrame.h"
 #import "UIImage+Category.h"
+//#import <JPNavigationController/JPNavigationController.h>
+#import "JZNavigationExtension.h"
 
 @interface YYNavigationViewController ()
 
@@ -23,14 +25,15 @@
 {
     //导航栏主题 title文字属性
     UINavigationBar *navBar = [UINavigationBar appearance];
-//    [navBar setBarTintColor:NaviColor];
+    [navBar setBarTintColor:NaviColor];
     [navBar setTintColor:WhiteColor];
     [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:17]}];
     
     [navBar setBackgroundImage:[UIImage imageWithColor:ThemeColor] forBarMetrics:UIBarMetricsDefault];
+    
     //导航栏左右文字主题
     UIBarButtonItem *barButtonItem = [UIBarButtonItem appearance];
-    [barButtonItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:15]} forState:UIControlStateNormal];
+    [barButtonItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:16]} forState:UIControlStateNormal];
     
 }
 
@@ -42,6 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.jz_navigationBarTransitionStyle = JZNavigationBarTransitionStyleDoppelganger;
 }
 
 - (void)didReceiveMemoryWarning {

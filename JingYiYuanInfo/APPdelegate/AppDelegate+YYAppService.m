@@ -17,6 +17,38 @@ static YYNewVersionViewController *new;
 @implementation AppDelegate (YYAppService)
 
 
+
+- (void)checkUnTestReceipt {
+    
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    
+}
+
+
+
+- (void)firstConfigWithDeviceToken:(NSString *)deviceToken {
+    
+    YYUser *user = [YYUser shareUser];
+    [user setDeviceToken:deviceToken];
+    if (!user.setUp || user.setUp.length == 0) {
+        
+        user.setUp = @"setUp";
+        [kUserDefaults synchronize];
+        NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"setup",@"act",deviceToken,@"devicetoken",@"1",@"mobiletype", nil];
+        [YYHttpNetworkTool GETRequestWithUrlstring:firstConfigUrl parameters:para success:^(id response) {
+            
+            if (response) {
+                YYLog(@"第一次初始化APP成功");
+            }
+        } failure:^(NSError *error) {
+            YYLog(@"第一次初始化APP  失败了--- ");
+            [kUserDefaults removeObjectForKey:setUpInfo];
+            [kUserDefaults synchronize];
+        } showSuccessMsg:nil];
+    }
+    
+}
+
 /**
  *  注册腾讯Bugly错误统计
  */

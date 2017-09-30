@@ -43,7 +43,7 @@ static NSString * const cellId = @"cellId";
     [self.contentView addSubview:self.collectionView];
     [self.collectionView makeConstraints:^(MASConstraintMaker *make) {
        
-        make.edges.equalTo(self.contentView);
+        make.edges.equalTo(self.contentView).insets(UIEdgeInsetsZero);
     }];
 }
 
@@ -83,20 +83,21 @@ static NSString * const cellId = @"cellId";
     return cell;
 }
 
-
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
-        _collectionView = [[UICollectionView alloc] init];
-        _collectionView.collectionViewLayout = self.flowLayout;
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 1) collectionViewLayout:self.flowLayout];
+        _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
+        _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
         [_collectionView registerClass:[YYChannelShowRecommendSubCell class] forCellWithReuseIdentifier:cellId];
     }
     return _collectionView;
 }
+
 
 - (UICollectionViewFlowLayout *)flowLayout{
     if (!_flowLayout) {

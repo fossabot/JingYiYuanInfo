@@ -20,10 +20,6 @@
 #import "API.h"
 
 //导入array和dictionary的相关safe类别
-//#import "NSArray+Category.h"
-//#import "NSMutableArray+Category.h"
-//#import "NSDictionary+Category.h"
-//#import "NSMutableDictionary+Category.h"
 #import "Masonry.h"
 #import "YYHttpNetworkTool.h"
 #import "PPNetworkHelper.h"
@@ -31,8 +27,7 @@
 #import "UIImageView+WebCache.h"
 #import "UIButton+WebCache.h"
 #import "SVProgressHUD.h"
-//#import <DZNEmptyDataSet/DZNEmptyDataSet-umbrella.h>
-
+#import <FORScrollViewEmptyAssistant/FORScrollViewEmptyAssistant.h>
 
 //打印该方法的名称，在方法内调用
 #define YYLogFunc YYLog(@"%s---%@", __func__,NSStringFromClass([self class]));

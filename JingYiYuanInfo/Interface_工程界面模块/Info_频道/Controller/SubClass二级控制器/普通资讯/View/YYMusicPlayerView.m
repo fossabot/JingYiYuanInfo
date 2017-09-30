@@ -8,6 +8,8 @@
 
 #import "YYMusicPlayerView.h"
 #import "YYBaseMusicModel.h"
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface YYMusicPlayerView()
 
@@ -36,7 +38,6 @@
 @property (nonatomic, copy) NSString *musicUrl;
 
 
-
 @end
 
 @implementation YYMusicPlayerView
@@ -49,6 +50,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = WhiteColor;
+        self.layer.shadowColor = LightGraySeperatorColor.CGColor;
+        self.layer.shadowOffset = CGSizeMake(0, -5);
         _player = [[AVPlayer alloc] init];
         _isPlay = NO;
         [self addObserverToPlayer:_player];
@@ -63,11 +67,17 @@
     [self removeMusicTimeMake];
 }
 
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    
+}
+
 - (void)configSubView {
     
     UIImageView *icon = [[UIImageView alloc] init];
     [self addSubview:icon];
-    [self cutRoundView:icon];
     self.icon = icon;
     
     UILabel *songName = [[UILabel alloc] init];
@@ -83,22 +93,26 @@
     self.singerName = singerName;
     
     UISlider *slider = [[UISlider alloc] init];
+    slider.continuous = NO;
     slider.minimumValue = 0.0;
     slider.maximumValue = 1.0;
     slider.value = 0.0;
     slider.minimumTrackTintColor = ThemeColor;
     slider.thumbTintColor = ThemeColor;
     [slider setThumbImage:imageNamed(@"sliderDot") forState:UIControlStateNormal];
+    [slider addTarget:self action:@selector(forward:) forControlEvents:UIControlEventValueChanged];
     [self addSubview:slider];
     self.slider = slider;
     
     UILabel *beginTimeLabel = [[UILabel alloc] init];
+    beginTimeLabel.text = @"0:00";
     beginTimeLabel.font = UnenableTitleFont;
     beginTimeLabel.textColor = UnenableTitleColor;
     [self addSubview:beginTimeLabel];
     self.beginTimeLabel = beginTimeLabel;
     
     UILabel *endTimeLabel = [[UILabel alloc] init];
+    endTimeLabel.text = @"0:00";
     endTimeLabel.font = UnenableTitleFont;
     endTimeLabel.textColor = UnenableTitleColor;
     endTimeLabel.textAlignment = NSTextAlignmentRight;
@@ -106,8 +120,8 @@
     self.endTimeLabel = endTimeLabel;
     
     UIButton *playBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [playBtn setImage:imageNamed(@"musicPlay_24x24") forState:UIControlStateNormal];
-    [playBtn setImage:imageNamed(@"musicPause_24x24") forState:UIControlStateSelected];
+    [playBtn setImage:imageNamed(@"musicPlay_32x32") forState:UIControlStateNormal];
+    [playBtn setImage:imageNamed(@"musicPause_32x32") forState:UIControlStateSelected];
     [playBtn addTarget:self action:@selector(playOrPause:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:playBtn];
     self.playBtn = playBtn;
@@ -117,7 +131,7 @@
     
     [self.icon makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.top.offset(YYInfoCellCommonMargin);
+        make.left.top.offset(YYInfoCellCommonMargin*2);
         make.width.height.equalTo(60);
     }];
     
@@ -135,8 +149,9 @@
     
     [self.playBtn makeConstraints:^(MASConstraintMaker *make) {
         
-        make.right.offset(-YYInfoCellCommonMargin);
+        make.right.offset(-YYInfoCellCommonMargin*2);
         make.centerY.equalTo(self.icon);
+        make.width.height.equalTo(35);
     }];
 
     [self.slider makeConstraints:^(MASConstraintMaker *make) {
@@ -152,6 +167,7 @@
         make.left.equalTo(self.slider);
         make.top.equalTo(self.slider.bottom);
     }];
+    
     [self.endTimeLabel makeConstraints:^(MASConstraintMaker *make) {
         
         make.right.equalTo(self.slider);
@@ -159,6 +175,13 @@
     }];
 }
 
+
+/** 播放器快进快退*/
+- (void)forward:(UISlider *)slider {
+    
+    NSTimeInterval duration = CMTimeGetSeconds([_player.currentItem duration]);
+    [self.player seekToTime:CMTimeMake(slider.value*duration, 1)];
+}
 
 /** 给AVPlayer添加监控 */
 -(void)addObserverToPlayer:(AVPlayer *)player{
@@ -187,6 +210,7 @@
     }];
 }
 
+/** 移除监听*/
 -(void)removeMusicTimeMake{
     if (_timeObserve) {
         [_player removeTimeObserver:_timeObserve];
@@ -203,6 +227,7 @@
     [self.player seekToTime:CMTimeMake(0, 1)];
     [self playOrPause:self.playBtn];
 }
+
 
 // 切圆角
 - (void)cutRoundView:(UIImageView *)imageView
@@ -221,7 +246,7 @@
 - (void)playOrPause:(UIButton *)sender {
     if (sender && _isPlay == YES) {
 
-        sender.selected = !sender.selected;
+        sender.selected = NO;
         [self playerPause];
     }else {
         
@@ -241,10 +266,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:[self.player currentItem]];
 }
 
+//暂停
 - (void)playerPause
 {
     [_player pause];
     _isPlay = NO;
+}
+
+/** 外界强制改变一月播放器的状态*/
+- (void)forcePlayerPause {
+    
+    [self playerPause];
+    self.playBtn.selected = NO;
 }
 
 //切换歌曲
@@ -272,7 +305,9 @@
     
     _beginTimeLabel.text = [self timeIntervalToMMSSFormat:currentTime];
     _endTimeLabel.text = [self timeIntervalToMMSSFormat:duration];
-
+    
+    _slider.value = (CGFloat)currentTime/duration;
+    
 }
 
 
@@ -288,6 +323,7 @@
         }
     }
     [self.icon sd_setImageWithURL:[NSURL URLWithString:musicModel.picurl] placeholderImage:imageNamed(@"placeholder")];
+    [self cutRoundView:self.icon];
     self.songName.text = musicModel.sname;
     self.singerName.text = musicModel.singer;
     self.musicUrl = musicModel.URL;

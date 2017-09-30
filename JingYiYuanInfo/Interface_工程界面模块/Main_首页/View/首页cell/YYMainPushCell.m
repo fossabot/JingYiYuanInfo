@@ -60,48 +60,6 @@
     
 }
 
-/** 返回keywords*/
-- (NSString *)keyWord:(NSInteger)key {
-    //keyword1:5 早餐,6早评,7上午分享,8午评,9下午分享,10收评,11夜宵,12即使通知
-    switch (key) {
-        case 5:
-            return @"早餐";
-            break;
-        
-        case 6:
-            return @"早评";
-            break;
-            
-        case 7:
-            return @"上午分享";
-            break;
-        
-        case 8:
-            return @"午评";
-            break;
-        
-        case 9:
-            return @"下午分享";
-            break;
-        
-        case 10:
-            return @"收评";
-            break;
-            
-        case 11:
-            return @"夜宵";
-            break;
-            
-        case 12:
-            return @"及时通知";
-            break;
-            
-        default:
-            return @"及时通知";
-            break;
-    }
-}
-
 /**
  *  创建子控件
  */
@@ -167,7 +125,53 @@
 //        self.postMsgBlock();
 //    }
     YYPushController *push = [[YYPushController alloc] init];
+    push.jz_wantsNavigationBarVisible = YES;
+    push.pushId = self.postmsgmodel.postmsg_id;
     [[self parentNavigationController] pushViewController:push animated:YES];
+}
+
+#pragma mark -------  辅助方法  -------------------------
+
+/** 返回keywords*/
+- (NSString *)keyWord:(NSInteger)key {
+    //keyword1:5 早餐,6早评,7上午分享,8午评,9下午分享,10收评,11夜宵,12即使通知
+    switch (key) {
+        case 5:
+            return @"早餐";
+            break;
+            
+        case 6:
+            return @"早评";
+            break;
+            
+        case 7:
+            return @"上午分享";
+            break;
+            
+        case 8:
+            return @"午评";
+            break;
+            
+        case 9:
+            return @"下午分享";
+            break;
+            
+        case 10:
+            return @"收评";
+            break;
+            
+        case 11:
+            return @"夜宵";
+            break;
+            
+        case 12:
+            return @"及时通知";
+            break;
+            
+        default:
+            return @"及时通知";
+            break;
+    }
 }
 
 

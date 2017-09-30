@@ -7,7 +7,7 @@
 //
 
 #import "YYMainScrollPicDetailController.h"
-
+#import "YYDetailToolBar.h"
 @interface YYMainScrollPicDetailController ()
 
 @end
@@ -26,6 +26,11 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+}
 
 /**
  *  分享
@@ -56,11 +61,13 @@
     
 }
 
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+-(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     
+    [self showPlaceHolder];
     [SVProgressHUD showErrorWithStatus:@"网络出错"];
     [SVProgressHUD dismiss];
 }
+
 
 
 @end

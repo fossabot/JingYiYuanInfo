@@ -6,11 +6,11 @@
 //  Copyright (c) 2015年 YPTabBarController. All rights reserved.
 //
 
-#import "THBaseViewController.h"
+#import <UIKit/UIKit.h>
 #import "YPTabBar.h"
 #import "YPTabItem.h"
 
-@interface YPTabBarController : THBaseViewController <YPTabBarDelegate>
+@interface YPTabBarController : UIViewController <YPTabBarDelegate>
 
 @property (nonatomic, strong, readonly) YPTabBar *tabBar;
 

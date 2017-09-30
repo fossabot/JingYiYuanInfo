@@ -48,7 +48,7 @@
 /** classid所属公司id*/
 @property (nonatomic, copy) NSString *classid;
 
-/** yname名称*/
+/** yname产品名称*/
 @property (nonatomic, copy) NSString *yname;
 
 /** ystate状态1在售2售罄*/

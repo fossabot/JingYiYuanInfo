@@ -80,11 +80,12 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     YYMineCellModel *model = self.dataSource[indexPath.section][indexPath.row];
     if ([model.destinationVc isEqualToString:@"YYMineOnlineChatViewController"]) {//客服
+        YYWeakSelf
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请通过以下方式联系我们" message:nil preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *qq = [UIAlertAction actionWithTitle:@"QQ交流" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            if (self.cellSelecteBlock) {
-                self.cellSelecteBlock(indexPath, model.destinationVc, nil);
+            if (weakSelf.cellSelecteBlock) {
+                weakSelf.cellSelecteBlock(indexPath, model.destinationVc, nil);
             }
             
         }];
@@ -100,8 +101,8 @@
         [alert addAction:mobile];
         [alert addAction:giveUp];
         
-        if (self.cellSelecteBlock) {
-            self.cellSelecteBlock(indexPath, nil, alert);
+        if (weakSelf.cellSelecteBlock) {
+            weakSelf.cellSelecteBlock(indexPath, nil, alert);
         }
         
     }else if ([model.destinationVc isEqualToString:@""]) {//分享壹元服务

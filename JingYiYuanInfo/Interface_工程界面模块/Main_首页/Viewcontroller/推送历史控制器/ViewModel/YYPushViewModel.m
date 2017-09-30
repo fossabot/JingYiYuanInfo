@@ -8,6 +8,18 @@
 
 #import "YYPushViewModel.h"
 #import "NSDate+YYCalculation.h"
+#import "YYPushCell.h"
+#import "YYPushListCellModel.h"
+
+#import "UITableView+FDTemplateLayoutCell.h"
+#import <MJExtension/MJExtension.h>
+
+@interface YYPushViewModel()
+
+/** dataSource*/
+@property (nonatomic, strong)  NSMutableArray *dataSource;
+
+@end
 
 @implementation YYPushViewModel
 {
@@ -28,7 +40,7 @@
     NSMutableArray *componentsArr = [NSMutableArray arrayWithObject:components];
     for (int i = 0; i<9; i++) {//前边的9天
         NSDateComponents *dateComponents = nil;
-        dateComponents = [[NSDate preComponent:_preDate] copy];
+        dateComponents = [NSDate preComponent:_preDate];
         _preDate = [calendar dateFromComponents:dateComponents];
         [componentsArr insertObject:dateComponents atIndex:0];
     }
@@ -43,31 +55,80 @@
 }
 
 /** 推送历史列表请求方法*/
-- (void)fetchDataWithDate:(NSString *)date {
+- (void)fetchDataWithDate:(NSString *)date completion:(void(^)(BOOL success))completion{
     
-    [YYHttpNetworkTool GETRequestWithUrlstring:pushListUrl parameters:@{@"data":date} success:^(id response) {
+    [YYHttpNetworkTool GETRequestWithUrlstring:pushListUrl parameters:@{@"date":date} success:^(id response) {
 #warning 什么玩应
-    } failure:^(NSError *error) {
+        if (response) {
+            
+            self.dataSource = [YYPushListCellModel mj_objectArrayWithKeyValuesArray:response[@"msglist_arr"]];
+            completion(YES);
+        }else {
+            completion (NO);
+        }
         
+    } failure:^(NSError *error) {
+        completion(NO);
     } showSuccessMsg:nil];
     
 }
 
-
-
-#pragma -- mark TableViewDelegate
+#pragma -- mark TableViewDelegate  -----------------
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 0;
+    return self.dataSource.count;
 }
-#pragma -- mark TableViewDataSource
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString*cellID = @"cellID";
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    YYPushListCellModel *model = self.dataSource[indexPath.row];
+    if (model.extendState) {
+        
+        CGFloat height = [tableView fd_heightForCellWithIdentifier:YYPushCellId cacheByIndexPath:indexPath configuration:^(YYPushCell *cell) {
+            
+            cell.pushModel = model;
+        }];
+        return height;
+    }else if(!model.extendState && !model.isHaveExtendBtn){
+        
+        CGFloat height = [tableView fd_heightForCellWithIdentifier:YYPushCellId cacheByIndexPath:indexPath configuration:^(YYPushCell *cell) {
+            
+            cell.pushModel = model;
+        }];
+        return height;
+    }else {
+        
+        return 90;
     }
+    
+//    return [model cellHeight];
+}
+
+#pragma -- mark TableViewDataSource  --------------
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    YYPushCell * cell = [tableView dequeueReusableCellWithIdentifier:YYPushCellId];
+    __block YYPushListCellModel *model = self.dataSource[indexPath.row];
+    cell.pushModel = model;
+    __weak typeof(tableView) weakTableView = tableView;
+    cell.extendBlock = ^(id cell, BOOL selected) {
+      
+        NSIndexPath *index = [weakTableView indexPathForCell:cell];
+        model.extendState = selected;
+        [weakTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationNone];
+    };
     return cell;
 }
+
+
+#pragma mark -- lazyMethods 懒加载区域  --------------------------
+
+- (NSMutableArray *)dataSource{
+    if (!_dataSource) {
+        _dataSource = [NSMutableArray array];
+    }
+    return _dataSource;
+}
+
 
 
 @end

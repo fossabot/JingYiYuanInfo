@@ -14,11 +14,11 @@
 #define SCREENH [UIScreen mainScreen].bounds.size.height
 #define SCREENW [UIScreen mainScreen].bounds.size.width
 
-#define TopH  20
+#define TopH  30
 #define BottomH  40
 
 #define HorizontalMargin  (SCREENW - 4*60)/5
-#define VerticalMargin  15
+#define VerticalMargin  10
 #define ButtonW  60
 #define ButtonH  90
 
@@ -139,12 +139,11 @@
 }
 
 - (void)createSubviews {
-    YYLog(@"createSubviews  first");
+    
     UIWindow *mainWindow = [UIApplication sharedApplication].keyWindow;
     [mainWindow addSubview:self];
-    YYLog(@"createSubviews  second");
+    
     [self addSubview:self.container];
-    YYLog(@"createSubviews  third");
     
     [UIView animateWithDuration:0.5 animations:^{
         self.container.transform = CGAffineTransformMakeTranslation(0, -self.container.bounds.size.height);
@@ -158,7 +157,7 @@
 //         YYLog(@"container  包含点击的点");
 //         return;
 //     }
-         [self cancelButtonClick:nil];
+    [self cancelButtonClick:nil];
     
 }
 
@@ -191,11 +190,36 @@
  */
 - (void)shareButtonClick:(BAButton *)btn {
     
-    btn.selected = !btn.selected;
+    [self cancelButtonClick:nil];
+    
     ShareViewType shareViewType = self.dataSource[btn.tag-100].shareType;
     if (shareViewType == ShareViewTypeCopyLink) {
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
         pasteboard.string = self.webUrl;
+        [SVProgressHUD showSuccessWithStatus:@"复制成功"];
+        [SVProgressHUD dismissWithDelay:1];
+    }else if (shareViewType == ShareViewTypeFavor) {
+        
+        YYWeakSelf
+        [YYHttpNetworkTool globalNetStatusNotice:^(AFNetworkReachabilityStatus status) {
+            if (status == AFNetworkReachabilityStatusNotReachable) {
+                
+                [SVProgressHUD showErrorWithStatus:@"无法连接到网络"];
+                
+            }else {
+                //回调给新闻详情页控制器，如果是复制（直接在UIPasteboard上赋值）,收藏（改变图标，回调后请求后台），字体（回调后弹出字体选择面板）
+                btn.selected = !btn.selected;
+                if (weakSelf.finishedBlock) {
+                    weakSelf.finishedBlock(shareViewType, btn.isSelected);
+                }
+
+            }
+        }];
+    }else if (shareViewType == ShareViewTypeFont) {
+        
+        if (_finishedBlock) {
+            _finishedBlock(shareViewType, btn.isSelected);
+        }
     }
     
     //分享第三方
@@ -213,12 +237,8 @@
         
     }
     
-    //回调给新闻详情页控制器，如果是复制（直接在UIPasteboard上赋值）,收藏（改变图标，回调后请求后台），字体（回调后弹出字体选择面板）
-    if (_finishedBlock) {
-        _finishedBlock(shareViewType, btn.isSelected);
-    }
     
-    [self cancelButtonClick:nil];
+    
 }
 
 - (UMSocialPlatformType)translateIntoUMSocialPlatformType:(ShareViewType)shareViewType{

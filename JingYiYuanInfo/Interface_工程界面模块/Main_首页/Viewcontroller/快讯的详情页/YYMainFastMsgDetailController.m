@@ -20,6 +20,12 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+}
+
 - (void)share {
     
     [ShareView shareWithTitle:self.navigationItem.title subTitle:@"" webUrl:self.url imageUrl:nil isCollected:NO shareViewContain:nil shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
@@ -27,24 +33,27 @@
     }];
 }
 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     
-    self.navigationItem.title = webView.title;
+    [SVProgressHUD show];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    YYWeakSelf
+    [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError * _Nullable error) {
+        weakSelf.navigationItem.title = title;
+    }];
+    [SVProgressHUD dismiss];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    [self showPlaceHolder];
+    [SVProgressHUD showErrorWithStatus:@"网络出错"];
+    [SVProgressHUD dismiss];
 }
-*/
+
+
+
+
 
 @end

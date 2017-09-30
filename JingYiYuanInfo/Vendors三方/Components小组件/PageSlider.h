@@ -27,6 +27,9 @@ typedef void(^FontChangedBlock)(CGFloat rate);
 
 + (void)showPageSliderWithTotalPoint:(NSInteger)totalPoint currentPoint:(NSInteger)currentPoint pointNames:(NSArray *)pointNames fontChanged:(FontChangedBlock)fontChanged;
 
+
++ (void)showPageSliderWithCurrentPoint:(NSInteger)currentPoint fontChanged:(FontChangedBlock)fontChanged;
+
 @end
 
 @interface Container  : UIView

@@ -134,6 +134,8 @@ tabCell;\
 
 //  —————————————   NSUserDefault常用的常量宏 key<----->value  --——————————
 
+#define LASTLOGINSTATUS @"lastLoginStatus" //发送修改个人主页头部信息时，根据之前的登录状态和现在的登录状态对比(1.之前为0，那么修改个人头部，就以为着登录成功了 2.之前为1说明是在登录状态修改了个人信息，然后根据YYuser的islogin状态，为0 说明已退出登录，仍为1，则只是更新了个人信息而已)
+
 #define LOGINSTATUS  @"loginStatus"//判断登录状态的宏
 
 #define LASTAPPVERSION  @"lastAppVersion" //本地存储最新版本的APP版本号
@@ -142,7 +144,13 @@ tabCell;\
 
 #define SIGNDAYS  @"signDays" //签到天数的宏
 
-#define yyyyMMddHHmmss @"yyyy-MM-dd HH:mm:ss"
+#define yyyyMMddHHmmss @"yyyy-MM-dd HH:mm:ss"  //时间格式
+
+#define emptyImageName @"yyfw_push_empty_112x94_" ///无数据占位图
+
+#define placeHolderMini @"placeholder"  //图片占位图（小的）
+
+#define placeHolderLarge @"placeholderLarge"  //图片占位图（大的）
 
 
 #endif /* macro_h */

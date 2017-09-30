@@ -8,20 +8,56 @@
 
 #import "YYPlaceHolderView.h"
 
+typedef void(^Click)();
 
 @interface YYPlaceHolderView()
 
 /** block*/
-@property (nonatomic, copy) void(^block)();
+@property (nonatomic, copy) Click click;
 
 /** 自动消失*/
 @property (nonatomic, assign) BOOL dismissAuto;
+
+/** */
+@property (nonatomic, strong) UIView *whiteBgView;
+
+/** */
+@property (nonatomic, strong) UILabel *top;
+
+/** */
+@property (nonatomic, strong) UIButton *close;
+
+/** */
+@property (nonatomic, strong) UILabel *middle;
+
+/** */
+@property (nonatomic, strong) UIImageView *money;
+
+/** */
+@property (nonatomic, strong) UILabel *integrationLabel;
+
+/** */
+@property (nonatomic, strong) UIButton *go;
+
+
+
+
+
+
+/** */
+@property (nonatomic, strong) UIImageView *imageView;
+
+/** */
+@property (nonatomic, strong) UILabel *tip;
+
 
 
 @end
 
 @implementation YYPlaceHolderView
-
+{
+    
+}
 
 /** 单例*/
 + (instancetype)sharedPlaceHolderView{
@@ -37,61 +73,110 @@
  */
 + (void)showSignSuccessPlaceHolderWithIntegration:(NSString *)integration clickAction:(void (^)())click {
     
-    YYPlaceHolderView *placeHolder = [self sharedPlaceHolderView];
+    YYPlaceHolderView *placeHolder = [YYPlaceHolderView sharedPlaceHolderView];
+    placeHolder.click = click;
+    placeHolder.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+    [kKeyWindow addSubview:placeHolder];
     
-    UIView *whiteBgView = [[UIView alloc] initWithFrame:CGRectMake((kSCREENWIDTH-180)/2, (kSCREENHEIGHT-190)/2, 180, 190)];
+    [placeHolder makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.edges.equalTo(kKeyWindow);
+    }];
+    
+    UIView *whiteBgView = [[UIView alloc] init];
     whiteBgView.backgroundColor = [UIColor whiteColor];
     whiteBgView.layer.cornerRadius = 10;
     whiteBgView.layer.masksToBounds = YES;
     [placeHolder addSubview:whiteBgView];
+    placeHolder.whiteBgView = whiteBgView;
     
     
-    UILabel *top = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, MAXFLOAT, 20)];
-    top.yy_centerX = whiteBgView.yy_centerX;
+    UILabel *top = [[UILabel alloc] init];
     top.text = @"签到成功";
     top.font = sysFont(17);
     top.textColor = ThemeColor;
     top.textAlignment = NSTextAlignmentCenter;
     [whiteBgView addSubview:top];
+    placeHolder.top = top;
     
     UIButton *close = [UIButton buttonWithType:UIButtonTypeCustom];
-    close.frame = CGRectMake(whiteBgView.yy_width-40, 10, 30, 30);
     [close setImage:imageNamed(@"searchdelete_44x44") forState:UIControlStateNormal];
-    [close addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    [close addTarget:self action:@selector(close:) forControlEvents:UIControlEventTouchUpInside];
     [whiteBgView addSubview:close];
+    placeHolder.close = close;
     
-    
-    
-    UILabel *middle = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(top.frame)+10, MAXFLOAT, 20)];
-    middle.yy_centerX = whiteBgView.yy_centerX;
-    middle.text = @"签到成功";
+    UILabel *middle = [[UILabel alloc] init];
+    middle.text = @"已成功获得";
     middle.font = sysFont(13);
     middle.textColor = UnenableTitleColor;
     middle.textAlignment = NSTextAlignmentCenter;
     [whiteBgView addSubview:middle];
+    placeHolder.middle = middle;
     
     UIImageView *money = [[UIImageView alloc] initWithImage:imageNamed(@"signsuccessTip_25x25_")];
-    money.yy_centerX = whiteBgView.yy_centerX;
-    money.yy_y = CGRectGetMaxY(middle.frame)+10;
     [whiteBgView addSubview:money];
+    placeHolder.money = money;
     
-    UILabel *integrationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(money.frame)+10, MAXFLOAT, 20)];
-    integrationLabel.yy_centerX = whiteBgView.yy_centerX;
+    UILabel *integrationLabel = [[UILabel alloc] init];
     integrationLabel.text = [integration stringByAppendingString:@"积分"];
     integrationLabel.font = sysFont(14);
     integrationLabel.textColor = ThemeColor;
     integrationLabel.textAlignment = NSTextAlignmentCenter;
     [whiteBgView addSubview:integrationLabel];
+    placeHolder.integrationLabel = integrationLabel;
     
     UIButton *go = [UIButton buttonWithType:UIButtonTypeCustom];
-    go.backgroundColor = [UIColor redColor];
+    go.backgroundColor = ThemeColor;
     [go setTitle:@"积分兑换" forState:UIControlStateNormal];
-    go.frame = CGRectMake(0, CGRectGetMaxY(integrationLabel.frame)+10, 100, 25);
-    go.yy_centerX = whiteBgView.yy_centerX;
-    [go addTarget:self action:@selector(refreshClick) forControlEvents:UIControlEventTouchUpInside];
+    go.titleLabel.font = SubTitleFont;
+    [go addTarget:self action:@selector(goShop:) forControlEvents:UIControlEventTouchUpInside];
     [whiteBgView addSubview:go];
+    placeHolder.go = go;
     
-    whiteBgView.yy_height = CGRectGetMaxY(go.frame)+15;
+    [whiteBgView makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.center.equalTo(placeHolder);
+        make.width.equalTo(180);
+    }];
+    
+    [close makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.left.equalTo(whiteBgView.right).offset(20);
+        make.bottom.equalTo(whiteBgView.top).offset(-20);
+    }];
+    
+    [top makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(whiteBgView.top).offset(10);
+        make.centerX.equalTo(placeHolder);
+    }];
+    
+    [middle makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(top.bottom).offset(10);
+        make.centerX.equalTo(placeHolder);
+    }];
+    
+    [money makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(middle.bottom).offset(10);
+        make.centerX.equalTo(placeHolder);
+    }];
+    
+    [integrationLabel makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(money.bottom).offset(10);
+        make.centerX.equalTo(placeHolder);
+    }];
+    
+    [go makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(integrationLabel.bottom).offset(10);
+        make.centerX.equalTo(placeHolder);
+        make.width.equalTo(whiteBgView).offset(-40);
+        make.bottom.equalTo(whiteBgView.bottom).offset(-10);
+    }];
+    
 }
 
 
@@ -107,47 +192,94 @@
 + (void)showInView:(UIView *)view image:(NSString *)imageName clickAction:(void (^)())click dismissAutomatically:(BOOL)dismissAuto {
     
     
-    YYPlaceHolderView *placeHolder = [self sharedPlaceHolderView];
+    YYPlaceHolderView *placeHolder = [YYPlaceHolderView sharedPlaceHolderView];
     if (!view) {
         view = kKeyWindow;
     }
     
-    placeHolder.frame = view.frame;
+//    placeHolder.frame = view.frame;
     placeHolder.dismissAuto = dismissAuto;
     [view addSubview:placeHolder];
     
+    [placeHolder makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.edges.equalTo(view);
+    }];
+    
     if (click) {
-        placeHolder.block = click;
+        placeHolder.click = click;
     }
     
-#warning 未赋值占位图片的名称
     UIImage *image = nil;
     if (imageName) {
         image = imageNamed(imageName);
     }else{
         image = imageNamed(@"yyfw_push_empty_112x94_");
     }
+    
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-//    imageView.size = CGSizeMake(60, 100);
-    imageView.center = placeHolder.center;
     [placeHolder addSubview:imageView];
-    imageView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(refreshClick)];
-    [imageView addGestureRecognizer:tap];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handTap:)];
+    [placeHolder addGestureRecognizer:tap];
+    
+    UILabel *tip = [[UILabel alloc] init];
+    tip.text = @"暂无数据，点此刷新";
+    tip.font = [UIFont systemFontOfSize:14];
+    [tip sizeToFit];
+    tip.textColor = [UIColor lightGrayColor];
+    [placeHolder addSubview:tip];
+    placeHolder.tip = tip;
+    
+    [imageView makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.centerX.equalTo(placeHolder);
+        make.centerY.equalTo(placeHolder).offset(-30);
+    }];
+    
+    [tip makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.centerX.equalTo(placeHolder);
+        make.top.equalTo(imageView.bottom).offset(10);
+    }];
+
 }
 
-+ (void)dismiss{
-    
-    [[self sharedPlaceHolderView] removeFromSuperview];
+
+/**  关闭商城的提示图*/
++ (void)close:(UIButton *)sender {
+
+    [[YYPlaceHolderView sharedPlaceHolderView] removeFromSuperview];
 }
 
-- (void)refreshClick{
+/** 去商城*/
++ (void)goShop:(UIButton *)sender {
     
-    if (_dismissAuto) {
-        [self removeFromSuperview];
+    YYPlaceHolderView *placeHolder = [YYPlaceHolderView sharedPlaceHolderView];
+    if (placeHolder.click) {
+        placeHolder.click();
     }
-    self.block();
     //外部刷新后自己调用dismiss方法
+    
+    [placeHolder removeFromSuperview];
+    
+}
+
+
++ (void)handTap:(UITapGestureRecognizer*)gesture {
+    YYPlaceHolderView *placeHolder = [YYPlaceHolderView sharedPlaceHolderView];
+    if (placeHolder.click) {
+        placeHolder.click();
+    }
+    //外部刷新后自己调用dismiss方法
+    
+    [placeHolder removeFromSuperview];
+    
+}
+
+
+- (void)dealloc {
+    
+    YYLog(@"YYPlaceHolderView dealloc");
 }
 
 @end

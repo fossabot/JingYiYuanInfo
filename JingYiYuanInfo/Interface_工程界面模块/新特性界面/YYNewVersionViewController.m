@@ -13,7 +13,7 @@
 #import "FLAnimatedImageView.h"
 
 
-@interface YYNewVersionViewController ()
+@interface YYNewVersionViewController ()<UIScrollViewDelegate>
 
 /** animateImageView*/
 @property (nonatomic, strong) FLAnimatedImageView *animateImageView;
@@ -30,18 +30,21 @@
 /** currentPage*/
 @property (nonatomic, assign) NSInteger lastPage;
 
+/** scrollView*/
+@property (nonatomic, strong) UIScrollView *container;
+
 @end
 
 @implementation YYNewVersionViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.lastPage = 0;
-    self.currentPage = 0;
+//    self.lastPage = 0;
+//    self.currentPage = 0;
     //配置子视图的布局
     [self configSubviews];
     //添加手势
-    [self addGestures];
+//    [self addGestures];
 }
 
 
@@ -53,14 +56,32 @@
  */
 - (void)configSubviews {
     
-    [self.view addSubview:self.animateImageView];
+    UIImageView *image1 = [[UIImageView alloc] init];
+    image1.frame = CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT);
+    image1.image = imageNamed(@"guide_1.png");
+    [self.container addSubview:image1];
+    
+    UIImageView *image2 = [[UIImageView alloc] init];
+    image2.frame = CGRectMake(kSCREENWIDTH, 0, kSCREENWIDTH, kSCREENHEIGHT);
+    image2.image = imageNamed(@"guide_2.png");
+    [self.container addSubview:image2];
+    
+    UIImageView *image3 = [[UIImageView alloc] init];
+    image3.frame = CGRectMake(2*kSCREENWIDTH, 0, kSCREENWIDTH, kSCREENHEIGHT);
+    image3.image = imageNamed(@"guide_3.jpg");
+    image3.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(enterMain)];
+    [image3 addGestureRecognizer:tap];
+    [self.container addSubview:image3];
+    
+//    [self.view addSubview:self.animateImageView];
 //    [self.view addSubview:self.pageControl];
-    [self.view addSubview:self.enterBtn];
+//    [self.view addSubview:self.enterBtn];
 
     
-    [self.animateImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
+//    [self.animateImageView makeConstraints:^(MASConstraintMaker *make) {
+//        make.edges.equalTo(self.view);
+//    }];
     
 //    [self.pageControl makeConstraints:^(MASConstraintMaker *make) {
 //        make.centerX.equalTo(self.view);
@@ -69,12 +90,12 @@
 //        make.width.equalTo(100);
 //    }];
     
-    [self.enterBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.bottomMargin.equalTo(-25);
-        make.height.equalTo(70);
-        make.width.equalTo(200);
-    }];
+//    [self.enterBtn makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(self.view);
+//        make.bottomMargin.equalTo(-25);
+//        make.height.equalTo(70);
+//        make.width.equalTo(200);
+//    }];
     
 }
 
@@ -87,11 +108,12 @@
 //    [kKeyWindow setRootViewController:tab];
 //    [kKeyWindow makeKeyAndVisible];
 
+    YYWeakSelf
     [UIView animateWithDuration:1.0 animations:^{
-        self.view.alpha = 0.0;
+        weakSelf.view.alpha = 0.0;
     } completion:^(BOOL finished) {
         if (finished) {
-            [self.view removeFromSuperview];
+            [weakSelf.view removeFromSuperview];
         }
     }];
     
@@ -211,6 +233,20 @@
     }
     return _enterBtn;
 }
+
+- (UIScrollView *)container{
+    if (!_container) {
+        _container = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+        _container.contentSize = CGSizeMake(kSCREENWIDTH*3, kSCREENHEIGHT);
+        _container.showsHorizontalScrollIndicator = NO;
+        _container.showsVerticalScrollIndicator = NO;
+        _container.pagingEnabled = YES;
+        [self.view addSubview:_container];
+    }
+    return _container;
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

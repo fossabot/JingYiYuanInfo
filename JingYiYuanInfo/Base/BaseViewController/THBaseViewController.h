@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 //#import <RTRootNavigationController/RTRootNavigationController.h>
-
+#import "JZNavigationExtension.h"
 #import "YYUser.h"
 
 @interface THBaseViewController : UIViewController

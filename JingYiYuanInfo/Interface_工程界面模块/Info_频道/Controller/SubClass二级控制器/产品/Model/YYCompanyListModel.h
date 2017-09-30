@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class YYCompanyModel;
+
 @interface YYCompanyListModel : NSObject
 
 /** 
@@ -21,6 +23,14 @@
  "part": "2,3",
  "comtype": "券商"
  },
+ 
+ "lastid":""
  */
+
+/** com_arr*/
+@property (nonatomic, strong) NSArray<YYCompanyModel *> *com_arr;
+
+/** lastid*/
+@property (nonatomic, copy) NSString *lastid;
 
 @end

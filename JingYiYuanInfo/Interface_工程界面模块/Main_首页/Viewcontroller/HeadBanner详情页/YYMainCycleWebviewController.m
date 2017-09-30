@@ -8,10 +8,7 @@
 
 #import "YYMainCycleWebviewController.h"
 
-@interface YYMainCycleWebviewController ()<WKNavigationDelegate,WKUIDelegate>
-
-/** title*/
-@property (nonatomic, copy) NSString *urlTitle;
+@interface YYMainCycleWebviewController ()
 
 @end
 
@@ -19,13 +16,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self configWebview];
+    
     
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
 }
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
@@ -53,7 +56,7 @@
  */
 - (void)share {
     
-    [ShareView shareWithTitle:self.urlTitle subTitle:@"" webUrl:self.url imageUrl:self.imgUrl isCollected:NO shareViewContain:ShareViewTypeQQ | ShareViewTypeQQZone | ShareViewTypeWechat | ShareViewTypeWechatTimeline | ShareViewTypeMicroBlog shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
+    [ShareView shareWithTitle:self.navigationItem.title subTitle:@"" webUrl:self.url imageUrl:self.shareImgUrl isCollected:NO shareViewContain:ShareViewTypeQQ | ShareViewTypeQQZone | ShareViewTypeWechat | ShareViewTypeWechatTimeline | ShareViewTypeMicroBlog shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
         
         
     }];
@@ -75,21 +78,26 @@
     }];
     [SVProgressHUD dismiss];
     // 禁止放大缩小
-    NSString *injectionJSString = @"var script = document.createElement('meta');"
-    "script.name = 'viewport';"
-    "script.content=\"width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0, user-scalable=no\";"
-    "document.getElementsByTagName('head')[0].appendChild(script);";
-    [webView evaluateJavaScript:injectionJSString completionHandler:nil];
+//    NSString *injectionJSString = @"var script = document.createElement('meta');"
+//    "script.name = 'viewport';"
+//    "script.content=\"width=device-width, initial-scale=1.0,maximum-scale=1.0, minimum-scale=1.0, user-scalable=no\";"
+//    "document.getElementsByTagName('head')[0].appendChild(script);";
+//    [webView evaluateJavaScript:injectionJSString completionHandler:nil];
     
 }
 
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+-(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     
+    [self showPlaceHolder];
     [SVProgressHUD showErrorWithStatus:@"网络出错"];
     [SVProgressHUD dismiss];
 }
 
-#pragma mark -- lazyMethods 懒加载区域  --------------------------
+
+
+
+
+
 
 
 @end

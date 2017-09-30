@@ -7,7 +7,7 @@
 //
 
 #import "YYCommunityBannerDetailController.h"
-
+//
 @interface YYCommunityBannerDetailController ()
 
 @end
@@ -20,12 +20,17 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    
+}
 /**
  *  分享链接
  */
 - (void)share {
  
-    [ShareView shareWithTitle:self.navigationItem.title subTitle:@"" webUrl:self.url imageUrl:self.imgUrl isCollected:NO shareViewContain:nil shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
+    [ShareView shareWithTitle:self.navigationItem.title subTitle:@"" webUrl:self.url imageUrl:self.shareImgUrl isCollected:NO shareViewContain:nil shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
         
     }];
 }
@@ -47,13 +52,12 @@
     [SVProgressHUD dismiss];
 }
 
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+-(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     
     [SVProgressHUD showErrorWithStatus:@"网络状况不佳"];
     
     [SVProgressHUD dismiss];
 }
-
 
 
 

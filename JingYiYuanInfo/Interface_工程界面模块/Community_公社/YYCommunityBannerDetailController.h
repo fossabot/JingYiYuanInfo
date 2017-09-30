@@ -10,7 +10,5 @@
 
 @interface YYCommunityBannerDetailController : YYBaseDetailController
 
-/** imgUrl*/
-@property (nonatomic, copy) NSString *imgUrl;
 
 @end

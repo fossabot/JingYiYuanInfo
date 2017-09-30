@@ -22,13 +22,16 @@
             dispatch_source_cancel(timer);
             dispatch_async(dispatch_get_main_queue(), ^{
                 weakSelf.enabled = YES;
+                weakSelf.layer.borderColor = ThemeColor.CGColor;
                 completion(weakSelf);
             });
         } else {
             NSString *timeStr = [NSString stringWithFormat:@"%ld", (long)remainTime];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf setTitle:[NSString stringWithFormat:@"%@%@",timeStr,unitTitle] forState:UIControlStateDisabled];
-                [weakSelf setBackgroundImage:[UIImage imageWithColor:[UIColor lightGrayColor]] forState:UIControlStateDisabled];
+                [weakSelf setTitleColor:UnenableTitleColor forState:UIControlStateDisabled];
+//                [weakSelf setBackgroundImage:[UIImage imageWithColor:UnenableTitleColor] forState:UIControlStateDisabled];
+                weakSelf.layer.borderColor = UnenableTitleColor.CGColor;
                 weakSelf.enabled = NO;
             });
             remainTime--;

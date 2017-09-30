@@ -52,7 +52,7 @@
 
 - (IBAction)changeTelephone:(id)sender {
     
-    [YYLoginManager resetTelephoneNumber:self.telephoneText.text verification:self.verificationText.text completion:^{
+    [YYLoginManager resetTelephoneNumber:self.telephoneText.text verification:self.verificationText.text completion:^(BOOL success){
 
         YYUser *user = [YYUser shareUser];
         [user setMobile:self.telephoneText.text];

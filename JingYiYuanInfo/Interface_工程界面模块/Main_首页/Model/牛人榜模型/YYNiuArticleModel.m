@@ -21,11 +21,20 @@
 
 
 - (NSString *)picurl {
-    return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_picurl];
+    if (![_picurl containsString:@"http"]) {
+        
+        return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_picurl];
+    }
+    return _picurl;
 }
 
 - (NSString *)posttime {
     return [NSCalendar commentDateByOriginalDate:_posttime withDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+}
+
+- (NSString *)webUrl {
+    
+    return [NSString stringWithFormat:@"%@%@",niuWebJointUrl,_art_id];
 }
 
 @end

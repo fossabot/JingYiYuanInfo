@@ -31,10 +31,10 @@
 /** logo 需拼接*/
 @property (nonatomic, copy) NSString *logo;
 
-/** gname*/
+/** gname公司名称*/
 @property (nonatomic, copy) NSString *gname;
 
-/** regmoney*/
+/** regmoney注册资金*/
 @property (nonatomic, copy) NSString *regmoney;
 
 /** 认证标签*/

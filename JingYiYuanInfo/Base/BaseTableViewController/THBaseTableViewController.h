@@ -20,11 +20,6 @@
 
 
 /**
- 添加刷新控件，子类直接调用
- */
-- (void)addRefresControl;
-
-/**
  加载最新数据
  */
 - (void)loadNewData;

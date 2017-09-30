@@ -7,8 +7,18 @@
 //  排行列表界面
 
 #import "YYBaseRankListController.h"
+#import "YYHotTableViewCell.h"
+#import "YYBaseHotModel.h"
+#import <MJRefresh/MJRefresh.h>
+#import <MJExtension/MJExtension.h>
 
-@interface YYBaseRankListController ()
+@interface YYBaseRankListController ()<UITableViewDelegate,UITableViewDataSource>
+
+/** tableView*/
+@property (nonatomic, strong) UITableView *tableView;
+
+/** dataSource*/
+@property (nonatomic, strong) NSMutableArray *dataSource;
 
 @end
 
@@ -16,22 +26,72 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+ 
+    [self.view addSubview:self.tableView];
+    [self loadMoreData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)loadMoreData {
+    
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"rankmore",@"act",self.lastid,@"rank_lastid",self.classid,@"classid", nil];
+    YYWeakSelf
+    [YYHttpNetworkTool GETRequestWithUrlstring:rankMoreUrl parameters:para success:^(id response) {
+        [weakSelf.tableView.mj_footer endRefreshing];
+        if (response) {
+            
+            weakSelf.dataSource = [YYBaseHotModel mj_objectArrayWithKeyValuesArray:response[@"rank_arr"]];
+            weakSelf.lastid = response[@"rank_lastid"];
+            [weakSelf.tableView reloadData];
+        }
+    } failure:^(NSError *error) {
+        
+        [weakSelf.tableView.mj_footer endRefreshing];
+    } showSuccessMsg:nil];
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+
+
+#pragma mark -- lazyMethods 懒加载区域  --------------------------
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-64) style:UITableViewStylePlain];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.tableFooterView = [UIView new];
+        [self.tableView registerClass:[YYHotTableViewCell class] forCellReuseIdentifier:YYHotTableViewCellId];
+        
+        YYWeakSelf
+        MJRefreshBackStateFooter *footer = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+            YYStrongSelf
+            [strongSelf loadMoreData];
+        }];
+        /** 普通闲置状态  壹元君正努力为您加载数据*/
+        footer.stateLabel.text = @"壹元君正努力为您加载中...";
+        _tableView.mj_footer = footer;
+        
+        FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
+        configer.emptyImage = imageNamed(emptyImageName);
+        configer.emptyTitle = @"暂无问答数据";
+        configer.emptyTitleColor = UnenableTitleColor;
+        configer.emptyTitleFont = SubTitleFont;
+        configer.allowScroll = NO;
+        configer.emptyViewTapBlock = ^{
+            [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        [self.tableView emptyViewConfiger:configer];
+        
+    }
+    return _tableView;
 }
-*/
+
+- (NSMutableArray *)dataSource{
+    if (!_dataSource) {
+        _dataSource = [NSMutableArray array];
+    }
+    return _dataSource;
+}
 
 @end

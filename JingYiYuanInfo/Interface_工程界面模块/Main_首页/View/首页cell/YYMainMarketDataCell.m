@@ -8,12 +8,6 @@
 
 #import "YYMainMarketDataCell.h"
 
-@interface YYMainMarketDataCell()
-
-/** label*/
-@property (nonatomic, strong) UILabel *label;
-
-@end
 @implementation YYMainMarketDataCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -21,41 +15,25 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        [self.contentView addSubview:self.label];
+        [self.contentView addSubview:self.dataImageView];
         [self configLayout];
     }
     return self;
 }
 
 - (void)configLayout {
-    [self.label makeConstraints:^(MASConstraintMaker *make) {
+    [self.dataImageView makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.contentView);
-        make.height.equalTo(50);
+        make.height.equalTo(kSCREENWIDTH*0.25);
     }];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-//    self.label.frame = self.contentView.bounds;
-}
 
-
-- (UILabel *)label{
-    if (!_label) {
-        _label = [[UILabel alloc] init];
-        _label.text = @"这里是行情数据，暂无数据";
-        _label.numberOfLines = 0;
-        _label.font = sysFont(17);
-        _label.textAlignment = NSTextAlignmentCenter;
+- (UIImageView *)dataImageView{
+    if (!_dataImageView) {
+        _dataImageView = [[UIImageView alloc] init];
     }
-    return _label;
-}
-
-/**
- *  创建子控件
- */
-- (void)createSubview {
-    
+    return _dataImageView;
 }
 
 @end

@@ -37,17 +37,16 @@
 #import "YYChannelShowLikeCell.h"
 
 #import "UITableView+FDTemplateLayoutCell.h"
+#import "ZFPlayer.h"
+#import "YYUser.h"
 
-@interface YYBaseInfoVM()
+@interface YYBaseInfoVM()<ZFPlayerDelegate>
 
 /** 是不是特殊资讯请求的控制器（视频，音乐，演出，他们请求的参数不需要加classid，直接是Videomore等）*/
 @property (nonatomic, assign) BOOL isSpecial;
 
 /** lastid*/
-@property (nonatomic, copy) NSString *lastid;
-
-/** infoDataSource*/
-@property (nonatomic, strong) NSMutableArray *infoDataSource;
+@property (nonatomic, copy)   NSString       *lastid;
 
 /** rankDataSource*/
 @property (nonatomic, strong) NSMutableArray *rankDataSource;
@@ -55,11 +54,18 @@
 /** recommendDataSource*/
 @property (nonatomic, strong) NSMutableArray *recommendDataSource;
 
+/** ZFPlayerView*/
+@property (nonatomic, strong) ZFPlayerView   *playerView;
+
+/** playerModel*/
+@property (nonatomic, strong) ZFPlayerModel  *playerModel;
 
 @end
 
 @implementation YYBaseInfoVM
-
+{
+    NSInteger _seekTime;
+}
 
 /**
  *  加载新数据
@@ -77,7 +83,7 @@
     }
     
     [PPNetworkHelper GET:channelNewsUrl parameters:para responseCache:^(id responseCache) {
-        if (!self.infoDataSource.count) {
+        if (!self.infoDataSource.count && responseCache) {
             
             [self dispatchNewResponse:responseCache];
             if (completion) {
@@ -124,6 +130,21 @@
     
 }
 
+/**
+ *  重置videoPlayer
+ */
+- (void)resetPlayer {
+    
+    [self.playerView resetPlayer];
+}
+
+/**
+ *  重置播放时间
+ */
+- (void)resetSeekTime {
+    
+    _seekTime = 0;
+}
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 
@@ -138,7 +159,16 @@
 }
 
 
-#pragma -- mark TableViewDelegate
+#pragma mark -------  ZFPlayer delegate  ----------------------
+
+- (void)zf_playerCurrentTime:(NSInteger)currentTime {
+    
+    _seekTime = currentTime;
+    YYLog(@"当前的播放进度  --  %lds",currentTime);
+}
+
+
+#pragma -- mark TableViewDelegate  -------------------------------
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
@@ -304,7 +334,7 @@
             case YYBaseInfoTypeNews:{
                 
                 YYHotInfoModel *model = self.infoDataSource[indexPath.row];
-                _cellSelectedBlock(YYBaseInfoTypeNews, indexPath, model.webUrl);
+                _cellSelectedBlock(YYBaseInfoTypeNews, indexPath, model);
             }
                 break;
                 
@@ -318,14 +348,15 @@
             case YYBaseInfoTypeVideo:{
 
                 YYBaseVideoModel *model = self.infoDataSource[indexPath.row];
-                _cellSelectedBlock(YYBaseInfoTypeVideo, indexPath, model.v_url);
+                NSDictionary *dic = @{@"data":model,@"seekTime":@(_seekTime)};
+                _cellSelectedBlock(YYBaseInfoTypeVideo, indexPath, dic);
             }
                 break;
                 
             case YYBaseInfoTypeMusic:{
 
                 YYBaseMusicModel *model = self.infoDataSource[indexPath.row];
-                _cellSelectedBlock(YYBaseInfoTypeMusic, indexPath, model.URL);
+                _cellSelectedBlock(YYBaseInfoTypeMusic, indexPath, model);
             }
                 break;
                 
@@ -343,10 +374,11 @@
 }
 
 
-#pragma -- mark TableViewDataSource
+#pragma -- mark TableViewDataSource ------------------------------
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    YYUser *user = [YYUser shareUser];
     switch ([self cellTypeAtIndexPath:indexPath]) {
         case YYBaseInfoTypeRank:{
             
@@ -405,6 +437,47 @@
             YYBaseVideoModel *model = self.infoDataSource[indexPath.row];
             YYChannelVideoCell *videoCell = [tableView dequeueReusableCellWithIdentifier:YYChannelVideoCellId];
             videoCell.videoModel = model;
+            __block NSIndexPath *weakIndexPath = indexPath;
+            __block YYChannelVideoCell *weakCell = videoCell;
+            
+            // 取出字典中的第一视频URL
+            NSURL *videoURL = [NSURL URLWithString:model.v_url];
+            YYWeakSelf
+            // 点击播放的回调
+            videoCell.playBlock = ^{
+                
+                YYStrongSelf
+                strongSelf.playerModel.title            = model.v_name;
+                strongSelf.playerModel.videoURL         = videoURL;
+                strongSelf.playerModel.placeholderImage = imageNamed(@"loading_bgView");
+                strongSelf.playerModel.placeholderImageURLString = model.v_picture;
+                strongSelf.playerModel.scrollView       = tableView;
+                strongSelf.playerModel.indexPath        = weakIndexPath;
+                // player的父视图tag
+                strongSelf.playerModel.fatherViewTag    = weakCell.videoImg.tag;
+                // 设置播放控制层和model
+                [strongSelf.playerView playerControlView:nil playerModel:strongSelf.playerModel];
+                // 下载功能
+                strongSelf.playerView.hasDownload = NO;
+                strongSelf.playerView.hasPreviewView = NO;
+                
+                if (user.onlyWIFIPlay) {
+                    
+                    [weakSelf showAlert:^(BOOL permit) {
+                        
+                        if (permit) {
+                            
+                            // 自动播放
+                            [strongSelf.playerView autoPlayTheVideo];
+                        }
+                    }];
+                }else {
+                    // 自动播放
+                    [strongSelf.playerView autoPlayTheVideo];
+                }
+                
+                
+            };
             return videoCell;
         }
             break;
@@ -444,6 +517,25 @@
 
 }
 
+
+- (void)showAlert:(void(^)(BOOL permit))permition {
+    
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否使用流量播放视频" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *permit = [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        permition(YES);
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        permition(NO);
+    }];
+    
+    [alert addAction:permit];
+    [alert addAction:cancel];
+    [kKeyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+}
 
 
 
@@ -578,6 +670,34 @@
     return _infoDataSource;
 }
 
+- (ZFPlayerView *)playerView {
+    if (!_playerView) {
+        _playerView = [ZFPlayerView sharedPlayerView];
+        _playerView.delegate = self;
+        // 当cell播放视频由全屏变为小屏时候，不回到中间位置
+        _playerView.cellPlayerOnCenter = NO;
+        
+        // 当cell划出屏幕的时候停止播放
+         _playerView.stopPlayWhileCellNotVisable = YES;
+        //（可选设置）可以设置视频的填充模式，默认为（等比例填充，直到一个维度到达区域边界）
+         _playerView.playerLayerGravity = ZFPlayerLayerGravityResizeAspect;
+        // 静音
+        // _playerView.mute = YES;
+        // 移除屏幕移除player
+        // _playerView.stopPlayWhileCellNotVisable = YES;
+        
+    }
+    return _playerView;
+}
+
+- (ZFPlayerModel *)playerModel{
+    if (!_playerModel) {
+        _playerModel = [[ZFPlayerModel alloc] init];
+        
+        
+    }
+    return _playerModel;
+}
 
 
 @end

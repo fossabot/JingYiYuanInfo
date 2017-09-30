@@ -41,9 +41,12 @@
     if (self) {
         
         _edgeInsets = UIEdgeInsetsMake(1, 1, 1, 1);
+        
         self.font = [UIFont systemFontOfSize:14];
         self.layer.borderWidth = 0.3;
         self.layer.cornerRadius = 3;
+        self.layer.borderColor = UnenableTitleColor.CGColor;
+        self.textColor = SubTitleColor;
     }
     return self;
     

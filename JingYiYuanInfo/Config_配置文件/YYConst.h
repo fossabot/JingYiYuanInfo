@@ -9,6 +9,18 @@
 
 #import <UIKit/UIKit.h>
 
+
+/** 一年365会员的产品id*/
+UIKIT_EXTERN NSString * const Production_VIP_1;
+
+
+
+
+
+
+
+
+
 /** 导航栏高度*/
 UIKIT_EXTERN CGFloat const YYNavgationBarH;
 
@@ -128,7 +140,11 @@ UIKIT_EXTERN NSString * const YYUserInfoDidChangedNotification;
 /** 首页刷新的通知  热搜榜和牛人榜接收通知刷新*/
 UIKIT_EXTERN NSString * const YYMainRefreshNotification;
 
+/** 资讯视频播放控制器 划出当前窗口，重置player*/
+UIKIT_EXTERN NSString * const YYInfoVideoResetPlayerNotification;
 
+/** 资讯音乐播放控制器 划出当前窗口，重置player,停止播放*/
+UIKIT_EXTERN NSString * const YYInfoMusicResetPlayerNotification;
 
 /** 资讯controller的类型枚举，不同类型请求数据参数不一致*/
 typedef NS_ENUM(NSUInteger, YYInfoViewControllerType){

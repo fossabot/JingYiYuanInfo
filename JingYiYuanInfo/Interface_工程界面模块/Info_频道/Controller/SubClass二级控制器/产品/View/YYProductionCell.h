@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class YYProductionVIPModel;
+@class YYProductionCommonModel;
+
+static NSString * const YYProductionCellId = @"YYProductionCell";
+
 @interface YYProductionCell : UITableViewCell
+
+/** YYProductionCommonModel*/
+@property (nonatomic, strong) YYProductionCommonModel *commonModel;
+
+/** vipModel*/
+@property (nonatomic, strong) YYProductionVIPModel *vipModel;
 
 @end

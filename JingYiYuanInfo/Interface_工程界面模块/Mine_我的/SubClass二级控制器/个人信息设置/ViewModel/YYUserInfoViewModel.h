@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "YYUserCommonCellModel.h"
 
+static NSString * const UITableViewCellID = @"UITableViewCell";
+static NSString * const UITableViewCommonCellID = @"UITableViewCommonCell";
 
 @protocol YYUserInfoViewModelCellDidSelectedDelegate <NSObject>
 
@@ -25,6 +27,8 @@
 
 /** delegate*/
 @property (nonatomic, weak) id<YYUserInfoViewModelCellDidSelectedDelegate> delegate;
+
+- (void)getUserInfo;
 
 - (void)uploadIconToserver:(UIImage *)image completion:(void(^)(BOOL success))completion;
 

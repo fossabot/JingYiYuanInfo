@@ -10,6 +10,7 @@
 
 @interface YYBaseInfoDetailController : YYBaseDetailController
 
-
+/** newsId*/
+@property (nonatomic, copy) NSString *newsId;
 
 @end

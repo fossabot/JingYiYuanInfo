@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class YYCompanyModel;
+
+static NSString * const YYCompanyCellId = @"YYCompanyCell";
+
 @interface YYCompanyCell : UITableViewCell
+
+/** 公司模型*/
+@property (nonatomic, strong) YYCompanyModel *companyModel;
 
 @end

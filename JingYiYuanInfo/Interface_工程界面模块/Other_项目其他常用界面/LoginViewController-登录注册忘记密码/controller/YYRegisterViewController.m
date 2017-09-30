@@ -7,7 +7,7 @@
 //
 
 #import "YYRegisterViewController.h"
-#import "YYUserProtocolViewController.h"
+#import "YYMineIntroduceDetailController.h"
 
 #import "YYLoginManager.h"
 #import "YYCountDownButton.h"
@@ -18,7 +18,7 @@
 #import "UITextField+LeftView.h"
 #import "NSString+YYSecretaryPassword.h"
 #import "YYTextFilter.h"
-
+#import "UIView+YYCategory.h"
 
 @interface YYRegisterViewController ()<YYTextFilterDelegate>
 /** 手机号*/
@@ -52,6 +52,11 @@
 }
 
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    [self.registeButton cutRoundViewRadius:5];
+}
 
 #pragma mark -- inner Methods
 /** 配置输入框的相关属性*/
@@ -106,7 +111,7 @@
 
     //输入框都满足条件，则注册按钮可点击
     self.registeButton.enabled = [self validToRegiste];
-    self.registeButton.backgroundColor = [self validToRegiste] ? ThemeColor : [UIColor lightGrayColor];
+    self.registeButton.backgroundColor = [self validToRegiste] ? ThemeColor : LightGraySeperatorColor;
 }
 
 - (BOOL)validToRegiste {
@@ -165,11 +170,10 @@
 
 /** 查看用户协议*/
 - (IBAction)userProtocol:(UIButton *)sender {
-    YYUserProtocolViewController *userProtocol = [[YYUserProtocolViewController alloc] init];
-    userProtocol.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;//水平弹出
-    [self presentViewController:userProtocol animated:YES completion:^{
-        
-    }];
+    
+    YYMineIntroduceDetailController *introduce = [[YYMineIntroduceDetailController alloc] init];
+    introduce.url = userProtocolUrl;
+    [self.navigationController pushViewController:introduce animated:YES];
 }
 
 /** 注册按钮事件*/

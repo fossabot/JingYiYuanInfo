@@ -9,18 +9,27 @@
 #import "YYUser.h"
 #import <objc/runtime.h>
 
+
+
 @implementation YYUser
 
 YYSingletonM(User)
 
 #pragma mark -- setters
+
+- (void)setDeviceToken:(NSString *)deviceToken {
+    
+    [kUserDefaults setValue:deviceToken forKey:@"deviceToken"];
+    [kUserDefaults synchronize];
+}
+
 /**
  userid setter方法，将userid存进userdefaults
  */
 - (void)setUserid:(NSString *)userid {
     [kUserDefaults setValue:userid forKey:@"user_userid"];
     [kUserDefaults synchronize];
-    [YYUser alertNotification];
+//    [YYUser alertNotification];
 }
 
 - (void)setUsername:(NSString *)username {
@@ -29,20 +38,29 @@ YYSingletonM(User)
     [YYUser alertNotification];
 }
 
+- (void)setAvatar:(NSString *)avatar {
+    [kUserDefaults setValue:avatar forKey:@"user_avatar"];
+    [kUserDefaults synchronize];
+    [YYUser alertNotification];
+}
+
 - (void)setMobile:(NSString *)mobile {
-    [kUserDefaults setValue:mobile forKey:@"user_mobile"];
+    NSString *str = [NSString stringWithFormat:@"%@",mobile];
+    [kUserDefaults setValue:str forKey:@"user_mobile"];
     [kUserDefaults synchronize];
     [YYUser alertNotification];
 }
 
 - (void)setGuling:(NSString *)guling {
-    [kUserDefaults setValue:guling forKey:@"user_guling"];
+    NSString *str = [NSString stringWithFormat:@"%@",guling];
+    [kUserDefaults setValue:str forKey:@"user_guling"];
     [kUserDefaults synchronize];
     [YYUser alertNotification];
 }
 
 - (void)setCapital:(NSString *)capital {
-    [kUserDefaults setValue:capital forKey:@"user_capital"];
+    NSString *str = [NSString stringWithFormat:@"%@",capital];
+    [kUserDefaults setValue:str forKey:@"user_capital"];
     [kUserDefaults synchronize];
     [YYUser alertNotification];
 }
@@ -72,7 +90,8 @@ YYSingletonM(User)
 }
 
 - (void)setGroupid:(NSString *)groupid {
-    [kUserDefaults setValue:groupid forKey:@"user_groupid"];
+    NSString *str = [NSString stringWithFormat:@"%@",groupid];
+    [kUserDefaults setValue:str forKey:@"user_groupid"];
     [kUserDefaults synchronize];
     [YYUser alertNotification];
 }
@@ -83,14 +102,21 @@ YYSingletonM(User)
     [YYUser alertNotification];
 }
 
+- (void)setIntegral:(NSString *)integral {
+    NSString *str = [NSString stringWithFormat:@"%@",integral];
+    [kUserDefaults setValue:str forKey:@"user_integral"];
+    [kUserDefaults synchronize];
+    [YYUser alertNotification];
+}
+
 - (void)setWebfont:(CGFloat)webfont {
     [kUserDefaults setFloat:webfont forKey:@"webfont"];
     [kUserDefaults synchronize];
     [YYUser alertNotification];
 }
 
-- (void)setCanWIFIPlay:(BOOL)canWIFIPlay {
-    [kUserDefaults setBool:canWIFIPlay forKey:@"canWIFIPlay"];
+- (void)setOnlyWIFIPlay:(BOOL)onlyWIFIPlay {
+    [kUserDefaults setBool:onlyWIFIPlay forKey:@"onlyWIFIPlay"];
     [kUserDefaults synchronize];
     [YYUser alertNotification];
 }
@@ -98,12 +124,21 @@ YYSingletonM(User)
 
 #pragma mark -- getters
 
+- (NSString *)deviceToken {
+    return [kUserDefaults objectForKey:@"deviceToken"];
+}
+
 - (NSString *)userid{
     return [kUserDefaults objectForKey:@"user_userid"];
 }
 
 - (NSString *)username {
     return [kUserDefaults objectForKey:@"user_username"];
+}
+
+- (NSString *)avatar {
+    
+    return [kUserDefaults objectForKey:@"user_avatar"];
 }
 
 - (NSString *)mobile{
@@ -135,6 +170,7 @@ YYSingletonM(User)
 }
 
 - (NSString *)groupid{
+    
     return [kUserDefaults objectForKey:@"user_groupid"];
 }
 
@@ -142,12 +178,20 @@ YYSingletonM(User)
     return [kUserDefaults objectForKey:@"user_expiretime"];
 }
 
-- (CGFloat)webfont{
-    return [kUserDefaults floatForKey:@"webfont"];
+- (NSString *)integral {
+    return [kUserDefaults objectForKey:@"user_integral"];
 }
 
-- (BOOL)canWIFIPlay {
-    return [kUserDefaults boolForKey:@"canWIFIPlay"];
+- (CGFloat)webfont{
+    CGFloat fontScale = [kUserDefaults floatForKey:@"webfont"];
+    if (!fontScale) {
+        return 1.0;
+    }
+    return fontScale;
+}
+
+- (BOOL)onlyWIFIPlay {
+    return [kUserDefaults boolForKey:@"onlyWIFIPlay"];
 }
 
 - (NSString *)webFontStr {
@@ -161,13 +205,28 @@ YYSingletonM(User)
     }else if (webfont == 2.0) {
         return @"超级大";
     }
-    return nil;
+    return @"大";
+}
+
+- (NSInteger)currentPoint {
+    
+    NSArray *fontArr = @[@1.0,@1.2,@1.5,@2.0];
+    CGFloat currentFont = [self webfont];
+    return [fontArr indexOfObject:@(currentFont)];
 }
 
 - (BOOL)isLogin{
     return [kUserDefaults boolForKey:LOGINSTATUS];
 }
 
+- (NSString *)setUp {
+    return [kUserDefaults stringForKey:setUpInfo];
+}
+
+- (void)setSetUp:(NSString *)setUp {
+    [kUserDefaults setValue:setUp forKey:setUpInfo];
+    [kUserDefaults synchronize];
+}
 
 - (void)setSignDays:(NSInteger)signDays {
     //set方法得到签到天数 直接存本地，此时也不知道今天签到没，看样子只有后台存储今天签到没才是合理的，不然在本地存，Android和iOS不能互通，两个平台一天可以签两次了
@@ -197,14 +256,6 @@ YYSingletonM(User)
     [kUserDefaults setBool:YES forKey:LOGINSTATUS];
     [kUserDefaults synchronize];
     
-//    [self alertNotification];
-    YYUser *user = [YYUser shareUser];
-    if (user.isLogin) {
-        [self alertNotification];
-    }else{
-        
-        [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LOGINSTATUS:@"1"}];
-    }
 }
 
 /**
@@ -214,6 +265,7 @@ YYSingletonM(User)
 //    YYUser *user = [self shareUser];
     //将user的各属性置为nil
     
+    YYWeakSelf
     [[kUserDefaults dictionaryRepresentation] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
      {
          if([key hasPrefix:@"user_"])
@@ -222,11 +274,12 @@ YYSingletonM(User)
          }
          [kUserDefaults setBool:NO forKey:LOGINSTATUS];
          [kUserDefaults synchronize];
+         [weakSelf alertNotification];
      }];
     
-    //0 退出登录  1登录成功
-    [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LOGINSTATUS:@0}];
     
+//    [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
+//    
 //    NSArray *properties = [self getAllProperties];
 //    for (NSString *property in properties) {
 //        [kUserDefaults removeObjectForKey:property];
@@ -237,7 +290,7 @@ YYSingletonM(User)
 /** 提醒代理 该干活了*/
 + (void)alertNotification {
 
-    [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil];
+    [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
 }
 
 /**

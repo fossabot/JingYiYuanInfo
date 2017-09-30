@@ -452,7 +452,7 @@
     }
     // 计算可能切换到的index
     NSInteger currentIndex = self.contentOffset.x / self.frame.size.width;
-    NSInteger targetIndex;
+    NSInteger targetIndex = currentIndex;
     
     CGPoint translation = [gestureRecognizer translationInView:self];
     if (translation.x > 0) {

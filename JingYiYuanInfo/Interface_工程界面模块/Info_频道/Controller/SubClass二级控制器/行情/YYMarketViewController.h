@@ -14,6 +14,10 @@
 /** datas*/
 @property (nonatomic, strong) NSArray *datas;
 
+/** fatherId*/
+@property (nonatomic, assign) NSInteger fatherId;
 
+/** selectIndex*/
+//@property (nonatomic, assign) NSInteger selectIndex;
 
 @end

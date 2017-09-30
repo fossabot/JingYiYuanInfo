@@ -12,11 +12,14 @@
 
 #import "YYUserInfoViewModel.h"
 #import "YYImageControllerTool.h"
+#import "YYBundleSDKCell.h"
+#import "YYUserIconCell.h"
+#import "YYCommonCell.h"
 #import "YYUser.h"
 
 #import <UMSocialCore/UMSocialCore.h>  //友盟登录第三方
 
-@interface YYUserInfoViewController ()<YYUserInfoViewModelCellDidSelectedDelegate>
+@interface YYUserInfoViewController ()<YYUserInfoViewModelCellDidSelectedDelegate,UIImagePickerControllerDelegate>
 
 /** tableView*/
 @property (nonatomic, strong) UITableView *tableView;
@@ -32,7 +35,9 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"个人信息";
-
+    [self.view addSubview:self.tableView];
+    [self.userInfoViewModel getUserInfo];
+    [self.tableView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -55,7 +60,7 @@
             
         case YYUserInfoCellTypeTel:{
             
-//            [self accessToChangeTelControllerAtIndexPath:indexPath];
+
         }
             break;
             
@@ -76,48 +81,63 @@
 
 /** 唤起系统相册*/
 - (void)awakeUpAlbumAtIndexPath:(NSIndexPath *)indexPath {
-    YYWeakSelf
-    [YYImageControllerTool awakeImagePickerControllerCompletion:^(UIImage *image) {
-        YYStrongSelf
-        [strongSelf.userInfoViewModel uploadIconToserver:image completion:^(BOOL success) {
-            
-            if (success) {
-                [SVProgressHUD showSuccessWithStatus:@"更改头像成功"];
-                [strongSelf.userInfoViewModel changeModelAtIndexPath:indexPath];
-                [strongSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-            }else{
-                [SVProgressHUD showErrorWithStatus:@"更改头像失败"];
-            }
-        }];
-    }];
+    
+    [YYImageControllerTool awakeImagePickerControllerWithDelegate:self];
+//    YYWeakSelf
+//    [YYImageControllerTool awakeImagePickerControllerCompletion:^(UIImage *image) {
+//        YYStrongSelf
+//        [strongSelf.userInfoViewModel uploadIconToserver:image completion:^(BOOL success) {
+//            
+//            if (success) {
+//                [SVProgressHUD showSuccessWithStatus:@"更改头像成功"];
+//                //通知个人中心，更新个人信息
+//                [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
+//                [strongSelf.userInfoViewModel changeModelAtIndexPath:indexPath];
+//                [strongSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//            }else{
+//                [SVProgressHUD showErrorWithStatus:@"更改头像失败"];
+//            }
+//            [SVProgressHUD dismissWithDelay:1];
+//        }];
+//    }];
 }
 
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+    
+    UIImage *editImage = [editingInfo objectForKey:UIImagePickerControllerOriginalImage];
+    NSData *imageData = UIImageJPEGRepresentation(editImage, 1.0);
+    while (imageData.length > 1024*1024) {
+        imageData = UIImageJPEGRepresentation([UIImage imageWithData:imageData], 0.5);
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.userInfoViewModel uploadIconToserver:[UIImage imageWithData:imageData] completion:^(BOOL success) {
 
-/** 进入更换手机号的界面*/
-//- (void)accessToChangeTelControllerAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    YYChangePhoneNumViewController *changePhoneNumVc = [[YYChangePhoneNumViewController alloc] init];
-//    YYWeakSelf
-//    changePhoneNumVc.completion = ^(){
-//        YYStrongSelf
-//        [strongSelf.userInfoViewModel changeModelAtIndexPath:indexPath];
-//        [strongSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//    };
-//    [self.rt_navigationController pushViewController:changePhoneNumVc animated:YES complete:^(BOOL finished) {
-//        
-//    }];
-//}
-
+        if (success) {
+            [SVProgressHUD showSuccessWithStatus:@"更改头像成功"];
+            
+            //通知个人中心，更新个人信息
+            [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
+            
+//            [self.userInfoViewModel changeModelAtIndexPath:indexPath];
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+//            [self.tableView reloadData];
+        }else{
+            [SVProgressHUD showErrorWithStatus:@"更改头像失败"];
+        }
+        [SVProgressHUD dismissWithDelay:1];
+    }];
+    
+}
 
 /** 进入改变用户普通信息的界面*/
 - (void)accessToChangeUserInfoControllerAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    YYCommonCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     YYChangeUserInfoController *changeUserInfoVc = [[YYChangeUserInfoController alloc] init];
     //将cell赋值给改变信息的控制器，内部直接将cell的detailLabel的text改了，同时也更新了YYuser
     changeUserInfoVc.cell = cell;
     changeUserInfoVc.paraKey = [self getParaKeyAtIndexPath:indexPath];
-//    [self.rt_navigationController pushViewController:changeUserInfoVc animated:YES complete:nil];
     [self.navigationController pushViewController:changeUserInfoVc animated:YES];
 }
 
@@ -154,18 +174,27 @@
 - (void)accessToBundleControllerAtIndexPath:(NSIndexPath *)indexPath {
     
     //3 QQ绑定  4微信绑定  5微博绑定
-    
+    YYUser *user = [YYUser shareUser];
     switch (indexPath.row) {
-        case 3:
-            [self getUserInfoForPlatform:UMSocialPlatformType_QQ atIndexPath:indexPath paraKey:@"qqnum"];
+        case 3:{
+            [self getUserInfoForPlatform:UMSocialPlatformType_QQ atIndexPath:indexPath paraKey:@"qqnum" completion:^(NSString *uid) {
+                [user setQqnum:uid];
+            }];
+        }
             break;
         
-        case 4:
-            [self getUserInfoForPlatform:UMSocialPlatformType_WechatSession atIndexPath:indexPath paraKey:@"weixin"];
+        case 4:{
+            [self getUserInfoForPlatform:UMSocialPlatformType_WechatSession atIndexPath:indexPath paraKey:@"weixin" completion:^(NSString *uid) {
+                [user setWeixin:uid];
+            }];
+        }
             break;
             
-        case 5:
-            [self getUserInfoForPlatform:UMSocialPlatformType_Sina atIndexPath:indexPath paraKey:@"weibo"];
+        case 5:{
+            [self getUserInfoForPlatform:UMSocialPlatformType_Sina atIndexPath:indexPath paraKey:@"weibo" completion:^(NSString *uid) {
+                [user setWeibo:uid];
+            }];
+        }
             break;
             
         default:
@@ -193,7 +222,7 @@
  */
 
 /** 获取第三方的授权*/
-- (void)getUserInfoForPlatform:(UMSocialPlatformType)platformType atIndexPath:(NSIndexPath *)indexPath paraKey:(NSString *)parakey
+- (void)getUserInfoForPlatform:(UMSocialPlatformType)platformType atIndexPath:(NSIndexPath *)indexPath paraKey:(NSString *)parakey completion:(void(^)(NSString *uid))completion
 {
     [[UMSocialManager defaultManager] getUserInfoWithPlatform:platformType currentViewController:self completion:^(id result, NSError *error) {
         
@@ -218,6 +247,8 @@
         YYUser *user = [YYUser shareUser];
         NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:parakey,@"act",user.userid,USERID,resp.uid,parakey, nil];
         [YYHttpNetworkTool GETRequestWithUrlstring:mineChangeUserInfoUrl parameters:para success:^(id response) {
+            
+            completion(resp.uid);
             YYStrongSelf
             [strongSelf.userInfoViewModel changeModelAtIndexPath:indexPath];
             [strongSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -237,6 +268,11 @@
         _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
         _tableView.delegate = self.userInfoViewModel;
         _tableView.dataSource = self.userInfoViewModel;
+//        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:UITableViewCellID];//手机号cell没有indicator
+        [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([YYBundleSDKCell class]) bundle:nil] forCellReuseIdentifier:YYBundleSDKCellID];
+        [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([YYUserIconCell class]) bundle:nil] forCellReuseIdentifier:YYUserIconCellID];
+        [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([YYCommonCell class]) bundle:nil] forCellReuseIdentifier:YYCommonCellId];
+//        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:UITableViewCommonCellID];//cell有indicator
     }
     return _tableView;
 }

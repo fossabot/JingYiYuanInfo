@@ -15,7 +15,7 @@ typedef void(^Tap)();
 @interface PhotoCell : UICollectionViewCell
 
 
-- (void)setImgUrl:(NSString *)imgUrl desc:(NSString *)desc total:(NSInteger)total index:(NSInteger)index;
+- (void)setImgUrl:(NSString *)imgUrl total:(NSInteger)total index:(NSInteger)index;
 
 /** tapblock*/
 @property (nonatomic, copy) Tap tap;

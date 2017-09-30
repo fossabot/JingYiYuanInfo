@@ -7,7 +7,23 @@
 //
 
 #import "YYCompanyModel.h"
+#import <MJExtension/MJExtension.h>
 
 @implementation YYCompanyModel
+
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+  
+    return @{
+             @"comId":@"id"
+             };
+}
+
+- (NSString *)logo {
+    
+    if (![_logo containsString:@"http"]) {
+        return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_logo];
+    }
+    return _logo;
+}
 
 @end

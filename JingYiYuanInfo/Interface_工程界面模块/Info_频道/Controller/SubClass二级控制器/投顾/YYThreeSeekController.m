@@ -7,6 +7,8 @@
 //
 
 #import "YYThreeSeekController.h"
+#import "YYThreeSeekBaseController.h"
+#import "YYSubtitle.h"
 
 @interface YYThreeSeekController ()
 
@@ -16,22 +18,51 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    [self setTabBarFrame:CGRectMake(0, 0, screenSize.width, 40)
+        contentViewFrame:CGRectMake(0, 40, screenSize.width, kSCREENHEIGHT-40-64)];
+    
+    self.tabBar.itemTitleColor = TitleColor;
+    self.tabBar.itemTitleSelectedColor = ThemeColor;
+    self.tabBar.itemTitleFont = TitleFont;
+    self.tabBar.itemTitleSelectedFont = TitleFont;
+    self.tabBar.leftAndRightSpacing = 10;
+    self.tabBar.itemSelectedBgColor = ThemeColor;
+    [self.tabBar setItemSelectedBgInsets:UIEdgeInsetsMake(38, 0, 0, 0) tapSwitchAnimated:YES];
+    
+    self.tabBar.itemSelectedBgScrollFollowContent = YES;
+    self.tabBar.itemColorChangeFollowContentScroll = NO;
+    
+    [self setContentScrollEnabledAndTapSwitchAnimated:YES];
+    self.loadViewOfChildContollerWhileAppear = YES;
+    self.tabBar.delegate = self;
+    
+    [self setUpAllChildViewControllers];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)setUpAllChildViewControllers {
+    
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    YYThreeSeekBaseController *allVc = [[YYThreeSeekBaseController alloc] init];
+    allVc.yp_tabItemTitle = @"全部";
+    allVc.classid = @"0";
+    allVc.fatherId = self.fatherId;
+    [arr addObject:allVc];
+    
+    for (YYSubtitle *subtitle in self.datas) {
+        
+        YYThreeSeekBaseController *threeBaseVc = [[YYThreeSeekBaseController alloc] init];
+        threeBaseVc.yp_tabItemTitle = subtitle.title;
+        threeBaseVc.classid = [NSString stringWithFormat:@"%ld",subtitle.classid];
+        threeBaseVc.fatherId = self.fatherId;
+        [arr addObject:threeBaseVc];
+    }
+    
+    self.viewControllers = arr;
+    
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

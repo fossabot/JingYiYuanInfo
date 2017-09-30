@@ -24,4 +24,7 @@
 /** addtime 消息添加的时间*/
 @property (nonatomic, copy) NSString *addtime;
 
+/** webUrl*/
+@property (nonatomic, copy) NSString *webUrl;
+
 @end

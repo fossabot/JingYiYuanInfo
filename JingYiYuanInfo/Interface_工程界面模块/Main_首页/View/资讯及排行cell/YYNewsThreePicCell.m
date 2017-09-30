@@ -67,39 +67,99 @@
     _infoid = hotinfoModel.infoid;
     _title.text = hotinfoModel.title;
     
-    NSArray *images = @[_newsPic1,_newsPic2,_newsPic3];
+    YYWeakSelf
+//    NSArray *images = @[weakSelf.newsPic1, weakSelf.newsPic2, weakSelf.newsPic3];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
-    int index = 0;
-    for (UIImageView *iamgeView in images) {
-        YYHotPicsModel *model;
-        NSURL *imageUrl;
-        if (hotinfoModel.picarr.count) {
-            
-            model = hotinfoModel.picarr[index];
-            imageUrl = [NSURL URLWithString:model.img];
-        }else {
-            imageUrl = [NSURL URLWithString:@"http://www.baidu.png"];
-        }
+    
+    YYHotPicsModel *model1 = hotinfoModel.picarr[0];
+    NSURL *imageUrl = [NSURL URLWithString:model1.img];
+    [_newsPic1 sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
-        NSLog(@"picarr  >>>>>>  %@",model.img);
-        [iamgeView sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            
-            [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
-                if (isInCache) {
-                    return;//缓存中有，不再加载
-                }
-            }];
+        [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
+            if (isInCache) {
+                return;//缓存中有，不再加载
+            }
             //imageView的淡入效果
-            iamgeView.alpha = 0.0;
-            [UIView transitionWithView:iamgeView
-                              duration:0.5
+            weakSelf.newsPic1.alpha = 0.0;
+            [UIView transitionWithView:weakSelf.newsPic1
+                              duration:0.3
                                options:UIViewAnimationOptionTransitionCrossDissolve
                             animations:^{
-                                iamgeView.alpha = 1.0;
+                                weakSelf.newsPic1.alpha = 1.0;
                             } completion:nil];
         }];
-        index++;
-    }
+    }];
+
+    YYHotPicsModel *model2 = hotinfoModel.picarr[1];
+    NSURL *imageUrl2 = [NSURL URLWithString:model2.img];
+    [_newsPic2 sd_setImageWithURL:imageUrl2 placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        
+        [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
+            if (isInCache) {
+                return;//缓存中有，不再加载
+            }
+            //imageView的淡入效果
+            weakSelf.newsPic2.alpha = 0.0;
+            [UIView transitionWithView:weakSelf.newsPic2
+                              duration:0.3
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{
+                                weakSelf.newsPic2.alpha = 1.0;
+                            } completion:nil];
+        }];
+    }];
+    
+    YYHotPicsModel *model3 = hotinfoModel.picarr[2];
+    NSURL *imageUrl3 = [NSURL URLWithString:model3.img];
+    [_newsPic3 sd_setImageWithURL:imageUrl3 placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        
+        [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
+            if (isInCache) {
+                return;//缓存中有，不再加载
+            }
+            //imageView的淡入效果
+            weakSelf.newsPic3.alpha = 0.0;
+            [UIView transitionWithView:weakSelf.newsPic3
+                              duration:0.3
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{
+                                weakSelf.newsPic3.alpha = 1.0;
+                            } completion:nil];
+        }];
+    }];
+    
+//    int index = 0;
+//    for (UIImageView *iamgeView in images) {
+//        YYHotPicsModel *model;
+//        NSURL *imageUrl;
+//        if (hotinfoModel.picarr.count) {
+//            
+//            model = hotinfoModel.picarr[index];
+//            imageUrl = [NSURL URLWithString:model.img];
+//        }else {
+//            imageUrl = [NSURL URLWithString:@"http://www.baidu.png"];
+//        }
+//        
+////        YYLog(@"picarr  >>>>>>  %@",model.img);
+//        
+//        [iamgeView sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//            
+//            [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
+//                if (isInCache) {
+//                    return;//缓存中有，不再加载
+//                }
+//                //imageView的淡入效果
+//                iamgeView.alpha = 0.0;
+//                [UIView transitionWithView:iamgeView
+//                                  duration:0.3
+//                                   options:UIViewAnimationOptionTransitionCrossDissolve
+//                                animations:^{
+//                                    iamgeView.alpha = 1.0;
+//                                } completion:nil];
+//            }];
+//        }];
+//        index++;
+//    }
     
     _time.text = hotinfoModel.posttime;
     _source.text = hotinfoModel.source;
@@ -107,6 +167,11 @@
     if (hotinfoModel.keywords.length) {
         if ([hotinfoModel.keywords containsString:@" "]) {
             NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@" "];
+            self.tagLabel1.text = keywoeds[0];
+            self.tagLabel2.text = keywoeds[1];
+        }else if ([hotinfoModel.keywords containsString:@"，"]){
+            
+            NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@"，"];
             self.tagLabel1.text = keywoeds[0];
             self.tagLabel2.text = keywoeds[1];
         }else{
@@ -131,7 +196,7 @@
 - (void)createSubview {
     
     UIView *cellSeparator = [[UIView alloc] init];
-    cellSeparator.backgroundColor = LightGraySeperatorColor;
+    cellSeparator.backgroundColor = GraySeperatorColor;
     [self.contentView addSubview:cellSeparator];
     self.cellSeparator = cellSeparator;
     

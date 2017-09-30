@@ -10,8 +10,10 @@
 
 @interface YYMainCycleWebviewController : YYBaseDetailController
 
-
+#warning  修改这个属性 为父类的shareImgUrl
 /** imgUrl分享时使用*/
 @property (nonatomic, copy) NSString *imgUrl;
+
+
 
 @end

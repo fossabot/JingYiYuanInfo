@@ -19,6 +19,10 @@
     // Do any additional setup after loading the view.
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+}
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     
@@ -27,16 +31,21 @@
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     
+    YYWeakSelf
     [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError * _Nullable error) {
-        self.navigationItem.title = title;
+        weakSelf.navigationItem.title = title;
     }];
     [SVProgressHUD dismiss];
 }
 
-- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
-    
+-(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    [self showPlaceHolder];
     [SVProgressHUD showErrorWithStatus:@"网络出错"];
     [SVProgressHUD dismiss];
 }
+
+
+
+
 
 @end

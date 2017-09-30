@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AFNetworking.h"
 
 typedef NS_ENUM(NSInteger, YYHttpMethodType) {
     YYHttpMethodTypeGet = 0, //get请求
@@ -50,7 +51,7 @@ typedef NS_ENUM(NSInteger, YYHttpMethodType) {
                      parameters:(NSDictionary *)para
                           image:(UIImage *)image
                      serverName:(NSString *)serverName
-                      savedName:(NSString *)savedName
+                      savedName:(NSString *)filename
                        progress:(void (^)(int64_t bytesProgress,
                                           int64_t totalBytesProgress))progress
                         success:(void(^)(id response))success
@@ -88,6 +89,6 @@ typedef NS_ENUM(NSInteger, YYHttpMethodType) {
                   showSuccessMsg:(NSString *)successMsg;
 
 
-+ (BOOL)globalNetStatusNotice;
++ (void)globalNetStatusNotice:(void(^)(AFNetworkReachabilityStatus status))notice;
 
 @end

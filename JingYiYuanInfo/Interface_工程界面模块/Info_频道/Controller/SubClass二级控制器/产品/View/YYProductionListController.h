@@ -10,4 +10,7 @@
 
 @interface YYProductionListController : THBaseViewController
 
+/** classid*/
+@property (nonatomic, copy) NSString *classid;
+
 @end

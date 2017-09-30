@@ -41,9 +41,8 @@
 
 @implementation YYChannelShowLikeCell
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
         [self configSubView];
@@ -52,11 +51,9 @@
     return self;
 }
 
-
 - (void)configSubView {
     
     UIImageView *leftImageView = [[UIImageView alloc] init];
-    [self cutRoundView:leftImageView];
     [self.contentView addSubview:leftImageView];
     self.leftImageView = leftImageView;
     
@@ -169,7 +166,6 @@
 // 切圆角
 - (void)cutRoundView:(UIImageView *)imageView
 {
-    
     CGFloat corner = 3;
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:imageView.bounds byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(corner, corner)];
@@ -181,6 +177,7 @@
     
     _likeModel = likeModel;
     [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:likeModel.indeximg] placeholderImage:imageNamed(@"placeholder")];
+    [self cutRoundView:self.leftImageView];
     self.title.text = likeModel.actionname;
     self.time.text = likeModel.actiontime;
     self.place.text = likeModel.palace;

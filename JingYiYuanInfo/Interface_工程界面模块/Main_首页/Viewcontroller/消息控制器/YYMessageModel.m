@@ -23,4 +23,9 @@
 //    return [NSCalendar commentDateByOriginalDate:_addtime withDateFormat:@"yyyy-MM"];
 //}
 
+- (NSString *)webUrl {
+ 
+    return [NSString stringWithFormat:@"%@",messagedetailUrl(_msgId)];
+}
+
 @end

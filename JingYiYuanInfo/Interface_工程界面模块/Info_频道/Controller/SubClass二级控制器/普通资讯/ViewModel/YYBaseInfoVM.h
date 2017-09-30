@@ -30,6 +30,9 @@ typedef void(^YYBaseInfoMoreBlock)();
 /** bannerDataSource*/
 @property (nonatomic, strong) NSMutableArray *bannerDataSource;
 
+/** infoDataSource*/
+@property (nonatomic, strong) NSMutableArray *infoDataSource;
+
 /** cell选中*/
 @property (nonatomic, copy) YYBaseInfoCellSelectBlock cellSelectedBlock;
 
@@ -49,6 +52,15 @@ typedef void(^YYBaseInfoMoreBlock)();
  */
 - (void)fetchMoreDataCompletion:(void(^)(BOOL success))completion;
 
+/**
+ *  重置播放器
+ */
+- (void)resetPlayer;
+
+/**
+ *  重置播放时间
+ */
+- (void)resetSeekTime;
 
 
 @end

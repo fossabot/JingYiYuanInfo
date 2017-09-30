@@ -10,5 +10,7 @@
 
 @interface YYNiuNewsDetailViewController : YYBaseDetailController
 
+/** niuNewsId*/
+@property (nonatomic, copy) NSString *niuNewsId;
 
 @end

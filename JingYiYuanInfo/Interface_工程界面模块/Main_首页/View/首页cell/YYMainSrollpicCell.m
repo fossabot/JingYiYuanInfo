@@ -64,11 +64,15 @@
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
     YYLog(@"选中了%ld张图片",index);
-    if (_srollpicBlock) {
-        
-        _srollpicBlock(index, self);
-    }
-    
+//    if (_srollpicBlock) {
+//        
+//        _srollpicBlock(index, self);
+//    }
+    YYMainScrollPicDetailController *detailVc = [[YYMainScrollPicDetailController alloc] init];
+    detailVc.jz_wantsNavigationBarVisible = YES;
+    detailVc.url = self.srollpicModels[index].piclink;
+    detailVc.shareImgUrl = self.srollpicModels[index].picurl;
+    [self.parentNavigationController pushViewController:detailVc animated:YES];
 }
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------

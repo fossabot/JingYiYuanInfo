@@ -24,19 +24,6 @@
 
 
 #pragma mark -- inner Methods 自定义方法
-/**
- 添加刷新控件
- */
-- (void)addRefresControl {
-    
-    self.tableView.mj_header = [MJRefreshHeader headerWithRefreshingBlock:^{
-        [self loadNewData];
-    }];
-    self.tableView.mj_footer = [MJRefreshFooter footerWithRefreshingBlock:^{
-        [self loadMoreData];
-    }];
-    
-}
 
 
 /**

@@ -65,6 +65,7 @@
     YYMainCycleWebviewController *cycleWeb = [[YYMainCycleWebviewController alloc] init];
     cycleWeb.url = self.headBannerModels[index].piclink;
     cycleWeb.imgUrl = self.headBannerModels[index].picurl;
+    cycleWeb.jz_wantsNavigationBarVisible = YES;
     YYLog(@"url : %@",cycleWeb.url);
     [[self parentNavigationController] pushViewController:cycleWeb animated:YES];
 }

@@ -7,23 +7,12 @@
 //
 
 #import "YYCommunityViewController.h"
-#import "YYCommunityVM.h"
-#import "YYCommunityBannerDetailController.h"
-#import "YYNiuManListController.h"
-
-
-
-#import <MJRefresh/MJRefresh.h>
+#import "YYCommunityPersonController.h"
+#import "YYCommunityMediaController.h"
+#import "YYCommunityQuestionController.h"
 
 @interface YYCommunityViewController ()
-/** tab*/
-@property (nonatomic, strong) UITableView *tableView;
 
-/** viewModel*/
-@property (nonatomic, strong) YYCommunityVM *viewModel;
-
-/** banner*/
-@property (nonatomic, strong) SDCycleScrollView *banner;
 
 @end
 
@@ -33,122 +22,45 @@
     [super viewDidLoad];
     
 
-    [self.view addSubview:self.tableView];
-    self.tableView.tableHeaderView = self.banner;
-    [self loadNewData];
-}
-
-
-
-#pragma mark -- inner Methods 自定义方法  -------------------------------
-
-/**
- *  加载最新数据
- */
-- (void)loadNewData {
+    self.navigationItem.title = @"公社";
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    [self setTabBarFrame:CGRectMake(0, 0, screenSize.width, 40)
+        contentViewFrame:CGRectMake(0, 40, screenSize.width, kSCREENHEIGHT-40-64)];
     
-    if ([self.tableView.mj_footer isRefreshing]) {
-        [self.tableView.mj_footer endRefreshing];
-    }
+    self.tabBar.itemTitleColor = TitleColor;
+    self.tabBar.itemTitleSelectedColor = ThemeColor;
+    self.tabBar.itemTitleFont = TitleFont;
+    self.tabBar.itemTitleSelectedFont = TitleFont;
+    self.tabBar.leftAndRightSpacing = 10;
+    self.tabBar.itemSelectedBgColor = ThemeColor;
+    [self.tabBar setItemSelectedBgInsets:UIEdgeInsetsMake(38, 0, 0, 0) tapSwitchAnimated:YES];
     
-    YYWeakSelf
-    [self.viewModel fetchNewDataCompletion:^(BOOL success) {
-        
-        YYStrongSelf
-        [strongSelf.tableView.mj_header endRefreshing];
-        if (success) {
-            [strongSelf.tableView reloadData];
-        }
-    }];
-
-}
-
-/**
- *  加载更多数据
- */
-- (void)loadMoreData {
+    self.tabBar.itemSelectedBgScrollFollowContent = YES;
+    self.tabBar.itemColorChangeFollowContentScroll = NO;
     
-    if ([self.tableView.mj_header isRefreshing]) {
-        [self.tableView.mj_header endRefreshing];
-    }
+    [self setContentScrollEnabledAndTapSwitchAnimated:YES];
+    self.loadViewOfChildContollerWhileAppear = YES;
+    self.tabBar.delegate = self;
+    [self setUpAllChildViewControllers];
+}
+
+
+- (void)setUpAllChildViewControllers {
     
-    YYWeakSelf
-    [self.viewModel fetchMoreDataCompletion:^(BOOL success) {
-        
-        YYStrongSelf
-        [strongSelf.tableView.mj_footer endRefreshing];
-        if (success) {
-            [strongSelf.tableView reloadData];
-        }
-    }];
+    YYCommunityPersonController *personVc = [[YYCommunityPersonController alloc] init];
+    personVc.yp_tabItemTitle = @"自媒体";
+    personVc.classid = @"1";
+    
+    YYCommunityMediaController *mediaVc = [[YYCommunityMediaController alloc] init];
+    mediaVc.yp_tabItemTitle = @"视频";
+    mediaVc.classid = @"2";
+    
+    YYCommunityQuestionController *questionVc = [[YYCommunityQuestionController alloc] init];
+    questionVc.yp_tabItemTitle = @"我的问答";
+    questionVc.classid = @"3";
+    
+    self.viewControllers = [NSArray arrayWithObjects:personVc, mediaVc,questionVc, nil];
 }
 
-
-
-#pragma mark -- lazyMethods 懒加载区域  --------------------------
-
-- (UITableView *)tableView {
-    if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-        _tableView.delegate = self.viewModel;
-        _tableView.dataSource = self.viewModel;
-        YYWeakSelf
-        _tableView.mj_header = [MJRefreshHeader headerWithRefreshingBlock:^{
-            
-            YYStrongSelf
-            [strongSelf loadNewData];
-        }];
-        
-        _tableView.mj_footer = [MJRefreshFooter footerWithRefreshingBlock:^{
-           
-            YYStrongSelf
-            [strongSelf loadMoreData];
-        }];
-    }
-    return _tableView;
-}
-
-- (YYCommunityVM *)viewModel{
-    if (!_viewModel) {
-        _viewModel = [[YYCommunityVM alloc] init];
-        YYWeakSelf
-        _viewModel.bannerSelectedBlock = ^(NSString *imgUrl, NSString *link){
-            
-            YYStrongSelf
-            YYCommunityBannerDetailController *detailVc = [[YYCommunityBannerDetailController alloc] init];
-            detailVc.imgUrl = imgUrl;
-            detailVc.url = link;
-            [strongSelf.navigationController pushViewController:detailVc animated:YES];
-        };
-        
-        _viewModel.niuManListBlock = ^{
-        
-            YYStrongSelf
-            YYNiuManListController *niuManList = [[YYNiuManListController alloc] init];
-            [strongSelf.navigationController pushViewController:niuManList animated:YES];
-        };
-        
-        _viewModel.cellSelectedBlock = ^(id cell, NSIndexPath *indexPath){
-            
-            if (indexPath.section == 0) {
-                
-                
-            }
-        };
-    }
-    return _viewModel;
-}
-
-- (SDCycleScrollView *)banner{
-    if (!_banner) {
-        _banner = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENWIDTH*0.6)];
-        _banner.delegate = self.viewModel;
-        _banner.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        _banner.infiniteLoop = YES;
-        _banner.placeholderImage = imageNamed(@"placeholder");
-        
-    }
-    return _banner;
-}
 
 @end

@@ -34,8 +34,6 @@ static NSString * cellId = @"cellid";
 @interface YYHotView()
 
 
-
-
 /** hotViewModel*/
 @property (nonatomic, strong) YYHotViewVM *viewModel;
 
@@ -160,6 +158,12 @@ static NSString * cellId = @"cellid";
             YYHotTagModel *tagMoel = strongSelf.viewModel.headerDataSource[index];
             [strongSelf selectTag:[tagMoel.tagid integerValue]];
         };
+        self.header.changeBlock = ^{
+          
+            YYStrongSelf
+            [strongSelf refreshData];
+            
+        };
     }else {
         [self.header setDatas:titles];
     }
@@ -169,15 +173,21 @@ static NSString * cellId = @"cellid";
 }
 
 
+
+#pragma mark -------  empty data delegate  -----------------------
+
+//- (NSMutableString *)
+
+
 #pragma mark -------  setter -------------------
 
+/** 传递外层的滑动给底部tableview*/
 - (void)setCanScroll:(BOOL)canScroll {
     
     self.viewModel.canScroll = canScroll;
 }
 
 #pragma mark -- lazyMethods 懒加载区域 ----------------------------------------
-
 
 - (YYHotViewVM *)viewModel{
     if (!_viewModel) {
@@ -193,8 +203,10 @@ static NSString * cellId = @"cellid";
                     
                     YYBaseInfoDetailController *infoDetail = [[YYBaseInfoDetailController alloc] init];
                     YYHotInfoModel *hotInfoModel = (YYHotInfoModel *)data;
+                    infoDetail.jz_wantsNavigationBarVisible = YES;
                     infoDetail.url = hotInfoModel.webUrl;
                     infoDetail.shareImgUrl = hotInfoModel.picurl;
+                    infoDetail.newsId = hotInfoModel.infoid;
                     [strongSelf.parentNavigationController pushViewController:infoDetail animated:YES];
                 }
                     break;
@@ -205,7 +217,10 @@ static NSString * cellId = @"cellid";
                     
 //                    picsDetail.shareImgUrl = hotInfoModel.picurl;
                     picsDetail.picsModels = hotInfoModel.picarr;
-                    [strongSelf.parentViewController presentViewController:picsDetail animated:YES completion:nil];
+                    picsDetail.jz_wantsNavigationBarVisible = NO;
+
+                    YYLog(@"hotView的父navigationcontroller的地址  %p",strongSelf.parentNavigationController);
+                    [strongSelf.parentNavigationController pushViewController:picsDetail animated:YES];
                 }
                     break;
                     
@@ -213,8 +228,9 @@ static NSString * cellId = @"cellid";
                     
                     YYBaseRankDetailController *rankDetail = [[YYBaseRankDetailController alloc] init];
                     YYHotHotModel *hothotModel = (YYHotHotModel *)data;
+                    rankDetail.jz_wantsNavigationBarVisible = YES;
                     rankDetail.url = hothotModel.rlink;
-                    
+                    [strongSelf.parentNavigationController pushViewController:rankDetail animated:YES];
                 }
                     break;
                     
@@ -230,6 +246,7 @@ static NSString * cellId = @"cellid";
 - (void)configTableView {
     
     self.tableView.separatorColor = UnenableTitleColor;
+    self.tableView.tableFooterView = [[UIView alloc] init];
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
     
     [self.tableView registerClass:[YYHotTableViewCell class] forCellReuseIdentifier:YYHotTableViewCellId];
@@ -242,11 +259,33 @@ static NSString * cellId = @"cellid";
     self.tableView.delegate = self.viewModel;
     self.tableView.dataSource = self.viewModel;
     MJWeakSelf;
-    MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
-        [weakSelf loadMoreData];
+//    MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
+//        [weakSelf loadMoreData];
+//    }];
+//    footer.stateLabel.text = @"壹元君正努力为您加载中...";
+//    self.tableView.mj_footer = footer;
+    
+    
+    MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        
+        YYStrongSelf
+        [strongSelf loadMoreData];
     }];
-    [footer setTitle:@"壹元君正努力为您加载数据" forState:MJRefreshStateRefreshing];
-    self.tableView.mj_footer = footer;
+    
+    stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
+    self.tableView.mj_footer = stateFooter;
+    
+    
+    FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
+    configer.emptyImage = imageNamed(emptyImageName);
+    configer.emptyTitle = @"暂无数据,点此重新加载";
+    configer.emptyTitleColor = UnenableTitleColor;
+    configer.emptyTitleFont = SubTitleFont;
+    configer.allowScroll = NO;
+    configer.emptyViewTapBlock = ^{
+        [weakSelf.tableView.mj_header beginRefreshing];
+    };
+    [self.tableView emptyViewConfiger:configer];
 }
 
 

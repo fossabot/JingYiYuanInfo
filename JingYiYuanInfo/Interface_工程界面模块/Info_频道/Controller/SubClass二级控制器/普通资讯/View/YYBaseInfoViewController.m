@@ -32,11 +32,13 @@
 
 #import "YYBaseInfoVM.h"
 
+#import "YYBaseVideoModel.h"
+#import "YYBaseMusicModel.h"
+#import "YYHotInfoModel.h"
+
 #import "MJRefresh.h"
 
-#import "PresentAnimation.h"
-
-@interface YYBaseInfoViewController ()<UIViewControllerTransitioningDelegate>
+@interface YYBaseInfoViewController ()
 
 /** tableview*/
 @property (nonatomic,strong)  UITableView *tableView;
@@ -44,37 +46,62 @@
 /** viewModel*/
 @property (nonatomic, strong) YYBaseInfoVM *viewModel;
 
+/** musicView*/
+@property (nonatomic, strong) YYMusicPlayerView *musicPlayerView;
+
 @end
 
 @implementation YYBaseInfoViewController
-{
-    PresentAnimation *_presentAnimation;
-}
 
 
 #pragma mark -- lifecycle
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        _presentAnimation = [[PresentAnimation alloc] init];
-    }
-    return self;
-}
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
-    if ([_classid isEqualToString:@"22"]) {
-        self.tableView.contentInset = UIEdgeInsetsMake(60, 0, 0, 0);
+    
+    
+    if ([_classid isEqualToString:@"22"]) {//音乐
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(105, 0, 0, 0);
         self.tableView.mj_header = nil;
+        [self.view addSubview:self.musicPlayerView];
+        [kNotificationCenter addObserver:self selector:@selector(resetMusicPlayer) name:YYInfoMusicResetPlayerNotification object:nil];
+    }else if ([_classid isEqualToString:@"20"]) {//视频
+        
+        [kNotificationCenter addObserver:self selector:@selector(resetVideoPlayer) name:YYInfoVideoResetPlayerNotification object:nil];
     }
     //加载最新数据
     [self loadNewData];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //重置播放器的播放进度
+    [self.viewModel resetSeekTime];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    if ([_classid isEqualToString:@"20"]) {
+        
+        [self resetVideoPlayer];
+    }else if ([_classid isEqualToString:@"22"]) {
+        
+        [self resetMusicPlayer];
+    }
+}
+
+- (void)dealloc {
+    
+    YYLogFunc
+    
+    [kNotificationCenter removeObserver:self];
+//    [kNotificationCenter removeObserver:self name:YYInfoVideoResetPlayerNotification object:nil];
+//    [kNotificationCenter removeObserver:self name:YYInfoMusicResetPlayerNotification object:nil];
 }
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
@@ -91,13 +118,19 @@
         YYStrongSelf
         [strongSelf.tableView.mj_header endRefreshing];
         if (success) {
-            if ([strongSelf.classid isEqualToString:@"23"]) {
+            if ([strongSelf.classid isEqualToString:@"23"]) {//演出
                 
-                YYChannelShowBannerView *view = [[YYChannelShowBannerView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENWIDTH*0.6)];
+                YYChannelShowBannerView *view = [[YYChannelShowBannerView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENWIDTH*9/16)];
                 view.dataSource = strongSelf.viewModel.bannerDataSource;
                 strongSelf.tableView.tableHeaderView = nil;
                 strongSelf.tableView.tableHeaderView = view;
+            }else if ([strongSelf.classid isEqualToString:@"22"]) {//音乐
+                
+                YYBaseMusicModel *musicModel = strongSelf.viewModel.infoDataSource[0];
+                [strongSelf.musicPlayerView setMusicModel:musicModel];
+                [strongSelf.musicPlayerView forcePlayerPause];
             }
+            
             [strongSelf.tableView reloadData];
         }
     }];
@@ -123,12 +156,24 @@
 }
 
 
+/** 重置视频播放器，暂停播放*/
+- (void)resetVideoPlayer {
+    
+    [self.viewModel resetPlayer];
+}
+
+/** 重置音乐播放器，暂停播放*/
+- (void)resetMusicPlayer {
+    
+    [self.musicPlayerView playerPause];
+}
+
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-64) style:UITableViewStyleGrouped];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
@@ -145,20 +190,33 @@
         [_tableView registerClass:[YYChannelShowRecommendCell class] forCellReuseIdentifier:YYChannelShowRecommendCellId];
         [_tableView registerClass:[YYChannelShowLikeCell class] forCellReuseIdentifier:YYChannelShowLikeCellId];
         
-        
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshHeader headerWithRefreshingBlock:^{
+        _tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
-            
         }];
         
-        _tableView.mj_footer = [MJRefreshFooter footerWithRefreshingBlock:^{
+        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
+        
+        stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
+        _tableView.mj_footer = stateFooter;
+
+        
+        FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
+        configer.emptyImage = imageNamed(emptyImageName);
+        configer.emptyTitle = @"暂无数据,点此重新加载";
+        configer.emptyTitleColor = UnenableTitleColor;
+        configer.emptyTitleFont = SubTitleFont;
+        configer.allowScroll = NO;
+        configer.emptyViewTapBlock = ^{
+            [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        [self.tableView emptyViewConfiger:configer];
         
     }
     return _tableView;
@@ -184,7 +242,9 @@
                 case YYBaseInfoTypeNews:{
                     
                     YYBaseInfoDetailController *detail = [[YYBaseInfoDetailController alloc] init];
-                    detail.url = data;
+                    YYHotInfoModel *hotInfoModel = (YYHotInfoModel *)data;
+                    detail.url = hotInfoModel.webUrl;
+                    detail.newsId = hotInfoModel.infoid;
                     [strongSelf.navigationController pushViewController:detail animated:YES];
                 }
                     break;
@@ -193,10 +253,11 @@
                     
                     YYPicsDetailController *detail = [[YYPicsDetailController alloc] init];
                     detail.picsModels = (NSArray *)data;
-                    detail.modalPresentationStyle = UIModalPresentationCustom;
-                    detail.transitioningDelegate = strongSelf;
-                    [strongSelf presentViewController:detail animated:YES completion:nil];
-
+//                    detail.modalPresentationStyle = UIModalPresentationCustom;
+//                    detail.transitioningDelegate = strongSelf;
+//                    [strongSelf presentViewController:detail animated:YES completion:nil];
+                    detail.jz_wantsNavigationBarVisible = NO;
+                    [strongSelf.navigationController pushViewController:detail animated:YES];
                 }
                     break;
                     
@@ -210,17 +271,24 @@
                 
                 case YYBaseInfoTypeVideo:{
                     
+                    NSDictionary *dic = (NSDictionary *)data;
                     YYVideoDetailController *detail = [[YYVideoDetailController alloc] init];
-                    detail.videoUrl = data;
+                    YYBaseVideoModel *videoModel = [dic objectForKey:@"data"];
+                    NSNumber *seekTime = [dic objectForKey:@"seekTime"];
+                    detail.videoURL = [NSURL URLWithString:videoModel.v_url];
+                    detail.seekTime = [seekTime integerValue];
+                    detail.videoTitle = videoModel.v_name;
+                    detail.placeHolderImageUrl = videoModel.v_picture;
+                    detail.jz_wantsNavigationBarVisible = NO;
                     [strongSelf.navigationController pushViewController:detail animated:YES];
                 }
                     break;
                     
                 case YYBaseInfoTypeMusic:{
                     
-                    YYShowLikeDetailController *detail = [[YYShowLikeDetailController alloc] init];
-                    detail.url = data;
-                    [strongSelf.navigationController pushViewController:detail animated:YES];
+                    YYLog(@"点击了音乐cell");
+                    YYBaseMusicModel *musicModel = (YYBaseMusicModel *)data;
+                    [strongSelf.musicPlayerView setMusicModel:musicModel];
                 }
                     break;
                 
@@ -229,20 +297,22 @@
             }
         };
         
-        
         _viewModel.moreBlock = ^{ //跳转更多排行的界面
             YYStrongSelf
+//            YYHotHotModel *hotModel = self.
             YYBaseRankListController *list = [[YYBaseRankListController alloc] init];
+//            list.lastid =
             [strongSelf.navigationController pushViewController:list animated:YES];
         };
     }
     return _viewModel;
 }
 
-#pragma mark - UIViewControllerTransitioningDelegate
-
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
-    return _presentAnimation;
+- (YYMusicPlayerView *)musicPlayerView {
+    if (!_musicPlayerView) {
+        _musicPlayerView = [[YYMusicPlayerView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 100)];
+    }
+    return _musicPlayerView;
 }
 
 @end

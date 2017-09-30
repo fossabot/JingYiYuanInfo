@@ -13,11 +13,10 @@
 #import "YYUserSectionModel.h"
 
 #import "YYUserIconCell.h"
-
+#import "YYCommonCell.h"
 #import "YYBundleSDKCell.h"
 
-static NSString * const UITableViewCellID = @"UITableViewCell";
-static NSString * const UITableViewCommonCellID = @"UITableViewCommonCell";
+
 
 @interface YYUserInfoViewModel()
 
@@ -32,23 +31,27 @@ static NSString * const UITableViewCommonCellID = @"UITableViewCommonCell";
 {
     self = [super init];
     if (self) {
-        [self getUserInfo];
+        
+//        [self getUserInfo];
     }
     return self;
 }
+
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 /** 上传头像*/
 - (void)uploadIconToserver:(UIImage *)image completion:(void (^)(BOOL))completion {
     
     YYUser *user = [YYUser shareUser];
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID, nil];
-    [YYHttpNetworkTool UPLOADFileWithUrlstring:mineChangeIconUrl parameters:para image:image serverName:@"file" savedName:nil progress:^(int64_t bytesProgress, int64_t totalBytesProgress) {
+//    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID, nil];
+    [YYHttpNetworkTool UPLOADFileWithUrlstring:mineChangeIconUrl parameters:@{USERID:user.userid} image:image serverName:@"file" savedName:nil progress:^(int64_t bytesProgress, int64_t totalBytesProgress) {
         [SVProgressHUD showProgress:bytesProgress status:@"正在上传头像"];
         [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
     } success:^(id response) {
         
-        [YYUser configUserInfoWithDic:response[USERINFO]];
+//        [[SDImageCache sharedImageCache] removeImageForKey:response[@"userhead"] withCompletion:nil];
+        [user setAvatar:response[@"userhead"]];
+        //在completion回调里通知更新个人信息
         if (completion) {
             completion(YES);
         }
@@ -134,6 +137,7 @@ static NSString * const UITableViewCommonCellID = @"UITableViewCommonCell";
     commonModel2.title = @"手机号";
     commonModel2.subTitle = user.mobile;
     commonModel2.cellHeight = 44;
+    commonModel2.isHaveIndicator = NO;
     commonModel2.userInfoCellType = YYUserInfoCellTypeTel;
     
     YYUserSectionModel *sectionModel0 = [[YYUserSectionModel alloc] init];
@@ -163,31 +167,41 @@ static NSString * const UITableViewCommonCellID = @"UITableViewCommonCell";
     
     YYUserCommonCellModel *commonModel6 = [[YYUserCommonCellModel alloc] init];
     commonModel6.title = @"QQ绑定";
-    commonModel6.isBundleSDK = user.qqnum ? YES : NO;
+    commonModel6.isBundleSDK = user.qqnum.length ? YES : NO;
 //    commonModel6.subTitle = user.qqnum;
     commonModel6.cellHeight = 44;
     commonModel6.userInfoCellType = YYUserInfoCellTypeBundle;
     
     YYUserCommonCellModel *commonModel7 = [[YYUserCommonCellModel alloc] init];
     commonModel7.title = @"微信绑定";
-    commonModel7.isBundleSDK = user.weixin ? YES : NO;
+    commonModel7.isBundleSDK = user.weixin.length ? YES : NO;
 //    commonModel7.subTitle = user.weixin;
     commonModel7.cellHeight = 44;
     commonModel7.userInfoCellType = YYUserInfoCellTypeBundle;
     
     YYUserCommonCellModel *commonModel8 = [[YYUserCommonCellModel alloc] init];
     commonModel8.title = @"微博绑定";
-    commonModel8.isBundleSDK = user.weibo ? YES : NO;
+    commonModel8.isBundleSDK = user.weibo.length ? YES : NO;
 //    commonModel8.subTitle = user.weibo;
     commonModel8.cellHeight = 44;
     commonModel8.userInfoCellType = YYUserInfoCellTypeBundle;
     
     YYUserSectionModel *sectionModel1 = [[YYUserSectionModel alloc] init];
     [sectionModel1.dataSource addObjectsFromArray:@[commonModel3,commonModel4,commonModel5,commonModel6,commonModel7,commonModel8]];
-
+    
+    [self.dataSource addObjectsFromArray:@[sectionModel0,sectionModel1]];
 }
 
 #pragma mark -------  tableview 代理方法 ------------------------------------
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
+    return 10;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.001;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.dataSource.count;
@@ -265,12 +279,9 @@ static NSString * const UITableViewCommonCellID = @"UITableViewCommonCell";
     switch (model.userInfoCellType) {
         case YYUserInfoCellTypeIcon:{
             YYUserIconCell *iconCell = [tableView dequeueReusableCellWithIdentifier:YYUserIconCellID];
-            if (!iconCell) {
-                iconCell = [[YYUserIconCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:YYUserIconCellID];
-            }
             iconCell.title.text = model.title;
             iconCell.accessoryType = model.isHaveIndicator ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
-            iconCell.iconBlock = ^(){
+            iconCell.iconBlock = ^{
                 YYStrongSelf
                 if ([strongSelf.delegate respondsToSelector:@selector(didSelectedCellAtIndexPath:cellType:)]) {
                     
@@ -283,25 +294,19 @@ static NSString * const UITableViewCommonCellID = @"UITableViewCommonCell";
         }
             break;
         
-        case YYUserInfoCellTypeTel:{
-            UITableViewCell *telCell = [tableView dequeueReusableCellWithIdentifier:UITableViewCellID];
-            if (!telCell) {
-                telCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:UITableViewCellID];
-            }
-            telCell.accessoryType = UITableViewCellAccessoryNone;
-            telCell.textLabel.text = model.title;
-            telCell.detailTextLabel.text = model.subTitle;
-            telCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return telCell;
-        }
+//        case YYUserInfoCellTypeTel:{
+//            UITableViewCell *telCell = [tableView dequeueReusableCellWithIdentifier:UITableViewCellID];
+//            telCell.accessoryType = UITableViewCellAccessoryNone;
+//            telCell.textLabel.text = model.title;
+//            telCell.detailTextLabel.text = model.subTitle;
+//            telCell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            return telCell;
+//        }
             
             break;
             
         case YYUserInfoCellTypeBundle:{
             YYBundleSDKCell *bundleCell = [tableView dequeueReusableCellWithIdentifier:YYBundleSDKCellID];
-            if (!bundleCell) {
-                bundleCell = [[YYBundleSDKCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:YYBundleSDKCellID];
-            }
             bundleCell.accessoryType = model.isHaveIndicator ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
             bundleCell.title.text = model.title;
             bundleCell.bundleButton.selected = model.isBundleSDK;
@@ -320,24 +325,37 @@ static NSString * const UITableViewCommonCellID = @"UITableViewCommonCell";
             
         default:{
          
-            UITableViewCell *commonCell = [tableView dequeueReusableCellWithIdentifier:UITableViewCommonCellID];
-            if (!commonCell) {
-                commonCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:UITableViewCommonCellID];
-            }
+            YYCommonCell *commonCell = [tableView dequeueReusableCellWithIdentifier:YYCommonCellId];
             commonCell.accessoryType = model.isHaveIndicator ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
-            commonCell.textLabel.text = model.title;
-            commonCell.detailTextLabel.text = model.subTitle;
+            commonCell.fiveConstraints.constant = model.isHaveIndicator ? 0 : 20;
+            commonCell.title.text = model.title;
+            if (indexPath.section == 1 && indexPath.row == 0) {
+                
+                commonCell.detail.text = [model.subTitle stringByAppendingString:@"年"];
+            }else if (indexPath.section == 1 && indexPath.row == 1){
+                commonCell.detail.text = [model.subTitle stringByAppendingString:@"万"];
+            }else {
+                
+                commonCell.detail.text = model.subTitle;
+            }
+        
             commonCell.selectionStyle = UITableViewCellSelectionStyleNone;
             return commonCell;
         }
             break;
     }
     
-    return nil;
 }
 
 
+#pragma mark -- lazyMethods 懒加载区域  --------------------------
 
+- (NSMutableArray *)dataSource{
+    if (!_dataSource) {
+        _dataSource = [NSMutableArray array];
+    }
+    return _dataSource;
+}
 
 
 

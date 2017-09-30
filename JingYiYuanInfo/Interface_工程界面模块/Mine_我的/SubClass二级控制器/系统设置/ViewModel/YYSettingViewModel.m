@@ -25,16 +25,14 @@ static NSString * const logOutCellID = @"logOutCell";
 
 @implementation YYSettingViewModel
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
-}
 
 #pragma -- mark TableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
+    return 10;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.dataSource.count;
 }
@@ -50,6 +48,9 @@ static NSString * const logOutCellID = @"logOutCell";
         [SVProgressHUD showErrorWithStatus:@"未登录账号，请登录后操作"];
         return;
     }
+    if (indexPath.section == 1 && !user.isLogin) {
+        return;
+    }
     if (_cellSelectBlock) {
         _cellSelectBlock(indexPath);
     }
@@ -58,33 +59,10 @@ static NSString * const logOutCellID = @"logOutCell";
 #pragma -- mark TableViewDataSource
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    YYUser *user = [YYUser shareUser];
     YYMineSettingCellModel *settingModel = self.dataSource[indexPath.section][indexPath.row];
     if (indexPath.section == 0) {
         switch (indexPath.row) {
-//            case 0:
-//            case 1:
-//            case 2:
-//            {//账号安全、我的地址、订阅设置
-//                UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:commonCellID];
-//                if (!cell) {
-//                    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:commonCellID];
-//                }
-//                cell.textLabel.text = settingModel.title;
-//                return cell;
-//            }
-//                break;
-//
-//            case 3:
-//            {//字体大小
-//                UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:subTitleCellID];
-//                if (!cell) {
-//                    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:subTitleCellID];
-//                }
-//                cell.textLabel.text = settingModel.title;
-//                cell.detailTextLabel.text = settingModel.subTitle;
-//                return cell;
-//            }
-//                break;
 
             case 4:
             {//wifi环境下播放
@@ -93,12 +71,16 @@ static NSString * const logOutCellID = @"logOutCell";
                     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:switchCellID];
                     cell.accessoryType = UITableViewCellAccessoryNone;
                     UISwitch *switchBtn = [[UISwitch alloc] init];
+                    switchBtn.tag = 666;
                     switchBtn.onTintColor = ThemeColor;
-                    [switchBtn addTarget:self action:@selector(switchBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+                    [switchBtn addTarget:self action:@selector(switchBtnClick:) forControlEvents:UIControlEventValueChanged];
                     cell.accessoryView = switchBtn;
                 }
+                cell.detailTextLabel.font = SubTitleFont;
                 cell.textLabel.text = settingModel.title;
                 cell.detailTextLabel.text = settingModel.subTitle;
+                UISwitch *switchB = (UISwitch *)cell.accessoryView;
+                switchB.on = user.onlyWIFIPlay;
                 return cell;
 
             }
@@ -111,6 +93,7 @@ static NSString * const logOutCellID = @"logOutCell";
                     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:subTitleCellID];
                     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 }
+                cell.detailTextLabel.font = SubTitleFont;
                 cell.textLabel.text = settingModel.title;
                 cell.detailTextLabel.text = settingModel.subTitle ? : @"";
                 return cell;
@@ -123,6 +106,15 @@ static NSString * const logOutCellID = @"logOutCell";
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:logOutCellID];
             cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textAlignment = NSTextAlignmentCenter;
+        }
+        YYUser *user = [YYUser shareUser];
+        if (user.isLogin) {
+            
+            cell.textLabel.textColor = ThemeColor;
+        }else {
+            cell.textLabel.textColor = GraySeperatorColor;
         }
         cell.textLabel.text = settingModel.title;
         return cell;
@@ -141,6 +133,7 @@ static NSString * const logOutCellID = @"logOutCell";
             case 0:
             case 1:
             case 2:
+                
                 return;
                 break;
                 
@@ -149,6 +142,7 @@ static NSString * const logOutCellID = @"logOutCell";
                 break;
         }
     }else {
+        
         settingModel.canSelect = NO;
     }
     
@@ -159,7 +153,15 @@ static NSString * const logOutCellID = @"logOutCell";
 - (void)switchBtnClick:(UISwitch *)sender {
     
     YYUser *user = [YYUser shareUser];
-    [user setCanWIFIPlay:sender.isOn];
+    [user setOnlyWIFIPlay:sender.isOn];
+}
+
+
+- (void)cleanCache {
+    
+    if (_reloadBlock) {
+        _reloadBlock();
+    }
 }
 
 
@@ -187,11 +189,11 @@ static NSString * const logOutCellID = @"logOutCell";
         
         YYMineSettingCellModel *model4 = [[YYMineSettingCellModel alloc] init];
         model4.title = @"WIFI环境下播放";
-        model4.canWifiPlay = user.canWIFIPlay;
+        model4.canWifiPlay = user.onlyWIFIPlay;
         
         YYMineSettingCellModel *model5 = [[YYMineSettingCellModel alloc] init];
         model5.title = @"清楚缓存";
-        model5.subTitle = [NSString stringWithFormat:@"%lfM",[[SDImageCache sharedImageCache] getSize]/1024.0/1024.0];
+        model5.subTitle = [self cacheSize];
     
         [_dataSource addObject:@[model0,model1,model2,model3,model4,model5]];
         
@@ -204,7 +206,23 @@ static NSString * const logOutCellID = @"logOutCell";
     return _dataSource;
 }
 
-
+- (NSString *)cacheSize {
+    
+    CGFloat size = [[SDImageCache sharedImageCache] getSize];
+    NSString *message = [NSString stringWithFormat:@"%.2fB", size];
+    
+    if (size > (1024 * 1024))
+    {
+        size = size / (1024 * 1024);
+        message = [NSString stringWithFormat:@"%.2fM", size];
+    }
+    else if (size > 1024)
+    {
+        size = size / 1024;
+        message = [NSString stringWithFormat:@"%.2fKB", size];
+    }
+    return message;
+}
 
 
 @end

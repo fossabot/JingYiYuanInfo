@@ -13,4 +13,7 @@
 /** imgUrl*/
 @property (nonatomic, copy) NSString *imgUrl;
 
+/** niuid*/
+@property (nonatomic, copy) NSString *niuid;
+
 @end

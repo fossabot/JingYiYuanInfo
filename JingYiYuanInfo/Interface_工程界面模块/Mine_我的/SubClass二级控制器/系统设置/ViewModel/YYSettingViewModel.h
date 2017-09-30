@@ -9,18 +9,22 @@
 #import <Foundation/Foundation.h>
 
 typedef void(^CellSelectBlock)(NSIndexPath *indexPath);
+typedef void(^Reload)();
 
 @interface YYSettingViewModel : NSObject<UITableViewDelegate,UITableViewDataSource>
 
 /** cellSelectBlock*/
 @property (nonatomic, copy) CellSelectBlock cellSelectBlock;
 
-
+/** reload*/
+@property (nonatomic, copy) Reload reloadBlock;
 /**
  改变cell的值
 
  @param indexPath IndexPath
  */
 - (void)changeCellModelAtIndexPath:(NSIndexPath *)indexPath;
+
+
 
 @end

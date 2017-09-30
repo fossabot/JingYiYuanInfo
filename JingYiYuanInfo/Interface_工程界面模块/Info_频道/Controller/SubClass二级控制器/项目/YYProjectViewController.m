@@ -7,6 +7,8 @@
 //
 
 #import "YYProjectViewController.h"
+#import "YYProjectListController.h"
+#import "YYSubtitle.h"
 
 @interface YYProjectViewController ()
 
@@ -18,24 +20,58 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"项目";
+    self.automaticallyAdjustsScrollViewInsets = NO;
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     [self setTabBarFrame:CGRectMake(0, 0, screenSize.width, 40)
         contentViewFrame:CGRectMake(0, 40, screenSize.width, kSCREENHEIGHT-40-64)];
+    
+    self.tabBar.itemTitleColor = TitleColor;
+    self.tabBar.itemTitleSelectedColor = ThemeColor;
+    self.tabBar.itemTitleFont = TitleFont;
+    self.tabBar.itemTitleSelectedFont = NavTitleFont;
+    self.tabBar.leftAndRightSpacing = 10;
+    self.tabBar.itemSelectedBgColor = ThemeColor;
+    
+    [self.tabBar setScrollEnabledAndItemFitTextWidthWithSpacing:20];
+    
+    [self setContentScrollEnabledAndTapSwitchAnimated:NO];
+    
+    
+    self.tabBar.itemFontChangeFollowContentScroll = YES;
+    self.tabBar.itemSelectedBgScrollFollowContent = YES;
+    
+    [self.tabBar setItemSelectedBgInsets:UIEdgeInsetsMake(38, 0, 0, 0) tapSwitchAnimated:NO];
+    
+    [self setContentScrollEnabledAndTapSwitchAnimated:YES];
+    self.loadViewOfChildContollerWhileAppear = YES;
+    
+    self.tabBar.delegate = self;
+    
+    // 添加所有子控制器
+    [self setUpAllViewController];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+// 添加所有子控制器
+- (void)setUpAllViewController
+{
+    NSMutableArray *viewContrllers = [NSMutableArray array];
+    
+    YYProjectListController *baseVc = [[YYProjectListController alloc] init];
+    baseVc.yp_tabItemTitle = @"推荐";
+    baseVc.classid = @"0";
+    [viewContrllers addObject:baseVc];
+    
+    for (YYSubtitle *subTitle in self.datas) {
+        NSLog(@"title -- %@   classid -- %ld",subTitle.title,subTitle.classid);
+        YYProjectListController *baseVc = [[YYProjectListController alloc] init];
+        baseVc.yp_tabItemTitle = subTitle.title;
+        baseVc.classid = [NSString stringWithFormat:@"%ld",subTitle.classid];
+        [viewContrllers addObject:baseVc];
+    }
+    self.viewControllers = viewContrllers;
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+
 
 @end

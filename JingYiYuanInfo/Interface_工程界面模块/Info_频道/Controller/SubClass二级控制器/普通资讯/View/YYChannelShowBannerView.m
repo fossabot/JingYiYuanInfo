@@ -56,6 +56,7 @@
     YYShowOtherDetailController *otherDetail = [[YYShowOtherDetailController alloc] init];
     YYShowBannerModel *bannerModel = self.dataSource[index];
     otherDetail.url = bannerModel.piclink;
+    otherDetail.shareImgUrl = bannerModel.picurl;
     [self.parentNavigationController pushViewController:otherDetail animated:YES];
 }
 

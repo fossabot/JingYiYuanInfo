@@ -21,8 +21,10 @@ static NSString * const YYHotTableViewCellId = @"YYHotTableViewCell";
 /** model*/
 @property (nonatomic, strong) YYBaseHotModel *baseModel;
 
+/** 设置这个有排序按钮并且有金银铜牌*/
 - (void)setHotModel:(YYHotHotModel *)hotModel andIndex:(NSInteger)index;
 
+/** 设置这个有排序按钮 无金银铜牌*/
 - (void)setBaseModel:(YYBaseHotModel *)hotModel andIndex:(NSInteger)index;
 
 @end

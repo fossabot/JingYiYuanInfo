@@ -17,14 +17,15 @@
 
 @implementation YYChannelShowRecommendSubCell
 
-
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+        self.imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
         [self.contentView addSubview:self.imageView];
-        [self cutRoundView:self.imageView];
+        [self.imageView makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsZero);
+        }];
     }
     return self;
 }
@@ -32,12 +33,13 @@
 - (void)setImgUrl:(NSString *)imgUrl {
     _imgUrl = imgUrl;
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:imageNamed(@"placeholder")];
+    [self cutRoundView:self.imageView];
 }
 
 // 切圆角
 - (void)cutRoundView:(UIImageView *)imageView
 {
-    CGFloat corner = 5;
+    CGFloat corner = 10;
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:imageView.bounds byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(corner, corner)];
     shapeLayer.path = path.CGPath;
@@ -45,14 +47,5 @@
 }
 
 
-- (UIImageView *)imageView{
-    if (!_imageView) {
-        _imageView = [[UIImageView alloc] init];
-        [_imageView makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView);
-        }];
-    }
-    return _imageView;
-}
 
 @end

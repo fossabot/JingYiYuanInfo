@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "YYTabBarViewController.h"
+#import <StoreKit/StoreKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,SKPaymentTransactionObserver>
 
 @property (strong, nonatomic) UIWindow *window;
 
+/** 推送消息保存在APPdelegate的单例属性里  主页直接调用该属性，用完要置nil*/
+@property (nonatomic, strong) NSDictionary *remoteNotice;
 
 @end
 

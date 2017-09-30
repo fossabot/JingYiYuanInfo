@@ -7,13 +7,15 @@
 //
 
 #import "YYUserIconCell.h"
+#import "UIView+YYCategory.h"
 
 @implementation YYUserIconCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    [self cutRoundView:self.icon.imageView];
+    [self.icon cutRoundView];
+//    [self cutRoundView:self.icon.imageView];
 }
 
 // 切圆角

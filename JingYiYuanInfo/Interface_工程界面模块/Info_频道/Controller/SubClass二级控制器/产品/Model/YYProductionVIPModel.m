@@ -7,7 +7,26 @@
 //
 
 #import "YYProductionVIPModel.h"
+#import <MJExtension/MJExtension.h>
 
 @implementation YYProductionVIPModel
+
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+    
+    return @{
+             @"vipId":@"id"
+             };
+}
+
+- (NSString *)sellstate {
+    
+    if ([_sellstate isEqualToString:@"1"]) {
+        
+        return @"在售";
+    }else {
+        
+        return @"售罄";
+    }
+}
 
 @end

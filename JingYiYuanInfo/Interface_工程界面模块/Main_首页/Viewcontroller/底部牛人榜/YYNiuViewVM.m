@@ -69,9 +69,10 @@
  */
 - (void)fetchMoreDataCompletion:(void(^)(BOOL success))completion {
     
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"loadmoreniu",@"act",self.lastid,@"lastid", nil];
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"loadmoreniu",@"act",self.lastid,LASTID, nil];
     
     [YYHttpNetworkTool GETRequestWithUrlstring:niunewsmoreUrl parameters:para success:^(id response) {
+        
         
         YYNiuModel *model = [YYNiuModel mj_objectWithKeyValues:response];
         [self.niuArtDataSource addObjectsFromArray:model.niuart_arr];
@@ -140,7 +141,7 @@
             break;
             
         default:
-            return 0.1;
+            return 0.001;
             break;
     }
 }
@@ -173,14 +174,12 @@
     if (_selectedBlock) {
         if (indexPath.section == 0) {
             
-//            YYNiuManCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//            YYNiuManModel *niuManModel = self.niuManDataSource[indexPath.row];
-            _selectedBlock(nil, indexPath);
+            YYNiuManModel *niuManModel = self.niuManDataSource[indexPath.row];
+            _selectedBlock(niuManModel, indexPath);
         }else {
             
-//            YYNiuArticleCell *cell = [tableView cellForRowAtIndexPath:indexPath];
             YYNiuArticleModel *articleModel = self.niuArtDataSource[indexPath.row];
-            _selectedBlock([NSString stringWithFormat:@"%@%@",niuWebJointUrl,articleModel.art_id], indexPath);
+            _selectedBlock(articleModel, indexPath);
         }
     }
 }

@@ -41,6 +41,12 @@ static NSString * const title = @"文字大小";
 
 @implementation PageSlider
 
++ (void)showPageSliderWithCurrentPoint:(NSInteger)currentPoint fontChanged:(FontChangedBlock)fontChanged {
+    
+    [self showPageSliderWithTotalPoint:4 currentPoint:currentPoint pointNames:@[@"标准",@"大",@"极大",@"超级大"] fontChanged:fontChanged];
+}
+
+
 + (void)showPageSliderWithTotalPoint:(NSInteger)totalPoint currentPoint:(NSInteger)currentPoint pointNames:(NSArray *)pointNames fontChanged:(FontChangedBlock)fontChanged {
     
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
@@ -54,7 +60,7 @@ static NSString * const title = @"文字大小";
     pageSlider.container.fontChangedBlock = fontChanged;
     [pageSlider.container configSubviews];
     [pageSlider addSubview:pageSlider.container];
-    [UIView animateWithDuration:1.0 animations:^{
+    [UIView animateWithDuration:0.5 animations:^{
         pageSlider.container.transform = CGAffineTransformMakeTranslation(0, -140);
     }];
 }
@@ -75,7 +81,7 @@ static NSString * const title = @"文字大小";
 
 - (void)dismiss:(UITapGestureRecognizer *)tap {
     YYLog(@"点击window");
-    [UIView animateWithDuration:1.0 animations:^{
+    [UIView animateWithDuration:0.5 animations:^{
         self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.0];
         self.container.transform = CGAffineTransformMakeTranslation(0, 140);
     } completion:^(BOOL finished) {
@@ -120,6 +126,10 @@ static NSString * const title = @"文字大小";
 - (void)configSubviews {
     [self addSubview:self.slider];
     [self bringSubviewToFront:self.slider];
+    self.slider.maximumValue = _totalPoint-1;
+    self.slider.value = _currentPoint;
+//    [[_sliderValues objectAtIndex:_currentPoint] floatValue];
+    
 }
 
 
@@ -127,16 +137,17 @@ static NSString * const title = @"文字大小";
     if (!_slider) {
         
         _slider = [[UISlider alloc] init];
-        CGFloat x = 40;
-        CGFloat y = CGRectGetHeight(self.frame) - 45 - 15;
+        CGFloat x = 30;
+        CGFloat y = CGRectGetHeight(self.frame) - 45 - 15 - 10;
         CGFloat w = CGRectGetWidth(self.frame) - 2*x;
-        _slider.frame = CGRectMake(x, y, w, 30);
+        _slider.frame = CGRectMake(x, y, w, 20);
         _slider.minimumTrackTintColor = [UIColor clearColor];
         _slider.maximumTrackTintColor = [UIColor clearColor];
         _slider.tintColor = [UIColor clearColor];
         _slider.backgroundColor = [UIColor clearColor];
         _slider.minimumValue = 0;
         _slider.maximumValue = 1;
+        
         [_slider setThumbImage:[UIImage imageNamed:@"point"] forState:UIControlStateNormal];
         [_slider setThumbImage:[UIImage imageNamed:@"point"] forState:UIControlStateHighlighted];
         _slider.value = (float)(_currentPoint-1)/(_totalPoint-1);
@@ -152,7 +163,8 @@ static NSString * const title = @"文字大小";
     if (!_sliderValues) {
         _sliderValues = [NSMutableArray array];
         for (int i=0; i<=self.totalPoint; i++) {
-            [_sliderValues addObject:@((float)i/(self.totalPoint-1))];
+//            [_sliderValues addObject:@((float)i/(self.totalPoint-1))];
+            [_sliderValues addObject:@(i)];
         }
     }
     return _sliderValues;
@@ -161,7 +173,7 @@ static NSString * const title = @"文字大小";
 /** 选中字号返回的数字*/
 - (NSArray *)outputValues {
     if (!_outputValues) {
-        _outputValues = [NSArray arrayWithObjects:@1.0,@1.2,@1.5,@2.0, nil];
+        _outputValues = [NSArray arrayWithObjects:@1.0f,@1.2f,@1.5f,@2.0f, nil];
     }
     return _outputValues;
 }
@@ -176,8 +188,10 @@ static NSString * const title = @"文字大小";
     slider.value = [self getNearestValue:slider.value];
     //将slider的值置为节点后，应该返回一个block回调，去改变字体大小
     if (_fontChangedBlock) {
-        NSUInteger index = [self.sliderValues indexOfObject:@(slider.value)];
-        CGFloat outputValue = [[self.outputValues objectAtIndex:index] floatValue];
+//        NSUInteger index = [self.sliderValues indexOfObject:@(slider.value)];
+        CGFloat outputValue = [[self.outputValues objectAtIndex:slider.value] floatValue];
+//        NSString *tempStr = [NSString stringWithFormat:@"%.lf",outputValue];
+        
         YYUser *user = [YYUser shareUser];
         [user setWebfont:outputValue];
         _fontChangedBlock(outputValue);
@@ -188,14 +202,14 @@ static NSString * const title = @"文字大小";
 /**
  *根据已知的数值去slider数组对比出最接近的value，并将value返回
  */
-- (CGFloat)getNearestValue:(CGFloat)value {
+- (NSInteger)getNearestValue:(CGFloat)value {
     
-    CGFloat nearestValue = 1.0;
-    CGFloat difference = 1.0;
+    NSInteger nearestValue = 0.0; //最接近的值
+    CGFloat difference = 0.5;  //和数组中的值的差
     for (NSNumber *temp in self.sliderValues) {
-        if(difference > fabs(value - [temp floatValue])){
-            difference = fabs(value - [temp floatValue]);
-            nearestValue = [temp floatValue];
+        if(difference >= fabs(value - [temp integerValue])){
+//            difference = fabs(value - [temp floatValue]);
+            nearestValue = [temp integerValue]; //[temp floatValue];
         }
     }
     return nearestValue;
@@ -222,10 +236,10 @@ static NSString * const title = @"文字大小";
     
     CGContextMoveToPoint(context, 30, titleSize.height + 10);
     CGContextAddLineToPoint(context, self.bounds.size.width-30, titleSize.height + 10);
-    CGContextSetStrokeColorWithColor(context, [UIColor grayColor].CGColor);
+    CGContextSetStrokeColorWithColor(context, UnenableTitleColor.CGColor);
     CGContextSetLineWidth(context, 0.8);
     
-    CGFloat margin = 8;
+    CGFloat margin = 0;
     CGFloat lineY = self.slider.frame.origin.y+margin;
     CGFloat sliderW = self.slider.bounds.size.width-30;
     CGFloat sliderH = self.slider.bounds.size.height;
@@ -236,7 +250,7 @@ static NSString * const title = @"文字大小";
     for (int i=0; i<_totalPoint; i++) {
         
         //画线
-        CGFloat lineX = 55 + i*(sliderW/(self.totalPoint-1));
+        CGFloat lineX = 45 + i*(sliderW/(self.totalPoint-1));
         
         CGContextMoveToPoint(context, lineX, lineY);
         CGContextAddLineToPoint(context, lineX, sliderH + lineY-margin);
@@ -255,10 +269,9 @@ static NSString * const title = @"文字大小";
             CGContextStrokePath(context);
         }
         
-        
         CGSize pointNameSize = [_pointNames[i] sizeWithAttributes:pointAttribute];
         CGFloat pointX = lineX - pointNameSize.width/2;
-        CGFloat pointY = lineY - pointNameSize.height - 2 - margin;
+        CGFloat pointY = lineY - pointNameSize.height - 2 - 8;
         
         //画文字
         [_pointNames[i] drawInRect:CGRectMake(pointX, pointY, pointNameSize.width, pointNameSize.height) withAttributes:pointAttribute];

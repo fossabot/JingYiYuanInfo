@@ -18,6 +18,9 @@
 
 #import "YYNiuManCell.h"
 #import "YYNiuArticleCell.h"
+#import "YYNiuManModel.h"
+#import "YYNiuArticleModel.h"
+
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "UIView+YYParentController.h"
 
@@ -70,37 +73,9 @@
         if (success) {
             [strongSelf.tableView reloadData];
         }
+        [strongSelf.tableView.mj_header endRefreshing];
     }];
-    
-//    [PPNetworkHelper GET:niunewsdefaultUrl parameters:nil responseCache:^(id responseCache) {
-//        
-//        if (!self.niuManDataSource.count && !self.niuArtDataSource.count) {
-//            YYNiuModel *niuModel = [YYNiuModel mj_objectWithKeyValues:responseCache];
-//            self.niuManDataSource = (NSMutableArray *)niuModel.niu_arr;
-//            self.niuArtDataSource = (NSMutableArray *)niuModel.niuart_arr;
-//            self.lastid = niuModel.lastid;
-//            [self.tableView reloadData];
-//        }
-//        
-//    } success:^(id responseObject) {
-//        [self.tableView.mj_header endRefreshing];
-//        
-//        YYNiuModel *niuModel = [YYNiuModel mj_objectWithKeyValues:responseObject];
-//        if (niuModel.niu_arr.count || niuModel.niuart_arr.count) {
-//            [self.niuManDataSource removeAllObjects];
-//            [self.niuArtDataSource removeAllObjects];
-//        }
-//        self.niuManDataSource = (NSMutableArray *)niuModel.niu_arr;
-//        self.niuArtDataSource = (NSMutableArray *)niuModel.niuart_arr;
-//        self.lastid = niuModel.lastid;
-//        
-//        [self.tableView reloadData];
-//        
-//    } failure:^(NSError *error) {
-//        [self.tableView.mj_header endRefreshing];
-//    }];
-    
-    
+
 }
 
 
@@ -118,7 +93,7 @@
         if (success) {
             [strongSelf.tableView reloadData];
         }
-        
+        [strongSelf.tableView.mj_footer endRefreshing];
     }];
     
 }
@@ -139,19 +114,26 @@
     if (!_viewModel) {
         _viewModel = [[YYNiuViewVM alloc] init];
         YYWeakSelf
-        _viewModel.selectedBlock = ^(NSString *url, NSIndexPath *indexPath) {
+        _viewModel.selectedBlock = ^(id data, NSIndexPath *indexPath) {
             //跳转到相应的详情页（牛人详情或者新闻详情）
             YYStrongSelf
 #warning 牛人榜点击跳转相应界面
             if (indexPath.section == 0) {
                 
+                YYNiuManModel *model = (YYNiuManModel *)data;
                 YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
+                niuManDetail.jz_wantsNavigationBarVisible = YES;
+#warning 没有牛人的详情页  没有更多牛人的列表页
                 [strongSelf.parentNavigationController pushViewController:niuManDetail animated:YES];
                 
             }else {
                 
+                YYNiuArticleModel *model = (YYNiuArticleModel *)data;
                 YYNiuNewsDetailViewController *niuNewsDetail = [[YYNiuNewsDetailViewController alloc] init];
-                niuNewsDetail.url = url;
+                niuNewsDetail.url = model.webUrl;
+                niuNewsDetail.shareImgUrl = model.picurl;
+                niuNewsDetail.niuNewsId = model.art_id;
+                niuNewsDetail.jz_wantsNavigationBarVisible = YES;
                 [strongSelf.parentNavigationController pushViewController:niuNewsDetail animated:YES];
             }
         };
@@ -161,24 +143,34 @@
 
 - (void)configTableView {
 
-    MJWeakSelf;
-    MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
-        YYStrongSelf
-        [strongSelf loadMoreData];
-    }];
-    /** 普通闲置状态  壹元君正努力为您加载数据*/
-   
-    [footer setTitle:@"普通闲置状态" forState:MJRefreshStateIdle];
-    [footer setTitle:@"松开就可以进行刷新的状态" forState:MJRefreshStatePulling];
-    [footer setTitle:@"正在刷新中的状态" forState:MJRefreshStateRefreshing];
-    [footer setTitle:@"即将刷新的状态" forState:MJRefreshStateWillRefresh];
-    [footer setTitle:@"所有数据加载完毕，没有更多的数据了" forState:MJRefreshStateNoMoreData];
     self.tableView.dataSource = self.viewModel;
     self.tableView.delegate = self.viewModel;
-    self.tableView.mj_footer = footer;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.tableFooterView = [[UIView alloc] init];
     [self.tableView registerClass:[YYNiuManCell class] forCellReuseIdentifier:YYNiuManCellID];
     [self.tableView registerClass:[YYNiuArticleCell class] forCellReuseIdentifier:YYNiuArticleCellID];
     
+    YYWeakSelf
+    
+    MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        
+        YYStrongSelf
+        [strongSelf loadMoreData];
+    }];
+    
+    stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
+    self.tableView.mj_footer = stateFooter;
+    
+    FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
+    configer.emptyImage = imageNamed(emptyImageName);
+    configer.emptyTitle = @"暂无数据,点此重新加载";
+    configer.emptyTitleColor = UnenableTitleColor;
+    configer.emptyTitleFont = SubTitleFont;
+    configer.allowScroll = NO;
+    configer.emptyViewTapBlock = ^{
+        [weakSelf.tableView.mj_header beginRefreshing];
+    };
+    [self.tableView emptyViewConfiger:configer];
 }
 
 @end

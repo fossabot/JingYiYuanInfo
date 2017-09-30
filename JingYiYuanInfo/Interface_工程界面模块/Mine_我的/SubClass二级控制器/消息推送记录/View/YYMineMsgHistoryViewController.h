@@ -6,8 +6,8 @@
 //  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
 //  推送记录界面
 
-#import "THBaseViewController.h"
+#import "YPTabBarController.h"
 
-@interface YYMineMsgHistoryViewController : THBaseViewController
+@interface YYMineMsgHistoryViewController : YPTabBarController
 
 @end

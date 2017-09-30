@@ -9,6 +9,7 @@
 #import "YYMineHeaderView.h"
 
 #import "YYLoginViewController.h"
+#import "YYUserInfoViewController.h"
 #import "YYSettingViewController.h"
 #import "YYMineIntegrationViewController.h"
 
@@ -17,7 +18,6 @@
 #import "YYPlaceHolderView.h"
 
 #import "UIView+YYViewFrame.h"
-
 
 @interface YYMineHeaderView ()
 
@@ -87,10 +87,12 @@
 - (void)setUser:(YYUser *)user {
     _user = user;
     
-    _name.text = [NSString stringWithFormat:@"姓名:%@",user.mobile];
+    _name.text = [NSString stringWithFormat:@"姓名:%@",user.username];
     [_loginIcon sd_setImageWithURL:[NSURL URLWithString:user.avatar] forState:UIControlStateNormal placeholderImage:imageNamed(@"yyfw_mine_unloginicon_83x83_")];
     _integration.text = [NSString stringWithFormat:@"积分:暂无积分"];
-    if ([user.groupid containsString:@"3"]) {
+    
+    NSString *groupId = [NSString stringWithFormat:@"%@",user.groupid];
+    if ([groupId containsString:@"3"]) {
         _VIPTime.text = [NSString stringWithFormat:@"会员:%@到期",user.expiretime];
         _VIPStatusIcon.image = imageNamed(@"vip_22x22_");
     }else {
@@ -99,7 +101,6 @@
     }
     
     [self.signView setSignDays:[NSString stringWithFormat:@"%ld",user.signDays]];
-    
 }
 
 
@@ -115,7 +116,7 @@
 - (IBAction)showPersonalInfo:(UIButton *)sender {
     
     if ([self.delegate respondsToSelector:@selector(destinationController:)]) {
-        [self.delegate destinationController:[[YYSettingViewController alloc] init]];
+        [self.delegate destinationController:[[YYUserInfoViewController alloc] init]];
     }
 
 }
@@ -137,14 +138,16 @@
         //这是进行网络请求，给后台签到，在成功的回调中调用提醒签到成功
 #warning 签到成功的提醒图片未添加
         YYWeakSelf
-        [YYPlaceHolderView showSignSuccessPlaceHolderWithIntegration:@"" clickAction:^{
-            //提示框点击跳转商城
-            YYStrongSelf
-            if ([strongSelf.delegate respondsToSelector:@selector(destinationController:)]) {
-                [strongSelf.delegate destinationController:[[YYMineIntegrationViewController alloc] init]];
-            }
+//        [SVProgressHUD showImage:nil status:@"签到成功"];
+        
+        [YYPlaceHolderView showSignSuccessPlaceHolderWithIntegration:@"100" clickAction:^{
+                //提示框点击跳转商城
+                YYStrongSelf
+                if ([strongSelf.delegate respondsToSelector:@selector(destinationController:)]) {
+                    [strongSelf.delegate destinationController:[[YYMineIntegrationViewController alloc] init]];
+                }
+            
         }];
-        [SVProgressHUD showImage:nil status:@"签到成功"];
     }
     
 }

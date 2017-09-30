@@ -9,7 +9,7 @@
 #import "YYMessageViewModel.h"
 #import "YYMessageModel.h"
 #import "YYMessageSectionModel.h"
-//#import "YYMainMessageCell.h"
+#import "YYMainMessageCell.h"
 
 #import <MJExtension/MJExtension.h>
 
@@ -60,10 +60,22 @@
  */
 - (void)loadMoreDataCompletion:(void(^)(BOOL success))completion {
 
+    
+    
 }
 
 
 #pragma -- mark TableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
+    return 30;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 5;
+}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
@@ -84,23 +96,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    YYMessageModel *model = self.dataSource[indexPath.row];
+    YYMessageSectionModel *secModel = self.dataSource[indexPath.section];
+    YYMessageModel *model = secModel.info[indexPath.row];
     if (_cellSelectBlock) {
-        _cellSelectBlock(model.msgId, model.title);
+        _cellSelectBlock(model.webUrl, model.title);
     }
     
 }
 
 #pragma -- mark TableViewDataSource
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString*cellID = @"cellID";
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
-    }
+
+    YYMainMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:YYMainMessageCellId];
     YYMessageSectionModel *secModel = self.dataSource[indexPath.section];
     YYMessageModel *model = secModel.info[indexPath.row];
-    cell.textLabel.text = model.title;
+    cell.title.text = model.title;
     
     return cell;
 }

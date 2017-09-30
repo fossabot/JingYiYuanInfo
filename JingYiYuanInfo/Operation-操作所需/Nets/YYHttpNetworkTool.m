@@ -7,7 +7,6 @@
 //
 
 #import "YYHttpNetworkTool.h"
-#import "AFNetworking.h"
 
 
 @implementation YYHttpNetworkTool
@@ -64,6 +63,7 @@
         if (success) {
             if (successMsg) {
                 [SVProgressHUD showSuccessWithStatus:successMsg];
+                [SVProgressHUD dismissWithDelay:1];
             }
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
             success(dic);
@@ -73,6 +73,7 @@
             failure(error);
         }
         [SVProgressHUD showErrorWithStatus:@"网络在开小差，请稍后再试"];
+        [SVProgressHUD dismissWithDelay:2];
     }];
     
 }
@@ -85,10 +86,12 @@
                          failure:(void (^)(NSError *))failure
                   showSuccessMsg:(NSString *)successMsg {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     /**
      *  可以接受的类型
      */
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"application/json",@"text/html",@"text/json",@"text/plain",@"text/javascript",@"text/xml",@"image/*"]];
     /**
      *  请求队列的最大并发数
      */
@@ -97,10 +100,12 @@
      *  请求超时的时间
      */
     manager.requestSerializer.timeoutInterval = 5;
+    [manager.requestSerializer setStringEncoding:NSUTF8StringEncoding];
     [manager POST:url parameters:para progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             if (successMsg) {
                 [SVProgressHUD showSuccessWithStatus:successMsg];
+                [SVProgressHUD dismissWithDelay:1];
             }
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
             success(dic);
@@ -110,6 +115,7 @@
             failure(error);
         }
         [SVProgressHUD showErrorWithStatus:@"网络在开小差，请稍后再试"];
+        [SVProgressHUD dismissWithDelay:2];
     }];
     
 }
@@ -119,27 +125,35 @@
                      parameters:(NSDictionary *)para
                           image:(UIImage *)image
                      serverName:(NSString *)serverName
-                      savedName:(NSString *)savedName
+                      savedName:(NSString *)filename
                        progress:(void (^)(int64_t bytesProgress,
                                           int64_t totalBytesProgress))progress
                         success:(void (^)(id response))success
                         failure:(void (^)(NSError *))failure
                  showSuccessMsg:(NSString *)successMsg{
  
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+//    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
+
+    AFHTTPSessionManager *manager = [self getAFManager];
+    //压缩图片
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     [manager POST:url parameters:para  constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         
-        NSString * imageFileName = savedName;
-        if (savedName == nil || ![savedName isKindOfClass:[NSString class]] || savedName.length == 0) {
+        NSString *imageFileName = filename;
+        if (filename == nil || ![filename isKindOfClass:[NSString class]] || filename.length == 0) {
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             formatter.dateFormat = @"yyyyMMddHHmmss";
             NSString *str = [formatter stringFromDate:[NSDate date]];
             imageFileName = [NSString stringWithFormat:@"%@.jpg", str];
         }
         
-        [formData appendPartWithFileData:UIImagePNGRepresentation(image)   name:serverName   fileName:imageFileName   mimeType:@"image/png,image/jpg,image/jpeg"];
-        
+//        [formData appendPartWithFileData:UIImagePNGRepresentation(image)   name:serverName   fileName:imageFileName   mimeType:@"image/png,image/jpg,image/jpeg"];
+
+        // 上传图片，以文件流的格式
+        [formData appendPartWithFileData:imageData name:serverName fileName:imageFileName mimeType:@"image/jpeg"];
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
         YYLog(@"上传进度--%lld,总进度---%lld",uploadProgress.completedUnitCount,uploadProgress.totalUnitCount);
@@ -153,83 +167,89 @@
             
             if (successMsg) {
                 [SVProgressHUD showSuccessWithStatus:successMsg];
+                [SVProgressHUD dismissWithDelay:1];
             }
-            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
-            success(dic);   
+//            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:nil];
+            if ([responseObject[@"state"] isEqualToString:@"1"]) {
+                
+                [[SDImageCache sharedImageCache] removeImageForKey:responseObject[@"userhead"] withCompletion:nil];
+                success(responseObject);
+            }else{
+                [SVProgressHUD showErrorWithStatus:@"上传失败"];
+                [SVProgressHUD dismissWithDelay:1];
+            }
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (failure) {
             failure(error);
         }
-        [SVProgressHUD showErrorWithStatus:@"网络在开小差，请稍后再试"];
+        [SVProgressHUD showErrorWithStatus:@"上传失败"];
+        [SVProgressHUD dismissWithDelay:1];
     }];
     
+//    [task resume];
 }
 
 
 /** 
  全局的网络监测,是否在WiFi环境下，会返回bool值
  */
-+ (BOOL)globalNetStatusNotice{
++ (void)globalNetStatusNotice:(void (^)(AFNetworkReachabilityStatus))notice {
     
-    
-    __block BOOL isWIFI = nil;  //是否是运营商网络
-    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager manager];
-    
+    //是否是运营商网络
+    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
+    [manager startMonitoring];
     [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         switch (status) {
-            case AFNetworkReachabilityStatusUnknown:
+            case AFNetworkReachabilityStatusUnknown:{
                 YYLog(@"未知网络");
-                [SVProgressHUD showInfoWithStatus:@"未知网络"];
-                isWIFI = NO;
+//                [SVProgressHUD showInfoWithStatus:@"未知网络"];
+                notice(AFNetworkReachabilityStatusUnknown);
+            }
                 break;
             case AFNetworkReachabilityStatusNotReachable:{
                 
-                UIViewController *vc = [UIApplication sharedApplication].keyWindow.rootViewController;
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"无网络" message:@"当前网络出错，请前往设置检查网络" preferredStyle:UIAlertControllerStyleAlert];
-                [alert addAction:[UIAlertAction actionWithTitle:@"设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    NSURL *urlString = [NSURL URLWithString:@"prefs:root=General"];
-                    if([[UIApplication sharedApplication] canOpenURL:urlString]){
-                        [[UIApplication sharedApplication] openURL:urlString];
-                    }
-                }]];
-                [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                    [alert dismissViewControllerAnimated:YES completion:nil];
-                    YYLog(@"点击了取消");
-                }]];
-                static dispatch_once_t onceToken;
-                dispatch_once(&onceToken, ^{
-                    
-                    [vc presentViewController:alert animated:YES completion:nil];
-                });
+                notice(AFNetworkReachabilityStatusNotReachable);
                 YYLog(@"没有网络");
             }
-                isWIFI = NO;
                 break;
             case AFNetworkReachabilityStatusReachableViaWiFi:
             {
                 YYLog(@"WiFi网络");
-                [SVProgressHUD showInfoWithStatus:@"已切换至WiFi网络"];
-                isWIFI = YES;
+//                [SVProgressHUD showInfoWithStatus:@"已切换至WiFi网络"];
+                notice(AFNetworkReachabilityStatusReachableViaWiFi);
+
             }
                 break;
             case AFNetworkReachabilityStatusReachableViaWWAN:
                 YYLog(@"运营商网络");
-                [SVProgressHUD showInfoWithStatus:@"已切换至运营商网络"];
-                isWIFI = NO;
+//                [SVProgressHUD showInfoWithStatus:@"已切换至运营商网络"];
+                notice(AFNetworkReachabilityStatusReachableViaWWAN);
+                
                 break;
+                
             default:
+                notice(AFNetworkReachabilityStatusNotReachable);
                 break;
         }
     }];
-    
-    [manager startMonitoring];
-    
-    return isWIFI;
-    
 }
 
 
++(AFHTTPSessionManager *)getAFManager{
+//    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    manager.requestSerializer = [AFJSONRequestSerializer serializer];//设置请求数据为json
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];//设置返回数据为json
+    manager.requestSerializer.stringEncoding = NSUTF8StringEncoding;
+    manager.requestSerializer.timeoutInterval=10;
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"application/json",@"text/html",@"text/json",@"text/plain",@"text/javascript",@"text/xml",@"image/*"]];
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html", nil];
+    
+    return manager;
+    
+}
 
 @end

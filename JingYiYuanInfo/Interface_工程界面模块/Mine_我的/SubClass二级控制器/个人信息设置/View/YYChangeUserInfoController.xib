@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YYChangeUserInfoController">
             <connections>
+                <outlet property="sendBtn" destination="U8h-IR-qJd" id="TA1-2k-ihO"/>
                 <outlet property="textField" destination="obp-16-LMz" id="vQb-h9-Qc7"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -21,10 +22,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="clP-4y-2is">
-                    <rect key="frame" x="0.0" y="84" width="375" height="44"/>
+                    <rect key="frame" x="0.0" y="64" width="375" height="44"/>
                     <subviews>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="obp-16-LMz">
-                            <rect key="frame" x="10" y="12.5" width="355" height="19"/>
+                            <rect key="frame" x="20" y="12.5" width="335" height="19"/>
+                            <color key="tintColor" red="0.76470588235294112" green="0.23921568627450979" blue="0.2627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <textInputTraits key="textInputTraits"/>
@@ -35,17 +37,17 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="obp-16-LMz" firstAttribute="leading" secondItem="clP-4y-2is" secondAttribute="leading" constant="10" id="Bsd-ZV-Toh"/>
+                        <constraint firstItem="obp-16-LMz" firstAttribute="leading" secondItem="clP-4y-2is" secondAttribute="leading" constant="20" id="Bsd-ZV-Toh"/>
                         <constraint firstAttribute="height" constant="44" id="Jdx-SW-GQH"/>
-                        <constraint firstAttribute="trailing" secondItem="obp-16-LMz" secondAttribute="trailing" constant="10" id="YcQ-83-gQJ"/>
+                        <constraint firstAttribute="trailing" secondItem="obp-16-LMz" secondAttribute="trailing" constant="20" id="YcQ-83-gQJ"/>
                         <constraint firstItem="obp-16-LMz" firstAttribute="centerY" secondItem="clP-4y-2is" secondAttribute="centerY" id="bej-Dx-7rx"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U8h-IR-qJd">
-                    <rect key="frame" x="30" y="158" width="315" height="40"/>
+                    <rect key="frame" x="30" y="158" width="315" height="50"/>
                     <color key="backgroundColor" red="0.83137254901960778" green="0.23529411764705882" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="40" id="oiE-bL-Hij"/>
+                        <constraint firstAttribute="height" constant="50" id="oiE-bL-Hij"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <state key="normal" title="提交"/>
@@ -54,11 +56,11 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="U8h-IR-qJd" secondAttribute="trailing" constant="30" id="FHT-dT-mGz"/>
-                <constraint firstItem="clP-4y-2is" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="84" id="Gx3-MZ-0g3"/>
-                <constraint firstItem="U8h-IR-qJd" firstAttribute="top" secondItem="clP-4y-2is" secondAttribute="bottom" constant="30" id="bNc-xd-lOj"/>
+                <constraint firstItem="clP-4y-2is" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="Gx3-MZ-0g3"/>
+                <constraint firstItem="U8h-IR-qJd" firstAttribute="top" secondItem="clP-4y-2is" secondAttribute="bottom" constant="50" id="bNc-xd-lOj"/>
                 <constraint firstAttribute="trailing" secondItem="clP-4y-2is" secondAttribute="trailing" id="kfR-gH-jEs"/>
                 <constraint firstItem="U8h-IR-qJd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="oTu-rK-SRa"/>
                 <constraint firstItem="clP-4y-2is" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="yxF-1V-1UU"/>

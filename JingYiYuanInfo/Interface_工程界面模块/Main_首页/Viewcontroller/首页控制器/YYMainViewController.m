@@ -8,6 +8,8 @@
 
 #import "YYMainViewController.h"
 #import "PresentAnimation.h"
+#import "YYMessageController.h"
+#import "YYMainSearchController.h"
 
 #import "MJRefresh.h"
 #import "MJExtension.h"
@@ -23,7 +25,6 @@
 #import "YYMainMarketDataCell.h"
 #import "YYMainPushCell.h"
 #import "YYMainSrollpicCell.h"
-#import "YYMainHotAndNiuCell.h"
 
 #import "YYMainCycleWebviewController.h"
 #import "YYDetailViewController.h"
@@ -32,6 +33,7 @@
 #import "YYBottomContainerView.h"
 #import "YYMainTouchTableView.h"
 
+#import "IAPShare.h"
 
 #define messageButtonWidth 25.f
 #define searchButtonWidth 30.f
@@ -82,15 +84,17 @@
 {
     self = [super init];
     if (self) {
-        _presentAnimation = [[PresentAnimation alloc] init];
-        self.transitioningDelegate = self;
-        self.modalPresentationStyle = UIModalPresentationCustom;
+//        _presentAnimation = [[PresentAnimation alloc] init];
+//        self.transitioningDelegate = self;
+//        self.modalPresentationStyle = UIModalPresentationCustom;
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    YYLog(@"首页的navigationcontroller的地址  %p",self.navigationController);
     
     [kNotificationCenter addObserver:self selector:@selector(repeatClickTabbar:) name:YYTabbarItemDidRepeatClickNotification object:nil];
     [kNotificationCenter addObserver:self selector:@selector(acceptMsg:) name:YYMainVCLeaveTopNotificationName object:nil];
@@ -115,6 +119,13 @@
 - (void)dealloc {
     [kNotificationCenter removeObserver:self name:YYTabbarItemDidRepeatClickNotification object:nil];
     [kNotificationCenter removeObserver:self name:YYMainVCLeaveTopNotificationName object:nil];
+}
+
+
+#pragma mark 检测是否有未支付订单，如果有，检测是否支付成功，然后从本地删除(失败)或者给后台传信息(成功)
+- (void)paymentTransactionCheck {
+    
+//    [IAPShare sharedHelper].iap 
 }
 
 
@@ -161,8 +172,9 @@
  */
 - (void)messageClick:(UIButton *)messageBtn {
     YYLog(@"点击消息按钮");
-    YYPushController *push = [[YYPushController alloc] init];
-    [self.navigationController pushViewController:push animated:YES];
+    YYMessageController *message = [[YYMessageController alloc] init];
+    message.jz_wantsNavigationBarVisible = YES;
+    [self.navigationController pushViewController:message animated:YES];
 }
 
 /**
@@ -170,6 +182,8 @@
  */
 - (void)searchClick:(UIButton *)search {
     YYLog(@"首页搜索按钮点击");
+    YYMainSearchController *mainSearchVc = [[YYMainSearchController alloc] init];
+    [self.navigationController pushViewController:mainSearchVc animated:YES];
 }
 
 /**
@@ -177,43 +191,31 @@
  */
 - (void)loadNewData {
 
-
-    
     //请求成功自动缓存，如果当前数据源有数据，说明是手动刷新的操作，这时不用将缓存赋值给数据源，如果没有，则是第一次初始化等，需要将缓存赋值给数据源等success时，再重新赋值，覆盖掉之前的
     [PPNetworkHelper GET:mainUrl parameters:nil responseCache:^(id responseCache) {
         if (!_mainModel.roll_pic.count) {
-            if ([self.tableview.mj_footer isRefreshing]) {
-                [self.tableview.mj_footer endRefreshing];
-            }
-            [self.tableview.mj_header endRefreshing];
-            self.mainModel = [YYMainModel mj_objectWithKeyValues:responseCache];
             
+            self.mainModel = [YYMainModel mj_objectWithKeyValues:responseCache];
             [self.tableview reloadData];
         }
     } success:^(id responseObject) {
-        if ([self.tableview.mj_footer isRefreshing]) {
-            [self.tableview.mj_footer endRefreshing];
-        }
+        
         [self.tableview.mj_header endRefreshing];
-        self.mainModel = [YYMainModel mj_objectWithKeyValues:responseObject];
-        [self.tableview reloadData];
+        if (responseObject) {
+            
+            self.mainModel = [YYMainModel mj_objectWithKeyValues:responseObject];
+            [self.tableview reloadData];
+        }
         
     } failure:^(NSError *error) {
         
         [self.tableview.mj_header endRefreshing];
         [SVProgressHUD showErrorWithStatus:NETERRORMSG];
+        [SVProgressHUD dismissWithDelay:1];
         
     }];
     
     
-}
-
-/**
- *  八个icon点击跳转相关控制器的方法
- */
-- (void)enterEightController:(NSInteger)index {
-    
-    YYLog(@"%s -- %ld - ",__func__,index);
 }
 
 #pragma -- mark TableViewDelegate
@@ -258,6 +260,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 3) {
         YYPushController *push = [[YYPushController alloc] init];
+        push.jz_wantsNavigationBarVisible = YES;
         [self.navigationController pushViewController:push animated:YES];
     }
 }
@@ -265,7 +268,7 @@
 #pragma -- mark TableViewDataSource
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    YYWeakSelf
+
     switch (indexPath.section) {
         case 0:{
             YYMainHeadBannerCell *bannerCell = [tableView dequeueReusableCellWithIdentifier:YYMainHeadBannerCellID];
@@ -277,10 +280,10 @@
         case 1:{
             YYMainRollwordsCell *rollwordsCell = [tableView dequeueReusableCellWithIdentifier:YYMainRollwordsCellID];
             rollwordsCell.rollwordsModels = self.mainModel.roll_words;
-            rollwordsCell.rollwordsBlock = ^(NSInteger index, YYMainRollwordsCell *cell){
-#warning 文字轮播的跳转
-                
-            };
+//            rollwordsCell.rollwordsBlock = ^(NSInteger index, YYMainRollwordsCell *cell){
+//#warning 文字轮播的跳转
+//                
+//            };
             return rollwordsCell;
         }
             break;
@@ -295,6 +298,7 @@
             
         case 3:{
             YYMainMarketDataCell *marketdataCell = [tableView dequeueReusableCellWithIdentifier:YYMainMarketDataCellID];
+            [marketdataCell.dataImageView sd_setImageWithURL:[NSURL URLWithString:self.mainModel.zhishu.picurl] placeholderImage:imageNamed(@"placeholder")];
             return marketdataCell;
         }
             break;
@@ -308,17 +312,13 @@
         }
             break;
             
-        case 5:{
+        default:{
             
             YYMainSrollpicCell *scrollpicCell = [tableView dequeueReusableCellWithIdentifier:YYMainSrollpicCellID];
             scrollpicCell.srollpicModels = self.mainModel.sroll_pic;
             
             return scrollpicCell;
         }
-            break;
-            
-        default:
-            return nil;
             break;
     }
 
@@ -376,7 +376,7 @@
             //NSLog(@"离开顶端");
             if (!_canScroll) {
                 scrollView.contentOffset = CGPointMake(0, tabOffsetY);
-                scrollView.showsVerticalScrollIndicator = YES;
+                scrollView.showsVerticalScrollIndicator = NO;
             }
         }
     }
@@ -391,7 +391,7 @@
 }
 
 
-#pragma mark -- lazyMethods 懒加载区域
+#pragma mark -- lazyMethods 懒加载区域  -------------------------------------
 
 /** 
  *  导航栏

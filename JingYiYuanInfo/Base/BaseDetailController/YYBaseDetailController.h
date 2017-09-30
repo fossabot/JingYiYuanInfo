@@ -8,7 +8,10 @@
 
 #import "THBaseViewController.h"
 #import "ShareView.h"
+#import "YYPlaceHolderView.h"
+#import "BAButton.h"
 #import <WebKit/WebKit.h>
+#import "PageSlider.h"
 
 @interface YYBaseDetailController : THBaseViewController<WKNavigationDelegate,WKUIDelegate>
 
@@ -27,9 +30,18 @@
 /** webview*/
 @property (nonatomic, strong) WKWebView *wkWebview;
 
+/** tipView*/
+@property (nonatomic, strong) BAButton *tipView;
+
 /**
  *  分享方法
  */
 - (void)share;
+
+/** 显示webview的占位图*/
+- (void)showPlaceHolder;
+
+/** 刷新webView*/
+- (void)refreshWebView:(UIButton *)sender;
 
 @end

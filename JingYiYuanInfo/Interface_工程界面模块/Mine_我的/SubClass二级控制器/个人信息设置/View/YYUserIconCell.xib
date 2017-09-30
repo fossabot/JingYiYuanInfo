@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,17 +15,17 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="92"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="91"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="92"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="头像" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dtf-Pa-24T">
-                        <rect key="frame" x="10" y="37" width="31" height="18"/>
+                        <rect key="frame" x="20" y="37" width="31" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vwG-ei-Gvy">
-                        <rect key="frame" x="255" y="21" width="50" height="50"/>
+                        <rect key="frame" x="250" y="21" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="Tz6-al-TyX"/>
                             <constraint firstAttribute="height" constant="50" id="YlN-OP-bjV"/>
@@ -38,8 +38,8 @@
                 <constraints>
                     <constraint firstItem="vwG-ei-Gvy" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Dtw-75-Co5"/>
                     <constraint firstItem="Dtf-Pa-24T" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="UMY-jn-ajq"/>
-                    <constraint firstItem="Dtf-Pa-24T" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="bu5-M9-3Vh"/>
-                    <constraint firstAttribute="trailing" secondItem="vwG-ei-Gvy" secondAttribute="trailing" constant="15" id="dSy-BW-pav"/>
+                    <constraint firstItem="Dtf-Pa-24T" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="bu5-M9-3Vh"/>
+                    <constraint firstAttribute="trailing" secondItem="vwG-ei-Gvy" secondAttribute="trailing" constant="20" id="dSy-BW-pav"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

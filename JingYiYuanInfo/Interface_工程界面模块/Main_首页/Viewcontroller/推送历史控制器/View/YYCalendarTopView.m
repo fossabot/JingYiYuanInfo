@@ -35,6 +35,7 @@
 /** viewModel*/
 @property (nonatomic, strong) YYPushViewModel *viewModel;
 
+
 @end
 
 @implementation YYCalendarTopView
@@ -45,7 +46,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 40)];
+    self = [super initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 60)];
     if (self) {
         [self configViewWithFrame:frame];
     }
@@ -120,7 +121,7 @@
             return @"周六";
             break;
         default:
-            return @"";
+            return @"周六";
             break;
     }
 }
@@ -174,10 +175,10 @@
     if (model.isSelected) {
         
         cell.dateButton.selected = YES;
-        cell.backgroundColor = ThemeColor;
+        cell.dateButton.backgroundColor = ThemeColor;
     }else {
         cell.dateButton.selected = NO;
-        cell.backgroundColor = ClearColor;
+        cell.dateButton.backgroundColor = ClearColor;
     }
     cell.dateButton.enabled = !model.isFuture;
     return cell;
@@ -190,7 +191,8 @@
 
 - (UIImageView *)leftImageView {
     if (!_leftImageView) {
-        _leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20, 40)];
+        _leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20, 60)];
+        _leftImageView.backgroundColor = WhiteColor;
         _leftImageView.contentMode = UIViewContentModeCenter;
         _leftImageView.image = imageNamed(@"yyfw_push_calendararrow_left_20x20_");
     }
@@ -199,7 +201,8 @@
 
 - (UIImageView *)rightImageView {
     if (!_rightImageView) {
-        _rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kSCREENWIDTH-20, 0, 20, 40)];
+        _rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kSCREENWIDTH-20, 0, 20, 60)];
+        _rightImageView.backgroundColor = WhiteColor;
         _rightImageView.contentMode = UIViewContentModeCenter;
         _rightImageView.image = imageNamed(@"yyfw_push_calendararrow_right_20x20_");
     }
@@ -208,7 +211,7 @@
 
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_leftImageView.frame), 0, kSCREENWIDTH-CGRectGetWidth(_leftImageView.frame)*2, 40) collectionViewLayout:self.flowLayout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_leftImageView.frame), 0, kSCREENWIDTH-CGRectGetWidth(_leftImageView.frame)*2, 60) collectionViewLayout:self.flowLayout];
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
@@ -222,7 +225,7 @@
     if (!_flowLayout) {
         _flowLayout = [[UICollectionViewFlowLayout alloc] init];
         _flowLayout.itemSize = CGSizeMake(40, 60);
-        _flowLayout.minimumInteritemSpacing = 10;
+        _flowLayout.minimumInteritemSpacing = 5;
         _flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     }
     return _flowLayout;
@@ -241,5 +244,6 @@
     }
     return _viewModel;
 }
+
 
 @end

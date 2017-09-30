@@ -17,8 +17,12 @@
              };
 }
 
-//- (NSString *)img {
-//    return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_img];
-//}
+- (NSString *)img {
+    if (![_img containsString:@"http"]) {
+        
+        return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_img];
+    }
+    return _img;
+}
 
 @end

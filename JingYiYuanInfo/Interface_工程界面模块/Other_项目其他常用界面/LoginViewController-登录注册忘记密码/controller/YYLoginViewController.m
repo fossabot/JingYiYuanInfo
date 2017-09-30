@@ -15,6 +15,7 @@
 #import "NSString+Predicate.h"
 #import "UITextField+LeftView.h"
 #import "YYTextFilter.h"
+#import "UIView+YYCategory.h"
 
 @interface YYLoginViewController ()<YYTextFilterDelegate>
 /** 手机号*/
@@ -44,6 +45,11 @@
     
 }
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    [self.loginButton cutRoundViewRadius:5];
+}
 
 #pragma mark -- inner Methods
 /** 配置输入框的相关属性*/
@@ -85,7 +91,7 @@
     }
     //输入框都满足条件，则注册按钮可点击
     self.loginButton.enabled = [self validToLogin];
-    self.loginButton.backgroundColor = [self validToLogin] ? ThemeColor : [UIColor lightGrayColor];
+    self.loginButton.backgroundColor = [self validToLogin] ? ThemeColor : LightGraySeperatorColor;
 }
 
 - (BOOL)validToLogin {
@@ -101,9 +107,12 @@
 /** 注册账号按钮点击事件*/
 - (IBAction)registerButtonClick:(UIButton *)sender {
     
-    [self presentViewController:[[YYRegisterViewController alloc] init] animated:YES completion:^{
-        
-    }];
+    
+    YYRegisterViewController *regist = [[YYRegisterViewController alloc] init];
+    regist.jz_wantsNavigationBarVisible = NO;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:regist];
+//    [self.navigationController pushViewController:regist animated:YES];
+    [self presentViewController:nav animated:YES completion:nil];
     
 }
 

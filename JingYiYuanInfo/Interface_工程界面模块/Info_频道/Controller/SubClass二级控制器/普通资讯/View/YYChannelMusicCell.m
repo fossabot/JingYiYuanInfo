@@ -50,7 +50,7 @@
     [self.contentView addSubview:singerName];
     
     UIButton *share = [UIButton buttonWithType:UIButtonTypeCustom];
-    [share setImage:imageNamed(@"share_32x32") forState:UIControlStateNormal];
+    [share setImage:imageNamed(@"share_gray_32x32") forState:UIControlStateNormal];
     [share addTarget:self action:@selector(shareMusic) forControlEvents:UIControlEventTouchUpInside];
     self.share = share;
     [self.contentView addSubview:share];
@@ -59,6 +59,7 @@
         
         make.right.offset(-YYInfoCellCommonMargin);
         make.centerY.equalTo(self.contentView);
+        make.width.equalTo(32);
     }];
     
     [self.songName makeConstraints:^(MASConstraintMaker *make) {

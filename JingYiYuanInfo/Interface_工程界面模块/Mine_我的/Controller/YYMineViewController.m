@@ -14,6 +14,7 @@
 #import "YYMineViewModel.h"
 #import "YYUser.h"
 
+
 @interface YYMineViewController ()<YYHeaderViewDestinationDelegate>
 
 /** headerView*/
@@ -67,23 +68,27 @@
 - (void)configureHeaderView:(NSNotification *)notice {
     YYUser *user = [YYUser shareUser];
     BOOL loginStatus = user.isLogin;
-    if (notice && [notice.userInfo[LOGINSTATUS] isEqualToString:@"1"]) {
+    if (notice && [notice.userInfo[LASTLOGINSTATUS] isEqualToString:@"0"] && loginStatus) {
         //登录成功,是登录操作发来的通知，换个人信息头部
         self.tableView.tableHeaderView = nil;
         self.tableView.tableHeaderView = self.headView;
-    }else if (notice && [notice.userInfo[LOGINSTATUS] isEqualToString:@"0"]) {
+        [self.headView setUser:user];
+    }else if (notice && [notice.userInfo[LASTLOGINSTATUS] isEqualToString:@"1" ] && !loginStatus) {
         //退出成功,是退出操作发来的通知，换无信息头部
         self.tableView.tableHeaderView = nil;
         self.tableView.tableHeaderView = self.logOutHeaderView;
+    }else if (notice && [notice.userInfo[LASTLOGINSTATUS] isEqualToString:@"1" ] && loginStatus){
+        //过去是登录，现在还是登录，说明只是简单的修改个人信息
+        [self.headView setUser:user];
     }else if (loginStatus && !notice){
-        //如果是没有通知，并且是登录状态，说明只是初始化MineVC或者只是修改个人信息而已
+        //如果是没有通知，并且是登录状态，说明只是初始化登录过的MineVC而已
         if (!_headView) {
             self.tableView.tableHeaderView = nil;
             self.tableView.tableHeaderView = self.headView;
         }
         [self.headView setUser:user];
     }else if (!loginStatus && !notice) {
-        //如果是退出状态，并且没有通知
+        //如果是退出状态，并且没有通知，说明只是初始化未登录的MineVC而已
         if (!_logOutHeaderView) {
             self.tableView.tableHeaderView = nil;
             self.tableView.tableHeaderView = self.logOutHeaderView;
@@ -98,6 +103,8 @@
 //    [self.rt_navigationController pushViewController:viewController animated:YES];
     [self.navigationController pushViewController:viewController animated:YES];
 }
+
+
 
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
@@ -142,7 +149,7 @@
                 [strongSelf presentViewController:alert animated:YES completion:nil];
             }else {
                 UIViewController *viewController = [[NSClassFromString(vc) alloc] init];
-//                [strongSelf.rt_navigationController pushViewController:viewController animated:YES];
+                viewController.jz_wantsNavigationBarVisible = YES;
                 [strongSelf.navigationController pushViewController:viewController animated:YES];
             }
         };

@@ -83,14 +83,16 @@
     if (components.day == 1) {
         if (components.month == 1) {
             components.month = 12;
+            components.year -= 1;
         }else{
             components.month -= 1;
         }
         NSDate *yesterday = [calendar dateFromComponents:components];
         NSInteger totalPreMonthDays = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:yesterday].length;
         components.day = totalPreMonthDays;
+    }else {
+        components.day -= 1;
     }
-    
     return components;
 }
 

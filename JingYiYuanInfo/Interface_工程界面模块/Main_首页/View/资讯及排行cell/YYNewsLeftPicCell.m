@@ -43,15 +43,6 @@
 /** time时间*/
 @property (nonatomic, strong) UILabel *time;
 
-/** sourceLeft*/
-@property (nonatomic, strong) MASConstraint *newsPic_mas;
-
-/** sourceLeft*/
-@property (nonatomic, strong) MASConstraint *tag1_mas;
-
-/** sourceLeft*/
-@property (nonatomic, strong) MASConstraint *tag2_mas;
-
 @end
 
 
@@ -62,10 +53,10 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         //创建子控件
-        [self createSubview];
+        [self configSubView];
         
         //添加约束
-        [self configSubviews];
+        [self masonrySubview];
     }
     return self;
 }
@@ -80,21 +71,22 @@
     NSLog(@"picurl -- %@",hotinfoModel.picurl);
     NSURL *imageUrl = [NSURL URLWithString:hotinfoModel.picurl];
 //    [_newsPic sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder")];
+    YYWeakSelf
     [_newsPic sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
         [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
             if (isInCache) {
                 return;//缓存中有，不再加载
             }
+            //imageView的淡入效果
+            weakSelf.newsPic.alpha = 0.0;
+            [UIView transitionWithView:weakSelf.newsPic
+                              duration:0.3
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{
+                                weakSelf.newsPic.alpha = 1.0;
+                            } completion:nil];
         }];
-        //imageView的淡入效果
-        _newsPic.alpha = 0.0;
-        [UIView transitionWithView:_newsPic
-                          duration:0.5
-                           options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:^{
-                            _newsPic.alpha = 1.0;
-                        } completion:nil];
     }];
 
     _time.text = hotinfoModel.posttime;
@@ -102,6 +94,11 @@
     if (hotinfoModel.keywords.length) {
         if ([hotinfoModel.keywords containsString:@" "]) {
             NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@" "];
+            self.tagLabel1.text = keywoeds[0];
+            self.tagLabel2.text = keywoeds[1];
+        }else if ([hotinfoModel.keywords containsString:@"，"]){
+            
+            NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@"，"];
             self.tagLabel1.text = keywoeds[0];
             self.tagLabel2.text = keywoeds[1];
         }else{
@@ -125,10 +122,10 @@
 /**
  *  创建子控件
  */
-- (void)createSubview {
+- (void)configSubView {
     
     UIView *cellSeparator = [[UIView alloc] init];
-    cellSeparator.backgroundColor = LightGraySeperatorColor;
+    cellSeparator.backgroundColor = GraySeperatorColor;
     [self.contentView addSubview:cellSeparator];
     self.cellSeparator = cellSeparator;
     
@@ -195,7 +192,7 @@
 /**
  配置子控件的约束
  */
-- (void)configSubviews {
+- (void)masonrySubview {
     //底部分隔线的约束
     [self.cellSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView.bottom).offset(-0.5);

@@ -7,6 +7,8 @@
 		<string>yyfw_channel_market_22x22_</string>
 		<key>title</key>
 		<string>行情</string>
+		<key>fatherId</key>
+		<integer>0</integer>
 		<key>subtitles</key>
 		<array>
 			<dict>
@@ -64,6 +66,8 @@
 		<string>yyfw_channel_hot_22x22_</string>
 		<key>title</key>
 		<string>热点</string>
+		<key>fatherId</key>
+		<integer>1</integer>
 		<key>subtitles</key>
 		<array>
 			<dict>
@@ -121,6 +125,8 @@
 		<string>yyfw_channel_entertaiment_22x22_</string>
 		<key>title</key>
 		<string>娱乐</string>
+		<key>fatherId</key>
+		<integer>2</integer>
 		<key>subtitles</key>
 		<array>
 			<dict>
@@ -178,6 +184,8 @@
 		<string>yyfw_channel_life_22x22_</string>
 		<key>title</key>
 		<string>生活</string>
+		<key>fatherId</key>
+		<integer>3</integer>
 		<key>subtitles</key>
 		<array>
 			<dict>
@@ -235,6 +243,8 @@
 		<string>yyfw_channel_producttion_22x22_</string>
 		<key>title</key>
 		<string>产品</string>
+		<key>fatherId</key>
+		<integer>4</integer>
 		<key>subtitles</key>
 		<array>
 			<dict>
@@ -256,6 +266,8 @@
 		<string>yyfw_channel_project_22x22_</string>
 		<key>title</key>
 		<string>项目</string>
+		<key>fatherId</key>
+		<integer>5</integer>
 		<key>subtitles</key>
 		<array>
 			<dict>
@@ -307,14 +319,10 @@
 		<string>yyfw_channel_adviser_22x22_</string>
 		<key>title</key>
 		<string>投顾</string>
+		<key>fatherId</key>
+		<integer>6</integer>
 		<key>subtitles</key>
 		<array>
-			<dict>
-				<key>title</key>
-				<string>全部</string>
-				<key>id</key>
-				<string>0</string>
-			</dict>
 			<dict>
 				<key>title</key>
 				<string>荐股</string>
@@ -340,14 +348,10 @@
 		<string>yyfw_channel_broker_22x22_</string>
 		<key>title</key>
 		<string>券商</string>
+		<key>fatherId</key>
+		<integer>7</integer>
 		<key>subtitles</key>
 		<array>
-			<dict>
-				<key>title</key>
-				<string>全部</string>
-				<key>id</key>
-				<string>0</string>
-			</dict>
 			<dict>
 				<key>title</key>
 				<string>QDII/QfII</string>
@@ -373,14 +377,10 @@
 		<string>yyfw_channel_fund_22x22_</string>
 		<key>title</key>
 		<string>基金</string>
+		<key>fatherId</key>
+		<integer>8</integer>
 		<key>subtitles</key>
 		<array>
-			<dict>
-				<key>title</key>
-				<string>全部</string>
-				<key>id</key>
-				<string>0</string>
-			</dict>
 			<dict>
 				<key>title</key>
 				<string>股票型</string>

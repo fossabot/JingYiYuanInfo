@@ -45,6 +45,11 @@
 
 @implementation YYNewsPicturesCell
 
+- (void)dealloc {
+    
+    YYLogFunc
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -76,21 +81,22 @@
         }
         YYLog(@"imageurl %@ ",model.img);
     }
+    YYWeakSelf
     [_newsPic sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
         [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
             if (isInCache) {
                 return;//缓存中有，不再加载
             }
+            //imageView的淡入效果
+            weakSelf.newsPic.alpha = 0.0;
+            [UIView transitionWithView:weakSelf.newsPic
+                              duration:0.3
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{
+                                weakSelf.newsPic.alpha = 1.0;
+                            } completion:nil];
         }];
-        //imageView的淡入效果
-        _newsPic.alpha = 0.0;
-        [UIView transitionWithView:_newsPic
-                          duration:0.5
-                           options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:^{
-                            _newsPic.alpha = 1.0;
-                        } completion:nil];
     }];
     
     [_imageCount setTitle:[NSString stringWithFormat:@"%ld图",hotinfoModel.picarr.count] forState:UIControlStateNormal];
@@ -101,6 +107,11 @@
     if (hotinfoModel.keywords.length) {
         if ([hotinfoModel.keywords containsString:@" "]) {
             NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@" "];
+            self.tagLabel1.text = keywoeds[0];
+            self.tagLabel2.text = keywoeds[1];
+        }else if ([hotinfoModel.keywords containsString:@"，"]){
+            
+            NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@"，"];
             self.tagLabel1.text = keywoeds[0];
             self.tagLabel2.text = keywoeds[1];
         }else{
@@ -126,7 +137,7 @@
 - (void)createSubview {
     
     UIView *cellSeparator = [[UIView alloc] init];
-    cellSeparator.backgroundColor = LightGraySeperatorColor;
+    cellSeparator.backgroundColor = GraySeperatorColor;
     [self.contentView addSubview:cellSeparator];
     self.cellSeparator = cellSeparator;
     

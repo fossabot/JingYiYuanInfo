@@ -20,7 +20,11 @@
 
 - (NSString *)indeximg {
     
-    return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_indeximg];
+    if ([_indeximg containsString:@"http"]) {
+        return _indeximg;
+    }
+#warning 暂时用之前的yyfw的拼接地址，现在的地址没有数据，上线必须用yyapp
+    return [NSString stringWithFormat:@"%@%@",yyfwJointUrl,_indeximg];
 }
 
 

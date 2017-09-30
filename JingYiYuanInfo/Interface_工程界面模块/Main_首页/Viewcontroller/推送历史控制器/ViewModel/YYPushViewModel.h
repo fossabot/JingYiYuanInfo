@@ -16,7 +16,7 @@ typedef void(^CellSelectBlock)(id cell, NSIndexPath *indexPath);
 - (NSMutableArray *)oldNineDaysAndLastFiveDaysAccordingDate:(NSDate *)date;
 
 /** 推送历史列表请求方法*/
-- (void)fetchDataWithDate:(NSString *)date;
+- (void)fetchDataWithDate:(NSString *)date completion:(void(^)(BOOL success))completion;
 
 
 @end

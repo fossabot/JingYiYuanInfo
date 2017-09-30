@@ -9,6 +9,8 @@
 #import "YYMainRollwordsCell.h"
 #import "SDCycleScrollView.h"
 #import "YYMainRollwordsModel.h"
+#import "YYFastMsgController.h"
+#import "UIView+YYParentController.h"
 
 @interface YYMainRollwordsCell()<SDCycleScrollViewDelegate>
 
@@ -70,10 +72,13 @@
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index {
     YYLog(@"选中了%ld张图片",index);
-    if (_rollwordsBlock) {
-        
-        _rollwordsBlock(index, self);
-    }
+//    if (_rollwordsBlock) {
+//        
+//        _rollwordsBlock(index, self);
+//    }
+    YYFastMsgController *fastMsgVc = [[YYFastMsgController alloc] init];
+    fastMsgVc.jz_wantsNavigationBarVisible = YES;
+    [self.parentNavigationController pushViewController:fastMsgVc animated:YES];
 }
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------

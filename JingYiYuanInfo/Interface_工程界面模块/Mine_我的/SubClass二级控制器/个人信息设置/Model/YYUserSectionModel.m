@@ -10,6 +10,12 @@
 
 @implementation YYUserSectionModel
 
-
+- (NSMutableArray *)dataSource {
+    
+    if (!_dataSource) {
+        _dataSource = [NSMutableArray array];
+    }
+    return _dataSource;
+}
 
 @end

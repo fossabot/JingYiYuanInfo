@@ -18,6 +18,9 @@
 /** title*/
 @property (nonatomic, copy) NSString *title;
 
+/** fatherId*/
+@property (nonatomic, assign) NSInteger fatherId;
+
 /** subtitles*/
 @property (nonatomic, strong) NSArray<YYSubtitle *> *subtitles;
 

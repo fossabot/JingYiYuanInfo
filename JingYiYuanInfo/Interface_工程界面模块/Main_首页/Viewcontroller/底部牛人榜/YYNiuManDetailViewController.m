@@ -8,6 +8,12 @@
 
 #import "YYNiuManDetailViewController.h"
 #import "UIBarButtonItem+YYExtension.h"
+#import <MJRefresh/MJRefresh.h>
+
+#import "YYNiuManDetailVM.h"
+#import "YYNiuArticleCell.h"
+#import "YYNiuArticleModel.h"
+#import "YYNiuNewsDetailViewController.h"
 
 @interface YYNiuManDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -20,8 +26,8 @@
 /** focus*/
 @property (nonatomic, strong) UIBarButtonItem *focusItem;
 
-/** dataSource*/
-@property (nonatomic, strong) NSMutableArray *dataSource;
+/** viewModel*/
+@property (nonatomic, strong) YYNiuManDetailVM *viewModel;
 
 @end
 
@@ -31,11 +37,8 @@
     [super viewDidLoad];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
-    UIBarButtonItem *focusItem = [[UIBarButtonItem alloc] initWithTitle:@"+关注" style:UIBarButtonItemStyleDone target:self action:@selector(focus)];
-    self.navigationItem.rightBarButtonItem = focusItem;
-    self.focusItem = focusItem;
     [self configSubView];
-    
+    [self loadNewData];
     
 }
 
@@ -43,6 +46,10 @@
 
 - (void)configSubView {
     
+//    UIBarButtonItem *focusItem = [[UIBarButtonItem alloc] initWithTitle:@"+关注" style:UIBarButtonItemStyleDone target:self action:@selector(focus)];
+//    self.navigationItem.rightBarButtonItem = focusItem;
+//    self.focusItem = focusItem;
+
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     titleView.backgroundColor = [UIColor clearColor];
     self.navigationItem.titleView = titleView;
@@ -71,7 +78,21 @@
  */
 - (void)loadNewData {
     
+    if ([self.tableView.mj_footer isRefreshing]) {
+        [self.tableView.mj_footer endRefreshing];
+    }
     
+    YYWeakSelf
+    [self.viewModel fetchNewDataCompletion:^(BOOL success) {
+        
+        YYStrongSelf
+        [strongSelf.tableView.mj_header endRefreshing];
+        if (success) {
+
+            [strongSelf.tableView reloadData];
+        }
+    }];
+
 }
 
 /**
@@ -79,24 +100,21 @@
  */
 - (void)loadMoreData {
     
-    
-}
-
-
-
-#pragma -- mark TableViewDelegate
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.dataSource.count;
-}
-#pragma -- mark TableViewDataSource
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString*cellID = @"cellID";
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+    if ([self.tableView.mj_header isRefreshing]) {
+        [self.tableView.mj_header endRefreshing];
     }
-    return cell;
+    
+    YYWeakSelf
+    [self.viewModel fetchMoreDataCompletion:^(BOOL success) {
+        
+        YYStrongSelf
+        [strongSelf.tableView.mj_footer endRefreshing];
+        if (success) {
+            [strongSelf.tableView reloadData];
+        }
+    }];
 }
+
 
 
 /**
@@ -119,21 +137,69 @@
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
-- (UITableView *)tableView{
+
+- (YYNiuManDetailVM *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[YYNiuManDetailVM alloc] init];
+        _viewModel.niuid = self.niuid;
+        YYWeakSelf
+        _viewModel.cellSelectedBlock = ^(id data, NSIndexPath *indexPath) {
+            
+            //跳转到相应的详情页（牛人详情或者新闻详情）
+            YYStrongSelf
+            YYNiuArticleModel *model = (YYNiuArticleModel *)data;
+            YYNiuNewsDetailViewController *niuNewsDetail = [[YYNiuNewsDetailViewController alloc] init];
+            niuNewsDetail.url = model.webUrl;
+            niuNewsDetail.shareImgUrl = model.picurl;
+            [strongSelf.navigationController pushViewController:niuNewsDetail animated:YES];
+            
+        };
+        
+    }
+    return _viewModel;
+}
+
+- (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-64) style:UITableViewStylePlain];
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 49, 0);
+        _tableView.tableFooterView = [[UIView alloc] init];
+        _tableView.delegate = self.viewModel;
+        _tableView.dataSource = self.viewModel;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+        [self.tableView registerClass:[YYNiuArticleCell class] forCellReuseIdentifier:YYNiuArticleCellID];
+        YYWeakSelf
+        MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
+            YYStrongSelf
+            [strongSelf loadMoreData];
+        }];
+        /** 普通闲置状态  壹元君正努力为您加载数据*/
+        footer.stateLabel.text = @"壹元君正努力为您加载中...";
+        _tableView.mj_footer = footer;
+        
+        MJRefreshStateHeader *header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+            
+            YYStrongSelf
+            [strongSelf loadNewData];
+        }];
+        header.stateLabel.text = @"壹元君正努力为您加载中...";
+        _tableView.mj_header = header;
+        
+        FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
+        configer.emptyImage = imageNamed(emptyImageName);
+        configer.emptyTitle = @"暂无数据,点此重新加载";
+        configer.emptyTitleColor = UnenableTitleColor;
+        configer.emptyTitleFont = SubTitleFont;
+        configer.allowScroll = NO;
+        configer.emptyViewTapBlock = ^{
+            [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        [self.tableView emptyViewConfiger:configer];
     }
     return _tableView;
 }
 
 
-- (NSMutableArray *)dataSource{
-    if (!_dataSource) {
-        _dataSource = [NSMutableArray array];
-    }
-    return _dataSource;
-}
 
 @end

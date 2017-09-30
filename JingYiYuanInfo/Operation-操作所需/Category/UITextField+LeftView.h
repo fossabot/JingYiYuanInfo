@@ -12,4 +12,7 @@
 
 - (void)setLeftViewWithImage:(NSString *)imageName;
 
+
+- (void)setLeftTitle:(NSString *)title;
+
 @end

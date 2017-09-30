@@ -26,12 +26,19 @@
 
 - (void)setPicurl:(NSString *)picurl {
     
-    _picurl = [NSString stringWithFormat:@"%@%@",yyappJointUrl,picurl];
+    if (![picurl containsString:@"http"]) {
+        
+        _picurl = [NSString stringWithFormat:@"%@%@",yyappJointUrl,picurl];
+    }
 }
 
 
 - (NSString *)URL {
     
+    
+    if ([_URL containsString:@"http"]) {
+        return _URL;
+    }
     return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_URL];
 }
 

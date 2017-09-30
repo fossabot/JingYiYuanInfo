@@ -11,6 +11,7 @@
 #import "YYMainRollwordsModel.h"
 #import "YYMainSrollpicModel.h"
 #import "YYMainPostmsgModel.h"
+#import "YYMainMarketDataModel.h"
 
 @interface YYMainModel : NSObject
 
@@ -27,8 +28,6 @@
 @property (nonatomic, strong) YYMainPostmsgModel *post_msg;
 
 /** 证券指数的图片*/
-@property (nonatomic, copy) NSString *marketImage;
-
-
+@property (nonatomic, strong) YYMainMarketDataModel *zhishu;
 
 @end

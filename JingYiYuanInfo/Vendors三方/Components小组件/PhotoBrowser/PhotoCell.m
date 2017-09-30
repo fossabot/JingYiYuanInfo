@@ -22,6 +22,9 @@
 /** imgUrl*/
 @property (nonatomic, copy) NSString *imgUrl;
 
+/** indicator*/
+@property (nonatomic, strong) UIActivityIndicatorView *juhua;
+
 @end
 
 @implementation PhotoCell
@@ -83,25 +86,51 @@
 
 #pragma mark 保存图片后的回调
 - (void)image:(UIImage*)image didFinishSavingWithError:(NSError*)error contextInfo:(id)contextInfo {
-    
-    [SVProgressHUD showSuccessWithStatus:@"保存成功"];
+    if (error) {
+        YYLog(@"error : %@",error);
+        [SVProgressHUD showErrorWithStatus:@"保存失败"];
+    }else {
+        
+        [SVProgressHUD showSuccessWithStatus:@"保存成功"];
+    }
+    [SVProgressHUD dismissWithDelay:1];
 }
 
 
-- (void)setImgUrl:(NSString *)imgUrl desc:(NSString *)desc total:(NSInteger)total index:(NSInteger)index {
+- (void)setImgUrl:(NSString *)imgUrl total:(NSInteger)total index:(NSInteger)index {
     
     //移除上一个imageView
     [self.imageView removeFromSuperview];
     
-    self.imageView = [[UIImageView alloc] init];
+    self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.yy_width, self.yy_width*2/3)];
+//    self.imageView.image = [UIImage imageNamed:@"placeholder"];
+    self.imageView.yy_center = self.center;
+    self.imageView.yy_width = self.yy_width;
     self.imageView.contentMode = UIViewContentModeScaleAspectFit;
     self.imageView.userInteractionEnabled = YES;
     [self.scrollView addSubview:self.imageView];
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"placeholder"] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+    YYWeakSelf
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"placeholder"] options:SDWebImageDelayPlaceholder progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+       
+        YYStrongSelf
+        if (expectedSize) {
+            
+            [strongSelf.juhua startAnimating];
+//            CGFloat finished = receivedSize/expectedSize;
+//            [SVProgressHUD showProgress:finished];
+        }
         
-        self.imageView.frame = [self setImage:image];
-        //设置scroll的contentsize的frame
-        self.scrollView.contentSize = self.imageView.frame.size;
+    } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        
+        YYStrongSelf
+        if (image) {
+            
+            strongSelf.imageView.frame = [strongSelf setImage:image];
+            //设置scroll的contentsize的frame
+            strongSelf.scrollView.contentSize = strongSelf.imageView.frame.size;
+        }
+//        [SVProgressHUD dismiss];
+        [strongSelf.juhua stopAnimating];
     }];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideOther)];
@@ -136,7 +165,7 @@
 }
 
 //根据不同的比例设置尺寸
--(CGRect) setImage:(UIImage *)image
+- (CGRect)setImage:(UIImage *)image
 {
     
     CGFloat imageX = image.size.width;
@@ -176,6 +205,18 @@
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     return self.imageView;
+}
+
+
+#pragma mark -- lazyMethods 懒加载区域  --------------------------
+
+- (UIActivityIndicatorView *)juhua{
+    if (!_juhua) {
+        _juhua = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        _juhua.yy_center = self.center;
+        _juhua.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    }
+    return _juhua;
 }
 
 @end

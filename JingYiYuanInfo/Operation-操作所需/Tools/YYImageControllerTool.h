@@ -17,4 +17,6 @@ typedef void(^ImageControllerBlock)(UIImage *image);
 
 + (void)awakeImagePickerControllerCompletion:(ImageControllerBlock)completion;
 
++ (void)awakeImagePickerControllerWithDelegate:(id)delegate;
+
 @end

@@ -8,11 +8,12 @@
 
 #import "THBaseViewController.h"
 
+@class YYCommonCell;
 
 @interface YYChangeUserInfoController : THBaseViewController
 
 /** cell*/
-@property (nonatomic, strong) UITableViewCell *cell;
+@property (nonatomic, strong) YYCommonCell *cell;
 
 /** paraKey*/
 @property (nonatomic, copy) NSString *paraKey;

@@ -13,4 +13,7 @@
 /** datas*/
 @property (nonatomic, strong) NSArray *datas;
 
+/** fatherId*/
+@property (nonatomic, assign) NSInteger fatherId;
+
 @end

@@ -12,4 +12,7 @@ static NSString * const YYMainMarketDataCellID = @"YYMainMarketDataCell";
 
 @interface YYMainMarketDataCell : UITableViewCell
 
+/** dataImageView*/
+@property (nonatomic, strong) UIImageView *dataImageView;
+
 @end

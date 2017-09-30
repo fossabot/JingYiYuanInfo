@@ -7,6 +7,7 @@
 //
 
 #import "THBaseViewController.h"
+#import "UIImage+Category.h"
 
 @interface THBaseViewController ()
 
@@ -27,6 +28,10 @@
     //设置controller的主题色，未设置时默认白色
     self.view.backgroundColor = [UIColor whiteColor];
     
+    //设置navigation的背景色
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:17]}];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageWithColor:ThemeColor] forBarMetrics:UIBarMetricsDefault];
     
 }
 

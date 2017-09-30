@@ -16,16 +16,26 @@ typedef NS_OPTIONS(NSUInteger, DetailToolBarType) {
     DetailToolBarTypeReward = 1 << 4  //打赏按钮
 };
 
-typedef void(^ToolBarSelectBlock)(DetailToolBarType toolBarType);
+@class YYDetailToolBar;
+
+@protocol YYDetailToolBarDelegate <NSObject>
+
+- (void)detailToolBar:(YYDetailToolBar *)toolBar didSelectBarType:(DetailToolBarType)barType;
+
+@end
+
+//typedef void(^ToolBarSelectBlock)(DetailToolBarType toolBarType);
 typedef void(^SendComment)(NSString *comment);
 
 @interface YYDetailToolBar : UIView
+
+
 
 /** toolbar的基本类型*/
 @property (nonatomic, assign) DetailToolBarType toolBarType;
 
 /** selectBlock*/
-@property (nonatomic, copy) ToolBarSelectBlock selectBlock;
+//@property (nonatomic, copy) ToolBarSelectBlock selectBlock;
 
 /** 发送评论的回调*/
 @property (nonatomic, copy) SendComment sendCommentBlock;
@@ -35,5 +45,11 @@ typedef void(^SendComment)(NSString *comment);
 
 /** 写评论按钮的文字*/
 @property (nonatomic, copy) NSString *placeHolder;
+
+/** delegate*/
+@property (nonatomic, weak) id<YYDetailToolBarDelegate> delegate;
+
+/** 写评论*/
+- (void)writeComments:(void(^)(NSString *comment))comment;
 
 @end

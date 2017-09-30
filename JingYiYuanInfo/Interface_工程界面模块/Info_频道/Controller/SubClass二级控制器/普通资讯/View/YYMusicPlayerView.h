@@ -21,4 +21,10 @@
 
 //http://yyapp.1yuaninfo.com/app/houtai/uploads\/media\/20170906\/1504675826.mp3
 
+/** 暂停音乐播放器*/
+- (void)playerPause;
+
+/** 强制改变音乐播放器的状态*/
+- (void)forcePlayerPause;
+
 @end

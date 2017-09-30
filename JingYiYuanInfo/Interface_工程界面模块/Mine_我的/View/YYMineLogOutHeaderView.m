@@ -6,9 +6,8 @@
 //  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
 //
 
-//#import "RTRootNavigationController.h"
 #import "YYMineLogOutHeaderView.h"
-#import "YYLoginViewController.h"
+#import "YYLogInController.h"
 #import "YYSettingViewController.h"
 
 #import "UIView+YYParentController.h"
@@ -32,7 +31,7 @@
 /** 登录方法  登录成功后换头部*/
 - (IBAction)logIn:(id)sender {
    
-    YYLoginViewController *logInVC = [[YYLoginViewController alloc] init];
+    YYLogInController *logInVC = [[YYLogInController alloc] init];
     [[self parentViewController] presentViewController:logInVC animated:YES completion:nil];
 }
 

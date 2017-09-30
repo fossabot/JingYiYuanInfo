@@ -22,4 +22,8 @@ static NSString * const YYChannelVideoCellId = @"YYChannelVideoCell";
 /** video模型*/
 @property (nonatomic, strong) YYBaseVideoModel *videoModel;
 
+/** 视频展示图片*/
+@property (nonatomic, strong) UIImageView *videoImg;
+
+
 @end

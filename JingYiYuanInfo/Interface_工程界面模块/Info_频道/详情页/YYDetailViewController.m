@@ -176,7 +176,8 @@ static NSString * const YY_Net = @"www.yyinfo.com";
     YYLog(@"加载网页失败---%@= %s",error, __FUNCTION__);
     [SVProgressHUD dismiss];
     //自定义的占位图片加载失败时展示，并且点击可重新加载网页
-    [YYPlaceHolderView showInView:self.view image:@"" clickAction:^{
+    [YYPlaceHolderView showInView:self.view image:@"yyfw_push_empty_112x94_" clickAction:^{
+        
         [webView reload];
     } dismissAutomatically:YES];
     

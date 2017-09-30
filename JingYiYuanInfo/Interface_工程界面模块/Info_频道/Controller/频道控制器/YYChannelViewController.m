@@ -12,16 +12,17 @@
 #import "ChannelCollectionViewCell.h"
 #import "ChannelCollectionReusableView.h"
 
-#import "YYMarketViewController.h"  //行情
-#import "YYHotListViewController.h"  //热点
+#import "YYMarketViewController.h"     //行情
+#import "YYHotListViewController.h"    //热点
 #import "YYEntertainmentViewController.h" //娱乐
-#import "YYLifeViewController.h"   //生活
+#import "YYLifeViewController.h"       //生活
 #import "YYProductionViewController.h" //产品
-#import "YYAdviserViewController.h" //投顾
+//#import "YYAdviserViewController.h"    //投顾
 #import "YYBrokerViewController.h"     //券商
 #import "YYFundViewController.h"       //基金
 #import "YYProjectViewController.h"    //项目
 
+#import "YYThreeSeekController.h"
 
 #import "YYChannel.h"
 #import "YYSubtitle.h"
@@ -103,10 +104,11 @@
             YYMarketViewController *market = [[YYMarketViewController alloc] init];
             YYChannel *channel = self.datas[section];
             market.datas = channel.subtitles;
-            market.selectedControllerIndex = row;
+            market.fatherId = channel.fatherId;
+            market.defaultSelectedControllerIndex = row;
             market.title = channel.title;
+            market.jz_wantsNavigationBarVisible = YES;
             [self.navigationController pushViewController:market animated:YES];
-            
         }
             break;
         
@@ -145,7 +147,9 @@
             YYProductionViewController *production = [[YYProductionViewController alloc] init];
             YYChannel *channel = self.datas[section];
             production.datas = channel.subtitles;
-            production.selectedControllerIndex = row;
+            production.fatherId = channel.fatherId;
+            production.defaultSelectedControllerIndex = row;
+            production.jz_wantsNavigationBarVisible = YES;
             [self.navigationController pushViewController:production animated:YES];
         }
             break;
@@ -155,40 +159,49 @@
             YYProjectViewController *project = [[YYProjectViewController alloc] init];
             YYChannel *channel = self.datas[section];
             project.datas = channel.subtitles;
-            project.selectedControllerIndex = row;
+            project.fatherId = channel.fatherId;
+            project.defaultSelectedControllerIndex = row;
+            project.jz_wantsNavigationBarVisible = YES;
             [self.navigationController pushViewController:project animated:YES];
         }
             break;
             
-        case 6:{
-            //投顾
-            YYAdviserViewController *adviser = [[YYAdviserViewController alloc] init];
-            YYChannel *channel = self.datas[section];
-            adviser.datas = channel.subtitles;
-            adviser.selectedControllerIndex = row;
-            [self.navigationController pushViewController:adviser animated:YES];
-        }
-            break;
-            
-        case 7:{
-            //券商
-            YYBrokerViewController *broker = [[YYBrokerViewController alloc] init];
-            YYChannel *channel = self.datas[section];
-            broker.datas = channel.subtitles;
-            broker.selectedControllerIndex = row;
-            [self.navigationController pushViewController:broker animated:YES];
-        }
-            break;
-            
+        case 6:
+        case 7:
         case 8:{
-            //基金
-            YYFundViewController *fund = [[YYFundViewController alloc] init];
+            //投顾、券商、基金
+            YYThreeSeekController *threeVc = [[YYThreeSeekController alloc] init];
             YYChannel *channel = self.datas[section];
-            fund.datas = channel.subtitles;
-            fund.selectedControllerIndex = row;
-            [self.navigationController pushViewController:fund animated:YES];
+            threeVc.datas = channel.subtitles;
+            threeVc.title = channel.title;
+            threeVc.fatherId = channel.fatherId;
+            threeVc.defaultSelectedControllerIndex = row;
+            threeVc.jz_wantsNavigationBarVisible = YES;
+            [self.navigationController pushViewController:threeVc animated:YES];
         }
             break;
+            
+//        case 7:{
+//            //券商
+//            YYBrokerViewController *broker = [[YYBrokerViewController alloc] init];
+//            YYChannel *channel = self.datas[section];
+//            broker.datas = channel.subtitles;
+//            broker.selectedControllerIndex = row;
+//            broker.jz_wantsNavigationBarVisible = YES;
+//            [self.navigationController pushViewController:broker animated:YES];
+//        }
+//            break;
+//            
+//        case 8:{
+//            //基金
+//            YYFundViewController *fund = [[YYFundViewController alloc] init];
+//            YYChannel *channel = self.datas[section];
+//            fund.datas = channel.subtitles;
+//            fund.selectedControllerIndex = row;
+//            fund.jz_wantsNavigationBarVisible = YES;
+//            [self.navigationController pushViewController:fund animated:YES];
+//        }
+//            break;
             
         default:
             
@@ -290,6 +303,7 @@
         _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:self.flowLayout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
+        _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 59, 0);
         UIView *bgView = [[UIView alloc] init];
         bgView.backgroundColor = YYRGB(238, 239, 240);
         _collectionView.backgroundView = bgView;

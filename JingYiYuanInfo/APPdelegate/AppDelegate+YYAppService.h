@@ -29,6 +29,18 @@
 <UNUserNotificationCenterDelegate>
 #endif
 
+
+/**
+ *  检查本地有没有存漏单的receipt
+ */
+- (void)checkUnTestReceipt;
+
+
+/**
+ *  第一次安装APP  初始化配置 传deviceToken到后台
+ */
+- (void)firstConfigWithDeviceToken:(NSString *)deviceToken;
+
 /**
  *  注册腾讯Bugly错误统计
  */

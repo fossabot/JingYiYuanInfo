@@ -46,6 +46,9 @@
 
 - (NSString *)indeximg {
     
+    if ([_indeximg containsString:@"http"]) {
+        return _indeximg;
+    }
     return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_indeximg];
 }
 

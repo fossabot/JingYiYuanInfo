@@ -21,9 +21,9 @@
 
 - (void)configSubview {
     
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, kSCREENWIDTH - 100, 20)];
-    title.font = TitleFont;
-    title.textColor = TitleColor;
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 10, kSCREENWIDTH - 20, 20)];
+    title.font = NavTitleFont;
+    title.textColor = SubTitleColor;
     self.title = title;
     [self.contentView addSubview:title];
     

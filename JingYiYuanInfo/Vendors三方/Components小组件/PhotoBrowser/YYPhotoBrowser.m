@@ -223,7 +223,7 @@
         }];
     };
     
-    [cell setImgUrl:self.images[indexPath.row] desc:self.titles[indexPath.row] total:self.images.count index:indexPath.row];
+    [cell setImgUrl:self.images[indexPath.row] total:self.images.count index:indexPath.row];
     
     return cell;
 }

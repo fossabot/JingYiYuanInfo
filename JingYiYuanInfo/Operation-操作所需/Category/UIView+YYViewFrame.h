@@ -38,6 +38,8 @@
 
 @property (nonatomic, assign) CGSize yy_size;
 
+@property (nonatomic, assign) CGPoint yy_center;
+
 @property (nonatomic, assign) CGFloat yy_centerX;
 
 @property (nonatomic, assign) CGFloat yy_centerY;

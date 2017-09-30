@@ -7,6 +7,7 @@
 //  个人信息单例
 
 #import <Foundation/Foundation.h>
+#define setUpInfo @"setUpInfo"
 
 @interface YYUser : NSObject
 
@@ -48,7 +49,8 @@ YYSingletonH(User)
 /** 到期时间 */
 @property (nonatomic, copy) NSString *expiretime;
 
-
+/** 积分*/
+@property (nonatomic, copy) NSString *integral;
 
 
 #pragma mark ------------------    自定义的用户信息  ----------------------------
@@ -64,10 +66,16 @@ YYSingletonH(User)
 @property (nonatomic, copy) NSString *webFontStr;
 
 /** wifi下播放*/
-@property (nonatomic, assign) BOOL canWIFIPlay;
+@property (nonatomic, assign) BOOL onlyWIFIPlay;
 
 /** 签到天数  今天已签到返回真实签到天数  未签到返回0 则签到按钮状态自动变化*/
 @property (nonatomic, assign) NSInteger signDays;
+
+/** setUp*/
+@property (nonatomic, copy) NSString *setUp;
+
+/** deviceToken*/
+@property (nonatomic, copy) NSString *deviceToken;
 
 /**
  填充个人信息
@@ -79,5 +87,6 @@ YYSingletonH(User)
  */
 + (void)logOut;
 
+- (NSInteger)currentPoint;
 
 @end

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FUQ-Og-tWe">
-                    <rect key="frame" x="20" y="48.5" width="90" height="90"/>
+                    <rect key="frame" x="20" y="68.5" width="90" height="90"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="90" id="PF1-6K-TOa"/>
                         <constraint firstAttribute="width" secondItem="FUQ-Og-tWe" secondAttribute="height" multiplier="1:1" id="eSA-Dg-sxq"/>
@@ -29,7 +29,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fx0-ux-Loi">
-                    <rect key="frame" x="140" y="78" width="100" height="30"/>
+                    <rect key="frame" x="140" y="98.5" width="100" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="100" id="bWg-Wp-tDu"/>
                         <constraint firstAttribute="height" constant="30" id="z0j-wP-xmw"/>
@@ -62,10 +62,10 @@
             </subviews>
             <color key="backgroundColor" red="0.83137254900000002" green="0.23529411759999999" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Fx0-ux-Loi" firstAttribute="centerY" secondItem="BDO-Ib-5kd" secondAttribute="centerY" id="2aX-rT-tLm"/>
                 <constraint firstItem="4LQ-It-Nyy" firstAttribute="top" secondItem="BDO-Ib-5kd" secondAttribute="top" constant="30" id="3Z4-h7-Cih"/>
+                <constraint firstItem="Fx0-ux-Loi" firstAttribute="centerY" secondItem="FUQ-Og-tWe" secondAttribute="centerY" id="EqA-wo-IHb"/>
                 <constraint firstItem="FUQ-Og-tWe" firstAttribute="leading" secondItem="BDO-Ib-5kd" secondAttribute="leading" constant="20" id="Ktk-A4-EzY"/>
-                <constraint firstItem="FUQ-Og-tWe" firstAttribute="centerY" secondItem="BDO-Ib-5kd" secondAttribute="centerY" id="Rli-aF-opC"/>
+                <constraint firstItem="FUQ-Og-tWe" firstAttribute="centerY" secondItem="BDO-Ib-5kd" secondAttribute="centerY" constant="20" id="Rli-aF-opC"/>
                 <constraint firstItem="Fx0-ux-Loi" firstAttribute="leading" secondItem="FUQ-Og-tWe" secondAttribute="trailing" constant="30" id="dUh-qu-2AX"/>
                 <constraint firstAttribute="trailing" secondItem="4LQ-It-Nyy" secondAttribute="trailing" constant="15" id="gF8-J9-mJU"/>
             </constraints>

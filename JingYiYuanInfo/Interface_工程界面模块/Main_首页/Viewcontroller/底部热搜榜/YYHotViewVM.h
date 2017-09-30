@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+/** picstate  文章类型左图图集等*/
 typedef void(^YYHotViewCellSelectBlock)(NSInteger picstate, id data, NSIndexPath *indexPath);
 
 @interface YYHotViewVM : NSObject<UITableViewDelegate,UITableViewDataSource>

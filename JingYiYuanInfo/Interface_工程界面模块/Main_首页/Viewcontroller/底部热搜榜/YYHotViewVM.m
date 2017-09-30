@@ -38,6 +38,17 @@
 
 @implementation YYHotViewVM
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        _urlKey = 0;
+    }
+    return self;
+}
+
+
 /**
  *  加载新数据
  */
@@ -50,7 +61,7 @@
     [PPNetworkHelper GET:changetagsUrl parameters:para responseCache:^(id responseCache) {
         YYLog(@"hotview这是缓存数据");
         YYLog(@"changetagsUrl : %@",changetagsUrl);
-        if (!self.headerDataSource.count) {
+        if (!self.headerDataSource.count && responseCache) {
             //数据源有数据，不是初始化，不用拿缓存,否则将拿缓存给数据源
             YYHotModel *hotModel = [YYHotModel mj_objectWithKeyValues:responseCache];
             self.headerDataSource = (NSMutableArray *)hotModel.tag_arr;
@@ -209,6 +220,7 @@
     if (self.hotDataSource.count && indexPath.section == 0) {
         YYHotHotModel *hotModel = self.hotDataSource[indexPath.row];
         _selectedBlock(5, hotModel, indexPath);
+        //自定义5位排行cell的点击
     }
     else {
         

@@ -29,6 +29,10 @@
     }
 }
 
+- (NSString *)yprice {
+    return [NSString stringWithFormat:@"￥%@",_yprice];
+}
+
 - (NSString *)ystate {
     
     if ([_ystate isEqualToString:@"1"]) {
