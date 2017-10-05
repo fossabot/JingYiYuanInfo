@@ -27,7 +27,7 @@ target 'JingYiYuanInfo' do
   use_frameworks!
   pod 'FSCalendar'        # 日历库
   pod 'MLeaksFinder'      # 检测内存泄漏的工具，微信阅读团队开发的工具
-#  pod 'FMDB'              # 数据库SQLite的工具类库
+  pod 'FMDB'              # 数据库SQLite的工具类库
   pod 'Bugly'             # 腾讯错误统计SDK
   pod 'SAMKeychain'       # 钥匙串
   pod 'YPTabBarController' #顶部滑动选择器

@@ -16,4 +16,6 @@
 /** 购买产品  通过产品id(通常为产品id一般为你工程的 Bundle ID + 功能 + 数字，ps:com.yyinfo)  需与iTunes connect 产品ID后台一致  */
 + (void)buyProductByProductionId:(NSString *)productionId;
 
++ (void)printReceipt;
+
 @end

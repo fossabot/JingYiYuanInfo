@@ -13,17 +13,25 @@
 
 @implementation YYIAPTool
 
++ (void)printReceipt{
+    
+    // 这个 receipt 就是内购成功 苹果返回的收据
+    NSData *receipt = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]];
+    NSString *receiptBase64 = [NSString base64StringFromData:receipt length:[receipt length]];
+    YYLog(@"receiptBase64 - -- - %@",receiptBase64);
+}
+
 + (void)buyProductByProductionId:(NSString *)productionId {
     
 //    [SVProgressHUD showWithStatus:@"购买时请不要关闭应用..."];
     
     YYUser *user = [YYUser shareUser];
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:productionId,@"productid",@"1",@"type",user.userid,USERID, nil];
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"productid",@"1",@"type",user.userid,USERID, nil];
     [YYHttpNetworkTool GETRequestWithUrlstring:preIapOrderUrl parameters:para success:^(id response) {
-        
+        YYLog(@"response %@",response[@"state"]);
+        [self buyProduct:productionId];
         if (response && ![response[@"state"] isEqualToString:@"0"]) {
-            
-            [self buyProduct:productionId];
+        
             YYLog(@"生成预支付订单成功");
         }else {
             YYLog(@"生成预支付订单失败");
@@ -69,7 +77,7 @@
                                             if(trans.error)
                                             {
                                                 
-                                                
+                                                [SVProgressHUD dismissWithDelay:1];
                                                 YYLog(@"Fail  ????  %@",[trans.error localizedDescription]);
                                                 
                                             }else if(trans.transactionState == SKPaymentTransactionStatePurchased) {
@@ -122,6 +130,7 @@
                                                 }
                                                 [SVProgressHUD dismissWithDelay:1];
                                             }
+                                            [SVProgressHUD dismissWithDelay:1];
                                         }];
          }else{
              //  ..未获取到商品
@@ -147,7 +156,7 @@
     [[IAPShare sharedHelper].iap provideContentWithTransaction:paymentTransaction];
 //    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:base64Str,@"name", nil];
     
-    [YYHttpNetworkTool POSTRequestWithUrlstring:IAPReceiptUrl parameters:@{@"apple_receipt":base64Str} success:^(id response) {
+    [YYHttpNetworkTool POSTRequestWithUrlstring:IAPReceiptUrl parameters:@{@"produtid":@"1",@"goodtype":@"1",@"apple_receipt":base64Str} success:^(id response) {
         
         if ([response[@"state"] isEqualToString:@"0"]) {
             YYLog(@"购买成功，并给后台同步返回成功验证");

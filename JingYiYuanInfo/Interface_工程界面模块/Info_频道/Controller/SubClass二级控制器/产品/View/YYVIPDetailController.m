@@ -14,6 +14,8 @@
 /** buy*/
 @property (nonatomic, strong) UIButton *buy;
 
+@property (nonatomic, strong) UIButton *test;
+
 @end
 
 @implementation YYVIPDetailController
@@ -27,6 +29,15 @@
        
         make.left.right.bottom.equalTo(self.view);
         make.height.equalTo(50);
+    }];
+    
+    [self.view addSubview:self.test];
+    
+    [self.test makeConstraints:^(MASConstraintMaker *make) {
+      
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.buy.top);
+        make.height.equalTo(40);
     }];
 }
 
@@ -44,6 +55,7 @@
 }
 
 
+
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 
 - (void)share {
@@ -51,6 +63,11 @@
     [ShareView shareWithTitle:self.navigationItem.title subTitle:@"" webUrl:self.url imageUrl:self.shareImgUrl isCollected:NO shareViewContain:nil shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
         
     }];
+}
+
+- (void)ttest {
+ 
+    [YYIAPTool printReceipt];
 }
 
 
@@ -67,6 +84,18 @@
     return _buy;
 }
 
+
+- (UIButton *)test {
+    
+    if (!_test) {
+        _test = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_test setTitle:@"test" forState:UIControlStateNormal];
+        [_test setTitleColor:WhiteColor forState:UIControlStateNormal];
+        [_test setBackgroundColor:ThemeColor];
+        [_test addTarget:self action:@selector(ttest) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _test;
+}
 
 
 #pragma mark -------  wkWebview 代理方法  --------------------------------

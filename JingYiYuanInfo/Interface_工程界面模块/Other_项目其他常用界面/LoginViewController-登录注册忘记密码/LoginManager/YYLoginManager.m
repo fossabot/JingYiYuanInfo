@@ -104,7 +104,7 @@
                 //success只是访问网络成功，并没有说明登录成功或失败，response里会有返回的登录信息response[@"status"]来判断登录成功与否，然后在调成功的回调
                 //status:0（不能为空）,1（成功）,2（插入数据库失败）,3（验证码超时）,4（验证码错误）
                 if (response) {
-                    NSString *status = response[STATUS];
+                    NSString *status = response[@"state"];
                     if ([status isEqualToString:@"1"]) {
                         [SVProgressHUD showSuccessWithStatus:@"注册成功"];
                         [YYUser configUserInfoWithDic:response[USERINFO]];

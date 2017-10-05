@@ -372,6 +372,7 @@
 		BFF8C1841F61170700FBAB04 /* YYMainMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF8C1831F61170600FBAB04 /* YYMainMessageCell.m */; };
 		BFF8C1871F611C3500FBAB04 /* YYMessageDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF8C1861F611C3500FBAB04 /* YYMessageDetailController.m */; };
 		DBF184A43E7A45B831EA479C /* Pods_JingYiYuanInfo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 235484E61E105545ECE94180 /* Pods_JingYiYuanInfo.framework */; };
+		F61367481F86181D0020A47B /* YYDataBaseTool.m in Sources */ = {isa = PBXBuildFile; fileRef = F61367471F86181D0020A47B /* YYDataBaseTool.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1103,6 +1104,8 @@
 		BFF8C1861F611C3500FBAB04 /* YYMessageDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYMessageDetailController.m; sourceTree = "<group>"; };
 		C32C93215A72C790C69175C5 /* Pods-JingYiYuanInfoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JingYiYuanInfoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JingYiYuanInfoTests/Pods-JingYiYuanInfoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D3A4813676F9AA7A96185494 /* Pods-JingYiYuanInfoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JingYiYuanInfoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JingYiYuanInfoUITests/Pods-JingYiYuanInfoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		F61367461F86181D0020A47B /* YYDataBaseTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYDataBaseTool.h; sourceTree = "<group>"; };
+		F61367471F86181D0020A47B /* YYDataBaseTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYDataBaseTool.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2060,6 +2063,8 @@
 				BFF8BF191F5FD53400FBAB04 /* YYUMShareManager.m */,
 				BF7DC5BA1F76417B00FA3F23 /* YYIAPTool.h */,
 				BF7DC5BB1F76417B00FA3F23 /* YYIAPTool.m */,
+				F61367461F86181D0020A47B /* YYDataBaseTool.h */,
+				F61367471F86181D0020A47B /* YYDataBaseTool.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -3426,6 +3431,7 @@
 				"${BUILT_PRODUCTS_DIR}/DateTools/DateTools.framework",
 				"${BUILT_PRODUCTS_DIR}/FBRetainCycleDetector/FBRetainCycleDetector.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
+				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/FORScrollViewEmptyAssistant/FORScrollViewEmptyAssistant.framework",
 				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
 				"${BUILT_PRODUCTS_DIR}/IAPHelper/IAPHelper.framework",
@@ -3449,6 +3455,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DateTools.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBRetainCycleDetector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FORScrollViewEmptyAssistant.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IAPHelper.framework",
@@ -3614,6 +3621,7 @@
 				BFF8C1231F5FEA4B00FBAB04 /* YYMessageModel.m in Sources */,
 				BFF8C1261F5FEA4B00FBAB04 /* YYMainSearchController.m in Sources */,
 				BF6051FD1F6909B700354741 /* YYShowOtherDetailController.m in Sources */,
+				F61367481F86181D0020A47B /* YYDataBaseTool.m in Sources */,
 				BFF8BF0D1F5FD51E00FBAB04 /* UISlider+Touch.m in Sources */,
 				BFF8BF451F5FD69C00FBAB04 /* YYBaseModel.m in Sources */,
 				BFEB31BB1F72736500EFB167 /* YYThreeSeekDetailController.m in Sources */,
