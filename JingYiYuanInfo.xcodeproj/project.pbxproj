@@ -373,6 +373,11 @@
 		BFF8C1871F611C3500FBAB04 /* YYMessageDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF8C1861F611C3500FBAB04 /* YYMessageDetailController.m */; };
 		DBF184A43E7A45B831EA479C /* Pods_JingYiYuanInfo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 235484E61E105545ECE94180 /* Pods_JingYiYuanInfo.framework */; };
 		F61367481F86181D0020A47B /* YYDataBaseTool.m in Sources */ = {isa = PBXBuildFile; fileRef = F61367471F86181D0020A47B /* YYDataBaseTool.m */; };
+		F613674B1F887A3B0020A47B /* YYIapModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F613674A1F887A3B0020A47B /* YYIapModel.m */; };
+		F613674D1F8C9B130020A47B /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F613674C1F8C9B130020A47B /* libsqlite3.0.tbd */; };
+		F61367531F8DC79E0020A47B /* YYSearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F61367521F8DC79E0020A47B /* YYSearchResultCell.m */; };
+		F61367561F8DF44A0020A47B /* YYSearchSecModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F61367551F8DF44A0020A47B /* YYSearchSecModel.m */; };
+		F613675A1F8E0CEB0020A47B /* YYSearchViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = F61367591F8E0CEB0020A47B /* YYSearchViewHeader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1106,6 +1111,15 @@
 		D3A4813676F9AA7A96185494 /* Pods-JingYiYuanInfoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JingYiYuanInfoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JingYiYuanInfoUITests/Pods-JingYiYuanInfoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F61367461F86181D0020A47B /* YYDataBaseTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYDataBaseTool.h; sourceTree = "<group>"; };
 		F61367471F86181D0020A47B /* YYDataBaseTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYDataBaseTool.m; sourceTree = "<group>"; };
+		F61367491F887A3B0020A47B /* YYIapModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYIapModel.h; sourceTree = "<group>"; };
+		F613674A1F887A3B0020A47B /* YYIapModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYIapModel.m; sourceTree = "<group>"; };
+		F613674C1F8C9B130020A47B /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		F61367511F8DC79E0020A47B /* YYSearchResultCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSearchResultCell.h; sourceTree = "<group>"; };
+		F61367521F8DC79E0020A47B /* YYSearchResultCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSearchResultCell.m; sourceTree = "<group>"; };
+		F61367541F8DF44A0020A47B /* YYSearchSecModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSearchSecModel.h; sourceTree = "<group>"; };
+		F61367551F8DF44A0020A47B /* YYSearchSecModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSearchSecModel.m; sourceTree = "<group>"; };
+		F61367581F8E0CEB0020A47B /* YYSearchViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSearchViewHeader.h; sourceTree = "<group>"; };
+		F61367591F8E0CEB0020A47B /* YYSearchViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSearchViewHeader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1113,6 +1127,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F613674D1F8C9B130020A47B /* libsqlite3.0.tbd in Frameworks */,
 				BF7DC5BE1F7641C200FA3F23 /* StoreKit.framework in Frameworks */,
 				BFA4E3631F71427000845BB3 /* MediaPlayer.framework in Frameworks */,
 				BFF8BE831F5FD1CD00FBAB04 /* UserNotifications.framework in Frameworks */,
@@ -1878,6 +1893,7 @@
 		BFF8BE811F5FD1CD00FBAB04 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F613674C1F8C9B130020A47B /* libsqlite3.0.tbd */,
 				BF7DC5BD1F7641C200FA3F23 /* StoreKit.framework */,
 				BFA4E3621F71427000845BB3 /* MediaPlayer.framework */,
 				BFF8BE821F5FD1CD00FBAB04 /* UserNotifications.framework */,
@@ -1915,6 +1931,7 @@
 		BFF8BE861F5FD27A00FBAB04 /* Components小组件 */ = {
 			isa = PBXGroup;
 			children = (
+				F61367571F8E0CA90020A47B /* searchView */,
 				BF7DC5A91F754B6D00FA3F23 /* EmptyData */,
 				BFF8BEA81F5FD32200FBAB04 /* JPFPSStatus */,
 				BF6052941F6AAC0C00354741 /* PhotoBrowser */,
@@ -1927,8 +1944,6 @@
 				BFF8BEAC1F5FD32200FBAB04 /* LabelContainer.m */,
 				BFF8BEAD1F5FD32200FBAB04 /* PageSlider.h */,
 				BFF8BEAE1F5FD32200FBAB04 /* PageSlider.m */,
-				BFF8BEAF1F5FD32200FBAB04 /* SearchView.h */,
-				BFF8BEB01F5FD32200FBAB04 /* SearchView.m */,
 				BFF8BEB11F5FD32200FBAB04 /* ShareView.h */,
 				BFF8BEB21F5FD32200FBAB04 /* ShareView.m */,
 				BFE9997A1F68BE77009FE595 /* YYCommentTextView.h */,
@@ -2065,6 +2080,8 @@
 				BF7DC5BB1F76417B00FA3F23 /* YYIAPTool.m */,
 				F61367461F86181D0020A47B /* YYDataBaseTool.h */,
 				F61367471F86181D0020A47B /* YYDataBaseTool.m */,
+				F61367491F887A3B0020A47B /* YYIapModel.h */,
+				F613674A1F887A3B0020A47B /* YYIapModel.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -2514,6 +2531,8 @@
 				BFF8BFE71F5FEA4A00FBAB04 /* YYSearchList.m */,
 				BFF8BFE81F5FEA4A00FBAB04 /* YYSearchModel.h */,
 				BFF8BFE91F5FEA4A00FBAB04 /* YYSearchModel.m */,
+				F61367541F8DF44A0020A47B /* YYSearchSecModel.h */,
+				F61367551F8DF44A0020A47B /* YYSearchSecModel.m */,
 			);
 			path = "搜索界面模型";
 			sourceTree = "<group>";
@@ -3121,6 +3140,8 @@
 			children = (
 				BFF8C03E1F5FEA4A00FBAB04 /* YYMainSearchController.h */,
 				BFF8C03F1F5FEA4A00FBAB04 /* YYMainSearchController.m */,
+				F61367511F8DC79E0020A47B /* YYSearchResultCell.h */,
+				F61367521F8DC79E0020A47B /* YYSearchResultCell.m */,
 			);
 			path = "搜索控制器";
 			sourceTree = "<group>";
@@ -3201,6 +3222,17 @@
 				BFF8C05D1F5FEA4A00FBAB04 /* YYPushViewModel.m */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F61367571F8E0CA90020A47B /* searchView */ = {
+			isa = PBXGroup;
+			children = (
+				BFF8BEAF1F5FD32200FBAB04 /* SearchView.h */,
+				BFF8BEB01F5FD32200FBAB04 /* SearchView.m */,
+				F61367581F8E0CEB0020A47B /* YYSearchViewHeader.h */,
+				F61367591F8E0CEB0020A47B /* YYSearchViewHeader.m */,
+			);
+			name = searchView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3626,6 +3658,7 @@
 				BFF8BF451F5FD69C00FBAB04 /* YYBaseModel.m in Sources */,
 				BFEB31BB1F72736500EFB167 /* YYThreeSeekDetailController.m in Sources */,
 				BFC1FD001F789AA300593D81 /* YYChangePasswordController.m in Sources */,
+				F61367531F8DC79E0020A47B /* YYSearchResultCell.m in Sources */,
 				BFC1FCEB1F77F9E900593D81 /* YYCommunityQuestionVM.m in Sources */,
 				BFF8BF101F5FD51E00FBAB04 /* UIView+YYViewFrame.m in Sources */,
 				BFF8C1481F5FEA4B00FBAB04 /* YYMinePaymentViewController.m in Sources */,
@@ -3664,6 +3697,7 @@
 				BFF8C0E21F5FEA4A00FBAB04 /* YYProjectViewController.m in Sources */,
 				BF63943F1F7E4DCE00F3BD82 /* YYNiuManDetailVM.m in Sources */,
 				BFF8C1061F5FEA4A00FBAB04 /* YYHotTagModel.m in Sources */,
+				F613674B1F887A3B0020A47B /* YYIapModel.m in Sources */,
 				BFA4E3611F70CA1B00845BB3 /* YYVideoControllerVM.m in Sources */,
 				BF31E8AB1F629B5F00E8CF0E /* YYChannelShowLikeCell.m in Sources */,
 				BFF8C10A1F5FEA4A00FBAB04 /* YYMainHeadBannerModel.m in Sources */,
@@ -3693,6 +3727,7 @@
 				BF6052811F6A4B6F00354741 /* YYProductionListModel.m in Sources */,
 				BF0ABFB81F6634D80057A3A0 /* YYFastMsgSecionModel.m in Sources */,
 				BF31E8921F62710A00E8CF0E /* YYChannelVideoCell.m in Sources */,
+				F61367561F8DF44A0020A47B /* YYSearchSecModel.m in Sources */,
 				BF6394091F7D189A00F3BD82 /* UITableViewRowAction+JZExtension.m in Sources */,
 				BFEB31C41F72A85800EFB167 /* YYRelativeProductionModel.m in Sources */,
 				BFC1FD091F78C44500593D81 /* YYSubscribleSettingController.m in Sources */,
@@ -3709,6 +3744,7 @@
 				BF31E8791F62396700E8CF0E /* YYBaseInfoModel.m in Sources */,
 				BF0ABFB21F6566110057A3A0 /* YYBaseRankListController.m in Sources */,
 				BFF8C0DA1F5FEA4A00FBAB04 /* YYProductionViewController.m in Sources */,
+				F613675A1F8E0CEB0020A47B /* YYSearchViewHeader.m in Sources */,
 				BFF8C1781F60227D00FBAB04 /* YYNiuViewVM.m in Sources */,
 				BF6394131F7DDA3000F3BD82 /* YYPeriodDetailController.m in Sources */,
 				BFF8C1301F5FEA4B00FBAB04 /* YYHotView.m in Sources */,
@@ -4031,6 +4067,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

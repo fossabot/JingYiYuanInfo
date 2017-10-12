@@ -50,7 +50,7 @@
     
     YYWeakSelf
     if (indexPath.section == 0) {
-        switch (indexPath.row) {//第一组，前三个已在VM中处理，为登录不会回调到这里
+        switch (indexPath.row) {//第一组，前三个已在VM中处理，未登录不会回调到这里
             case 0:{
                 YYMineSettingSecurityController *security = [[YYMineSettingSecurityController alloc] init];
                 [self.navigationController pushViewController:security animated:YES];

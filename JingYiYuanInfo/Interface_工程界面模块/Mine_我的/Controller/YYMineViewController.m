@@ -53,8 +53,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    YYLogFunc
 }
-
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 
@@ -146,7 +146,14 @@
             YYStrongSelf
             if (alert) {
                 
-                [strongSelf presentViewController:alert animated:YES completion:nil];
+                [kKeyWindow.rootViewController  presentViewController:alert animated:YES completion:^{
+                    YYLog(@"presentViewController:alert");
+//                    [strongSelf.navigationController setNavigationBarHidden:YES animated:NO];
+                }];
+//                [strongSelf presentViewController:alert animated:YES completion:^{
+//                    YYLog(@"presentViewController:alert");
+//                    [strongSelf.navigationController setNavigationBarHidden:YES animated:NO];
+//                }];
             }else {
                 UIViewController *viewController = [[NSClassFromString(vc) alloc] init];
                 viewController.jz_wantsNavigationBarVisible = YES;

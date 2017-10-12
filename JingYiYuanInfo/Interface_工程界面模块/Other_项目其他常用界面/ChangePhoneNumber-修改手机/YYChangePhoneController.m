@@ -41,12 +41,14 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"修改手机";
+    self.view.backgroundColor = GrayBackGroundColor;
     [self configSubView];
+    [self configTextFilter];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
-    [self.changePhone cutRoundViewRadius:5];
+    [super viewWillAppear:animated];
+//    [self.changePhone cutRoundViewRadius:5];
 }
 
 - (void)configTextFilter {
@@ -89,6 +91,7 @@
     telephoneText.font = TitleFont;
     telephoneText.placeholder = @"新手机号码";
     telephoneText.tintColor = ThemeColor;
+    telephoneText.leftViewMode = UITextFieldViewModeAlways;
     [telephoneText setLeftTitle:@"新手机: "];
     [self.view1 addSubview:telephoneText];
     self.telephoneText = telephoneText;
@@ -104,6 +107,7 @@
     verificationText.font = TitleFont;
     verificationText.placeholder = @"验证码";
     verificationText.tintColor = ThemeColor;
+    verificationText.leftViewMode = UITextFieldViewModeAlways;
     [verificationText setLeftTitle:@"验证码 "];
     [self.view2 addSubview:verificationText];
     self.verificationText = verificationText;
@@ -113,13 +117,12 @@
     verificationBtn.layer.cornerRadius = 5;
     verificationBtn.layer.borderColor = ThemeColor.CGColor;
     verificationBtn.layer.borderWidth = 0.5;
-    verificationBtn.backgroundColor = ThemeColor;
+    verificationBtn.backgroundColor = WhiteColor;
     [verificationBtn setTitleColor:ThemeColor forState:UIControlStateNormal];
     [verificationBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
     [verificationBtn addTarget:self action:@selector(getVerificattion:) forControlEvents:UIControlEventTouchUpInside];
     self.verificationBtn = verificationBtn;
     [self.view2 addSubview:verificationBtn];
-    
     
     
     UIButton *changePhone = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -162,6 +165,15 @@
         make.centerY.equalTo(self.view2);
         make.height.equalTo(40);
     }];
+    
+    [self.verificationBtn makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.right.equalTo(self.view2).offset(-YYInfoCellCommonMargin);
+        make.centerY.equalTo(self.view2);
+        make.width.equalTo(90);
+        make.height.equalTo(30);
+    }];
+    
     
     [self.changePhone makeConstraints:^(MASConstraintMaker *make) {
         
@@ -209,7 +221,10 @@
     
 }
 
-
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [self.view endEditing:YES];
+}
 
 
 @end

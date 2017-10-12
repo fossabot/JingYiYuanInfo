@@ -11,6 +11,9 @@
 #import "YYTabBarViewController.h"
 //#import "YYNewVersionViewController.h"
 #import "JPFPSStatus.h"
+#import "NSString+Base64.h"
+#import "YYDataBaseTool.h"
+#import "YYIapModel.h"
 
 //#import "IQKeyboardManager.h"
 //#import <DateTools.h>
@@ -50,8 +53,10 @@
     
     window.rootViewController = tabbar;
     [window makeKeyAndVisible];
+
+    //刷新个人信息
+    [self refreshUserInfo];
     
-#warning 未开启新特性界面
     [self launchNewVersion];
     
     //主页在没有return YES之前是不会初始化的  所以  推送通知只能存储在APPdelegate的属性里
@@ -65,7 +70,16 @@
 //    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     //打开帧数监听，在statusbar上显示
-    [[JPFPSStatus sharedInstance] open];
+//    [[JPFPSStatus sharedInstance] open];
+    
+    //打开监听Apple内购返回的receipt数据回调
+    [self checkAllUnCompleteReceipt];
+
+    YYUser *user = [YYUser shareUser];
+    if (user.isLogin) {
+        
+        [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    }
     
     return YES;
     
@@ -152,6 +166,7 @@
     //关闭友盟自带的弹出框
     [UMessage setAutoAlert:NO];
     [UMessage didReceiveRemoteNotification:userInfo];
+    self.remoteNotice = userInfo;
     [self handleRemoteNotification:userInfo];
     //APP未关闭时接收到远程消息
     
@@ -190,6 +205,133 @@
 /** APP即将shut down*/
 - (void)applicationWillTerminate:(UIApplication *)application {
     YYLogFunc;
+    
+    [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
 }
+
+
+- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray<SKPaymentTransaction *> *)transactions {
+    
+    
+    YYUser *user = [YYUser shareUser];
+    for (SKPaymentTransaction *trans in transactions) {
+        
+        switch (trans.transactionState) {
+                
+            case SKPaymentTransactionStatePurchased:
+            {
+                [[SKPaymentQueue defaultQueue] finishTransaction:trans];
+                //支付完成，取消支付，数据库的的支付订单状态不改变，然后将receipt和其他数据发送给后台
+                 NSData *receiptData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]];
+                 NSString *receiptBase64 = [NSString base64StringFromData:receiptData length:[receiptData length]];
+                //这里已完成交易，我必须存储交易凭证，病标记为与后台同步的状态，即未完成状态，然后骑牛后台同步信息
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                formatter.dateFormat = yyyyMMddHHmmss;
+                NSString *now = [formatter stringFromDate:[NSDate date]];
+                
+                [[YYDataBaseTool sharedDataBaseTool] saveIapDataWithTransactionIdentifier:trans.transactionIdentifier productIdentifier:trans.payment.productIdentifier userid:user.userid receipt:receiptBase64 good_type:@"1" transactionDate:now rechargeDate:now state:0];
+                [self sendReceiptToServer:receiptBase64 paymentTransaction:trans];
+            }
+                break;
+                
+            case SKPaymentTransactionStatePurchasing:
+            {
+                //正在支付
+                YYLog(@"正在支付");
+            }
+                break;
+                
+            case SKPaymentTransactionStateFailed:
+            {
+                //支付失败，取消支付，数据库无订单，因为没有在之前的交易中拿到receipt  不存储订单，存储订单是为了
+                YYLog(@"支付失败，取消支付，将数据库的的支付订单删除掉");
+                [self failedTransaction:trans];
+            }
+                break;
+                
+            case SKPaymentTransactionStateRestored://已经购买过该商品
+                YYLog(@"已经购买过该商品");
+                [[SKPaymentQueue defaultQueue] finishTransaction:trans];//消耗型不支持恢复
+                break;
+                
+            case SKPaymentTransactionStateDeferred:
+            {
+                //犹豫不决，未确定支付
+                YYLog(@"犹豫不决，未确定支付");
+            }
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+
+
+//交易成功的方法。交易成功跟后台验证，验证成功才能交这个交易在数据库中删除或者状态变为未完成
+- (void)sendReceiptToServer:(NSString *)base64Str paymentTransaction:(SKPaymentTransaction *)paymentTransaction {
+    
+    BOOL dealState = [[YYDataBaseTool sharedDataBaseTool] checkTransactionDealState:paymentTransaction.transactionIdentifier];
+    if (dealState) {
+        YYLog(@"该transactionIdentifier交易单号已验证");
+        return;
+    }
+     
+    YYUser *user = [YYUser shareUser];
+    //    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:base64Str,@"name", nil];
+    [YYHttpNetworkTool POSTRequestWithUrlstring:IAPReceiptUrl parameters:@{@"productid":paymentTransaction.payment.productIdentifier,USERID:user.userid,@"apple_receipt":base64Str} success:^(id response) {
+        
+        if ([response[@"state"] isEqualToString:@"0"]) {
+            YYLog(@"购买成功，并给后台同步返回成功验证");
+            [[YYDataBaseTool sharedDataBaseTool] changeTransactionIdentifierState:paymentTransaction.transactionIdentifier];
+        }
+        YYLog(@"IAP收据验证%@",response);
+    } failure:^(NSError *erro) {
+//        [[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];
+        YYLog(@"error : %@",erro);
+    } showSuccessMsg:nil];
+    
+}
+
+//交易失败的方法，结束交易
+- (void)failedTransaction:(SKPaymentTransaction *)transaction
+{
+    if(transaction.error.code != SKErrorPaymentCancelled) {
+        YYLog(@"购买失败");
+    } else {
+        YYLog(@"用户取消交易");
+    }
+    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+}
+
+//检查所有支付之后未同步的订单，并与后台同步
+- (void)checkAllUnCompleteReceipt {
+    
+    NSMutableArray *allIapModels = [[YYDataBaseTool sharedDataBaseTool] getAllUnCompleteIap];
+   
+    if (allIapModels.count) {
+        
+        for (YYIapModel *model in allIapModels) {
+            
+//            NSData *receiptData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]];
+//            NSString *receiptBase64 = [NSString base64StringFromData:receiptData length:[receiptData length]];
+            [YYHttpNetworkTool POSTRequestWithUrlstring:IAPReceiptUrl parameters:@{@"produtid":@"1",@"goodtype":@"1",USERID:model.userid,@"apple_receipt":model.receipt} success:^(id response) {
+                
+                if ([response[@"state"] isEqualToString:@"0"]) {
+                    YYLog(@"购买成功，并给后台同步返回成功验证");
+                    [[YYDataBaseTool sharedDataBaseTool] changeTransactionIdentifierState:model.transactionIdentifier];
+                    [YYLoginManager getUserInfo];
+                }
+                YYLog(@"IAP收据验证%@",response);
+            } failure:^(NSError *erro) {
+                
+                YYLog(@"error : %@",erro);
+            } showSuccessMsg:nil];
+        }
+    }else {
+        YYLog(@"没有未同步的订单");
+    }
+}
+
 
 @end

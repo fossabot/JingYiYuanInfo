@@ -8,8 +8,15 @@
 
 #import "YYSearchModel.h"
 
-
+#import <MJExtension/MJExtension.h>
 
 @implementation YYSearchModel
+
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+    
+    return @{
+             @"searchId":@"id"
+             };
+}
 
 @end

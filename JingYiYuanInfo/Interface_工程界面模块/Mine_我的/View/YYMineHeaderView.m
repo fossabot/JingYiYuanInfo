@@ -16,6 +16,7 @@
 #import "YYSignBgView.h"
 #import "YYUser.h"
 #import "YYPlaceHolderView.h"
+#import "YYLoginManager.h"
 
 #import "UIView+YYViewFrame.h"
 
@@ -66,8 +67,8 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        
-        [self addSubview:self.signView];
+    
+    [self addSubview:self.signView];
     }
     return self;
 }
@@ -75,6 +76,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self cutRoundView:self.loginIcon.imageView];
+
 }
 
 - (void)layoutSubviews {
@@ -83,13 +85,33 @@
     _signView.frame = CGRectMake(kSCREENWIDTH-signW, self.yy_height-signH, signW, signH);
 }
 
+//更新签到状态
+- (void)changeSignState {
+
+    
+    YYUser *user = [YYUser shareUser];
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,@"quesign",@"act", nil];
+    [YYHttpNetworkTool GETRequestWithUrlstring:signIntegralUrl parameters:para success:^(id response) {
+        
+        if (response && [response[STATE] isEqualToString:@"0"]) {//已经签到
+            
+            [self.signView setSignDays:[NSString stringWithFormat:@"%@",response[@"signtimes"]]];
+        }else if (response && [response[STATE] isEqualToString:@"2"]) {
+            [self.signView setSignDays:@"0"];
+        }
+    } failure:^(NSError *error) {
+        
+        
+    } showSuccessMsg:nil];
+}
+
 /** 更新个人信息*/
 - (void)setUser:(YYUser *)user {
     _user = user;
     
     _name.text = [NSString stringWithFormat:@"姓名:%@",user.username];
     [_loginIcon sd_setImageWithURL:[NSURL URLWithString:user.avatar] forState:UIControlStateNormal placeholderImage:imageNamed(@"yyfw_mine_unloginicon_83x83_")];
-    _integration.text = [NSString stringWithFormat:@"积分:暂无积分"];
+    _integration.text = [NSString stringWithFormat:@"积分:%@",user.integral];
     
     NSString *groupId = [NSString stringWithFormat:@"%@",user.groupid];
     if ([groupId containsString:@"3"]) {
@@ -99,8 +121,7 @@
         _VIPTime.text = [NSString stringWithFormat:@"会员:未开通"];
         _VIPStatusIcon.image = nil;
     }
-    
-    [self.signView setSignDays:[NSString stringWithFormat:@"%ld",user.signDays]];
+    [self changeSignState];
 }
 
 
@@ -118,7 +139,6 @@
     if ([self.delegate respondsToSelector:@selector(destinationController:)]) {
         [self.delegate destinationController:[[YYUserInfoViewController alloc] init]];
     }
-
 }
 
 /** 订阅按钮点击事件*/
@@ -132,22 +152,36 @@
     //判断自己的图标  是不是已经签到了 ，如果是，则提醒今天已签到，否则提示签到成功
     //根据签到日期来计算今天有没有签到  后台返回签到状态
     if (sender.isSigned) {//已签到
-        [SVProgressHUD showInfoWithStatus:@"今天已签到，明天再来"];
+        [SVProgressHUD showImage:nil status:@"今天已签到，明天再来"];
+        [SVProgressHUD dismissWithDelay:1];
     }else{
-        sender.selected = YES;
+//        sender.selected = YES;
         //这是进行网络请求，给后台签到，在成功的回调中调用提醒签到成功
-#warning 签到成功的提醒图片未添加
         YYWeakSelf
-//        [SVProgressHUD showImage:nil status:@"签到成功"];
-        
-        [YYPlaceHolderView showSignSuccessPlaceHolderWithIntegration:@"100" clickAction:^{
-                //提示框点击跳转商城
-                YYStrongSelf
-                if ([strongSelf.delegate respondsToSelector:@selector(destinationController:)]) {
-                    [strongSelf.delegate destinationController:[[YYMineIntegrationViewController alloc] init]];
-                }
+        YYUser *user = [YYUser shareUser];
+        NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,@"signup",@"act", nil];
+        [YYHttpNetworkTool GETRequestWithUrlstring:signIntegralUrl parameters:para success:^(id response) {
             
-        }];
+            if (response) {
+                NSString *state = response[STATE];
+                if ([state isEqualToString:@"1"]) {
+                    [self.signView setSignDays:[NSString stringWithFormat:@"%@",response[@"signtimes"]]];
+                    [YYLoginManager getUserInfo];
+                    [YYPlaceHolderView showSignSuccessPlaceHolderWithIntegration:response[@"getintegral"] clickAction:^{
+                        //提示框点击跳转商城
+                        YYStrongSelf
+                        if ([strongSelf.delegate respondsToSelector:@selector(destinationController:)]) {
+                            [strongSelf.delegate destinationController:[[YYMineIntegrationViewController alloc] init]];
+                        }
+                        
+                    }];
+                }
+            }
+        } failure:^(NSError *error) {
+            
+            
+        } showSuccessMsg:nil];
+        
     }
     
 }

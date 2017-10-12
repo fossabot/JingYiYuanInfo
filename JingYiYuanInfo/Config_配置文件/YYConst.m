@@ -16,9 +16,6 @@ NSString * const Production_VIP_1 = @"com.yyinfo_vip_1";
 
 
 
-
-
-
 /** 导航栏高度*/
 CGFloat const YYNavgationBarH = 44.f;
 /** 状态栏高度*/
@@ -29,7 +26,7 @@ CGFloat const YYTabBarH = 49.0;
 CGFloat const YYTopNaviHeight = 64.0;
 
 /** 分页cell的tab高度*/
-CGFloat const TabHeaderH = 60;
+CGFloat const TabHeaderH = 40;
 
 
 /** 新闻列表的第一个cell的标题字号*/
@@ -136,7 +133,7 @@ NSString * const YYMainVCGoTopNotificationName = @"YYMainVCGoTopNotificationName
 /** 首页tableview下滑离开顶部的通知*/
 NSString * const YYMainVCLeaveTopNotificationName = @"YYMainVCLeaveTopNotificationName";
 
-/** 用户单例类信息发生改变的通知  userInfo：{ @“loginStatus”:0 退出登录  1登录成功}*/
+/** 用户单例类信息发生改变的通知  userInfo：{ LASTLOGINSTATUS: @"0"代表之前是退出状态  @"1"代表之前是登录状态}*/
 NSString * const YYUserInfoDidChangedNotification = @"YYUserInfoDidChangedNotification";
 
 /** 首页刷新的通知  热搜榜和牛人榜接收通知刷新*/

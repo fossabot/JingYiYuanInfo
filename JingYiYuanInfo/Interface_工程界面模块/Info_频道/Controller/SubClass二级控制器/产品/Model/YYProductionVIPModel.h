@@ -25,6 +25,9 @@
 /** title*/
 @property (nonatomic, copy) NSString *title;
 
+/** titleimg*/
+@property (nonatomic, copy) NSString *titleimg;
+
 /** 价格*/
 @property (nonatomic, copy) NSString *expense;
 

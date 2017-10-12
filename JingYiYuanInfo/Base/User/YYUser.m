@@ -103,7 +103,11 @@ YYSingletonM(User)
 }
 
 - (void)setIntegral:(NSString *)integral {
+    
     NSString *str = [NSString stringWithFormat:@"%@",integral];
+    if ([str isKindOfClass:[NSNull class]]) {
+        integral = @"0";
+    }
     [kUserDefaults setValue:str forKey:@"user_integral"];
     [kUserDefaults synchronize];
     [YYUser alertNotification];
@@ -228,14 +232,6 @@ YYSingletonM(User)
     [kUserDefaults synchronize];
 }
 
-- (void)setSignDays:(NSInteger)signDays {
-    //set方法得到签到天数 直接存本地，此时也不知道今天签到没，看样子只有后台存储今天签到没才是合理的，不然在本地存，Android和iOS不能互通，两个平台一天可以签两次了
-    [kUserDefaults setInteger:signDays forKey:SIGNDAYS];
-}
-
-- (NSInteger)signDays {
-    return [kUserDefaults integerForKey:SIGNDAYS];
-}
 
 /**
  填充个人信息
@@ -248,6 +244,7 @@ YYSingletonM(User)
     for (NSString *property in [infoDic allKeys]) {
         NSString *user_property = [NSString stringWithFormat:@"user_%@",property];
         if (![infoDic[property] isKindOfClass:[NSNull class]]) {
+//            NSString *str = (NSString *)infoDic[property];
             [kUserDefaults setObject:infoDic[property] forKey:user_property];
         }else{
             [kUserDefaults setObject:@"" forKey:user_property];

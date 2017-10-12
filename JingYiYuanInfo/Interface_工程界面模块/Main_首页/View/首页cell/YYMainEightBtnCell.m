@@ -168,10 +168,12 @@
             break;
             
         case 6:{//订阅
-            
-            YYMineSubscriptionViewController *subscriptionVc = [[YYMineSubscriptionViewController alloc] init];
-            subscriptionVc.jz_wantsNavigationBarVisible = YES;
-            [self.parentNavigationController pushViewController:subscriptionVc animated:YES];
+
+            [SVProgressHUD showInfoWithStatus:@"暂未开放，敬请期待"];
+            [SVProgressHUD dismissWithDelay:1];
+//            YYMineSubscriptionViewController *subscriptionVc = [[YYMineSubscriptionViewController alloc] init];
+//            subscriptionVc.jz_wantsNavigationBarVisible = YES;
+//            [self.parentNavigationController pushViewController:subscriptionVc animated:YES];
         }
             break;
         

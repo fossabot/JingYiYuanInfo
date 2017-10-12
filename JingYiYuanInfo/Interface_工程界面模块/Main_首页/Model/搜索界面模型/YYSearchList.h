@@ -12,41 +12,25 @@
 
 @interface YYSearchList : NSObject
 
-/** class*/
-@property (nonatomic, copy) NSString *className;
 
-/** classArr*/
-@property (nonatomic, strong) NSArray<YYSearchModel *> *subClasses;
+/** 资讯文章*/
+@property (nonatomic, strong) NSArray<YYSearchModel *> *art_arr;
 
-/**
-     [
-         {
-             "className": "房产",
-             "subClasses": [
-                             {
-                                 "title": "第一条搜索标题",
-                                 "desc": "第一条搜索的描述"
-                             },
-                             {
-                                 "title": "第一条搜索标题",
-                                 "desc": "第一条搜索的描述"
-                             }
-             ]
-         },
-         {
-             "className": "房产",
-             "subClasses": [
-                             {
-                                 "title": "第一条搜索标题",
-                                 "desc": "第一条搜索的描述"
-                             },
-                             {
-                                 "title": "第一条搜索标题",
-                                 "desc": "第一条搜索的描述"
-                             }
-             ]
-         }
-     ]
- */
+/** 视频*/
+@property (nonatomic, strong) NSArray<YYSearchModel *> *vid_arr;
+
+/** 演出*/
+@property (nonatomic, strong) NSArray<YYSearchModel *> *sh_arr;
+
+/** 牛人文章*/
+@property (nonatomic, strong) NSArray<YYSearchModel *> *nar_arr;
+
+/** 项目*/
+@property (nonatomic, strong) NSArray<YYSearchModel *> *sm_arr;
+
+/** 三找*/
+@property (nonatomic, strong) NSArray<YYSearchModel *> *sa_arr;
+
+
 
 @end

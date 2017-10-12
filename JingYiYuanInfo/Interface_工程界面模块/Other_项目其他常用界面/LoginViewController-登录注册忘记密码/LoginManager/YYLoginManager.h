@@ -10,6 +10,8 @@
 
 @interface YYLoginManager : NSObject
 
+//根据userid获取个人信息
++ (void)getUserInfo;
 
 /** 退出登录*/
 + (void)logOutAccountSuccess:(void(^)(BOOL))success;

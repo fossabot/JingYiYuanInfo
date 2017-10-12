@@ -122,13 +122,6 @@
 }
 
 
-#pragma mark 检测是否有未支付订单，如果有，检测是否支付成功，然后从本地删除(失败)或者给后台传信息(成功)
-- (void)paymentTransactionCheck {
-    
-//    [IAPShare sharedHelper].iap 
-}
-
-
 #pragma mark -- inner Methods 自定义方法  ----------------------------------------
 
 /**
@@ -258,11 +251,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 3) {
-        YYPushController *push = [[YYPushController alloc] init];
-        push.jz_wantsNavigationBarVisible = YES;
-        [self.navigationController pushViewController:push animated:YES];
-    }
+
 }
 
 #pragma -- mark TableViewDataSource
@@ -427,6 +416,7 @@
         _searchBtn.titleLabel.font = SubTitleFont;
         _searchBtn.layer.cornerRadius = navSubviewHeight/2;
         _searchBtn.backgroundColor = YYRGBA(200, 200, 200, 0.7);
+        [_searchBtn addTarget:self action:@selector(searchClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _searchBtn;
 }

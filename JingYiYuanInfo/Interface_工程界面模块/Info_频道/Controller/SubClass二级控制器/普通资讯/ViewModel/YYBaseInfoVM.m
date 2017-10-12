@@ -154,7 +154,7 @@
 - (void)more:(UIButton *)sender {
     
     if (_moreBlock) {
-        _moreBlock();
+        _moreBlock(_lastid, _classid);
     }
 }
 

@@ -38,6 +38,7 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"修改密码";
+    self.view.backgroundColor = GrayBackGroundColor;
     [self configSubView];
     
     [self configTextFilter];
@@ -45,7 +46,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     
-    [self.changePwd cutRoundViewRadius:5];
+    [super viewWillAppear:animated];
+//    [self.changePwd cutRoundViewRadius:5];
 }
 
 - (void)configTextFilter {
@@ -89,6 +91,7 @@
     oldPwdTextField.font = TitleFont;
     oldPwdTextField.placeholder = @"旧密码(至少6位)";
     oldPwdTextField.tintColor = ThemeColor;
+    oldPwdTextField.leftViewMode = UITextFieldViewModeAlways;
     [oldPwdTextField setLeftTitle:@"旧密码: "];
     [self.view1 addSubview:oldPwdTextField];
     self.oldPwdTextField = oldPwdTextField;
@@ -105,6 +108,7 @@
     changedPwdTextField.font = TitleFont;
     changedPwdTextField.placeholder = @"新密码(至少6位)";
     changedPwdTextField.tintColor = ThemeColor;
+    changedPwdTextField.leftViewMode = UITextFieldViewModeAlways;
     [changedPwdTextField setLeftTitle:@"新密码: "];
     [self.view2 addSubview:changedPwdTextField];
     self.changedPwdTextField = changedPwdTextField;
@@ -151,6 +155,7 @@
         make.height.equalTo(40);
     }];
 
+
     [self.changePwd makeConstraints:^(MASConstraintMaker *make) {
        
         make.centerX.equalTo(self.view);
@@ -178,10 +183,17 @@
 
 - (BOOL)validToChange {
     if(self.oldPwdTextField.text.length >= 6 && self.changedPwdTextField.text.length >= 6){
+        
         return YES;
     }else {
         return NO;
     }
+}
+
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [self.view endEditing:YES];
 }
 
 @end

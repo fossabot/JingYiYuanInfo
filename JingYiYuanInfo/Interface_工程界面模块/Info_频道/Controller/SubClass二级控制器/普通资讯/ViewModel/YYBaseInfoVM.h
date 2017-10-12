@@ -19,7 +19,7 @@ typedef NS_ENUM(NSUInteger, YYBaseInfoType) { //资讯里的cell数据类型
 
 
 typedef void(^YYBaseInfoCellSelectBlock)(YYBaseInfoType cellType, NSIndexPath *indexPath, id data);
-typedef void(^YYBaseInfoMoreBlock)();
+typedef void(^YYBaseInfoMoreBlock)(NSString *lastid, NSString *classid);
 
 @interface YYBaseInfoVM : NSObject<UITableViewDelegate,UITableViewDataSource>
 

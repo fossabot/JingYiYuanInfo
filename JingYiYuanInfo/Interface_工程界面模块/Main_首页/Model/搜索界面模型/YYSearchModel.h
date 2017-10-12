@@ -10,12 +10,11 @@
 
 @interface YYSearchModel : NSObject
 
+//搜索结果的文章ID
+@property (nonatomic, copy) NSString *searchId;
 
-
-/** title*/
+//搜索结果的标题
 @property (nonatomic, copy) NSString *title;
 
-/** desc*/
-@property (nonatomic, copy) NSString *desc;
 
 @end

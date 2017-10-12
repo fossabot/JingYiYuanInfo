@@ -173,12 +173,6 @@ static NSString * cellId = @"cellid";
 }
 
 
-
-#pragma mark -------  empty data delegate  -----------------------
-
-//- (NSMutableString *)
-
-
 #pragma mark -------  setter -------------------
 
 /** 传递外层的滑动给底部tableview*/
@@ -246,6 +240,7 @@ static NSString * cellId = @"cellid";
 - (void)configTableView {
     
     self.tableView.separatorColor = UnenableTitleColor;
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
     self.tableView.tableFooterView = [[UIView alloc] init];
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
     
@@ -259,12 +254,6 @@ static NSString * cellId = @"cellid";
     self.tableView.delegate = self.viewModel;
     self.tableView.dataSource = self.viewModel;
     MJWeakSelf;
-//    MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
-//        [weakSelf loadMoreData];
-//    }];
-//    footer.stateLabel.text = @"壹元君正努力为您加载中...";
-//    self.tableView.mj_footer = footer;
-    
     
     MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
         

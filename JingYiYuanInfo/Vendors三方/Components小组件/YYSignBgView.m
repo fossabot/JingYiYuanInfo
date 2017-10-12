@@ -52,21 +52,42 @@
         _sign = NO;
         return;
     }
-    _signDays = [NSString stringWithFormat:@"已签到\n累计签到%@天",signDays];
-    NSRange range = [_signDays rangeOfString:@"已签到"];
-    
+    _signDays = [NSString stringWithFormat:@"已签到%@天",signDays];
+//    NSRange range = [_signDays rangeOfString:@"已签到"];
     // 转换成可以操作的字符串类型.
-    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:_signDays];
+//    NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:_signDays];
+//    
+//    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+//    paraStyle.lineSpacing = 5;
+//    [attrStr addAttribute:NSParagraphStyleAttributeName value:paraStyle range:NSMakeRange(0, attrStr.length)];
+//    
+//    // 添加属性(粗体)
+//    [attrStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15.f] range:range];
+//    [attrStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13.f] range:NSMakeRange(range.length, _signDays.length-range.length)];
+//    self.signedLabel.attributedText = attrStr;
     
-    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-    paraStyle.lineSpacing = 5;
-    [attrStr addAttribute:NSParagraphStyleAttributeName value:paraStyle range:NSMakeRange(0, attrStr.length)];
+    // 初始化NSMutableAttributedString
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] init];
     
-    // 添加属性(粗体)
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15.f] range:range];
-    [attrStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13.f] range:NSMakeRange(range.length, _signDays.length-range.length)];
-    self.signedLabel.attributedText = attrStr;
+    // 设置字体格式和大小
+    NSString *str0 = @"已签到";
+    NSDictionary *dictAttr0 = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+    NSAttributedString *attr0 = [[NSAttributedString alloc] initWithString:str0
+                                                                attributes:dictAttr0];
     
+    NSDictionary *dictAttr1 = @{NSFontAttributeName:[UIFont systemFontOfSize:17]};
+    NSAttributedString *attr1 = [[NSAttributedString alloc] initWithString:signDays
+                                                                attributes:dictAttr1];
+   
+    NSString *str1 = @"天";
+    NSDictionary *dictAttr2 = @{NSFontAttributeName:[UIFont systemFontOfSize:14]};
+    NSAttributedString *attr2 = [[NSAttributedString alloc] initWithString:str1
+                                                                attributes:dictAttr2];
+    
+    [attributedString appendAttributedString:attr0];
+    [attributedString appendAttributedString:attr1];
+    [attributedString appendAttributedString:attr2];
+    self.signedLabel.attributedText = attributedString;
     _sign = YES;
 }
 

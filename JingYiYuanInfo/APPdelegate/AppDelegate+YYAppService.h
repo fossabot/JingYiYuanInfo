@@ -31,12 +31,6 @@
 
 
 /**
- *  检查本地有没有存漏单的receipt
- */
-- (void)checkUnTestReceipt;
-
-
-/**
  *  第一次安装APP  初始化配置 传deviceToken到后台
  */
 - (void)firstConfigWithDeviceToken:(NSString *)deviceToken;
@@ -72,6 +66,11 @@
  */
 - (void)launchNewVersion;
 
+
+/**
+ *  打开APP 刷新个人信息
+ */
+- (void)refreshUserInfo;
 
 
 

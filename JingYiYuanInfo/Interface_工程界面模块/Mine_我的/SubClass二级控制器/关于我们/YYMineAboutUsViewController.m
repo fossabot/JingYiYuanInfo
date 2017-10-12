@@ -72,7 +72,7 @@ static NSString * const reviewURL = @"http://itunes.apple.com/WebObjects/MZStore
     
     UILabel *version = [[UILabel alloc] init];
 //                        WithFrame:CGRectMake(0, CGRectGetMaxY(logoImageView.frame)+10, 150, 20)];
-    version.centerX = self.view.centerX;
+//    version.centerX = self.view.yy_centerX;
     version.textColor = UnenableTitleColor;
     version.font = UnenableTitleFont;
     version.text = [NSString stringWithFormat:@"当前版本  %@",kAppVersion];

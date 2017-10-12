@@ -4,7 +4,8 @@
 //
 //  Created by VINCENT on 2017/8/17.
 //  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
-//
+//  searchview 用法 -- 将searchview初始化添加至VC的view上就行了
+//  只是搜索历史记录界面搜索出结果需将该view隐藏，显示外界的搜索结果
 
 #import <UIKit/UIKit.h>
 
@@ -23,6 +24,7 @@
  */
 @protocol CellDeleteDelegate <NSObject>
 
+/*已删除历史记录cell之后的代理回调*/
 - (void)searchViewDidDeleteCell:(UITableViewCell *)cell;
 
 @end
@@ -57,9 +59,10 @@ typedef void(^HistoryBlock)(id cell);
 /** delegate*/
 @property (nonatomic, weak) id<SearchDelegate> delegate;
 
-/** hotArr*/
+/** hotArr热门搜索的文字数组*/
 @property (nonatomic, strong) NSArray *hotArr;
 
+//插入一条搜索记录
 - (void)insertSearchText:(NSString *)text;
 
 @end

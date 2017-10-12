@@ -297,11 +297,12 @@
             }
         };
         
-        _viewModel.moreBlock = ^{ //跳转更多排行的界面
+        _viewModel.moreBlock = ^(NSString *lastid, NSString *classid){ //跳转更多排行的界面
             YYStrongSelf
 //            YYHotHotModel *hotModel = self.
             YYBaseRankListController *list = [[YYBaseRankListController alloc] init];
-//            list.lastid =
+            list.lastid = lastid;
+            list.classid = classid;
             [strongSelf.navigationController pushViewController:list animated:YES];
         };
     }

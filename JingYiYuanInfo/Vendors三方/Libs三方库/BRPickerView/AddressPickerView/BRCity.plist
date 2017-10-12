@@ -264,12 +264,7 @@
 				<string>130100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>130101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
+            
 					<dict>
 						<key>k</key>
 						<string>130102</string>
@@ -417,13 +412,7 @@
 				<string>130200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>130201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
+                    <dict>
 						<key>k</key>
 						<string>130202</string>
 						<key>v</key>
@@ -518,12 +507,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>130301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>130302</string>
 						<key>v</key>
 						<string>海港区</string>
@@ -573,12 +556,6 @@
 				<string>130400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>130401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>130402</string>
@@ -704,12 +681,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>130501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>130502</string>
 						<key>v</key>
 						<string>桥东区</string>
@@ -831,12 +802,6 @@
 				<string>130600</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>130601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>130602</string>
@@ -998,12 +963,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>130701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>130702</string>
 						<key>v</key>
 						<string>桥东区</string>
@@ -1115,12 +1074,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>130801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>130802</string>
 						<key>v</key>
 						<string>双桥区</string>
@@ -1194,13 +1147,7 @@
 				<string>130900</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>130901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
+                    <dict>
 						<key>k</key>
 						<string>130902</string>
 						<key>v</key>
@@ -1307,12 +1254,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>131001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>131002</string>
 						<key>v</key>
 						<string>安次区</string>
@@ -1380,12 +1321,6 @@
 				<string>131100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>131101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>131102</string>
@@ -1472,12 +1407,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>140101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>140105</string>
 						<key>v</key>
 						<string>小店区</string>
@@ -1545,12 +1474,6 @@
 				<string>140200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>140201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>140202</string>
@@ -1628,12 +1551,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>140301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>140302</string>
 						<key>v</key>
 						<string>城区</string>
@@ -1671,12 +1588,6 @@
 				<string>140400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>140401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>140402</string>
@@ -1766,12 +1677,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>140501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>140502</string>
 						<key>v</key>
 						<string>城区</string>
@@ -1817,12 +1722,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>140601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>140602</string>
 						<key>v</key>
 						<string>朔城区</string>
@@ -1866,12 +1765,6 @@
 				<string>140700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>140701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>140702</string>
@@ -1947,12 +1840,6 @@
 				<string>140800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>140801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>140802</string>
@@ -2040,12 +1927,6 @@
 				<string>140900</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>140901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>140902</string>
@@ -2139,12 +2020,6 @@
 				<string>141000</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>141001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>141002</string>
@@ -2258,12 +2133,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>141101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>141102</string>
 						<key>v</key>
 						<string>离石区</string>
@@ -2360,12 +2229,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>150101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>150102</string>
 						<key>v</key>
 						<string>新城区</string>
@@ -2427,12 +2290,6 @@
 				<string>150200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>150201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>150202</string>
@@ -2498,12 +2355,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>150301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>150302</string>
 						<key>v</key>
 						<string>海勃湾区</string>
@@ -2529,12 +2380,6 @@
 				<string>150400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>150401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>150402</string>
@@ -2616,12 +2461,6 @@
 				<string>150500</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>150501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>150502</string>
@@ -2738,12 +2577,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>150701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>150702</string>
 						<key>v</key>
 						<string>海拉尔区</string>
@@ -2831,12 +2664,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>150801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>150802</string>
 						<key>v</key>
 						<string>临河区</string>
@@ -2886,12 +2713,6 @@
 				<string>150900</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>150901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>150902</string>
@@ -3131,12 +2952,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>210101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>210102</string>
 						<key>v</key>
 						<string>和平区</string>
@@ -3224,12 +3039,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>210201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>210202</string>
 						<key>v</key>
 						<string>中山区</string>
@@ -3299,12 +3108,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>210301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>210302</string>
 						<key>v</key>
 						<string>铁东区</string>
@@ -3354,12 +3157,6 @@
 				<string>210400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>210401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>210402</string>
@@ -3413,12 +3210,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>210501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>210502</string>
 						<key>v</key>
 						<string>平山区</string>
@@ -3464,12 +3255,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>210601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>210602</string>
 						<key>v</key>
 						<string>元宝区</string>
@@ -3513,12 +3298,6 @@
 				<string>210700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>210701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>210702</string>
@@ -3572,12 +3351,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>210801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>210802</string>
 						<key>v</key>
 						<string>站前区</string>
@@ -3621,12 +3394,6 @@
 				<string>210900</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>210901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>210902</string>
@@ -3680,12 +3447,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>211001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>211002</string>
 						<key>v</key>
 						<string>白塔区</string>
@@ -3737,12 +3498,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>211101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>211102</string>
 						<key>v</key>
 						<string>双台子区</string>
@@ -3774,12 +3529,6 @@
 				<string>211200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>211201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>211202</string>
@@ -3833,12 +3582,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>211301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>211302</string>
 						<key>v</key>
 						<string>双塔区</string>
@@ -3888,12 +3631,6 @@
 				<string>211400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>211401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>211402</string>
@@ -3948,12 +3685,6 @@
 				<string>220100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>220101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>220102</string>
@@ -4025,12 +3756,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>220201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>220202</string>
 						<key>v</key>
 						<string>昌邑区</string>
@@ -4094,12 +3819,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>220301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>220302</string>
 						<key>v</key>
 						<string>铁西区</string>
@@ -4145,12 +3864,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>220401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>220402</string>
 						<key>v</key>
 						<string>龙山区</string>
@@ -4182,12 +3895,6 @@
 				<string>220500</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>220501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>220502</string>
@@ -4241,12 +3948,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>220601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>220602</string>
 						<key>v</key>
 						<string>八道江区</string>
@@ -4292,12 +3993,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>220701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>220702</string>
 						<key>v</key>
 						<string>宁江区</string>
@@ -4335,12 +4030,6 @@
 				<string>220800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>220801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>220802</string>
@@ -4446,12 +4135,6 @@
 				<string>230100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>230101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>230102</string>
@@ -4577,12 +4260,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>230201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>230202</string>
 						<key>v</key>
 						<string>龙沙区</string>
@@ -4688,12 +4365,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>230301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>230302</string>
 						<key>v</key>
 						<string>鸡冠区</string>
@@ -4757,12 +4428,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>230401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>230402</string>
 						<key>v</key>
 						<string>向阳区</string>
@@ -4820,12 +4485,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>230501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>230502</string>
 						<key>v</key>
 						<string>尖山区</string>
@@ -4881,12 +4540,6 @@
 				<string>230600</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>230601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>230602</string>
@@ -4950,12 +4603,6 @@
 				<string>230700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>230701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>230702</string>
@@ -5069,12 +4716,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>230801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>230802</string>
 						<key>v</key>
 						<string>永红区</string>
@@ -5150,12 +4791,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>230901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>230902</string>
 						<key>v</key>
 						<string>新兴区</string>
@@ -5187,12 +4822,6 @@
 				<string>231000</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>231001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>231002</string>
@@ -5264,12 +4893,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>231101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>231102</string>
 						<key>v</key>
 						<string>爱辉区</string>
@@ -5313,12 +4936,6 @@
 				<string>231200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>231201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>231202</string>
@@ -5558,12 +5175,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>320101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>320102</string>
 						<key>v</key>
 						<string>玄武区</string>
@@ -5651,12 +5262,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>320201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>320202</string>
 						<key>v</key>
 						<string>崇安区</string>
@@ -5712,12 +5317,6 @@
 				<string>320300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>320301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>320302</string>
@@ -5795,12 +5394,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>320401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>320402</string>
 						<key>v</key>
 						<string>天宁区</string>
@@ -5850,12 +5443,6 @@
 				<string>320500</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>320501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>320502</string>
@@ -5933,12 +5520,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>320601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>320602</string>
 						<key>v</key>
 						<string>崇川区</string>
@@ -5996,12 +5577,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>320701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>320703</string>
 						<key>v</key>
 						<string>连云区</string>
@@ -6051,12 +5626,6 @@
 				<string>320800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>320801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>320802</string>
@@ -6114,12 +5683,6 @@
 				<string>320900</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>320901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>320902</string>
@@ -6185,12 +5748,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>321001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>321002</string>
 						<key>v</key>
 						<string>广陵区</string>
@@ -6242,12 +5799,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>321101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>321102</string>
 						<key>v</key>
 						<string>京口区</string>
@@ -6293,12 +5844,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>321201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>321202</string>
 						<key>v</key>
 						<string>海陵区</string>
@@ -6342,12 +5887,6 @@
 				<string>321300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>321301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>321302</string>
@@ -6396,12 +5935,6 @@
 				<string>330100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>330101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>330102</string>
@@ -6491,12 +6024,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>330201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>330203</string>
 						<key>v</key>
 						<string>海曙区</string>
@@ -6570,12 +6097,6 @@
 				<string>330300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>330301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>330302</string>
@@ -6653,12 +6174,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>330401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>330402</string>
 						<key>v</key>
 						<string>秀城区</string>
@@ -6710,12 +6225,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>330501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>330502</string>
 						<key>v</key>
 						<string>吴兴区</string>
@@ -6753,12 +6262,6 @@
 				<string>330600</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>330601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>330602</string>
@@ -6804,12 +6307,6 @@
 				<string>330700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>330701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>330702</string>
@@ -6875,12 +6372,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>330801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>330802</string>
 						<key>v</key>
 						<string>柯城区</string>
@@ -6926,12 +6417,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>330901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>330902</string>
 						<key>v</key>
 						<string>定海区</string>
@@ -6963,12 +6448,6 @@
 				<string>331000</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>331001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>331002</string>
@@ -7032,12 +6511,6 @@
 				<string>331100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>331101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>331102</string>
@@ -7112,12 +6585,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>340101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>340102</string>
 						<key>v</key>
 						<string>瑶海区</string>
@@ -7167,12 +6634,6 @@
 				<string>340200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>340201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>340202</string>
@@ -7226,12 +6687,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>340301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>340302</string>
 						<key>v</key>
 						<string>龙子湖区</string>
@@ -7283,12 +6738,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>340401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>340402</string>
 						<key>v</key>
 						<string>大通区</string>
@@ -7334,12 +6783,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>340501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>340502</string>
 						<key>v</key>
 						<string>金家庄区</string>
@@ -7371,12 +6814,6 @@
 				<string>340600</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>340601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>340602</string>
@@ -7412,12 +6849,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>340701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>340702</string>
 						<key>v</key>
 						<string>铜官山区</string>
@@ -7449,12 +6880,6 @@
 				<string>340800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>340801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>340802</string>
@@ -7532,12 +6957,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>341001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>341002</string>
 						<key>v</key>
 						<string>屯溪区</string>
@@ -7587,12 +7006,6 @@
 				<string>341100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>341101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>341102</string>
@@ -7652,12 +7065,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>341201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>341202</string>
 						<key>v</key>
 						<string>颍州区</string>
@@ -7715,12 +7122,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>341301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>341302</string>
 						<key>v</key>
 						<string>墉桥区</string>
@@ -7760,12 +7161,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>341401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>341402</string>
 						<key>v</key>
 						<string>居巢区</string>
@@ -7803,12 +7198,6 @@
 				<string>341500</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>341501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>341502</string>
@@ -7862,12 +7251,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>341601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>341602</string>
 						<key>v</key>
 						<string>谯城区</string>
@@ -7901,12 +7284,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>341701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>341702</string>
 						<key>v</key>
 						<string>贵池区</string>
@@ -7938,12 +7315,6 @@
 				<string>341800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>341801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>341802</string>
@@ -8004,12 +7375,6 @@
 				<string>350100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>350101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>350102</string>
@@ -8099,12 +7464,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>350201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>350203</string>
 						<key>v</key>
 						<string>思明区</string>
@@ -8150,12 +7509,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>350301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>350302</string>
 						<key>v</key>
 						<string>城厢区</string>
@@ -8193,12 +7546,6 @@
 				<string>350400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>350401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>350402</string>
@@ -8282,12 +7629,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>350501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>350502</string>
 						<key>v</key>
 						<string>鲤城区</string>
@@ -8369,12 +7710,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>350601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>350602</string>
 						<key>v</key>
 						<string>芗城区</string>
@@ -8450,12 +7785,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>350701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>350702</string>
 						<key>v</key>
 						<string>延平区</string>
@@ -8525,12 +7854,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>350801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>350802</string>
 						<key>v</key>
 						<string>新罗区</string>
@@ -8580,12 +7903,6 @@
 				<string>350900</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>350901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>350902</string>
@@ -8660,12 +7977,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>360101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>360102</string>
 						<key>v</key>
 						<string>东湖区</string>
@@ -8729,12 +8040,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>360201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>360202</string>
 						<key>v</key>
 						<string>昌江区</string>
@@ -8766,12 +8071,6 @@
 				<string>360300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>360301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>360302</string>
@@ -8811,12 +8110,6 @@
 				<string>360400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>360401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>360402</string>
@@ -8900,12 +8193,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>360501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>360502</string>
 						<key>v</key>
 						<string>渝水区</string>
@@ -8925,12 +8212,6 @@
 				<string>360600</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>360601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>360602</string>
@@ -8958,12 +8239,6 @@
 				<string>360700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>360701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>360702</string>
@@ -9083,12 +8358,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>360801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>360802</string>
 						<key>v</key>
 						<string>吉州区</string>
@@ -9176,12 +8445,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>360901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>360902</string>
 						<key>v</key>
 						<string>袁州区</string>
@@ -9249,12 +8512,6 @@
 				<string>361000</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>361001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>361002</string>
@@ -9330,12 +8587,6 @@
 				<string>361100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>361101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>361102</string>
@@ -9428,12 +8679,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>370101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>370102</string>
 						<key>v</key>
 						<string>历下区</string>
@@ -9501,12 +8746,6 @@
 				<string>370200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>370201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>370202</string>
@@ -9590,12 +8829,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>370301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>370302</string>
 						<key>v</key>
 						<string>淄川区</string>
@@ -9653,12 +8886,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>370401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>370402</string>
 						<key>v</key>
 						<string>市中区</string>
@@ -9704,12 +8931,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>370501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>370502</string>
 						<key>v</key>
 						<string>东营区</string>
@@ -9747,12 +8968,6 @@
 				<string>370600</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>370601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>370602</string>
@@ -9836,12 +9051,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>370701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>370702</string>
 						<key>v</key>
 						<string>潍城区</string>
@@ -9921,12 +9130,6 @@
 				<string>370800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>370801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>370802</string>
@@ -10010,12 +9213,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>370901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>370902</string>
 						<key>v</key>
 						<string>泰山区</string>
@@ -10061,12 +9258,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>371001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>371002</string>
 						<key>v</key>
 						<string>环翠区</string>
@@ -10098,12 +9289,6 @@
 				<string>371100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>371101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>371102</string>
@@ -10139,12 +9324,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>371201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>371202</string>
 						<key>v</key>
 						<string>莱城区</string>
@@ -10164,12 +9343,6 @@
 				<string>371300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>371301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>371302</string>
@@ -10253,12 +9426,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>371401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>371402</string>
 						<key>v</key>
 						<string>德城区</string>
@@ -10334,12 +9501,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>371501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>371502</string>
 						<key>v</key>
 						<string>东昌府区</string>
@@ -10397,12 +9558,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>371601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>371602</string>
 						<key>v</key>
 						<string>滨城区</string>
@@ -10452,12 +9607,6 @@
 				<string>371700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>371701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>371702</string>
@@ -10530,12 +9679,6 @@
 				<string>410100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>410101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>410102</string>
@@ -10619,12 +9762,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>410201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>410202</string>
 						<key>v</key>
 						<string>龙亭区</string>
@@ -10692,12 +9829,6 @@
 				<string>410300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>410301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>410302</string>
@@ -10799,12 +9930,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>410401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>410402</string>
 						<key>v</key>
 						<string>新华区</string>
@@ -10874,12 +9999,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>410501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>410502</string>
 						<key>v</key>
 						<string>文峰区</string>
@@ -10943,12 +10062,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>410601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>410602</string>
 						<key>v</key>
 						<string>鹤山区</string>
@@ -10986,12 +10099,6 @@
 				<string>410700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>410701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>410702</string>
@@ -11075,12 +10182,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>410801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>410802</string>
 						<key>v</key>
 						<string>解放区</string>
@@ -11156,12 +10257,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>410901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>410902</string>
 						<key>v</key>
 						<string>华龙区</string>
@@ -11205,12 +10300,6 @@
 				<string>411000</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>411001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>411002</string>
@@ -11258,12 +10347,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>411101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>411102</string>
 						<key>v</key>
 						<string>源汇区</string>
@@ -11301,12 +10384,6 @@
 				<string>411200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>411201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>411202</string>
@@ -11352,12 +10429,6 @@
 				<string>411300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>411301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>411302</string>
@@ -11447,12 +10518,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>411401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>411402</string>
 						<key>v</key>
 						<string>梁园区</string>
@@ -11514,12 +10579,6 @@
 				<string>411500</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>411501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>411502</string>
@@ -11591,12 +10650,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>411601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>411602</string>
 						<key>v</key>
 						<string>川汇区</string>
@@ -11664,12 +10717,6 @@
 				<string>411700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>411701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>411702</string>
@@ -11748,12 +10795,6 @@
 				<string>420100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>420101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>420102</string>
@@ -11843,12 +10884,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>420201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>420202</string>
 						<key>v</key>
 						<string>黄石港区</string>
@@ -11892,12 +10927,6 @@
 				<string>420300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>420301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>420302</string>
@@ -11955,12 +10984,6 @@
 				<string>420500</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>420501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>420502</string>
@@ -12050,12 +11073,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>420601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>420602</string>
 						<key>v</key>
 						<string>襄城区</string>
@@ -12119,12 +11136,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>420701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>420702</string>
 						<key>v</key>
 						<string>梁子湖区</string>
@@ -12150,12 +11161,6 @@
 				<string>420800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>420801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>420802</string>
@@ -12195,12 +11200,6 @@
 				<string>420900</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>420901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>420902</string>
@@ -12252,12 +11251,6 @@
 				<string>421000</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>421001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>421002</string>
@@ -12315,12 +11308,6 @@
 				<string>421100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>421101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>421102</string>
@@ -12392,12 +11379,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>421201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>421202</string>
 						<key>v</key>
 						<string>咸安区</string>
@@ -12441,12 +11422,6 @@
 				<string>421300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>421301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>421302</string>
@@ -12569,12 +11544,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>430101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>430102</string>
 						<key>v</key>
 						<string>芙蓉区</string>
@@ -12636,12 +11605,6 @@
 				<string>430200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>430201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>430202</string>
@@ -12707,12 +11670,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>430301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>430302</string>
 						<key>v</key>
 						<string>雨湖区</string>
@@ -12750,12 +11707,6 @@
 				<string>430400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>430401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>430405</string>
@@ -12839,12 +11790,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>430501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>430502</string>
 						<key>v</key>
 						<string>双清区</string>
@@ -12926,12 +11871,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>430601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>430602</string>
 						<key>v</key>
 						<string>岳阳楼区</string>
@@ -12993,12 +11932,6 @@
 				<string>430700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>430701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>430702</string>
@@ -13064,12 +11997,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>430801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>430802</string>
 						<key>v</key>
 						<string>永定区</string>
@@ -13101,12 +12028,6 @@
 				<string>430900</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>430901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>430902</string>
@@ -13152,12 +12073,6 @@
 				<string>431000</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>431001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>431002</string>
@@ -13235,12 +12150,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>431101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>431102</string>
 						<key>v</key>
 						<string>芝山区</string>
@@ -13314,12 +12223,6 @@
 				<string>431200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>431201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>431202</string>
@@ -13401,12 +12304,6 @@
 				<string>431300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>431301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>431302</string>
@@ -13514,12 +12411,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>440101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>440102</string>
 						<key>v</key>
 						<string>东山区</string>
@@ -13601,12 +12492,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>440201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>440203</string>
 						<key>v</key>
 						<string>武江区</string>
@@ -13676,12 +12561,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>440301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>440303</string>
 						<key>v</key>
 						<string>罗湖区</string>
@@ -13727,12 +12606,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>440401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>440402</string>
 						<key>v</key>
 						<string>香洲区</string>
@@ -13758,12 +12631,6 @@
 				<string>440500</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>440501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>440507</string>
@@ -13817,12 +12684,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>440601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>440604</string>
 						<key>v</key>
 						<string>禅城区</string>
@@ -13860,13 +12721,7 @@
 				<string>440700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>440701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
+                    <dict>
 						<key>k</key>
 						<string>440703</string>
 						<key>v</key>
@@ -13917,12 +12772,6 @@
 				<string>440800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>440801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>440802</string>
@@ -13988,12 +12837,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>440901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>440902</string>
 						<key>v</key>
 						<string>茂南区</string>
@@ -14037,12 +12880,6 @@
 				<string>441200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>441201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>441202</string>
@@ -14102,12 +12939,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>441301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>441302</string>
 						<key>v</key>
 						<string>惠城区</string>
@@ -14145,12 +12976,6 @@
 				<string>441400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>441401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>441402</string>
@@ -14210,12 +13035,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>441501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>441502</string>
 						<key>v</key>
 						<string>城区</string>
@@ -14247,12 +13066,6 @@
 				<string>441600</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>441601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>441602</string>
@@ -14300,12 +13113,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>441701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>441702</string>
 						<key>v</key>
 						<string>江城区</string>
@@ -14337,12 +13144,6 @@
 				<string>441800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>441801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>441802</string>
@@ -14418,12 +13219,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>445101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>445102</string>
 						<key>v</key>
 						<string>湘桥区</string>
@@ -14449,12 +13244,6 @@
 				<string>445200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>445201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>445202</string>
@@ -14494,12 +13283,6 @@
 				<string>445300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>445301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>445302</string>
@@ -14548,12 +13331,6 @@
 				<string>450100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>450101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>450102</string>
@@ -14637,12 +13414,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>450201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>450202</string>
 						<key>v</key>
 						<string>城中区</string>
@@ -14710,12 +13481,6 @@
 				<string>450300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>450301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>450302</string>
@@ -14829,12 +13594,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>450401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>450403</string>
 						<key>v</key>
 						<string>万秀区</string>
@@ -14886,12 +13645,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>450501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>450502</string>
 						<key>v</key>
 						<string>海城区</string>
@@ -14923,12 +13676,6 @@
 				<string>450600</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>450601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>450602</string>
@@ -14964,12 +13711,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>450701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>450702</string>
 						<key>v</key>
 						<string>钦南区</string>
@@ -15001,12 +13742,6 @@
 				<string>450800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>450801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>450802</string>
@@ -15046,12 +13781,6 @@
 				<string>450900</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>450901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>450902</string>
@@ -15097,12 +13826,6 @@
 				<string>451000</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>451001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>451002</string>
@@ -15186,12 +13909,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>451101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>451102</string>
 						<key>v</key>
 						<string>八步区</string>
@@ -15223,12 +13940,6 @@
 				<string>451200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>451201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>451202</string>
@@ -15306,12 +14017,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>451301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>451302</string>
 						<key>v</key>
 						<string>兴宾区</string>
@@ -15355,12 +14060,6 @@
 				<string>451400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>451401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>451402</string>
@@ -15423,12 +14122,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>460101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>460105</string>
 						<key>v</key>
 						<string>秀英区</string>
@@ -15460,138 +14153,123 @@
 				<string>460200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>460201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469001</string>
+                        <key>v</key>
+                        <string>五指山市</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469002</string>
+                        <key>v</key>
+                        <string>琼海市</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469003</string>
+                        <key>v</key>
+                        <string>儋州市</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469005</string>
+                        <key>v</key>
+                        <string>文昌市</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469006</string>
+                        <key>v</key>
+                        <string>万宁市</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469007</string>
+                        <key>v</key>
+                        <string>东方市</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469025</string>
+                        <key>v</key>
+                        <string>定安县</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469026</string>
+                        <key>v</key>
+                        <string>屯昌县</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469027</string>
+                        <key>v</key>
+                        <string>澄迈县</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469028</string>
+                        <key>v</key>
+                        <string>临高县</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469030</string>
+                        <key>v</key>
+                        <string>白沙黎族自治县</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469031</string>
+                        <key>v</key>
+                        <string>昌江黎族自治县</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469033</string>
+                        <key>v</key>
+                        <string>乐东黎族自治县</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469034</string>
+                        <key>v</key>
+                        <string>陵水黎族自治县</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469035</string>
+                        <key>v</key>
+                        <string>保亭黎族苗族自治县</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469036</string>
+                        <key>v</key>
+                        <string>琼中黎族苗族自治县</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469037</string>
+                        <key>v</key>
+                        <string>西沙群岛</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469038</string>
+                        <key>v</key>
+                        <string>南沙群岛</string>
+                    </dict>
+                    <dict>
+                        <key>k</key>
+                        <string>469039</string>
+                        <key>v</key>
+                        <string>中沙群岛的岛礁及其海域</string>
+                    </dict>
 				</array>
 				<key>v</key>
 				<string>三亚市</string>
-			</dict>
-			<dict>
-				<key>k</key>
-				<string>469000</string>
-				<key>n</key>
-				<array>
-					<dict>
-						<key>k</key>
-						<string>469001</string>
-						<key>v</key>
-						<string>五指山市</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469002</string>
-						<key>v</key>
-						<string>琼海市</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469003</string>
-						<key>v</key>
-						<string>儋州市</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469005</string>
-						<key>v</key>
-						<string>文昌市</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469006</string>
-						<key>v</key>
-						<string>万宁市</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469007</string>
-						<key>v</key>
-						<string>东方市</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469025</string>
-						<key>v</key>
-						<string>定安县</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469026</string>
-						<key>v</key>
-						<string>屯昌县</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469027</string>
-						<key>v</key>
-						<string>澄迈县</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469028</string>
-						<key>v</key>
-						<string>临高县</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469030</string>
-						<key>v</key>
-						<string>白沙黎族自治县</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469031</string>
-						<key>v</key>
-						<string>昌江黎族自治县</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469033</string>
-						<key>v</key>
-						<string>乐东黎族自治县</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469034</string>
-						<key>v</key>
-						<string>陵水黎族自治县</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469035</string>
-						<key>v</key>
-						<string>保亭黎族苗族自治县</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469036</string>
-						<key>v</key>
-						<string>琼中黎族苗族自治县</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469037</string>
-						<key>v</key>
-						<string>西沙群岛</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469038</string>
-						<key>v</key>
-						<string>南沙群岛</string>
-					</dict>
-					<dict>
-						<key>k</key>
-						<string>469039</string>
-						<key>v</key>
-						<string>中沙群岛的岛礁及其海域</string>
-					</dict>
-				</array>
-				<key>v</key>
-				<string>省直辖县级行政单位</string>
 			</dict>
 		</array>
 		<key>v</key>
@@ -15867,12 +14545,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>510101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>510104</string>
 						<key>v</key>
 						<string>锦江区</string>
@@ -15996,12 +14668,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>510301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>510302</string>
 						<key>v</key>
 						<string>自流井区</string>
@@ -16047,12 +14713,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>510401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>510402</string>
 						<key>v</key>
 						<string>东区</string>
@@ -16090,12 +14750,6 @@
 				<string>510500</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>510501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>510502</string>
@@ -16149,12 +14803,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>510601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>510603</string>
 						<key>v</key>
 						<string>旌阳区</string>
@@ -16198,12 +14846,6 @@
 				<string>510700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>510701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>510703</string>
@@ -16269,12 +14911,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>510801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>510802</string>
 						<key>v</key>
 						<string>市中区</string>
@@ -16326,12 +14962,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>510901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>510903</string>
 						<key>v</key>
 						<string>船山区</string>
@@ -16371,12 +15001,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>511001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>511002</string>
 						<key>v</key>
 						<string>市中区</string>
@@ -16414,12 +15038,6 @@
 				<string>511100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>511101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>511102</string>
@@ -16497,12 +15115,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>511301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>511302</string>
 						<key>v</key>
 						<string>顺庆区</string>
@@ -16566,12 +15178,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>511401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>511402</string>
 						<key>v</key>
 						<string>东坡区</string>
@@ -16615,12 +15221,6 @@
 				<string>511500</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>511501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>511502</string>
@@ -16692,12 +15292,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>511601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>511602</string>
 						<key>v</key>
 						<string>广安区</string>
@@ -16735,12 +15329,6 @@
 				<string>511700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>511701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>511702</string>
@@ -16792,12 +15380,6 @@
 				<string>511800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>511801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>511802</string>
@@ -16857,12 +15439,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>511901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>511902</string>
 						<key>v</key>
 						<string>巴州区</string>
@@ -16894,12 +15470,6 @@
 				<string>512000</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>512001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>512002</string>
@@ -17259,12 +15829,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>520101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>520102</string>
 						<key>v</key>
 						<string>南明区</string>
@@ -17367,12 +15931,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>520301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>520302</string>
 						<key>v</key>
 						<string>红花岗区</string>
@@ -17464,12 +16022,6 @@
 				<string>520400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>520401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>520402</string>
@@ -17895,12 +16447,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>530101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>530102</string>
 						<key>v</key>
 						<string>五华区</string>
@@ -17994,12 +16540,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>530301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>530302</string>
 						<key>v</key>
 						<string>麒麟区</string>
@@ -18061,12 +16601,6 @@
 				<string>530400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>530401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>530402</string>
@@ -18132,12 +16666,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>530501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>530502</string>
 						<key>v</key>
 						<string>隆阳区</string>
@@ -18175,12 +16703,6 @@
 				<string>530600</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>530601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>530602</string>
@@ -18258,12 +16780,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>530701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>530702</string>
 						<key>v</key>
 						<string>古城区</string>
@@ -18301,12 +16817,6 @@
 				<string>530800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>530801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>530802</string>
@@ -18376,12 +16886,6 @@
 				<string>530900</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>530901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>530902</string>
@@ -18868,12 +17372,6 @@
 				<string>540100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>540101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>540102</string>
@@ -19386,12 +17884,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>610101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>610102</string>
 						<key>v</key>
 						<string>新城区</string>
@@ -19479,12 +17971,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>610201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>610202</string>
 						<key>v</key>
 						<string>王益区</string>
@@ -19516,12 +18002,6 @@
 				<string>610300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>610301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>610302</string>
@@ -19603,12 +18083,6 @@
 				<string>610400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>610401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>610402</string>
@@ -19704,12 +18178,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>610501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>610502</string>
 						<key>v</key>
 						<string>临渭区</string>
@@ -19783,12 +18251,6 @@
 				<string>610600</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>610601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>610602</string>
@@ -19878,12 +18340,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>610701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>610702</string>
 						<key>v</key>
 						<string>汉台区</string>
@@ -19957,12 +18413,6 @@
 				<string>610800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>610801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>610802</string>
@@ -20046,12 +18496,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>610901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>610902</string>
 						<key>v</key>
 						<string>汉滨区</string>
@@ -20121,12 +18565,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>611001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>611002</string>
 						<key>v</key>
 						<string>商州区</string>
@@ -20185,12 +18623,6 @@
 				<string>620100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>620101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>620102</string>
@@ -20252,7 +18684,7 @@
 						<key>k</key>
 						<string>620201</string>
 						<key>v</key>
-						<string>市辖区</string>
+						<string>嘉峪关市</string>
 					</dict>
 				</array>
 				<key>v</key>
@@ -20263,12 +18695,6 @@
 				<string>620300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>620301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>620302</string>
@@ -20290,12 +18716,6 @@
 				<string>620400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>620401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>620402</string>
@@ -20335,12 +18755,6 @@
 				<string>620500</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>620501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>620502</string>
@@ -20394,12 +18808,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>620601</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>620602</string>
 						<key>v</key>
 						<string>凉州区</string>
@@ -20431,12 +18839,6 @@
 				<string>620700</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>620701</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>620702</string>
@@ -20482,12 +18884,6 @@
 				<string>620800</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>620801</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>620802</string>
@@ -20541,12 +18937,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>620901</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>620902</string>
 						<key>v</key>
 						<string>肃州区</string>
@@ -20596,12 +18986,6 @@
 				<string>621000</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>621001</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>621002</string>
@@ -20661,12 +19045,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>621101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>621102</string>
 						<key>v</key>
 						<string>安定区</string>
@@ -20716,12 +19094,6 @@
 				<string>621200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>621201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>621202</string>
@@ -20908,12 +19280,6 @@
 				<string>630100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>630101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>630102</string>
@@ -21255,12 +19621,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>640101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>640104</string>
 						<key>v</key>
 						<string>兴庆区</string>
@@ -21306,12 +19666,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>640201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>640202</string>
 						<key>v</key>
 						<string>大武口区</string>
@@ -21337,12 +19691,6 @@
 				<string>640300</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>640301</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>640302</string>
@@ -21376,12 +19724,6 @@
 				<string>640400</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>640401</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>640402</string>
@@ -21423,12 +19765,6 @@
 				<array>
 					<dict>
 						<key>k</key>
-						<string>640501</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
-					<dict>
-						<key>k</key>
 						<string>640502</string>
 						<key>v</key>
 						<string>沙坡头区</string>
@@ -21463,12 +19799,6 @@
 				<string>650100</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>650101</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>650102</string>
@@ -21526,12 +19856,6 @@
 				<string>650200</string>
 				<key>n</key>
 				<array>
-					<dict>
-						<key>k</key>
-						<string>650201</string>
-						<key>v</key>
-						<string>市辖区</string>
-					</dict>
 					<dict>
 						<key>k</key>
 						<string>650202</string>
@@ -21667,6 +19991,12 @@
 						<key>v</key>
 						<string>木垒哈萨克自治县</string>
 					</dict>
+                    <dict>
+                        <key>k</key>
+                        <string>652329</string>
+                        <key>v</key>
+                        <string>五家渠市</string>
+                    </dict>
 				</array>
 				<key>v</key>
 				<string>昌吉回族自治州</string>
@@ -22162,6 +20492,12 @@
 						<key>v</key>
 						<string>吉木乃县</string>
 					</dict>
+                    <dict>
+                        <key>k</key>
+                        <string>654327</string>
+                        <key>v</key>
+                        <string>北屯镇</string>
+                    </dict>
 				</array>
 				<key>v</key>
 				<string>阿勒泰地区</string>
@@ -22189,19 +20525,13 @@
 						<key>v</key>
 						<string>图木舒克市</string>
 					</dict>
-					<dict>
-						<key>k</key>
-						<string>659004</string>
-						<key>v</key>
-						<string>五家渠市</string>
-					</dict>
 				</array>
 				<key>v</key>
 				<string>省直辖行政单位</string>
 			</dict>
 		</array>
 		<key>v</key>
-		<string>新疆</string>
+		<string>新疆维吾尔自治区</string>
 	</dict>
 	<dict>
 		<key>k</key>
@@ -22217,15 +20547,15 @@
 						<key>k</key>
 						<string>710101</string>
 						<key>v</key>
-						<string>台湾省</string>
+						<string>台湾</string>
 					</dict>
 				</array>
 				<key>v</key>
-				<string>台湾省</string>
+				<string>台湾</string>
 			</dict>
 		</array>
 		<key>v</key>
-		<string>台湾省</string>
+		<string>台湾</string>
 	</dict>
 	<dict>
 		<key>k</key>

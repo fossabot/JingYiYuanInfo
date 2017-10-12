@@ -195,10 +195,10 @@
 - (void)masonrySubview {
     //底部分隔线的约束
     [self.cellSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.contentView.bottom).offset(-0.5);
+        make.bottom.equalTo(self.contentView.bottom).offset(-1);
         make.left.equalTo(self.contentView.left).offset(YYInfoCellCommonMargin);
         make.right.equalTo(self.contentView.right).offset(-YYInfoCellCommonMargin);
-        make.height.offset(0.2);
+        make.height.equalTo(0.5);
     }];
     
     [self.title makeConstraints:^(MASConstraintMaker *make) {//设置第一个cell的标题label约束

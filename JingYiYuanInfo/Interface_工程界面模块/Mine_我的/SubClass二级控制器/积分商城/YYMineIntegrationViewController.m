@@ -217,7 +217,8 @@
 - (void)refreshHeader:(NSNotification *)notice {
     
     YYUser *user = [YYUser shareUser];
-    self.integrationLabel.text = user.integral;
+    
+    self.integrationLabel.text = [NSString stringWithFormat:@"%@",user.integral];
 }
 
 - (void)selectSegView:(UISegmentedControl *)segView {

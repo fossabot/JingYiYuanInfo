@@ -45,8 +45,9 @@
     
     [self configSubView];
     
-//    [self loadDataWithDay:self.today];
-    [self loadDataWithDay:@"2017-09-13"];
+    [self loadDataWithDay:self.today];
+    
+//    [self loadDataWithDay:@"2017-09-13"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -77,7 +78,7 @@
     };
     
     
-    self.pushTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, TabHeaderH+5, kSCREENWIDTH, kSCREENHEIGHT-(YYTopNaviHeight+TabHeaderH+5)) style:UITableViewStylePlain];
+    self.pushTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, YYTopNaviHeight+5, kSCREENWIDTH, kSCREENHEIGHT-(YYTopNaviHeight+YYTopNaviHeight+5)) style:UITableViewStylePlain];
     self.pushTableView.separatorInset = UIEdgeInsetsMake(0, 50, 0, 0);
     self.pushTableView.tableFooterView = [[UIView alloc] init];
     self.pushTableView.delegate = self.viewModel;

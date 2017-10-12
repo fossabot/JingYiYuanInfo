@@ -15,6 +15,21 @@
 
 #pragma mark -------  外部调用接口  ------------------------------------------
 
+//根据userid获取个人信息
++ (void)getUserInfo {
+    
+    YYUser *user = [YYUser shareUser];
+    [YYHttpNetworkTool GETRequestWithUrlstring:userInfoUrl parameters:@{USERID:user.userid} success:^(id response) {
+        
+        if (response) {
+            
+            [YYUser configUserInfoWithDic:response];
+            [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
+        }
+    } failure:^(NSError *error) {
+        
+    } showSuccessMsg:nil];
+}
 
 /** 登录时 验证账号密码*/
 + (void)loginSucceedWithAccount:(NSString *)account password:(NSString *)password responseMsg:(void (^)(BOOL success))success{

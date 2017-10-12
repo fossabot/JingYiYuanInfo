@@ -17,15 +17,6 @@ static YYNewVersionViewController *new;
 @implementation AppDelegate (YYAppService)
 
 
-
-- (void)checkUnTestReceipt {
-    
-    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
-    
-}
-
-
-
 - (void)firstConfigWithDeviceToken:(NSString *)deviceToken {
     
     YYUser *user = [YYUser shareUser];
@@ -212,6 +203,19 @@ static YYNewVersionViewController *new;
         
     }
 
+}
+
+
+/**
+ *  打开APP 刷新个人信息
+ */
+- (void)refreshUserInfo {
+    
+    YYUser *user = [YYUser shareUser];
+    if (user.isLogin) {//登录了再刷新个人信息
+        
+        [YYLoginManager getUserInfo];
+    }
 }
 
 

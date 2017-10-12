@@ -8,7 +8,9 @@
 
 #import "SearchView.h"
 #import "LabelContainer.h"
-#import "MJRefresh.h"
+#import "YYSearchViewHeader.h"
+
+static NSString * const historyCellId = @"historyCell";
 
 @interface SearchView()<UITableViewDelegate,UITableViewDataSource,LabelContainerClickDelegate,CellDeleteDelegate>
 
@@ -19,6 +21,9 @@
 @property (nonatomic, strong) LabelContainer *hotContainer;
 
 /** header*/
+@property (nonatomic, strong) YYSearchViewHeader *header;
+
+/** footer*/
 @property (nonatomic, strong) UIButton *footer;
 
 /** searchCachePath*/
@@ -30,13 +35,13 @@
 @end
 
 
-
-
 @implementation HistoryCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.imageView.image = imageNamed(@"searchhistory_44x44");
         [self.contentView addSubview:self.accessoryButton];
     }
     return self;
@@ -76,6 +81,10 @@
         NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
         self.searchCachePath = [path stringByAppendingPathComponent:@"searchCachePath.plist"];
         [self addSubview:self.tableView];
+        [self.tableView makeConstraints:^(MASConstraintMaker *make) {
+           
+            make.edges.equalTo(self);
+        }];
     }
     return self;
 }
@@ -90,10 +99,33 @@
 
 - (void)setHotArr:(NSArray *)hotArr {
     _hotArr = hotArr;
-    [self.hotContainer setTitles:hotArr];
-    [self.tableView reloadData];
+    [self renderHeader];
 }
 
+/** 渲染头部*/
+- (void)renderHeader {
+    
+    if (!self.header) {
+        self.header = [[YYSearchViewHeader alloc] initWithDatas:_hotArr];
+        YYWeakSelf
+        self.header.changeTagBlock = ^(NSInteger index){
+            YYStrongSelf
+            //选中标签的回调
+//            YYHotTagModel *tagMoel = strongSelf.viewModel.headerDataSource[index];
+//            [strongSelf selectTag:[tagMoel.tagid integerValue]];
+            if ([strongSelf.delegate respondsToSelector:@selector(searchView:didSelectText:)]) {
+                
+                [strongSelf.delegate searchView:strongSelf didSelectText:strongSelf.hotArr[index]];
+            }
+        };
+        
+    }else {
+        [self.header setDatas:_hotArr];
+    }
+    self.tableView.tableHeaderView = nil;
+    self.tableView.tableHeaderView = self.header;
+    
+}
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 
@@ -102,7 +134,10 @@
  */
 - (void)insertSearchText:(NSString *)text {
     [self exchangeHistoryIndexWithText:text];
-    [_historyArr writeToFile:self.searchCachePath atomically:YES];
+    
+    [NSKeyedArchiver archiveRootObject:self.historyArr toFile:self.searchCachePath];
+//    BOOL success = [self.historyArr writeToFile:self.searchCachePath atomically:YES];
+    
     [self.tableView reloadData];
 }
 
@@ -110,11 +145,11 @@
  *  切换搜索文字在历史中的位置
  */
 - (void)exchangeHistoryIndexWithText:(NSString *)text {
-    if ([_historyArr containsObject:text]) {
-        [_historyArr removeObject:text];
-        [_historyArr insertObject:text atIndex:0];
+    if ([self.historyArr containsObject:text]) {
+        [self.historyArr removeObject:text];
+        [self.historyArr insertObject:text atIndex:0];
     }else {
-        [_historyArr addObject:text];
+        [self.historyArr addObject:text];
     }
 }
 
@@ -123,50 +158,22 @@
  */
 - (void)clearHistory {
     [self.historyArr removeAllObjects];
-    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:1];
-    [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadData];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:_searchCachePath error:nil];
 }
 
 
-#pragma mark -------  collectionview 代理方法 -------------------------------------
+#pragma mark -------  tableView 代理方法 -------------------------------------
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        CGFloat height = self.hotArr ? self.hotContainer.bounds.size.height : 10;
-        return height;
-    }else {
-        return 40;
-    }
-    
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return 30;
-    }else{
-        return 0.5;
-    }
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 30)];
-    label.text = @"  热门搜索";
-    label.backgroundColor = WhiteColor;
-    return label;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+   
+    return 40;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 1;
-    }
+
     return self.historyArr.count;
 }
 
@@ -174,18 +181,16 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     //改变历史记录的顺序
-    if (indexPath.section == 1) {
-        NSString *text = [_historyArr objectAtIndex:indexPath.row];
-        [_historyArr removeObjectAtIndex:indexPath.row];
-        [_historyArr insertObject:text atIndex:0];
-        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:1];
-        [tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
-    }
+    NSString *text = [self.historyArr objectAtIndex:indexPath.row];
+    [self.historyArr removeObjectAtIndex:indexPath.row];
+    [self.historyArr insertObject:text atIndex:0];
+    [self.historyArr writeToFile:_searchCachePath atomically:YES];
+    [tableView moveRowAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathWithIndex:0]];
     
     //代理执行搜索
     if ([self.delegate respondsToSelector:@selector(searchView:didSelectText:)]) {
         
-        [self.delegate searchView:self didSelectText:_historyArr[indexPath.row]];
+        [self.delegate searchView:self didSelectText:self.historyArr[indexPath.row]];
         
     }
 }
@@ -195,34 +200,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.section == 0) {
-        static NSString *cellSection = @"cellsection0";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellSection];
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellSection];
-            [cell.contentView addSubview:self.hotContainer];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        return cell;
-    }
-    static NSString *cellId = @"cellid";
-    HistoryCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (!cell) {
-        cell = [[HistoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.imageView.image = imageNamed(@"searchhistory_44x44");
-    }
+    HistoryCell *cell = [tableView dequeueReusableCellWithIdentifier:historyCellId];
     cell.textLabel.text = self.historyArr[indexPath.row];
     cell.delegate = self;
-//    YYWeakSelf
-    //点击cell的删除按钮的回调
-//    cell.historyBlock = ^(id hisCell){
-//        YYStrongSelf
-//        HistoryCell *historyCell = (HistoryCell *)hisCell;
-//        NSIndexPath *index = [strongSelf.tableView indexPathForCell:historyCell];
-//        [strongSelf.historyArr removeObjectAtIndex:index.row];
-//        [strongSelf.tableView deleteRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationNone];
-//    };
     return cell;
 }
 
@@ -234,16 +214,18 @@
         
         [self.delegate searchView:self didSelectText:title];
     }
-    
 }
 
 
 #pragma mark -------  cell 删除按钮的代理方法 -----------------------------
 
 - (void)searchViewDidDeleteCell:(UITableViewCell *)cell {
+
     HistoryCell *historyCell = (HistoryCell *)cell;
     NSIndexPath *index = [self.tableView indexPathForCell:historyCell];
     [self.historyArr removeObjectAtIndex:index.row];
+//    [self.historyArr writeToFile:_searchCachePath atomically:YES];
+    [NSKeyedArchiver archiveRootObject:self.historyArr toFile:self.searchCachePath];
     [self.tableView deleteRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationNone];
 }
 
@@ -276,11 +258,12 @@
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+        [_tableView registerClass:[HistoryCell class] forCellReuseIdentifier:historyCellId];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        _tableView.separatorInset = UIEdgeInsetsMake(0, -100, 0, -100);
     }
     return _tableView;
 }
@@ -288,7 +271,8 @@
 - (NSMutableArray *)historyArr{
     if (!_historyArr) {
         
-        _historyArr = [NSMutableArray arrayWithContentsOfFile:self.searchCachePath];
+//        _historyArr = [NSMutableArray arrayWithContentsOfFile:self.searchCachePath];
+        _historyArr = [NSKeyedUnarchiver unarchiveObjectWithFile:self.searchCachePath];
     }
     return _historyArr;
 }

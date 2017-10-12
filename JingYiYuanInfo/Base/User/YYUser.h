@@ -68,9 +68,6 @@ YYSingletonH(User)
 /** wifi下播放*/
 @property (nonatomic, assign) BOOL onlyWIFIPlay;
 
-/** 签到天数  今天已签到返回真实签到天数  未签到返回0 则签到按钮状态自动变化*/
-@property (nonatomic, assign) NSInteger signDays;
-
 /** setUp*/
 @property (nonatomic, copy) NSString *setUp;
 

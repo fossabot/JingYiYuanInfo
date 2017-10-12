@@ -46,7 +46,7 @@
         if (defaultSelectedArr.count == 3) {
             self.defaultSelectedArr = defaultSelectedArr;
         } else {
-            self.defaultSelectedArr = @[@10, @0, @0];
+            self.defaultSelectedArr = @[@0, @0, @0];
         }
         self.isAutoSelect = isAutoSelect;
         self.resultBlock = resultBlock;
@@ -256,6 +256,7 @@
     }
     return arr;
 }
+
 
 #pragma mark - 滚动到指定行
 - (void)scrollToRow:(NSInteger)firstRow secondRow:(NSInteger)secondRow thirdRow:(NSInteger)thirdRow {

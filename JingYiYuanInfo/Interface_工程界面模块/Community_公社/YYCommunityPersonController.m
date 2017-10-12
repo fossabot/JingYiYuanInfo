@@ -189,7 +189,7 @@
 
 - (SDCycleScrollView *)banner{
     if (!_banner) {
-        _banner = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENWIDTH*0.6)];
+        _banner = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENWIDTH*0.4)];
         _banner.delegate = self;
         _banner.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _banner.infiniteLoop = YES;

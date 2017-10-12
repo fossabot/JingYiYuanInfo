@@ -149,7 +149,7 @@
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.rowHeight = 65;
+        _tableView.rowHeight = 60;
         [_tableView registerClass:[YYSubscribleSettingCell class] forCellReuseIdentifier:YYSubscribleSettingCellId];
         YYWeakSelf
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
@@ -181,5 +181,7 @@
     }
     return _stables;
 }
+
+
 
 @end

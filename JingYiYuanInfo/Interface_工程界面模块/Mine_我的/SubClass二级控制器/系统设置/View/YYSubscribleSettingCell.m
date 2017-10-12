@@ -54,23 +54,23 @@
     [self.contentView addSubview:switchBtn];
     self.switchBtn = switchBtn;
     
-    
-    [self.redDot makeConstraints:^(MASConstraintMaker *make) {
-       
-        make.left.top.equalTo(20);
-        make.width.height.equalTo(4);
-    }];
-    
     [self.title makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.equalTo(self.redDot.right).offset(YYInfoCellCommonMargin);
-        make.bottom.equalTo(self.contentView.centerY).offset(-5);
+        make.left.equalTo(3*YYInfoCellCommonMargin);
+        make.top.equalTo(YYInfoCellCommonMargin);
     }];
     
     [self.subTitle makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.title);
-        make.top.equalTo(self.contentView.centerY).offset(5);
+        make.top.equalTo(self.title.bottom).offset(YYInfoCellSubMargin);
+    }];
+    
+    [self.redDot makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.centerY.equalTo(self.title);
+        make.right.equalTo(self.title.left).offset(-YYInfoCellCommonMargin);
+        make.width.height.equalTo(4);
     }];
     
     [self.switchBtn makeConstraints:^(MASConstraintMaker *make) {
@@ -80,7 +80,6 @@
         make.width.equalTo(40);
         make.height.equalTo(20);
     }];
-    
     
 }
 

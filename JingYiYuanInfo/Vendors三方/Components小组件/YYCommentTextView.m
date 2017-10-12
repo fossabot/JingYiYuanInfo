@@ -30,6 +30,14 @@
     return self;
 }
 
+- (void)setTextnil:(BOOL)Textnil {
+    _Textnil = Textnil;
+    if (!Textnil) {
+        
+        [[self viewWithTag:999] setAlpha:0];
+    }
+}
+
 #pragma mark 隐藏或显示placeText
 -(void)TextChange:(NSNotification *)notification{
     if (self.text.length==0) {
@@ -47,7 +55,6 @@
         }else{
             [[self viewWithTag:999] setAlpha:0];
         }
-        
         
     }];
     
@@ -86,13 +93,13 @@
 
 
 -(void)setPlaceText:(NSString *)placeText{
-    _placeText=placeText;
-    _placeTextLab.text=placeText;
+    _placeText = placeText;
+    _placeTextLab.text = placeText;
     [self TextChange:nil];
 }
 
 -(void)dealloc{
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

@@ -20,6 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationItem.rightBarButtonItem = nil;
     [self.view addSubview:self.buy];
     [self.buy makeConstraints:^(MASConstraintMaker *make) {
         
@@ -47,9 +48,11 @@
     YYUser *user = [YYUser shareUser];
     if (user.isLogin) {
         [SVProgressHUD showInfoWithStatus:@"积分不足"];
-        [SVProgressHUD dismissWithDelay:1];
         return;
+    }else {
+        [SVProgressHUD showInfoWithStatus:@"暂未登录"];
     }
+    [SVProgressHUD dismissWithDelay:1];
 }
 
 

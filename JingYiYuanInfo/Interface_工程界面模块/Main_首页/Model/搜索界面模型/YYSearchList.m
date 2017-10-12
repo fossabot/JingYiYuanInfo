@@ -8,11 +8,22 @@
 
 #import "YYSearchList.h"
 #import "MJExtension.h"
+#import "YYSearchModel.h"
 
 @implementation YYSearchList
 
 + (NSDictionary *)mj_objectClassInArray {
-    return @{@"subClasses":@"YYSearchModel"};
+    
+    return @{
+             
+             @"art_arr":@"YYSearchModel",
+             @"vid_arr":@"YYSearchModel",
+             @"sh_arr":@"YYSearchModel",
+             @"nar_arr":@"YYSearchModel",
+             @"sm_arr":@"YYSearchModel",
+             @"sa_arr":@"YYSearchModel"
+             
+             };
 }
 
 @end

@@ -38,6 +38,7 @@
 
 //返回值参数宏
 #define STATUS @"status"
+#define STATE  @"state"
 #define USERINFO @"userinfo"
 
 
@@ -135,6 +136,13 @@
 //http://yyapp.1yuaninfo.com/app/application/message.php?act=details&id=1
 /** 消息详情页接口*/
 #define messagedetailUrl(msgId) [NSString stringWithFormat:@"%@/app/application/message.php?act=detail&id=%@",domainUrl,msgId]
+
+
+#pragma 首页搜索接口
+//参数  act=global  keyword=搜索的文字
+//http://yyapp.1yuaninfo.com/app/application/global_serach.php
+/** 首页搜索接口*/
+#define searchUrl [NSString stringWithFormat:@"%@/app/application/global_serach.php",domainUrl]
 
 
 #pragma 推送历史记录接口
@@ -470,6 +478,11 @@
 #pragma ------------------------------------------------------------------------
 #pragma -----------------------  我的界面的接口  ---------------------------------
 
+#pragma mark 根据userid请求个人信息，专门用来在个人信息发生改变时获取新的个人信息（购买会员，签到后积分变化）
+//返回值：{"username":"18855970767","avatar":"","mobile":"18855970767","guling":"0","capital":null,"email":null,"qqnum":null,"weixin":null,"weibo":null,"groupid":"3","expiretime":"2018-10-10 14:24:45","integral":"0"}
+#define userInfoUrl   [NSString stringWithFormat:@"%@/app/application/userinfo.php",domainUrl]
+
+
 /** 修改个人信息*/
 
 //头像http://yyapp.1yuaninfo.com/app/application/updateUserHead.php
@@ -515,7 +528,10 @@
 //参数:act=weixin   weixin=gsdf8gu9fd9s08gsdfgs8  userid
 
 
-
+#pragma 编辑地址   
+//参数  act ： addaddr添加/moduseradd更新/getuseradd获取  userid= 
+//返回值 state   1成功0失败
+#define addressUrl  [NSString stringWithFormat:@"%@/app/application/useraddress.php",domainUrl]
 
 #pragma 修改手机接口：手机号、验证码验证
 //发验证码到新手机号
@@ -539,6 +555,12 @@
 #define mineChangePwdUrl  [NSString stringWithFormat:@"%@/app/application/validate.php",domainUrl]
 
 
+#pragma 签到赢积分
+//参数 userid  act=quesign查询签到状态   signup签到
+//返回值 state=0已经签到1签到成功2未签到  signtimes=累计签到天数  lastsigndate=上次签到日期  getintegral=本次签到获取的积分
+#define signIntegralUrl   [NSString stringWithFormat:@"%@/app/application/usersigndata.php",domainUrl]
+
+
 
 #pragma ------------------------------------------------------------------------
 #pragma mark  积分商城  --------------------------------------------------
@@ -558,7 +580,7 @@
 
 //http://yyapp.1yuaninfo.com/app/application/apple_pay.php  apple_receipt
 
-#define IAPReceiptUrl  [NSString stringWithFormat:@"%@/app/application/apple_pay.php",domainUrl]
+#define IAPReceiptUrl  [NSString stringWithFormat:@"%@/app/application/applepay/apple_pay.php",domainUrl]
 
 
 #pragma mark  跟自己后台生成预支付订单信息

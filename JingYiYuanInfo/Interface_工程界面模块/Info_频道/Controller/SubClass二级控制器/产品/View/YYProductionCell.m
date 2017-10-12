@@ -191,6 +191,7 @@
     self.imageTagLabel.text = commonModel.label;
     self.title.text = commonModel.yname;
     self.subTitle.text = commonModel.introduce;
+    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:commonModel.com_pic] placeholderImage:imageNamed(placeHolderMini)];
     
 //    if (commonModel.part.length) {
 //        if ([commonModel.part containsString:@" "]) {
@@ -216,7 +217,7 @@
 - (void)setVipModel:(YYProductionVIPModel *)vipModel {
     
     _vipModel = vipModel;
-    self.leftImageView.image = imageNamed(@"placeholder");
+    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:vipModel.titleimg] placeholderImage:imageNamed(placeHolderMini)];
     self.title.text = vipModel.title;
     self.price.text = @"￥388/年";
     self.status.text = vipModel.sellstate;

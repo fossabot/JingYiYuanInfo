@@ -14,7 +14,7 @@
 /** buy*/
 @property (nonatomic, strong) UIButton *buy;
 
-@property (nonatomic, strong) UIButton *test;
+//@property (nonatomic, strong) UIButton *test;
 
 @end
 
@@ -31,14 +31,14 @@
         make.height.equalTo(50);
     }];
     
-    [self.view addSubview:self.test];
-    
-    [self.test makeConstraints:^(MASConstraintMaker *make) {
-      
-        make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.buy.top);
-        make.height.equalTo(40);
-    }];
+//    [self.view addSubview:self.test];
+//    
+//    [self.test makeConstraints:^(MASConstraintMaker *make) {
+//      
+//        make.left.right.equalTo(self.view);
+//        make.bottom.equalTo(self.buy.top);
+//        make.height.equalTo(40);
+//    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -65,10 +65,10 @@
     }];
 }
 
-- (void)ttest {
- 
-    [YYIAPTool printReceipt];
-}
+//- (void)ttest {
+// 
+//    [YYIAPTool printReceipt];
+//}
 
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
@@ -85,17 +85,17 @@
 }
 
 
-- (UIButton *)test {
-    
-    if (!_test) {
-        _test = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_test setTitle:@"test" forState:UIControlStateNormal];
-        [_test setTitleColor:WhiteColor forState:UIControlStateNormal];
-        [_test setBackgroundColor:ThemeColor];
-        [_test addTarget:self action:@selector(ttest) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _test;
-}
+//- (UIButton *)test {
+//    
+//    if (!_test) {
+//        _test = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [_test setTitle:@"test" forState:UIControlStateNormal];
+//        [_test setTitleColor:WhiteColor forState:UIControlStateNormal];
+//        [_test setBackgroundColor:ThemeColor];
+//        [_test addTarget:self action:@selector(ttest) forControlEvents:UIControlEventTouchUpInside];
+//    }
+//    return _test;
+//}
 
 
 #pragma mark -------  wkWebview 代理方法  --------------------------------

@@ -93,6 +93,12 @@
     }else {
         components.day -= 1;
     }
+    
+    if (components.weekday == 1) {
+        components.weekday = 7;
+    }else {
+        components.weekday -= 1;
+    }
     return components;
 }
 
@@ -109,6 +115,12 @@
         components.day = 1;
     }else {
         components.day += 1;
+    }
+    
+    if (components.weekday == 7) {
+        components.weekday = 1;
+    }else {
+        components.weekday += 1;
     }
     
     return components;

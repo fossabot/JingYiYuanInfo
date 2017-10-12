@@ -7,8 +7,11 @@
 //  排行列表界面
 
 #import "YYBaseRankListController.h"
+#import "YYBaseRankDetailController.h"
+
 #import "YYHotTableViewCell.h"
 #import "YYBaseHotModel.h"
+#import "UITableView+FDTemplateLayoutCell.h"
 #import <MJRefresh/MJRefresh.h>
 #import <MJExtension/MJExtension.h>
 
@@ -49,6 +52,42 @@
     } showSuccessMsg:nil];
 }
 
+
+#pragma -- mark TableViewDelegate  ---------------------------
+
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return self.dataSource.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    YYBaseHotModel *model = self.dataSource[indexPath.row];
+    CGFloat height = [tableView fd_heightForCellWithIdentifier:YYHotTableViewCellId cacheByIndexPath:indexPath configuration:^(YYHotTableViewCell *hotCell) {
+        [hotCell setBaseModel:model andIndex:indexPath.row];
+    }];
+    return height;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    YYLog(@"点击了 %ld 行",indexPath.row);
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    YYBaseHotModel *model = self.dataSource[indexPath.row];
+    YYBaseRankDetailController *detail = [[YYBaseRankDetailController alloc] init];
+    detail.url = model.self_link;
+    [self.navigationController pushViewController:detail animated:YES];
+}
+
+#pragma -- mark TableViewDataSource  ---------------------------
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    YYHotTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:YYHotTableViewCellId];
+    YYBaseHotModel *model = self.dataSource[indexPath.row];
+    [cell setBaseModel:model andIndex:indexPath.row];
+    return cell;
+}
 
 
 
