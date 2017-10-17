@@ -23,25 +23,29 @@
     YYLog(@"receiptBase64 - -- - %@",receiptBase64);
 }
 
-+ (void)buyProductByProductionId:(NSString *)productionId {
+
+/** 购买产品  通过产品id(通常为产品id一般为你工程的 Bundle ID + 功能 + 数字，ps:com.yyinfo)  需与iTunes connect 产品ID后台一致  productType   商品类型1会员2特色3三找4积分*/
++ (void)buyProductByProductionId:(NSString *)productionId type:(NSString *)productType{
     
 //    [SVProgressHUD showWithStatus:@"购买时请不要关闭应用..."];
     
     YYUser *user = [YYUser shareUser];
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:productionId,@"productid",@"1",@"type",user.userid,USERID, nil];
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:productionId,@"productid",productType,@"type",user.userid,USERID, nil];
     [YYHttpNetworkTool GETRequestWithUrlstring:preIapOrderUrl parameters:para success:^(id response) {
         YYLog(@"response %@",response[@"state"]);
-        [self buyProduct:productionId];
         if (response && ![response[@"state"] isEqualToString:@"0"]) {
         
+            [self buyProduct:productionId];
             YYLog(@"生成预支付订单成功");
         }else {
             
+            [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后重试"];
+            [SVProgressHUD dismissWithDelay:1];
             YYLog(@"生成预支付订单失败");
         }
     } failure:^(NSError *error) {
         
-        [SVProgressHUD showErrorWithStatus:@"支付失败，请稍后重试"];
+        [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后重试"];
         [SVProgressHUD dismissWithDelay:1];
     } showSuccessMsg:nil];
     
@@ -53,13 +57,11 @@
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
     
-    if(![IAPShare sharedHelper].iap) {
-        // ProductID_diamond1 我这里是宏，产品id一般为你工程的 Bundle ID+数字
-        // 我这里是6个内购的商品
-        NSSet* dataSet = [[NSSet alloc] initWithObjects:productionId,nil];
-        
-        [IAPShare sharedHelper].iap = [[IAPHelper alloc] initWithProductIdentifiers:dataSet];
-    }
+    // ProductID_diamond1 我这里是宏，产品id一般为你工程的 Bundle ID+数字
+    // 我这里是6个内购的商品
+    NSSet* dataSet = [[NSSet alloc] initWithObjects:productionId,nil];
+    
+    [IAPShare sharedHelper].iap = [[IAPHelper alloc] initWithProductIdentifiers:dataSet];
     
     //yes为生产环境  no为沙盒测试模式
     // 客户端做收据校验有用  服务器做收据校验忽略...
@@ -76,7 +78,7 @@
              [[IAPShare sharedHelper].iap buyProduct:product
                                         onCompletion:^(SKPaymentTransaction* trans){
                                             
-                                            [[SKPaymentQueue defaultQueue] finishTransaction:trans];
+//                                            [[SKPaymentQueue defaultQueue] finishTransaction:trans];
                                            //存储交易数据，无论返回的是成功与失败，先存储，再改变交易状态，如果交易失败也改变state变为2，下次不可再次交易，只能产生新的交易，交易成功state变为1，默认状态是未支付，为0.
                                             
                                             if(trans.error)
@@ -86,19 +88,19 @@
                                                 YYLog(@"Fail  ????  %@",[trans.error localizedDescription]);
                                                 
                                             }else if(trans.transactionState == SKPaymentTransactionStatePurchased) {
-                                                
-                                                [self showAlertWithTitle:@"购买成功,内购同步可能较慢，请您耐心等待，如有问题，请致电客服"];
+                                                YYLog(@"走了自定义支付工具类的成功回调");
+//                                                [self showAlertWithTitle:@"购买成功,内购同步可能较慢，请您耐心等待，如有问题，请致电客服"];
                                                 // 这个 receipt 就是内购成功 苹果返回的收据
-                                                NSData *receipt = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]];
+//                                                NSData *receipt = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]];
                                                 
                                                 /******这里我将receipt base64加密，把加密的收据 和 产品id，一起发送到app服务器********/
 #warning 等待后台提供传输加密文件的接口 验证支付结果
-                                                NSString *receiptBase64 = [NSString base64StringFromData:receipt length:[receipt length]];
+//                                                NSString *receiptBase64 = [NSString base64StringFromData:receipt length:[receipt length]];
                                                 //
                                                 //这里已完成交易，我必须存储交易凭证，病标记为与后台同步的状态，即未完成状态，然后骑牛后台同步信息
-                                                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                                                formatter.dateFormat = yyyyMMddHHmmss;
-                                                NSString *now = [formatter stringFromDate:[NSDate date]];
+//                                                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//                                                formatter.dateFormat = yyyyMMddHHmmss;
+//                                                NSString *now = [formatter stringFromDate:[NSDate date]];
                                                 YYUser *user = [YYUser shareUser];
 //                                                [[YYDataBaseTool sharedDataBaseTool]saveIapDataWithTransactionIdentifier:trans.transactionIdentifier productIdentifier:productionId userid:user.userid receipt:receiptBase64 good_type:@"1" transactionDate:now rechargeDate:now state:0];
 //                                                [self sendReceiptToServer:receiptBase64 paymentTransaction:trans];

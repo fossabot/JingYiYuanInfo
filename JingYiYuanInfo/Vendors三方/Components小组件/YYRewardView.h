@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^RewardIntegerationBlock)(NSInteger integeration);
+typedef void(^RewardIntegerationBlock)(NSString *integeration);
 
 @interface YYRewardView : UIView
 
 /** 打赏界面的回调*/
 @property (nonatomic, copy) RewardIntegerationBlock rewardBlock;
+
+- (void)show;
 
 @end

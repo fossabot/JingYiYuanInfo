@@ -172,14 +172,14 @@
     
     YYEdgeLabel *tagLabel1 = [[YYEdgeLabel alloc] init];
     tagLabel1.font = UnenableTitleFont;
-    tagLabel1.textColor = UnenableTitleColor;
+    tagLabel1.textColor = ThemeColor;
     tagLabel1.layer.borderColor = ThemeColor.CGColor;
     [self.contentView addSubview:tagLabel1];
     self.tagLabel1 = tagLabel1;
     
     YYEdgeLabel *tagLabel2 = [[YYEdgeLabel alloc] init];
     tagLabel2.font = UnenableTitleFont;
-    tagLabel2.textColor = UnenableTitleColor;
+    tagLabel2.textColor = ThemeColor;
     tagLabel2.layer.borderColor = ThemeColor.CGColor;
     [self.contentView addSubview:tagLabel2];
     self.tagLabel2 = tagLabel2;

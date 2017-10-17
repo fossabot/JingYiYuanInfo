@@ -9,7 +9,7 @@
 #import "YYCommunityQuestionVM.h"
 #import "YYCommunityQuestionModel.h"
 #import "YYQuestionCell.h"
-
+#import "YYUser.h"
 #import <MJExtension/MJExtension.h>
 #import "UITableView+FDTemplateLayoutCell.h"
 
@@ -27,8 +27,8 @@
 
 - (void)fetchNewDataCompletion:(void(^)(BOOL success))completion {
     
-#warning  假的userid
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"wendawz",@"act",@"15000164281kb3bn",USERID, nil];
+    YYUser *user = [YYUser shareUser];
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"wendawz",@"act",user.userid,USERID, nil];
     
     [PPNetworkHelper GET:communityUrl parameters:para responseCache:^(id responseCache) {
         
@@ -58,8 +58,9 @@
 
 - (void)fetchMoreDataCompletion:(void(^)(BOOL success))completion {
     
-#warning  假的userid
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"wendawz",@"act",@"15000164281kb3bn",USERID,self.lastid,@"lastid", nil];
+
+    YYUser *user = [YYUser shareUser];
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"wendawz",@"act",user.userid,USERID,self.lastid,@"lastid", nil];
     
     [YYHttpNetworkTool GETRequestWithUrlstring:communityUrl parameters:para success:^(id response) {
         
@@ -97,6 +98,15 @@
         cell.question.text = model.desc;
     }];
     
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    YYCommunityQuestionModel *model = self.questionDataSource[indexPath.row];
+    if (_cellSelectedBlock) {
+        _cellSelectedBlock(model,indexPath);
+    }
 }
 
 #pragma -- mark TableViewDataSource  --------------

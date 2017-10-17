@@ -31,8 +31,8 @@
 /** niu_img*/
 @property (nonatomic, copy) NSString *niu_img;
 
-/** questionId*/
-@property (nonatomic, copy) NSString *questionId;
+/** articleId*/
+@property (nonatomic, copy) NSString *articleId;
 
 /** title*/
 @property (nonatomic, copy) NSString *title;

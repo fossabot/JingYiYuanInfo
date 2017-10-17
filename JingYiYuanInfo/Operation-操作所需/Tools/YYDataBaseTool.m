@@ -160,6 +160,7 @@ static YYDataBaseTool *theData = nil;
         YYLog(@"修改状态失败--%@",fmdb.lastErrorMessage);
     }
     
+    [fmdb close];
 }
 
 //检查transactionIdentifier是否存在，存在就不用添加相同交易到数据库了

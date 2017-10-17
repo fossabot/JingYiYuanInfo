@@ -10,4 +10,7 @@
 
 @interface YYGoodsDetailController : YYBaseDetailController
 
+//商品的ID  兑换时传的参数
+@property (nonatomic, copy) NSString *goodId;
+
 @end

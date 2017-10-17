@@ -13,7 +13,8 @@ typedef NS_OPTIONS(NSUInteger, DetailToolBarType) {
     DetailToolBarTypeComment = 1 << 1, //评论按钮
     DetailToolBarTypeFavor = 1 << 2, // 收藏按钮
     DetailToolBarTypeShare = 1 << 3, //分享按钮
-    DetailToolBarTypeReward = 1 << 4  //打赏按钮
+    DetailToolBarTypeReward = 1 << 4,  //打赏按钮
+    DetailToolBarTypeFlexible = 1 <<5  //填补控件，当就一个按钮时需加这个按钮，masonry方法中必须要有两个控件
 };
 
 @class YYDetailToolBar;

@@ -159,7 +159,7 @@
     
     YYEdgeLabel *tagLabel1 = [[YYEdgeLabel alloc] init];
     tagLabel1.font = UnenableTitleFont;
-    tagLabel1.textColor = UnenableTitleColor;
+    tagLabel1.textColor = ThemeColor;
     tagLabel1.layer.borderColor = ThemeColor.CGColor;
 //    tagLabel1.layer.borderWidth = 0.5;
     tagLabel1.layer.cornerRadius = 3;
@@ -168,7 +168,7 @@
     
     YYEdgeLabel *tagLabel2 = [[YYEdgeLabel alloc] init];
     tagLabel2.font = UnenableTitleFont;
-    tagLabel2.textColor = UnenableTitleColor;
+    tagLabel2.textColor = ThemeColor;
     tagLabel2.layer.borderColor = ThemeColor.CGColor;
 //    tagLabel2.layer.borderWidth = 0.5;
     tagLabel2.layer.cornerRadius = 3;

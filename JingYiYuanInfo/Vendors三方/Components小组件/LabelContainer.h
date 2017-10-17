@@ -61,9 +61,9 @@ typedef NS_ENUM(NSInteger, LabelContainerStableEdge){
 
 
 /** label 内容的数组*/
-+ (instancetype)labelContainerWithTitles:(NSArray *)titles andFrame:(CGRect)frame labelContainerStableEdge:(LabelContainerStableEdge)stableEdge delegate:(id<LabelContainerClickDelegate>)delegate;
++ (instancetype)labelContainerWithTitles:(NSArray *)titles andFrame:(CGRect)frame labelContainerStableEdge:(LabelContainerStableEdge)stableEdge rowMargin:(CGFloat)rowMargin labelMargin:(CGFloat)labelMargin delegate:(id<LabelContainerClickDelegate>)delegate;
 
-- (instancetype)initWithTitles:(NSArray *)titles andFrame:(CGRect)frame labelContainerStableEdge:(LabelContainerStableEdge)stableEdge delegate:(id<LabelContainerClickDelegate>)delegate;
+- (instancetype)initWithTitles:(NSArray *)titles andFrame:(CGRect)frame labelContainerStableEdge:(LabelContainerStableEdge)stableEdge rowMargin:(CGFloat)rowMargin labelMargin:(CGFloat)labelMargin delegate:(id<LabelContainerClickDelegate>)delegate;
 
 
 @end

@@ -19,7 +19,7 @@
 /** toolBar*/
 @property (nonatomic, strong) YYDetailToolBar *toolBar;
 
-/** state*/
+/** 收藏状态state*/
 @property (nonatomic, assign) BOOL state;
 
 /** collectionId*/
@@ -229,6 +229,9 @@
         
         if (response && ![response[@"state"] isEqualToString:@"0"]) {
             [SVProgressHUD showSuccessWithStatus:collect ? @"收藏成功" : @"取消收藏"];
+            if (collect) {
+                self.collectionId = response[@"state"];
+            }
             self.state = collect;
             [self.toolBar setIsFavor:collect];
         }else {

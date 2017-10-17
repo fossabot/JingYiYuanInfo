@@ -13,8 +13,8 @@
 @interface YYIAPTool : NSObject
 
 
-/** 购买产品  通过产品id(通常为产品id一般为你工程的 Bundle ID + 功能 + 数字，ps:com.yyinfo)  需与iTunes connect 产品ID后台一致  */
-+ (void)buyProductByProductionId:(NSString *)productionId;
+/** 购买产品  通过产品id(通常为产品id一般为你工程的 Bundle ID + 功能 + 数字，ps:com.yyinfo)  需与iTunes connect 产品ID后台一致  productType 商品类型1会员2特色3三找4积分*/
++ (void)buyProductByProductionId:(NSString *)productionId type:(NSString *)productType;
 
 + (void)printReceipt;
 

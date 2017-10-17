@@ -10,6 +10,7 @@
 #import "YYQuestionCell.h"
 #import "YYCommunityQuestionModel.h"
 #import "YYCommunityQuestionVM.h"
+#import "YYQuestionDetailController.h"
 
 #import <MJRefresh/MJRefresh.h>
 
@@ -84,9 +85,15 @@
         YYWeakSelf
         _viewModel.cellSelectedBlock = ^(id data, NSIndexPath *indexPath) {
             
-            //
             YYStrongSelf
-            
+            YYCommunityQuestionModel *model = (YYCommunityQuestionModel *)data;
+            YYQuestionDetailController *questionDetail = [[YYQuestionDetailController alloc] init];
+            questionDetail.articleId = model.articleId;
+            questionDetail.iconUrl = model.niu_img;
+            questionDetail.nameStr = model.niu_name;
+            questionDetail.titleStr = model.title;
+            questionDetail.questionStr = model.desc;
+            [strongSelf.navigationController pushViewController:questionDetail animated:YES];
         };
         
     }
@@ -106,21 +113,21 @@
         [self.tableView registerClass:[YYQuestionCell class] forCellReuseIdentifier:YYQuestionCellId];
         
         YYWeakSelf
-        MJRefreshBackStateFooter *footer = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
         /** 普通闲置状态  壹元君正努力为您加载数据*/
-        footer.stateLabel.text = @"壹元君正努力为您加载中...";
+//        footer.stateLabel.text = @"壹元君正努力为您加载中...";
         _tableView.mj_footer = footer;
         
-        MJRefreshStateHeader *header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
         
-        header.stateLabel.text = @"壹元君正努力为您加载中...";
+//        header.stateLabel.text = @"壹元君正努力为您加载中...";
         _tableView.mj_header = header;
     
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

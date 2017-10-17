@@ -8,6 +8,7 @@
 
 #import "YYAnswerCell.h"
 #import "UIView+YYCategory.h"
+#import "YYAnswerModel.h"
 
 @implementation YYAnswerCell
 
@@ -18,6 +19,14 @@
         [self configSubView];
     }
     return self;
+}
+
+- (void)setModel:(YYAnswerModel *)model {
+    
+    _model = model;
+    [self.icon sd_setImageWithURL:[NSURL URLWithString:model.niuhead] placeholderImage:imageNamed(placeHolderMini)];
+    self.time.text = model.atime;
+    self.answer.text = model.answer;
 }
 
 - (void)layoutSubviews {
@@ -31,18 +40,11 @@
     self.icon = icon;
     [self.contentView addSubview:icon];
     
-    UILabel *name = [[UILabel alloc] init];
-    name.textColor = TitleColor;
-    name.font = TitleFont;
-    self.name = name;
-    [self.contentView addSubview:name];
-    
-    UILabel *answer = [[UILabel alloc] init];
-    answer.numberOfLines = 0;
-    answer.font = SubTitleFont;
-    answer.textColor = UnenableTitleColor;
-    self.answer = answer;
-    [self.contentView  addSubview:answer];
+//    UILabel *name = [[UILabel alloc] init];
+//    name.textColor = TitleColor;
+//    name.font = TitleFont;
+//    self.name = name;
+//    [self.contentView addSubview:name];
     
     UILabel *time = [[UILabel alloc] init];
     time.numberOfLines = 0;
@@ -51,32 +53,41 @@
     self.time = time;
     [self.contentView  addSubview:time];
     
+    UILabel *answer = [[UILabel alloc] init];
+    answer.numberOfLines = 0;
+    answer.font = SubTitleFont;
+    answer.textColor = UnenableTitleColor;
+    self.answer = answer;
+    [self.contentView  addSubview:answer];
+    
     
     [self.icon makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.top.equalTo(self.contentView).offset(15);
-        make.width.height.equalTo(50);
+        make.left.top.equalTo(15);
+        make.width.height.equalTo(30);
     }];
     
-    [self.name makeConstraints:^(MASConstraintMaker *make) {
+//    [self.name makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.left.equalTo(self.icon.right).offset(10);
+//        make.right.equalTo(-15);
+//        make.top.equalTo(self.icon);
+//    }];
+    
+    [self.time makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.icon.right).offset(10);
+        make.left.equalTo(self.icon.right).offset(YYInfoCellCommonMargin);
         make.right.equalTo(-15);
-        make.top.equalTo(self.icon);
+        make.centerY.equalTo(self.icon);
+//        make.top.equalTo(self.icon).offset(20);
     }];
     
     [self.answer makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.name);
+        make.left.equalTo(self.time);
         make.right.equalTo(-15);
         make.top.equalTo(self.icon.bottom).offset(5);
-    }];
-    
-    [self.time makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.right.bottom.equalTo(self.contentView).offset(-15);
-        make.top.equalTo(self.answer.bottom).offset(10);
-        make.height.equalTo(15);
+        make.bottom.equalTo(-YYInfoCellCommonMargin);
     }];
     
 }

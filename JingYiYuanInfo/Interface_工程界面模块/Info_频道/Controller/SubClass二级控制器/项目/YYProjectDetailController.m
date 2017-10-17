@@ -103,7 +103,7 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-/** 收藏*/
+/** 收藏 sender.selected 为yes是选中状态则是为了取消收藏  否则相反*/
 - (void)collectProject:(UIButton *)sender {
 
     YYUser *user = [YYUser shareUser];
@@ -125,6 +125,9 @@
         
         if (response && ![response[@"state"] isEqualToString:@"0"]) {
             [SVProgressHUD showSuccessWithStatus:sender.selected ? @"取消收藏" : @"收藏成功"];
+            if (!sender.selected) {
+                self.collectionId = response[@"state"];
+            }
             self.state = !sender.selected;
             sender.selected = !sender.selected;
         }else {

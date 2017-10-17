@@ -105,6 +105,16 @@
     
 }
 
+/**
+ *  切换视频
+ */
+- (void)changePlayItem {
+    
+    self.playerModel.title = self.videoTitle;
+    self.playerModel.videoURL = self.videoURL;
+    self.playerModel.placeholderImageURLString = self.placeHolderImageUrl;
+    [self.playerView resetToPlayNewVideo:self.playerModel];
+}
 
 /**
  *  播放视频
@@ -113,7 +123,6 @@
     
 //    self.playBtn.hidden = YES;
     [self.playerView play];
-
 }
 
 /** 当控制器推出其他界面，调用此方法暂停播放*/

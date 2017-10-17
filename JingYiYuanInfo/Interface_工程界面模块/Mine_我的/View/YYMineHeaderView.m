@@ -12,6 +12,7 @@
 #import "YYUserInfoViewController.h"
 #import "YYSettingViewController.h"
 #import "YYMineIntegrationViewController.h"
+#import "YYMineSubscriptionViewController.h"
 
 #import "YYSignBgView.h"
 #import "YYUser.h"
@@ -31,10 +32,11 @@
 /** 名字*/
 @property (weak, nonatomic) IBOutlet UILabel *name;
 
-/** 积分*/
-@property (weak, nonatomic) IBOutlet UILabel *integration;
-/** VIP到期时间*/
+/** VIP到期时间 VIPTime*/
 @property (weak, nonatomic) IBOutlet UILabel *VIPTime;
+
+/** 积分 integration*/
+@property (weak, nonatomic) IBOutlet UILabel *integration;
 
 
 /** signView*/
@@ -46,7 +48,7 @@
 
 + (instancetype)headerView{
     
-    YYMineHeaderView *headView = [[[NSBundle mainBundle] loadNibNamed:@"YYMineHeaderXibView" owner:nil options:nil] firstObject];
+    YYMineHeaderView *headView = [[[NSBundle mainBundle] loadNibNamed:@"YYMineHeaderView" owner:nil options:nil] firstObject];
     
     return headView;
     
@@ -109,7 +111,7 @@
 - (void)setUser:(YYUser *)user {
     _user = user;
     
-    _name.text = [NSString stringWithFormat:@"姓名:%@",user.username];
+    _name.text = [NSString stringWithFormat:@"昵称:%@",user.username];
     [_loginIcon sd_setImageWithURL:[NSURL URLWithString:user.avatar] forState:UIControlStateNormal placeholderImage:imageNamed(@"yyfw_mine_unloginicon_83x83_")];
     _integration.text = [NSString stringWithFormat:@"积分:%@",user.integral];
     
@@ -144,7 +146,9 @@
 /** 订阅按钮点击事件*/
 - (IBAction)subscribe:(UIButton *)sender {
     
-    [SVProgressHUD showInfoWithStatus:@"暂未开放，敬请期待"];
+    if ([self.delegate respondsToSelector:@selector(destinationController:)]) {
+        [self.delegate destinationController:[[YYMineSubscriptionViewController alloc] init]];
+    }
 }
 
 /** 签到按钮的点击事件*/

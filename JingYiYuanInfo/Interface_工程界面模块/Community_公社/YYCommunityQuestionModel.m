@@ -14,7 +14,7 @@
 + (NSDictionary *)mj_replacedKeyFromPropertyName {
     
     return @{
-             @"questionId":@"id",
+             @"articleId":@"id",
              @"desc":@"description"
              };
 }

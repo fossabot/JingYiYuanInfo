@@ -7,7 +7,14 @@
 //
 
 #import "YYAnswerModel.h"
+#import "NSCalendar+YYCommentDate.h"
 
 @implementation YYAnswerModel
+
+- (NSString *)atime {
+    
+//    NSString *time = [NSCalendar commentDateByOriginalDate:_atime withDateFormat:yyyyMMddHHmmss];
+    return [NSString stringWithFormat:@"%@回复",_atime];
+}
 
 @end

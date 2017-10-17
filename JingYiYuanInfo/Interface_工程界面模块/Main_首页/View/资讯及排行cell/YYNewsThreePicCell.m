@@ -218,20 +218,10 @@
     UIImageView *newsPic3 = [[UIImageView alloc] init];
     [self.contentView addSubview:newsPic3];
     self.newsPic3 = newsPic3;
-    
-//    LabelContainer *container = [[LabelContainer alloc] init];
-//    container.fontSize = 12;
-//    container.labelTitleColor = YYRGBCOLOR_HEX(0xd43c33);
-//    container.labelMaskToBounds = YES;
-//    container.labelCornerRadius = 8;
-//    container.labelBorderColor = YYRGBCOLOR_HEX(0xd43c33);
-//    [self.contentView addSubview:container];
-//    self.container = container;
-    
-    
+        
     YYEdgeLabel *tagLabel1 = [[YYEdgeLabel alloc] init];
     tagLabel1.font = UnenableTitleFont;
-    tagLabel1.textColor = UnenableTitleColor;
+    tagLabel1.textColor = ThemeColor;
     tagLabel1.layer.borderColor = ThemeColor.CGColor;
 //    tagLabel1.layer.borderWidth = 0.5;
     tagLabel1.layer.cornerRadius = 3;
@@ -240,7 +230,7 @@
     
     YYEdgeLabel *tagLabel2 = [[YYEdgeLabel alloc] init];
     tagLabel2.font = UnenableTitleFont;
-    tagLabel2.textColor = UnenableTitleColor;
+    tagLabel2.textColor = ThemeColor;
     tagLabel2.layer.borderColor = ThemeColor.CGColor;
 //    tagLabel2.layer.borderWidth = 0.5;
     tagLabel2.layer.cornerRadius = 3;

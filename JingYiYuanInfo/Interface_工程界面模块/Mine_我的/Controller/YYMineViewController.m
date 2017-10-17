@@ -146,14 +146,9 @@
             YYStrongSelf
             if (alert) {
                 
-                [kKeyWindow.rootViewController  presentViewController:alert animated:YES completion:^{
+                [strongSelf presentViewController:alert animated:YES completion:^{
                     YYLog(@"presentViewController:alert");
-//                    [strongSelf.navigationController setNavigationBarHidden:YES animated:NO];
                 }];
-//                [strongSelf presentViewController:alert animated:YES completion:^{
-//                    YYLog(@"presentViewController:alert");
-//                    [strongSelf.navigationController setNavigationBarHidden:YES animated:NO];
-//                }];
             }else {
                 UIViewController *viewController = [[NSClassFromString(vc) alloc] init];
                 viewController.jz_wantsNavigationBarVisible = YES;
@@ -163,5 +158,6 @@
     }
     return _viewModel;
 }
+
 
 @end

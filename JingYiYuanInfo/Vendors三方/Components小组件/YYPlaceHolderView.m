@@ -68,6 +68,12 @@ typedef void(^Click)();
 }
 
 
++ (void)rewardNiuManCompletion:(void(^)(NSString *integral))completion {
+    
+    
+    
+}
+
 /**
  *  签到成功的提示跳转商城占位图
  */
@@ -75,7 +81,10 @@ typedef void(^Click)();
     
     YYPlaceHolderView *placeHolder = [YYPlaceHolderView sharedPlaceHolderView];
     placeHolder.click = click;
-    placeHolder.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+    placeHolder.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+    placeHolder.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:placeHolder action:@selector(dismiss:)];
+    [placeHolder addGestureRecognizer:tap];
     [kKeyWindow addSubview:placeHolder];
     
     [placeHolder makeConstraints:^(MASConstraintMaker *make) {
@@ -87,6 +96,10 @@ typedef void(^Click)();
     whiteBgView.backgroundColor = [UIColor whiteColor];
     whiteBgView.layer.cornerRadius = 10;
     whiteBgView.layer.masksToBounds = YES;
+    
+    UITapGestureRecognizer *tapInstead = [[UITapGestureRecognizer alloc] initWithTarget:placeHolder action:@selector(tapInstead:)];
+    [whiteBgView addGestureRecognizer:tapInstead];
+    
     [placeHolder addSubview:whiteBgView];
     placeHolder.whiteBgView = whiteBgView;
     
@@ -143,6 +156,7 @@ typedef void(^Click)();
        
         make.left.equalTo(whiteBgView.right).offset(20);
         make.bottom.equalTo(whiteBgView.top).offset(-20);
+        make.width.height.equalTo(50);
     }];
     
     [top makeConstraints:^(MASConstraintMaker *make) {
@@ -276,6 +290,14 @@ typedef void(^Click)();
     
 }
 
+- (void)dismiss:(UITapGestureRecognizer *)gesture {
+
+    [[YYPlaceHolderView sharedPlaceHolderView] removeFromSuperview];
+}
+
+- (void)tapInstead:(UITapGestureRecognizer *)gesture {
+    YYLog(@"顶替背景的点击事件");
+}
 
 - (void)dealloc {
     

@@ -14,10 +14,16 @@
 #import "YYCommunityViewController.h"
 #import "YYMineViewController.h"
 
+#import "YYBaseInfoDetailController.h"
+#import "YYShowOtherDetailController.h"
+#import "YYNiuNewsDetailViewController.h"
+#import "YYPushController.h"
+
 #import "YYNewVersionViewController.h"
 
 #import "YYTabBar.h"
 
+#import "AppDelegate.h"
 
 @interface YYTabBarViewController ()
 
@@ -66,8 +72,12 @@
 
     //初始化子控制器的方法
     [self configChildViewcontrollers];
-    //监听网络状态
     
+//    AppDelegate *delegate = (AppDelegate *)kAppDelegate;
+//    [self handleRemoteNotice:delegate.remoteNotice];
+//    [self configRemoteNotice];
+    
+    //监听网络状态
     YYWeakSelf
     [YYHttpNetworkTool globalNetStatusNotice:^(AFNetworkReachabilityStatus status) {
         
@@ -113,6 +123,11 @@
 
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
+
+- (void)configRemoteNotice {
+    
+    [kNotificationCenter addObserver:self selector:@selector(receivedRemoteNotice:) name:YYReceivedRemoteNotification object:nil];
+}
 
 /**
  *  初始化子控制器的方法
@@ -162,6 +177,7 @@
             [[UIApplication sharedApplication] openURL:urlString];
         }
     }]];
+    
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         YYLog(@"点击了取消");
     }]];
@@ -169,4 +185,112 @@
     [self presentViewController:alert animated:YES completion:nil];
 
 }
+
+
+//处理远程推送通知
+- (void)receivedRemoteNotice:(NSNotification *)notice {
+    
+    YYLogFunc
+    YYLog(@"userinfo  ----  %@",notice.userInfo);
+    AppDelegate *delegate = (AppDelegate *)kAppDelegate;
+    if (delegate.remoteNotice) {
+        
+        [self handleRemoteNotice:delegate.remoteNotice];
+        delegate.remoteNotice = nil;
+    }else {
+//    [self handleRemoteNotice:notice.userInfo];
+        [self showAlertNotice:notice.userInfo];
+    }
+}
+
+- (void)handleRemoteNotice:(NSDictionary *)userInfo {
+    
+    NSString *type = userInfo[@"type"];
+    YYNavigationViewController *nav = (YYNavigationViewController *)self.selectedViewController;
+    if ([type isEqualToString:@"1"]) {//1普通资讯,
+        
+        YYBaseInfoDetailController *detail = [[YYBaseInfoDetailController alloc] init];
+        detail.url = [NSString stringWithFormat:@"%@%@",infoWebJointUrl,userInfo[@"id"]];
+        detail.newsId = userInfo[@"id"];
+        detail.jz_wantsNavigationBarVisible = YES;
+        [nav pushViewController:detail animated:YES];
+    }else if ([type isEqualToString:@"2"]) {//2演出,
+        
+        YYShowOtherDetailController *detail = [[YYShowOtherDetailController alloc] init];
+        detail.url = [NSString stringWithFormat:@"%@%@",showWebJointUrl,userInfo[@"id"]];
+        detail.jz_wantsNavigationBarVisible = YES;
+        [nav pushViewController:detail animated:YES];
+    }else if ([type isEqualToString:@"3"]) {//3牛人资讯
+        
+        YYNiuNewsDetailViewController *detail = [[YYNiuNewsDetailViewController alloc] init];
+        detail.url = [NSString stringWithFormat:@"%@%@",niuWebJointUrl,userInfo[@"id"]];
+        detail.niuNewsId = userInfo[@"id"];
+        detail.jz_wantsNavigationBarVisible = YES;
+        [nav pushViewController:detail animated:YES];
+    }else if ([type isEqualToString:@"365"]) {//365推送
+        
+        YYPushController *push = [[YYPushController alloc] init];
+        push.pushId = userInfo[@"id"];
+        push.jz_wantsNavigationBarVisible = YES;
+        [nav pushViewController:push animated:YES];
+    }else if ([type isEqualToString:@"sp_time"]) {//按时间推送
+        
+        
+    }else if ([type isEqualToString:@"sp_num"]) {//按次数推送
+        
+        
+    }
+}
+
+//特色服务需弹框,APP在前台需弹框提醒，是否查看新闻
+- (void)showAlertNotice:(NSDictionary *)userInfo {
+    
+    NSString *alertTitle = @"";
+    NSString *alertBody = @"";
+    
+    alertTitle = userInfo[@"aps"][@"alert"][@"title"];
+    alertBody = userInfo[@"aps"][@"alert"][@"body"];
+    NSString *type = userInfo[@"type"];
+    if ([type isEqualToString:@"1"]) {//1普通资讯,
+        
+        
+    }else if ([type isEqualToString:@"2"]) {//2演出,
+        
+        
+    }else if ([type isEqualToString:@"3"]) {//3牛人资讯
+        
+        
+    }else if ([type isEqualToString:@"365"]) {//365推送
+        
+        
+    }else if ([type isEqualToString:@"sp_time"]) {//按时间推送
+        
+        
+    }else if ([type isEqualToString:@"sp_num"]) {//按次数推送
+        
+        
+    }
+
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:alertBody preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        YYLog(@"点击了取消");
+    }]];
+    
+    YYWeakSelf
+    [alert addAction:[UIAlertAction actionWithTitle:@"查看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        [weakSelf handleRemoteNotice:userInfo];
+    }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+//这是APPdelegate启动接收到的通知，普通资讯不需弹框，直接跳转详情页，特色服务需弹框
+- (void)jumpNotice:(NSDictionary *)userInfo {
+    
+    
+}
+
 @end

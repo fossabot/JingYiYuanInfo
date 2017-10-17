@@ -30,6 +30,11 @@
 #import "YYDetailViewController.h"
 #import "YYPushController.h"
 
+#import "YYBaseInfoDetailController.h"
+#import "YYShowOtherDetailController.h"
+#import "YYNiuNewsDetailViewController.h"
+
+
 #import "YYBottomContainerView.h"
 #import "YYMainTouchTableView.h"
 
@@ -91,6 +96,7 @@
     return self;
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -107,6 +113,7 @@
     
     [self loadNewData];
     
+    [self configRemoteNotice];
     //检测版本更新
     [(AppDelegate*)kAppDelegate checkAppUpDate];
 }
@@ -119,6 +126,8 @@
 - (void)dealloc {
     [kNotificationCenter removeObserver:self name:YYTabbarItemDidRepeatClickNotification object:nil];
     [kNotificationCenter removeObserver:self name:YYMainVCLeaveTopNotificationName object:nil];
+    
+    [kNotificationCenter removeObserver:self name:YYReceivedRemoteNotification object:nil];
 }
 
 
@@ -138,6 +147,12 @@
     [self.navView addSubview:self.searchBtn];
     [self.navView addSubview:self.messageBtn];
 }
+
+- (void)configRemoteNotice {
+    
+    [kNotificationCenter addObserver:self selector:@selector(receivedRemoteNotice:) name:YYReceivedRemoteNotification object:nil];
+}
+
 
 /** 两次点击maincontroller*/
 - (void)repeatClickTabbar:(NSNotification *)notice {
@@ -176,6 +191,7 @@
 - (void)searchClick:(UIButton *)search {
     YYLog(@"首页搜索按钮点击");
     YYMainSearchController *mainSearchVc = [[YYMainSearchController alloc] init];
+    mainSearchVc.jz_wantsNavigationBarVisible = NO;
     [self.navigationController pushViewController:mainSearchVc animated:YES];
 }
 
@@ -380,6 +396,141 @@
 }
 
 
+
+
+
+
+
+
+
+#pragma mark -- 推送区域  -------------------------------------
+
+//处理远程推送通知
+- (void)receivedRemoteNotice:(NSNotification *)notice {
+    
+    YYLogFunc
+    YYLog(@"userinfo  ----  %@",notice.userInfo);
+    AppDelegate *delegate = (AppDelegate *)kAppDelegate;
+    if (delegate.remoteNotice) {
+        
+        [self handleRemoteNotice:delegate.remoteNotice];
+        delegate.remoteNotice = nil;
+    }else {
+        //    [self handleRemoteNotice:notice.userInfo];
+        [self showAlertNotice:notice.userInfo];
+    }
+}
+
+- (void)handleRemoteNotice:(NSDictionary *)userInfo {
+    
+    NSString *type = userInfo[@"type"];
+//    YYNavigationViewController *nav = (YYNavigationViewController *)self.selectedViewController;
+    if ([type isEqualToString:@"1"]) {//1普通资讯,
+        
+        YYBaseInfoDetailController *detail = [[YYBaseInfoDetailController alloc] init];
+        detail.url = [NSString stringWithFormat:@"%@%@",infoWebJointUrl,userInfo[@"id"]];
+        detail.newsId = userInfo[@"id"];
+        detail.jz_wantsNavigationBarVisible = YES;
+        [self.navigationController pushViewController:detail animated:YES];
+    }else if ([type isEqualToString:@"2"]) {//2演出,
+        
+        YYShowOtherDetailController *detail = [[YYShowOtherDetailController alloc] init];
+        detail.url = [NSString stringWithFormat:@"%@%@",showWebJointUrl,userInfo[@"id"]];
+        detail.jz_wantsNavigationBarVisible = YES;
+        [self.navigationController pushViewController:detail animated:YES];
+    }else if ([type isEqualToString:@"3"]) {//3牛人资讯
+        
+        YYNiuNewsDetailViewController *detail = [[YYNiuNewsDetailViewController alloc] init];
+        detail.url = [NSString stringWithFormat:@"%@%@",niuWebJointUrl,userInfo[@"id"]];
+        detail.niuNewsId = userInfo[@"id"];
+        detail.jz_wantsNavigationBarVisible = YES;
+        [self.navigationController pushViewController:detail animated:YES];
+    }else if ([type isEqualToString:@"365"]) {//365推送
+        
+        YYPushController *push = [[YYPushController alloc] init];
+        push.pushId = userInfo[@"id"];
+        push.jz_wantsNavigationBarVisible = YES;
+        [self.navigationController pushViewController:push animated:YES];
+    }else if ([type isEqualToString:@"sp_time"]) {//按时间推送
+        
+        
+    }else if ([type isEqualToString:@"sp_num"]) {//按次数推送
+        
+        
+    }
+}
+
+//特色服务需弹框,APP在前台需弹框提醒，是否查看新闻
+- (void)showAlertNotice:(NSDictionary *)userInfo {
+    
+    NSString *alertTitle = @"";
+    NSString *alertBody = @"";
+    
+    alertTitle = userInfo[@"aps"][@"alert"][@"title"];
+    alertBody = userInfo[@"aps"][@"alert"][@"body"];
+    NSString *type = userInfo[@"type"];
+    if ([type isEqualToString:@"1"]) {//1普通资讯,
+        
+        
+    }else if ([type isEqualToString:@"2"]) {//2演出,
+        
+        
+    }else if ([type isEqualToString:@"3"]) {//3牛人资讯
+        
+        
+    }else if ([type isEqualToString:@"365"]) {//365推送
+        
+        
+    }else if ([type isEqualToString:@"sp_time"]) {//按时间推送
+        
+        
+    }else if ([type isEqualToString:@"sp_num"]) {//按次数推送
+        
+        
+    }
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:alertBody preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        YYLog(@"点击了取消");
+    }]];
+    
+    YYWeakSelf
+    [alert addAction:[UIAlertAction actionWithTitle:@"查看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        if ([type isEqualToString:@"sp_num"]) {//按次数推送
+            
+            [weakSelf confirmToResendPush:userInfo];
+        }else {
+            
+            [weakSelf handleRemoteNotice:userInfo];
+        }
+    }]];
+    
+    [kKeyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+}
+
+//这是APPdelegate启动接收到的通知，普通资讯不需弹框，直接跳转详情页，特色服务需弹框
+- (void)jumpNotice:(NSDictionary *)userInfo {
+    
+    
+}
+
+/* 第一次点击按次推送的消息  确认已查看*/
+- (void)confirmToResendPush:(NSDictionary *)userInfo {
+    
+    YYUser *user = [YYUser shareUser];
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:userInfo[@"id"],@"id",userInfo[@"orderid"],@"orderid",user.userid,USERID, nil];
+    [YYHttpNetworkTool GETRequestWithUrlstring:remoteNoticeConfirmUrl parameters:para success:^(id response) {
+        
+        
+    } failure:^(NSError *error) {
+        
+    } showSuccessMsg:nil];
+    
+}
+
+
 #pragma mark -- lazyMethods 懒加载区域  -------------------------------------
 
 /** 
@@ -441,7 +592,7 @@
         _tableview.contentInset = UIEdgeInsetsMake(0, 0, 49, 0);
         [_tableview setSeparatorInset:UIEdgeInsetsMake(0, 0, 49, 0)];
         MJWeakSelf
-        _tableview.mj_header = [MJRefreshHeader headerWithRefreshingBlock:^{
+        _tableview.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             YYStrongSelf
             [strongSelf loadNewData];
             //给热搜和牛人发送通知，主界面刷新后子界面也要刷新

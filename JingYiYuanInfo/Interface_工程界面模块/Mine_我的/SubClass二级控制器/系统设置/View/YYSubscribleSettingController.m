@@ -131,7 +131,7 @@
     YYWeakSelf
     cell.switchBlock = ^(id cell, BOOL isOn) {
       
-        NSIndexPath *index = [tableView indexPathForCell:cell];
+        NSIndexPath *index = [weakSelf.tableView indexPathForCell:cell];
         NSNumber *switchStatus = isOn ? @1 : @0;
         NSMutableArray *arr = [weakSelf.dataSource mutableCopy];
         [arr replaceObjectAtIndex:index.row withObject:switchStatus];

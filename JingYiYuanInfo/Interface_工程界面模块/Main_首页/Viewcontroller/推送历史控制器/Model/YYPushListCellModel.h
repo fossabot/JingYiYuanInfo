@@ -49,7 +49,7 @@
 /** 是否有展开按钮*/
 @property (nonatomic, assign) BOOL isHaveExtendBtn;
 
-
+@property (nonatomic, assign) NSInteger lines;
 
 /**
  *  获取内容的属性字符串

@@ -7,6 +7,7 @@
 //
 
 #import "YYGoodsDetailController.h"
+#import "YYAddressController.h"
 
 @interface YYGoodsDetailController ()
 
@@ -47,12 +48,38 @@
  
     YYUser *user = [YYUser shareUser];
     if (user.isLogin) {
-        [SVProgressHUD showInfoWithStatus:@"积分不足"];
-        return;
+        
+        YYWeakSelf
+        NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:self.goodId,@"goodid",user.userid,USERID, nil];
+        [YYHttpNetworkTool GETRequestWithUrlstring:exchangeGoodUrl parameters:para success:^(id response) {
+            
+            if (response) {//state  0收货地址为空1成功2积分不足3入库失败
+                if ([response[STATE] isEqualToString:@"0"]) {
+                    [SVProgressHUD showErrorWithStatus:@"没有收货地址"];
+                    [SVProgressHUD dismissWithDelay:1 completion:^{
+                        
+                        YYAddressController *addressVc = [[YYAddressController alloc] init];
+                        [weakSelf.navigationController pushViewController:addressVc animated:YES];
+                    }];
+                }else if ([response[STATE] isEqualToString:@"1"]) {
+                    
+                    [SVProgressHUD showInfoWithStatus:@"兑换成功，稍后客服会与您联系！"];
+                }else if ([response[STATE] isEqualToString:@"2"]) {
+                    
+                    [SVProgressHUD showInfoWithStatus:@"积分不足"];
+                }else {
+                    [SVProgressHUD showInfoWithStatus:@"服务器忙，稍后再试"];
+                }
+                [SVProgressHUD dismissWithDelay:1];
+            }
+        } failure:^(NSError *error) {
+            
+        } showSuccessMsg:nil];
+        
     }else {
         [SVProgressHUD showInfoWithStatus:@"暂未登录"];
+        [SVProgressHUD dismissWithDelay:1];
     }
-    [SVProgressHUD dismissWithDelay:1];
 }
 
 

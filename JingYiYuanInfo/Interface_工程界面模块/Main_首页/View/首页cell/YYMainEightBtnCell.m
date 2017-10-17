@@ -16,6 +16,7 @@
 #import "YYProductionViewController.h" ///产品
 #import "YYMarketViewController.h"     ///行情
 #import "YYMineSubscriptionViewController.h" ///订阅
+#import "YYNiuMoreController.h"
 #import "YYMineIntegrationViewController.h"  ///积分商城
 
 #import "YYThreeSeekController.h"
@@ -96,6 +97,10 @@
         [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
         [arr1 addObject:btn];
         [self.contentView addSubview:btn];
+        
+        if (i==7) {
+            btn.userInteractionEnabled = NO;
+        }
     }
     
     UIButton *btn = arr[0];
@@ -160,24 +165,23 @@
         }
             break;
             
-        case 5:{//行情
-            YYLog(@"暂无行情数据，敬请期待");
-            [SVProgressHUD showInfoWithStatus:@"暂无行情数据，敬请期待"];
-            [SVProgressHUD dismissWithDelay:1];
-        }
-            break;
+//        case 5:{//行情
+//            YYLog(@"暂无行情数据，敬请期待");
+//            [SVProgressHUD showInfoWithStatus:@"暂无行情数据，敬请期待"];
+//            [SVProgressHUD dismissWithDelay:1];
+//        }
+//            break;
             
-        case 6:{//订阅
+        case 5:{//订阅
 
-            [SVProgressHUD showInfoWithStatus:@"暂未开放，敬请期待"];
-            [SVProgressHUD dismissWithDelay:1];
+            YYNiuMoreController *subscriptionVc = [[YYNiuMoreController alloc] init];
 //            YYMineSubscriptionViewController *subscriptionVc = [[YYMineSubscriptionViewController alloc] init];
-//            subscriptionVc.jz_wantsNavigationBarVisible = YES;
-//            [self.parentNavigationController pushViewController:subscriptionVc animated:YES];
+            subscriptionVc.jz_wantsNavigationBarVisible = YES;
+            [self.parentNavigationController pushViewController:subscriptionVc animated:YES];
         }
             break;
         
-        case 7:{//商城
+        case 6:{//商城
             
             YYMineIntegrationViewController *integerationVc = [[YYMineIntegrationViewController alloc] init];
             integerationVc.jz_wantsNavigationBarVisible = YES;
@@ -192,12 +196,11 @@
 }
 
 
-
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
-- (NSArray *)titles{
+- (NSArray *)titles{//@"行情",
     if (!_titles) {
-        _titles = [NSArray arrayWithObjects:@"投顾",@"券商",@"基金",@"项目",@"产品",@"行情",@"订阅",@"商城", nil];
+        _titles = [NSArray arrayWithObjects:@"投顾",@"券商",@"基金",@"项目",@"产品",@"订阅",@"商城",@"", nil];
     }
     return _titles;
 }
@@ -210,9 +213,10 @@
                    @"yyfw_main_fund_40x40_",
                    @"yyfw_main_project_40x40_",
                    @"yyfw_main_prduction_40x40_",
-                   @"yyfw_main_market_40x40_",
+//                   @"yyfw_main_market_40x40_",
                    @"yyfw_main_subscribe_40x40_",
-                   @"yyfw_main_shopping_40x40_", nil];
+                   @"yyfw_main_shopping_40x40_",
+                   @"",nil];
     }
     return _images;
 }

@@ -18,6 +18,14 @@
 //    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:imageView.bounds byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(corner, corner)];
 //    shapeLayer.path = path.CGPath;
 //    imageView.layer.mask = shapeLayer;
+//    UIBezierPath *maskPath;
+//    maskPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds
+//                                     byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight)
+//                                           cornerRadii:CGSizeMake(5.0f, 5.0f)];
+//    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+//    maskLayer.frame = self.bounds;
+//    maskLayer.path = maskPath.CGPath;
+//    self.layer.mask = maskLayer;
 }
 
 

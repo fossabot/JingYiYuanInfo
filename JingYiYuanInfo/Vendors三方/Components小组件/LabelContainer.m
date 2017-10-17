@@ -11,11 +11,13 @@
 
 @implementation LabelContainer
 
-+ (instancetype)labelContainerWithTitles:(NSArray *)titles andFrame:(CGRect)frame labelContainerStableEdge:(LabelContainerStableEdge)stableEdge delegate:(id)delegate{
++ (instancetype)labelContainerWithTitles:(NSArray *)titles andFrame:(CGRect)frame labelContainerStableEdge:(LabelContainerStableEdge)stableEdge rowMargin:(CGFloat)rowMargin labelMargin:(CGFloat)labelMargin delegate:(id)delegate{
 
     LabelContainer *labelContainer = [[LabelContainer alloc] initWithFrame:frame];
     labelContainer.titles = titles;
     labelContainer.stableEdge = stableEdge;
+    labelContainer.rowMargin = rowMargin;
+    labelContainer.labelMargin = labelMargin;
     labelContainer.delegate = delegate;
     
     [labelContainer creatSubviews];
@@ -24,11 +26,13 @@
 }
 
 
-- (instancetype)initWithTitles:(NSArray *)titles andFrame:(CGRect)frame labelContainerStableEdge:(LabelContainerStableEdge)stableEdge delegate:(id)delegate{
+- (instancetype)initWithTitles:(NSArray *)titles andFrame:(CGRect)frame labelContainerStableEdge:(LabelContainerStableEdge)stableEdge rowMargin:(CGFloat)rowMargin labelMargin:(CGFloat)labelMargin delegate:(id)delegate{
     
     self = [[LabelContainer alloc] initWithFrame:frame];
     _titles = titles;
     _stableEdge = stableEdge;
+    _rowMargin = rowMargin;
+    _labelMargin = labelMargin;
     _delegate = delegate;
     
     [self creatSubviews];
@@ -62,7 +66,6 @@
         _labelMaskToBounds = NO;
         _labelCornerRadius = 0;
         _stableEdge = LabelContainerStableEdgeWidth;
-        
     
     }
     return self;
@@ -78,8 +81,18 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
-    
+
+    for (YYEdgeLabel *label in self.subviews) {
+        
+        label.layer.cornerRadius = _labelCornerRadius;
+        label.layer.borderColor = _labelBorderColor.CGColor;
+        label.layer.borderWidth = _labelBorderWidth;
+        label.textColor = _labelTitleColor;
+        label.font = [UIFont systemFontOfSize:_fontSize];
+        label.layer.masksToBounds = _labelMaskToBounds;
+        label.edgeInsets = _labelEdgeInset;
+    }
+
 }
 
 /**
@@ -112,7 +125,7 @@
                                                                fontSize:_fontSize
                                                            maskToBounds:_labelMaskToBounds
                                                            cornerRadius:_labelCornerRadius];
-        
+        label.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelClick:)];
         [label addGestureRecognizer:tap];
         

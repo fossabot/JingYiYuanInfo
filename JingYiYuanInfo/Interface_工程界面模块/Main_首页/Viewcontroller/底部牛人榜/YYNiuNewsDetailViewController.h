@@ -13,4 +13,9 @@
 /** niuNewsId*/
 @property (nonatomic, copy) NSString *niuNewsId;
 
+/* 牛人的id*/
+@property (nonatomic, copy) NSString *niuId;
+
+@property (nonatomic, copy) NSString *newsTitle;
+
 @end

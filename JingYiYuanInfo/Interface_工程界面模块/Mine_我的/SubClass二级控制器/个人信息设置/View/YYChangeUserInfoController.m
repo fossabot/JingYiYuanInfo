@@ -74,12 +74,15 @@
         NSString *toast = response[@"addintegral"];
         if (toast.length) {
             
-            [SVProgressHUD showImage:nil status:[NSString stringWithFormat:@"修改信息获得 %@ 积分",toast]];
-            [SVProgressHUD dismissWithDelay:1];
+            [SVProgressHUD showImage:nil status:[NSString stringWithFormat:@"修改成功获得 %@ 积分",toast]];
+        }else {
+            
+            [SVProgressHUD showImage:nil status:@"修改成功"];
         }
+        [SVProgressHUD dismissWithDelay:1];
     } failure:^(NSError *error) {
         
-    } showSuccessMsg:@"修改成功"];
+    } showSuccessMsg:nil];
 }
 
 - (void)didReceiveMemoryWarning {

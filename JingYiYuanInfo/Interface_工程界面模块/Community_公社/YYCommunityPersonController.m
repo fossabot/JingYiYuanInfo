@@ -106,18 +106,21 @@
             
             //跳转到相应的详情页（牛人详情或者新闻详情）
             YYStrongSelf
-#warning 牛人榜点击跳转相应界面
+
             if (indexPath.section == 0) {
-                
+                YYNiuManModel *model = (YYNiuManModel *)data;
                 YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
-#warning 没有牛人详情及更多的列表页
+                niuManDetail.niuid = model.niu_id;
+                niuManDetail.imgUrl = model.niu_img;
                 [strongSelf.navigationController pushViewController:niuManDetail animated:YES];
                 
             }else {
                 
                 YYNiuArticleModel *model = (YYNiuArticleModel *)data;
                 YYNiuNewsDetailViewController *niuNewsDetail = [[YYNiuNewsDetailViewController alloc] init];
+                niuNewsDetail.niuNewsId = model.art_id;
                 niuNewsDetail.url = model.webUrl;
+                niuNewsDetail.newsTitle = model.title;
                 niuNewsDetail.shareImgUrl = model.picurl;
                 [strongSelf.navigationController pushViewController:niuNewsDetail animated:YES];
             }

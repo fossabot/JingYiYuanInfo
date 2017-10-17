@@ -58,7 +58,7 @@
 - (void)fetchDataWithDate:(NSString *)date completion:(void(^)(BOOL success))completion{
     
     [YYHttpNetworkTool GETRequestWithUrlstring:pushListUrl parameters:@{@"date":date} success:^(id response) {
-#warning 什么玩应
+
         if (response) {
             
             self.dataSource = [YYPushListCellModel mj_objectArrayWithKeyValuesArray:response[@"msglist_arr"]];
@@ -81,26 +81,26 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     YYPushListCellModel *model = self.dataSource[indexPath.row];
-    if (model.extendState) {
-        
-        CGFloat height = [tableView fd_heightForCellWithIdentifier:YYPushCellId cacheByIndexPath:indexPath configuration:^(YYPushCell *cell) {
-            
-            cell.pushModel = model;
-        }];
-        return height;
-    }else if(!model.extendState && !model.isHaveExtendBtn){
-        
-        CGFloat height = [tableView fd_heightForCellWithIdentifier:YYPushCellId cacheByIndexPath:indexPath configuration:^(YYPushCell *cell) {
-            
-            cell.pushModel = model;
-        }];
-        return height;
-    }else {
-        
-        return 90;
-    }
+//    if (model.extendState) {
+//        
+//        CGFloat height = [tableView fd_heightForCellWithIdentifier:YYPushCellId cacheByIndexPath:indexPath configuration:^(YYPushCell *cell) {
+//            
+//            cell.pushModel = model;
+//        }];
+//        return height;
+//    }else if(!model.extendState && !model.isHaveExtendBtn){
+//        
+//        CGFloat height = [tableView fd_heightForCellWithIdentifier:YYPushCellId cacheByIndexPath:indexPath configuration:^(YYPushCell *cell) {
+//            
+//            cell.pushModel = model;
+//        }];
+//        return height;
+//    }else {
+//        
+//        return 90;
+//    }
     
-//    return [model cellHeight];
+    return [model cellHeight];
 }
 
 #pragma -- mark TableViewDataSource  --------------
@@ -113,7 +113,7 @@
     cell.extendBlock = ^(id cell, BOOL selected) {
       
         NSIndexPath *index = [weakTableView indexPathForCell:cell];
-        model.extendState = selected;
+//        model.extendState = selected;
         [weakTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationNone];
     };
     return cell;

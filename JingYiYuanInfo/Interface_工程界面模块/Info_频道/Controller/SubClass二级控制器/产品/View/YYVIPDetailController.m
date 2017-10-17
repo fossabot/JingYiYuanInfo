@@ -50,7 +50,7 @@
 /** 购买会员*/
 - (void)buyVip:(UIButton *)sender {
     
-    [YYIAPTool buyProductByProductionId:Production_VIP_1];
+    [YYIAPTool buyProductByProductionId:@"com.yyapp_vip_1" type:@"1"];
     
 }
 

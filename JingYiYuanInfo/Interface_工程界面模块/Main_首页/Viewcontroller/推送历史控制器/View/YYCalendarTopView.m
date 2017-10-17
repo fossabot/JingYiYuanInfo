@@ -66,6 +66,7 @@
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 
 - (void)refreshTopViewWithDate:(NSDate *)date {
+    [self.dataSource removeAllObjects];
     NSMutableArray *tempArr = [self.viewModel oldNineDaysAndLastFiveDaysAccordingDate:date];
     int i = 0;
     for (NSDateComponents *components in tempArr) {
@@ -154,11 +155,20 @@
     YYCalendarCollectionCell *cell = (YYCalendarCollectionCell *)[collectionView cellForItemAtIndexPath:_selectedIndexPath];
     
     CGFloat centerx = [cell convertPoint:CGPointMake(cell.yy_centerX, 0) toView:collectionView].x;
+    
     if (centerx > collectionView.yy_width/2 && centerx < collectionView.contentSize.width - collectionView.yy_width/2) {
         
         [collectionView scrollToItemAtIndexPath:_selectedIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    }else if (centerx <= collectionView.yy_width/2) {
+        
+        [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+    }else if (centerx >= collectionView.contentSize.width - collectionView.yy_width/2) {
+        
+        [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
     }
+    
     if (_selectedBlock) {
+        
         _selectedBlock(selectedModel.date);
     }
 }

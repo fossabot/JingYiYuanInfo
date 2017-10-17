@@ -8,6 +8,10 @@
 
 #import "THBaseViewController.h"
 
+typedef void(^SelectDateBlock)(NSString *date, NSDate *topDate);
+
 @interface YYCalendarController : THBaseViewController
+
+@property (nonatomic, copy) SelectDateBlock selectDateBlock;
 
 @end

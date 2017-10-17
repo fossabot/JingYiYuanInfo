@@ -10,6 +10,7 @@
 #import "YYEdgeLabel.h"
 #import "ShareView.h"
 #import "YYCommunityMediaModel.h"
+#import "YYUser.h"
 
 @interface YYCommunityMediaCell()
 
@@ -228,6 +229,7 @@
  */
 - (void)playVideo {
     
+    YYUser *user = [YYUser shareUser];
     if (_playBlock) {
         _playBlock();
     }

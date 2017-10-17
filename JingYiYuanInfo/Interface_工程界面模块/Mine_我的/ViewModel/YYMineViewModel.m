@@ -111,11 +111,13 @@
             //不是收藏和字体，无须操作，分享接口直接调用umeng分享接口将信息分享出去
         }];
         
+    }else {
+        
+        if (self.cellSelecteBlock) {
+            self.cellSelecteBlock(indexPath, model.destinationVc, nil);
+        }
     }
     
-    if (self.cellSelecteBlock) {
-        self.cellSelecteBlock(indexPath, model.destinationVc, nil);
-    }
     
 }
 

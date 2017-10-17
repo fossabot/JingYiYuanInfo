@@ -261,6 +261,22 @@
 
 
 
+#pragma 关注牛人接口
+//http://yyapp.1yuaninfo.com/app/application/niu_user.php
+//返回值：state 0成功1失败
+//参数： act=quebyniuid  userid=    niu_id=
+//act=query查询 /add添加   niu_id=牛人id 添加时需要  userid=用户id 查询 添加都需要   id=文章id 查询时需要
+#define subscribdNiuUrl  [NSString stringWithFormat:@"%@/app/application/niu_user.php",domainUrl]
+
+
+#pragma 提问牛人文章
+//参数：act=useraddq  userid=  artid=文章id  artitle=文章标题  content=提问内容
+//返回值：state= 1成功0失败  
+//http://yyapp.1yuaninfo.com/app/application/commune.php
+//commune 公社接口
+
+
+
 #pragma ------------------------------------------------------------------------
 #pragma -----------------------  频道界面的接口  ---------------------------------
 #pragma 所有接口都一样，只是参数不同
@@ -561,6 +577,11 @@
 #define signIntegralUrl   [NSString stringWithFormat:@"%@/app/application/usersigndata.php",domainUrl]
 
 
+#pragma  积分打赏
+//参数： act=reward   userid=    num=打赏的积分数    articleid=牛人文章的id
+//返回值： state =1成功 0 积分不足 2 入库失败
+#define rewardUrl   [NSString stringWithFormat:@"%@/app/application/userintegral.php",domainUrl]
+
 
 #pragma ------------------------------------------------------------------------
 #pragma mark  积分商城  --------------------------------------------------
@@ -571,13 +592,25 @@
 #pragma mark  积分规则静态页
 #define integrationRuleUrl @"http://yyapp.1yuaninfo.com/app/application/score.php"
 
+#pragma mark  收支明细接口
 //http://yyapp.1yuaninfo.com/app/application/userintegral.php? userid=1499064765j6qavy&act=inall
 #define inOutHistoryUrl    [NSString stringWithFormat:@"%@/app/application/userintegral.php",domainUrl]
 
+#pragma mark  积分兑换商品
+//http://yyapp.1yuaninfo.com/app/application/exchange_gift.php
+//参数： userid=     goodid=
+//返回值：  state = 0地址为空 1成功 2积分不足 3入库失败
+#define exchangeGoodUrl   [NSString stringWithFormat:@"%@/app/application/exchange_gift.php",domainUrl]
+
+
+
+
+#pragma mark  内购给后台验证transaction_id，查看交易是否存在，若是第一次支付，肯定不存在，后台返回0未完成，然后继续验证receipt，验证成功返回0（因为Apple返回的信息就是0）;
+//yyapp.1yuaninfo.com/app/application/applepay/pre_check.php
+#define preCheckTransactionIdUrl [NSString stringWithFormat:@"%@/app/application/applepay/pre_check.php",domainUrl]
 
 
 #pragma mark  IAP 内购给后台发送收据 --------------------------------------
-
 //http://yyapp.1yuaninfo.com/app/application/apple_pay.php  apple_receipt
 
 #define IAPReceiptUrl  [NSString stringWithFormat:@"%@/app/application/applepay/apple_pay.php",domainUrl]
@@ -619,10 +652,17 @@
 
 //我的推送记录接口
 //http://yyapp.1yuaninfo.com/app/application/week_moon_list.php
-//参数   act =  week周刊   month月刊
+//参数   act =  week周刊   moon月刊
 //加载更多直接加个参数lastid
 #pragma 我的推送记录接口
 #define periodUrl  [NSString stringWithFormat:@"%@/app/application/week_moon_list.php",domainUrl]
+
+#pragma 按次的推送消息  接收到后台发送的消息，提醒用户有相关消息，但不予展示，用户点击确定查看，再请求后台，跳转详情页
+#pragma 按次推送  第一次推送，确认是否查看，点击查看之后给后台发送请求，后台再次发送推送，推送真实股票信息
+
+//http://yyapp.1yuaninfo.com/app/houtai/re_postnews.php?id=ID&orderid=ORDERID&userid=USERID
+#define remoteNoticeConfirmUrl   [NSString stringWithFormat:@"%@/app/houtai/re_postnews.php",domainUrl]
+
 
 
 

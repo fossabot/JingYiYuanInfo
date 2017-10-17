@@ -8,13 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const YYAnswerCellId = @"YYAnswerCell";
+
+@class YYAnswerModel;
+
 @interface YYAnswerCell : UITableViewCell
 
 /** 牛人头像*/
 @property (nonatomic, strong) UIImageView *icon;
 
 /** 牛人名字*/
-@property (nonatomic, strong) UILabel *name;
+//@property (nonatomic, strong) UILabel *name;
 
 /** 回答*/
 @property (nonatomic, strong) UILabel *answer;
@@ -22,5 +26,7 @@
 /** time*/
 @property (nonatomic, strong) UILabel *time;
 
+
+@property (nonatomic, strong) YYAnswerModel *model;
 
 @end

@@ -46,7 +46,7 @@
 /** niuid*/
 @property (nonatomic, copy) NSString *niuid;
 
-/** atime 提问的时间*/
+/** atime 回复的时间*/
 @property (nonatomic, copy) NSString *atime;
 
 /** niuhead*/

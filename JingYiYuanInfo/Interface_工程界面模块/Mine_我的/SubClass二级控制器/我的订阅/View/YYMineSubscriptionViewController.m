@@ -7,8 +7,21 @@
 //
 
 #import "YYMineSubscriptionViewController.h"
+#import "YYSubscribeCell.h"
+#import "YYNiuSubscribeModel.h"
+#import "YYNiuManDetailViewController.h"
 
-@interface YYMineSubscriptionViewController ()
+#import <MJExtension/MJExtension.h>
+#import <MJRefresh/MJRefresh.h>
+
+@interface YYMineSubscriptionViewController ()<UITableViewDelegate,UITableViewDataSource>
+
+/** tab*/
+@property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) NSMutableArray *dataSource;
+
+@property (nonatomic, copy) NSString *lastid;
 
 @end
 
@@ -21,6 +34,8 @@
     
     self.view.backgroundColor = WhiteColor;
     
+    [self.view addSubview:self.tableView];
+    [self loadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -28,5 +43,166 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
 }
+
+- (void)loadData {
+    
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        [SVProgressHUD showErrorWithStatus:@"未登录账户"];
+        [SVProgressHUD dismissWithDelay:1];
+        return;
+    }
+    
+    if ([self.tableView.mj_footer isRefreshing]) {
+        [self.tableView.mj_footer endRefreshing];
+    }
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"queall",@"act",user.userid,USERID, nil];
+    [YYHttpNetworkTool GETRequestWithUrlstring:subscribdNiuUrl parameters:para success:^(id response) {
+        
+        [self.tableView.mj_header endRefreshing];
+        if (response) {
+            
+            self.dataSource = [YYNiuSubscribeModel mj_objectArrayWithKeyValuesArray:response[@"allsubarr"]];
+            if (self.dataSource.count < 10) {
+                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            }
+            self.lastid = response[LASTID];
+            [self.tableView reloadData];
+        }
+    } failure:^(NSError *error) {
+        
+        [self.tableView.mj_header endRefreshing];
+    } showSuccessMsg:nil];
+    
+    
+}
+
+
+- (void)loadMoreData {
+    
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        [SVProgressHUD showErrorWithStatus:@"未登录账户"];
+        [SVProgressHUD dismissWithDelay:1];
+        return;
+    }
+    
+    if ([self.tableView.mj_header isRefreshing]) {
+        [self.tableView.mj_header endRefreshing];
+    }
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"queall",@"act",user.userid,USERID,self.lastid,LASTID, nil];
+    [YYHttpNetworkTool GETRequestWithUrlstring:subscribdNiuUrl parameters:para success:^(id response) {
+        
+        [self.tableView.mj_footer endRefreshing];
+        if (response) {
+            
+            NSMutableArray *arr = [YYNiuSubscribeModel mj_objectArrayWithKeyValuesArray:response[@"allsubarr"]];
+            [self.dataSource addObjectsFromArray:arr];
+            if (arr.count < 10) {
+                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            }
+            self.lastid = response[LASTID];
+            [self.tableView reloadData];
+        }
+    } failure:^(NSError *error) {
+        
+        [self.tableView.mj_footer endRefreshing];
+    } showSuccessMsg:nil];
+    
+    
+}
+
+#pragma mark tableview 代理方法  ---------------------------------
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return self.dataSource.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 80;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    YYNiuSubscribeModel *model = self.dataSource[indexPath.row];
+    YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
+    niuManDetail.niuid = model.niu_id;
+    niuManDetail.imgUrl = model.niu_head;
+    [self.navigationController pushViewController:niuManDetail animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+//    YYSubscribeCell *subCell = (YYSubscribeCell *)cell;
+//    [subCell clipRound];
+}
+
+#pragma mark tableview 数据源方法  ---------------------------------
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    YYNiuSubscribeModel *model = self.dataSource[indexPath.row];
+    YYSubscribeCell *cell = [tableView dequeueReusableCellWithIdentifier:YYSubscribeCellId];
+    cell.model = model;
+    return cell;
+}
+
+
+
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-64) style:UITableViewStylePlain];
+        _tableView.tableFooterView = [[UIView alloc] init];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+        [self.tableView registerClass:[YYSubscribeCell class] forCellReuseIdentifier:YYSubscribeCellId];
+        
+        YYWeakSelf
+        MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
+            YYStrongSelf
+            [strongSelf loadMoreData];
+        }];
+        /** 普通闲置状态  壹元君正努力为您加载数据*/
+//        footer.stateLabel.text = @"壹元君正努力为您加载中...";
+        _tableView.mj_footer = footer;
+        
+        MJRefreshStateHeader *header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+            
+            YYStrongSelf
+            [strongSelf loadData];
+        }];
+//        header.stateLabel.text = @"壹元君正努力为您加载中...";
+        _tableView.mj_header = header;
+        
+        FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
+        configer.emptyImage = imageNamed(emptyImageName);
+        configer.emptyTitle = @"暂无数据,点此重新加载";
+        configer.emptyTitleColor = UnenableTitleColor;
+        configer.emptyTitleFont = SubTitleFont;
+        configer.allowScroll = NO;
+        configer.emptyViewTapBlock = ^{
+            [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        [self.tableView emptyViewConfiger:configer];
+    }
+    return _tableView;
+}
+
+- (NSMutableArray *)dataSource {
+    
+    if (!_dataSource) {
+        _dataSource = [NSMutableArray array];
+    }
+    return _dataSource;
+}
+
 
 @end

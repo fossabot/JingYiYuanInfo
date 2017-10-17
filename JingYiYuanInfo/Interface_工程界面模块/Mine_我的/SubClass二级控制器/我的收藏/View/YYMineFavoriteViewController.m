@@ -134,6 +134,7 @@
         niuNewsDetailVc.niuNewsId = collectionModel.col_id;
         niuNewsDetailVc.url = [NSString stringWithFormat:@"%@%@",niuWebJointUrl,collectionModel.col_id];
         niuNewsDetailVc.shareImgUrl = collectionModel.col_img;
+        niuNewsDetailVc.newsTitle = collectionModel.col_title;
         [self.navigationController pushViewController:niuNewsDetailVc animated:YES];
     }else if ([collectionModel.col_type isEqualToString:@"5"]) {
         

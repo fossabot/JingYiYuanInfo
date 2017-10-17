@@ -69,12 +69,14 @@
     YYWeakSelf
     self.topView.selectedBlock = ^(NSString *date){
         YYStrongSelf
-        [strongSelf.viewModel fetchDataWithDate:date completion:^(BOOL success) {
-            
-            if (success) {
-                [strongSelf.pushTableView reloadData];
-            }
-        }];
+        
+        [strongSelf loadDataWithDay:date];
+//        [strongSelf.viewModel fetchDataWithDate:date completion:^(BOOL success) {
+//            
+//            if (success) {
+//                [strongSelf.pushTableView reloadData];
+//            }
+//        }];
     };
     
     
@@ -105,6 +107,8 @@
 
 /** 根据当前传递的日期，加载相应的推送历史记录*/
 - (void)loadDataWithDay:(NSString *)day {
+    
+    _today = day;
     YYWeakSelf
     [self.viewModel fetchDataWithDate:day completion:^(BOOL success) {
         
@@ -122,7 +126,14 @@
 /** 跳转日历界面，选择日期回调，刷新topview数据*/
 - (void)pushToCalendarController:(UIBarButtonItem *)calendarItem {
     
-    
+    YYCalendarController *calendarController = [[YYCalendarController alloc] init];
+    YYWeakSelf
+    calendarController.selectDateBlock = ^(NSString *date, NSDate *topDate) {
+      
+        [weakSelf loadDataWithDay:date];
+        [weakSelf.topView refreshTopViewWithDate:topDate];
+    };
+    [self.navigationController pushViewController:calendarController animated:YES];
 }
 
 /** 获取现在的月份*/
@@ -133,7 +144,6 @@
     NSDateComponents *dateComponents = [calendar components:NSCalendarUnitMonth fromDate:now];
     return dateComponents.month;
 }
-
 
 
 
@@ -151,6 +161,7 @@
 - (YYPushViewModel *)viewModel{
     if (!_viewModel) {
         _viewModel = [[YYPushViewModel alloc] init];
+        
     }
     return _viewModel;
 }

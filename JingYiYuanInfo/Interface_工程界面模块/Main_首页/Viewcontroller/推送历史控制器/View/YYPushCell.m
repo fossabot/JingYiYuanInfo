@@ -54,14 +54,15 @@
     self.title.text = pushModel.keyword1;
     self.content.text = [pushModel pushAttributedString];
     self.extendBtn.hidden = !pushModel.isHaveExtendBtn;
+    self.extendBtn.selected = pushModel.extendState;
 }
 
 - (void)extendOrNot:(UIButton *)sender {
     
-    sender.selected = !sender.selected;
-//    _pushModel.extendState = sender.selected;
+//    sender.selected = !sender.selected;
+    _pushModel.extendState = !sender.selected;
     if (_extendBlock) {
-        _extendBlock(self, sender.selected);
+        _extendBlock(self, !sender.selected);
     }
 }
 

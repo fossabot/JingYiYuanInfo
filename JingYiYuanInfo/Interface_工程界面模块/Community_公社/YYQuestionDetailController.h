@@ -13,4 +13,9 @@
 /** articleId文章id  根据这个查相关回复*/
 @property (nonatomic, copy) NSString *articleId;
 
+@property (nonatomic, copy) NSString *iconUrl;
+@property (nonatomic, copy) NSString *nameStr;
+@property (nonatomic, copy) NSString *titleStr;
+@property (nonatomic, copy) NSString *questionStr;
+
 @end

@@ -36,7 +36,7 @@
     if ([self.classid isEqualToString:@"1"]) {//周刊
         act = @"week";
     }else {//月刊
-        act = @"month";
+        act = @"moon";
     }
 
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:act,@"act", nil];
@@ -77,7 +77,7 @@
     if ([self.classid isEqualToString:@"1"]) {//周刊
         act = @"week";
     }else {//月刊
-        act = @"month";
+        act = @"moon";
     }
     
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:act,@"act", nil];

@@ -33,4 +33,16 @@ typedef void(^Back)();
 /** 当控制器从其他界面pop回来，调用此方法播放*/
 - (void)playWhenPop;
 
+/**
+ *  播放视频
+ */
+- (void)play;
+
+
+/**
+ *  切换视频
+ */
+- (void)changePlayItem;
+
+
 @end

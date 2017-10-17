@@ -87,8 +87,9 @@
 - (void)switchSelect:(UISwitch *)switchBtn {
     
     YYWeakSelf
+    BOOL isOn = switchBtn.isOn;
     if (_switchBlock) {
-        _switchBlock(weakSelf, switchBtn.isOn);
+        _switchBlock(weakSelf, isOn);
     }
 }
 

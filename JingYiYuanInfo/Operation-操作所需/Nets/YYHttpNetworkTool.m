@@ -72,6 +72,7 @@
         if (failure) {
             failure(error);
         }
+        YYLog(@"开小差的网络 --- --- %@%@",url,para);
         [SVProgressHUD showErrorWithStatus:@"网络在开小差，请稍后再试"];
         [SVProgressHUD dismissWithDelay:2];
     }];

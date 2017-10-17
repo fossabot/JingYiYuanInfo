@@ -10,7 +10,7 @@
 
 
 /** 一年365会员的产品id*/
-NSString * const Production_VIP_1 = @"com.yyinfo_vip_1";
+NSString * const Production_VIP_1 = @"com.yyapp_vip_1";
 
 
 

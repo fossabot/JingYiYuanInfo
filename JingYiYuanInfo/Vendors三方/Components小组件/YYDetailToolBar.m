@@ -29,6 +29,9 @@
 /** 分享按钮*/
 @property (nonatomic, strong) UIButton *shareButton;
 
+
+@property (nonatomic, strong) UIView *flexibleView;
+
 /** container*/
 @property (nonatomic, strong) UIView *container;
 
@@ -79,6 +82,12 @@
 }
 
 
+- (void)setPlaceHolder:(NSString *)placeHolder {
+    
+    _placeHolder = placeHolder;
+    [self.writeButton setTitle:placeHolder forState:UIControlStateNormal];
+}
+
 - (void)writeComments:(void (^)(NSString *))comment {
     
     _sendCommentBlock = comment;
@@ -112,22 +121,42 @@
         
     }
     
+    if (toolBarType & DetailToolBarTypeFlexible) {
+        [self.container addSubview:self.flexibleView];
+        
+    }
+    
     _toolBarType = toolBarType;
 }
 
 
 - (void)layoutSubviews {
 
-    [self.container.subviews mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedSpacing:7 leadSpacing:10 tailSpacing:10];
-    
-    [self.container.subviews makeConstraints:^(MASConstraintMaker *make) {
+    if (self.container.subviews.count == 0 ) {
         
-        make.top.equalTo(self.container.top).offset(2);
-        make.bottom.equalTo(self.container.bottom).offset(-2);
-        make.width.equalTo(40);
-    }];
+        [self.container makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.width.equalTo(5);
+        }];
+    }else if(self.container.subviews.count == 1){
     
-    [self.container makeConstraints:^(MASConstraintMaker *make) {
+        [self.subviews.firstObject makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.edges.equalTo(self.container).insets(UIEdgeInsetsMake(2, 2, 2, 2));
+        }];
+    }else {
+        
+        [self.container.subviews mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedSpacing:7 leadSpacing:10 tailSpacing:10];
+        
+        [self.container.subviews makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.top.equalTo(self.container.top).offset(2);
+            make.bottom.equalTo(self.container.bottom).offset(-2);
+            make.width.equalTo(40);
+        }];
+    }
+    
+    [self.container updateConstraints:^(MASConstraintMaker *make) {
        
         make.right.top.bottom.equalTo(self);
     }];
@@ -297,13 +326,13 @@
             return;
         }
         
-        if ([weakSelf.delegate respondsToSelector:@selector(detailToolBar:didSelectBarType:)]) {
-            
-            [weakSelf.delegate detailToolBar:weakSelf didSelectBarType:DetailToolBarTypeWriteComment];
-        }
-//        if (weakSelf.sendCommentBlock) {
-//            weakSelf.sendCommentBlock(weakSelf.textView.text);
+//        if ([weakSelf.delegate respondsToSelector:@selector(detailToolBar:didSelectBarType:)]) {
+//            
+//            [weakSelf.delegate detailToolBar:weakSelf didSelectBarType:DetailToolBarTypeWriteComment];
 //        }
+        if (weakSelf.sendCommentBlock) {
+            weakSelf.sendCommentBlock(weakSelf.textView.text);
+        }
         [weakSelf cancelSend];
     }];
  
@@ -387,6 +416,13 @@
     return _shareButton;
 }
 
+- (UIView *)flexibleView {
+    
+    if (!_flexibleView) {
+        _flexibleView = [[UIView alloc] init];
+    }
+    return _flexibleView;
+}
 
 - (UIView *)textViewContainer{
     if (!_textViewContainer) {

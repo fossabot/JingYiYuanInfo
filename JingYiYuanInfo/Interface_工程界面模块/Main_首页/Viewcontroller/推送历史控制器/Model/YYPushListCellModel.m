@@ -9,6 +9,8 @@
 #import "YYPushListCellModel.h"
 #import <MJExtension/MJExtension.h>
 #import "NSString+Size.h"
+#import "NSString+AttributedString.h"
+
 
 @implementation YYPushListCellModel
 
@@ -35,47 +37,79 @@
     NSString *temp = @"";
     
     if (_remark && _remark.length && ![_remark isEqualToString:@""]) {
+        if ([_remark containsString:@"\r\n\r\n\r\n\t"]) {
+            NSArray *strArr = [_remark componentsSeparatedByString:@"\r\n\r\n\r\n\t"];
+            _remark = [strArr componentsJoinedByString:@"\n"];
+        }
         temp = [temp stringByAppendingString:_remark];
         temp = [temp stringByAppendingString:@"\n"];
     }
     
     if (_fxtime && _fxtime.length && ![_fxtime isEqualToString:@""]) {
+        if ([_fxtime containsString:@"\r\n\r\n\r\n\t"]) {
+            NSArray *strArr = [_fxtime componentsSeparatedByString:@"\r\n\r\n\r\n\t"];
+            _fxtime = [strArr componentsJoinedByString:@"\n"];
+        }
         NSString *str = [NSString stringWithFormat:@"分享时间：%@",_fxtime];
         temp = [temp stringByAppendingString:str];
         temp = [temp stringByAppendingString:@"\n"];
     }
     
     if (_dmname && _dmname.length && ![_dmname isEqualToString:@""]) {
+        if ([_dmname containsString:@"\r\n\r\n\r\n\t"]) {
+            NSArray *strArr = [_dmname componentsSeparatedByString:@"\r\n\r\n\r\n\t"];
+            _dmname = [strArr componentsJoinedByString:@"\n"];
+        }
         NSString *str = [NSString stringWithFormat:@"分享股票：%@",_dmname];
         temp = [temp stringByAppendingString:str];
         temp = [temp stringByAppendingString:@"\n"];
     }
     
     if (_fxcontent && _fxcontent.length && ![_fxcontent isEqualToString:@""]) {
+        if ([_fxcontent containsString:@"\r\n\r\n\r\n\t"]) {
+            NSArray *strArr = [_fxcontent componentsSeparatedByString:@"\r\n\r\n\r\n\t"];
+            _fxcontent = [strArr componentsJoinedByString:@"\n"];
+        }
         NSString *str = [NSString stringWithFormat:@"分享理由：%@",_fxcontent];
         temp = [temp stringByAppendingString:str];
         temp = [temp stringByAppendingString:@"\n"];
     }
     
     if (_Section && _Section.length && ![_Section isEqualToString:@""]) {
+        if ([_Section containsString:@"\r\n\r\n\r\n\t"]) {
+            NSArray *strArr = [_Section componentsSeparatedByString:@"\r\n\r\n\r\n\t"];
+            _Section = [strArr componentsJoinedByString:@"\n"];
+        }
         NSString *str = [NSString stringWithFormat:@"接入区间：%@",_Section];
         temp = [temp stringByAppendingString:str];
         temp = [temp stringByAppendingString:@"\n"];
     }
     
     if (_fxmoney && _fxmoney.length && ![_fxmoney isEqualToString:@""]) {
+        if ([_fxmoney containsString:@"\r\n\r\n\r\n\t"]) {
+            NSArray *strArr = [_fxmoney componentsSeparatedByString:@"\r\n\r\n\r\n\t"];
+            _fxmoney = [strArr componentsJoinedByString:@"\n"];
+        }
         NSString *str = [NSString stringWithFormat:@"分享时价：%@",_fxmoney];
         temp = [temp stringByAppendingString:str];
         temp = [temp stringByAppendingString:@"\n"];
     }
     
     if (_zsmoney && _zsmoney.length && ![_zsmoney isEqualToString:@""]) {
+        if ([_zsmoney containsString:@"\r\n\r\n\r\n\t"]) {
+            NSArray *strArr = [_zsmoney componentsSeparatedByString:@"\r\n\r\n\r\n\t"];
+            _zsmoney = [strArr componentsJoinedByString:@"\n"];
+        }
         NSString *str = [NSString stringWithFormat:@"止损价格：%@",_zsmoney];
         temp = [temp stringByAppendingString:str];
         temp = [temp stringByAppendingString:@"\n"];
     }
     
     if (_mention && _mention.length && ![_mention isEqualToString:@""]) {
+        if ([_mention containsString:@"\r\n\r\n\r\n\t"]) {
+            NSArray *strArr = [_mention componentsSeparatedByString:@"\r\n\r\n\r\n\t"];
+            _mention = [strArr componentsJoinedByString:@"\n"];
+        }
         NSString *str = [NSString stringWithFormat:@"温馨提示：%@",_mention];
         temp = [temp stringByAppendingString:str];
         temp = [temp stringByAppendingString:@"\n"];
@@ -89,6 +123,7 @@
 //    
 //    NSAttributedString *attributeStr = [[NSAttributedString alloc] initWithString:temp attributes:@{NSParagraphStyleAttributeName:paragraphStyle,NSFontAttributeName:UnenableTitleFont,NSForegroundColorAttributeName:SubTitleColor}];
     
+    self.lines = [temp countOfCharacter:@"\n"];
     return temp;
 }
 
@@ -112,16 +147,16 @@
 //    return size;
 //}
 
-- (BOOL)isHaveExtendBtn {
-    
-    if (self.cellHeight > 80) {
-        
-        return YES;
-    }else {
-        
-        return NO;
-    }
-}
+//- (BOOL)isHaveExtendBtn {
+//    
+//    if (self.cellHeight > 80) {
+//        
+//        return YES;
+//    }else {
+//        
+//        return NO;
+//    }
+//}
 
 - (CGFloat)cellHeight {
     
@@ -130,23 +165,32 @@
     paragraphStyle.headIndent = 2.0;
     paragraphStyle.lineSpacing = 2.0;
     CGSize size = [[self pushAttributedString] boundingRectWithSize:CGSizeMake(kSCREENWIDTH-60, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSParagraphStyleAttributeName:paragraphStyle,NSFontAttributeName:UnenableTitleFont,NSForegroundColorAttributeName:SubTitleColor} context:nil].size;
+    CGFloat height = [[self pushAttributedString] HeightParagraphSpeace:3 withFont:UnenableTitleFont AndWidth:kSCREENWIDTH-60];
     //返回的高度需考虑cell上部一个title的高度和底部的展开按钮高度 顶部30 底部20
 //    CGSize size = [[self pushAttributedString] boundingRectWithSize:CGSizeMake(kSCREENWIDTH-60, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil].size;
     YYLog(@"size ---- %@",NSStringFromCGSize(size));
+    YYLog(@"推送文字高度 ---- %lf",height);
     
     UILabel*label = [[UILabel alloc] init];
     label.numberOfLines = 0;
     label.text = [self pushAttributedString];
     [label sizeToFit];
     YYLog(@"label  size ----- %@",NSStringFromCGSize(label.bounds.size));
-    if (self.extendState && size.height > 80) {
+    
+//    CGFloat lineCountH = self.lines*3;
+    if (self.extendState && height > 80) {
         
-        return size.height+20+40;
-    }else if (size.height > 80 && !self.extendState){
+        _isHaveExtendBtn = YES;
+        return height+30+40;
+    }else if (height > 80 && !self.extendState){
         
-        return 50+20+40;
+        _isHaveExtendBtn = YES;
+        return 50+30+40;
+        
     }else{
-        return size.height;
+        
+        _isHaveExtendBtn = NO;
+        return height;
     }
 }
 

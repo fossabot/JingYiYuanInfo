@@ -117,13 +117,14 @@
         _viewModel.selectedBlock = ^(id data, NSIndexPath *indexPath) {
             //跳转到相应的详情页（牛人详情或者新闻详情）
             YYStrongSelf
-#warning 牛人榜点击跳转相应界面
+
             if (indexPath.section == 0) {
                 
                 YYNiuManModel *model = (YYNiuManModel *)data;
                 YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
+                niuManDetail.niuid = model.niu_id;
+                niuManDetail.imgUrl = model.niu_img;
                 niuManDetail.jz_wantsNavigationBarVisible = YES;
-#warning 没有牛人的详情页  没有更多牛人的列表页
                 [strongSelf.parentNavigationController pushViewController:niuManDetail animated:YES];
                 
             }else {
@@ -133,6 +134,7 @@
                 niuNewsDetail.url = model.webUrl;
                 niuNewsDetail.shareImgUrl = model.picurl;
                 niuNewsDetail.niuNewsId = model.art_id;
+                niuNewsDetail.newsTitle = model.title;
                 niuNewsDetail.jz_wantsNavigationBarVisible = YES;
                 [strongSelf.parentNavigationController pushViewController:niuNewsDetail animated:YES];
             }

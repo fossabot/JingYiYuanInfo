@@ -8,8 +8,16 @@
 
 #import "YYNiuManModel.h"
 #import "NSCalendar+YYCommentDate.h"
+#import <MJExtension/MJExtension.h>
 
 @implementation YYNiuManModel
+
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+    
+    return @{
+             @"niu_id":@"id"
+             };
+}
 
 - (NSString *)niu_modtime {
     NSString *modtime = [NSCalendar commentDateByOriginalDate:_niu_modtime withDateFormat:@"yyyy-MM-dd HH:mm:ss"];

@@ -12,7 +12,15 @@
 #import "YYSearchList.h"
 #import "YYSearchModel.h"
 #import "YYSearchSecModel.h"
+#import "YYSearchHotModel.h"
 #import "YYSearchResultCell.h"
+
+#import "YYNiuNewsDetailViewController.h"
+#import "YYProjectDetailController.h"
+#import "YYThreeSeekDetailController.h"
+#import "YYShowOtherDetailController.h"
+#import "YYBaseInfoDetailController.h"
+#import "YYVideoDetailController.h"
 
 #import "UITableView+FDTemplateLayoutCell.h"
 #import <MJExtension/MJExtension.h>
@@ -22,13 +30,13 @@
 /** searchBar*/
 @property (nonatomic, strong) UIView *searchBar;
 
-/** textField*/
+/** 输入框*/
 @property (nonatomic, strong) UITextField *textField;
 
-/** textField*/
+/** 返回按钮*/
 @property (nonatomic, strong) UIButton *backBtn;
 
-/** textField*/
+/** 搜索按钮*/
 @property (nonatomic, strong) UIButton *searchBtn;
 
 /** tableview*/
@@ -39,6 +47,9 @@
 
 /** 我自己转变后台模型存放的方便我使用的数组*/
 @property (nonatomic, strong) NSMutableArray *myDataSource;
+
+/** 热搜的数组*/
+@property (nonatomic, strong) NSMutableArray *hotDataSource;
 
 /** 组头名字*/
 @property (nonatomic, strong) NSMutableArray *dataSource;
@@ -77,15 +88,15 @@
     
     [self.backBtn makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.searchBar);
-        make.bottom.equalTo(self.searchBar).offset(-YYInfoCellCommonMargin);
+        make.left.equalTo(self.searchBar).offset(YYInfoCellSubMargin);
+        make.bottom.equalTo(self.searchBar).offset(-YYInfoCellSubMargin);
         make.width.height.equalTo(30);
     }];
     
     [self.textField makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.backBtn.right).offset(YYInfoCellCommonMargin);
-        make.bottom.equalTo(self.searchBar).offset(-YYInfoCellCommonMargin);
+        make.bottom.equalTo(self.searchBar).offset(-YYInfoCellSubMargin);
         make.height.equalTo(30);
     }];
     
@@ -93,7 +104,7 @@
        
         make.left.equalTo(self.textField.right).offset(YYInfoCellCommonMargin);
         make.right.equalTo(-YYInfoCellCommonMargin);
-        make.bottom.equalTo(self.searchBar).offset(-YYInfoCellCommonMargin);
+        make.bottom.equalTo(self.searchBar).offset(-YYInfoCellSubMargin);
         make.height.equalTo(30);
     }];
     
@@ -116,12 +127,19 @@
 /** 热门搜索*/
 - (void)loadHotData {
     
-    [self.searchView setHotArr:@[@"lalal",@"oeoeo",@"jfjfjf"]];
-    return;
+//    [self.searchView setHotArr:@[@"lalal",@"oeoeo",@"jfjfjf"]];
+//    return;
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"hotsearch",@"act", nil];
     [YYHttpNetworkTool GETRequestWithUrlstring:searchUrl parameters:para success:^(id response) {
         
-#warning 暂没有开放热门搜索的接口
+        if (response) {
+            self.hotDataSource = [YYSearchHotModel mj_objectArrayWithKeyValuesArray:response[@"hsarr"]];
+            NSMutableArray *tempArr = [NSMutableArray array];
+            for (YYSearchHotModel *hotModel in self.hotDataSource) {
+                [tempArr addObject:hotModel.search_title];
+            }
+            [self.searchView setHotArr:tempArr];
+        }
     } failure:^(NSError *error) {
         
         
@@ -180,6 +198,17 @@
 
 #pragma -- mark TableViewDelegate   --------------------------------------
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
+    return 30;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    
+    return 10;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return self.myDataSource.count;
@@ -191,11 +220,30 @@
     return secModel.models.count;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-   
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 30)];
+    backView.backgroundColor = WhiteColor;
+    
+    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 2, 10)];
+    redView.backgroundColor = ThemeColor;
+    [backView addSubview:redView];
+    
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 100, 20)];
+    title.textColor = SubTitleColor;
+    title.font = SubTitleFont;
     YYSearchSecModel *secModel = self.myDataSource[section];
-    return secModel.className;
+    title.text = secModel.className;
+    [backView addSubview:title];
+    
+    return backView;
 }
+
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//   
+//    YYSearchSecModel *secModel = self.myDataSource[section];
+//    return secModel.className;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -211,7 +259,11 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    YYSearchSecModel *secModel = self.myDataSource[indexPath.section];
+    YYSearchModel *rowModel = secModel.models[indexPath.row];
 #warning 跳转相应的详情页
+    [self jumpToRelativeVc:secModel.classId searchModel:rowModel];
+    
 }
 
 #pragma -- mark TableViewDataSource   --------------------
@@ -268,8 +320,81 @@
 
 #pragma mark  辅助方法 --------------------------
 
+//跳转相应的详情页
+- (void)jumpToRelativeVc:(NSInteger)classid searchModel:(YYSearchModel *)searchModel {
+    
+    switch (classid) {
+        case 1:{//自定义搜索出来数据类型 1普通资讯文章  2资讯视频  3演出  4牛人观点  5项目  6三找
+         
+            YYBaseInfoDetailController * detail = [[YYBaseInfoDetailController alloc] init];
+            detail.newsId = searchModel.searchId;
+            detail.url = [NSString stringWithFormat:@"%@%@",infoWebJointUrl,searchModel.searchId];
+            detail.jz_wantsNavigationBarVisible = YES;
+            [self.navigationController pushViewController:detail animated:YES];
+        }
+            break;
+        
+        case 2:{//2资讯视频
+            
+            YYVideoDetailController * detail = [[YYVideoDetailController alloc] init];
+            detail.videoId = searchModel.searchId;
+            detail.videoURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",infoVideoJointUrl,searchModel.searchId]];
+            detail.videoTitle = searchModel.title;
+            detail.placeHolderImageUrl = @"";
+            detail.seekTime = 0;
+            detail.jz_wantsNavigationBarVisible = NO;
+            [self.navigationController pushViewController:detail animated:YES];
+        }
+            break;
+            
+        case 3:{//3演出
+            
+            YYShowOtherDetailController * detail = [[YYShowOtherDetailController alloc] init];
+//            detail.newsId = searchModel.searchId;
+            detail.url = [NSString stringWithFormat:@"%@%@",showWebJointUrl,searchModel.searchId];
+            detail.jz_wantsNavigationBarVisible = YES;
+            [self.navigationController pushViewController:detail animated:YES];
+        }
+            break;
+            
+        case 4:{//4牛人观点
+            
+            YYNiuNewsDetailViewController * detail = [[YYNiuNewsDetailViewController alloc] init];
+            detail.niuNewsId = searchModel.searchId;
+            detail.url = [NSString stringWithFormat:@"%@%@",niuWebJointUrl,searchModel.searchId];
+            detail.newsTitle = searchModel.title;
+            detail.jz_wantsNavigationBarVisible = YES;
+            [self.navigationController pushViewController:detail animated:YES];
+        }
+            break;
+            
+        case 5:{//5项目
+            
+            YYProjectDetailController * detail = [[YYProjectDetailController alloc] init];
+            detail.projectId = searchModel.searchId;
+            detail.url = [NSString stringWithFormat:@"%@%@",projecyJointUrl,searchModel.searchId];
+            detail.jz_wantsNavigationBarVisible = YES;
+            [self.navigationController pushViewController:detail animated:YES];
+        }
+            break;
+            
+        case 6:{//6三找
+            
+            YYThreeSeekDetailController * detail = [[YYThreeSeekDetailController alloc] init];
+            detail.comid = searchModel.searchId;
+            detail.isScrollToProduct = NO;
+            detail.jz_wantsNavigationBarVisible = YES;
+            [self.navigationController pushViewController:detail animated:YES];
+        }
+            break;
+            
+    }
+}
+
 //将后台返回的数据转成我自己适合使用的模型
 - (void)transferModel {
+    
+    [self.myDataSource removeAllObjects];
     
     if (self.searchListModel.art_arr.count) {
         YYSearchSecModel *model = [[YYSearchSecModel alloc] init];
@@ -331,6 +456,7 @@
         _searchListTable.dataSource = self;
         _searchListTable.hidden = YES;
         _searchListTable.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+        _searchListTable.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
         [_searchListTable registerClass:[YYSearchResultCell class] forCellReuseIdentifier:YYSearchResultCellId];
         
         YYWeakSelf
@@ -351,7 +477,6 @@
 - (SearchView *)searchView{
     if (!_searchView) {
         _searchView = [[SearchView alloc] init];
-//                       WithFrame:CGRectMake(0, YYTopNaviHeight, kSCREENWIDTH, kSCREENHEIGHT - YYTopNaviHeight)];
         _searchView.isHaveHotSearchText = YES;
         _searchView.delegate = self;
     }
@@ -362,12 +487,14 @@
 - (UIView *)searchBar{
     if (!_searchBar) {
         _searchBar = [[UIView alloc] init];
-//                      WithFrame:CGRectMake(0, 0, kSCREENWIDTH, YYTopNaviHeight)];
-        _searchBar.backgroundColor = [GraySeperatorColor colorWithAlphaComponent:0.7];
+        _searchBar.backgroundColor = [ThemeColor colorWithAlphaComponent:0.9];
         UITextField *textField = [[UITextField alloc] init];
-//                                  WithFrame:CGRectMake(10, 7, kSCREENWIDTH-100, 30)];
+
         textField.delegate = self;
+        textField.leftViewMode = UITextFieldViewModeAlways;
         textField.leftView = [[UIImageView alloc] initWithImage:imageNamed(@"searchicon_44x44")];
+        textField.tintColor = ThemeColor;
+        textField.font = SubTitleFont;
         textField.placeholder = @"搜索股票、基金、牛人";
         textField.borderStyle = UITextBorderStyleRoundedRect;
         textField.backgroundColor = YYRGB(239, 240, 241);
@@ -377,7 +504,7 @@
         self.textField = textField;
         
         UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
-        [back setImage:imageNamed(@"nav_back_black_20x20") forState:UIControlStateNormal];
+        [back setImage:imageNamed(@"nav_back_white_20x20") forState:UIControlStateNormal];
         [back addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
         self.backBtn = back;
         [_searchBar addSubview:back];
@@ -386,6 +513,7 @@
         [search setTitle:@"搜索" forState:UIControlStateNormal];
         [search setTitleColor:SubTitleColor forState:UIControlStateNormal];
         search.titleLabel.font = SubTitleFont;
+        [search setTitleColor:WhiteColor forState:UIControlStateNormal];
         [search addTarget:self action:@selector(searching:) forControlEvents:UIControlEventTouchUpInside];
         self.searchBtn = search;
         [_searchBar addSubview:search];
@@ -400,6 +528,14 @@
     }
     return _dataSource;
 }
+
+- (NSMutableArray *)hotDataSource{
+    if (!_hotDataSource) {
+        _hotDataSource = [NSMutableArray array];
+    }
+    return _hotDataSource;
+}
+
 
 - (NSMutableArray *)myDataSource{
     if (!_myDataSource) {

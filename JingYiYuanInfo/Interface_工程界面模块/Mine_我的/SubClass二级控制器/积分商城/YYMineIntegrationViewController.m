@@ -11,6 +11,7 @@
 #import "YYIODetailController.h"
 #import "YYProductionHistoryController.h"
 #import "YYGoodsDetailController.h"
+#import "YYBuyIntegralController.h"
 
 #import "YYIntegrationShopSecHeaderView.h"
 #import "YYGoodsCollectionCell.h"
@@ -136,10 +137,19 @@
     
 }
 
+//购买积分
+- (void)buyIntegral {
+    
+    YYBuyIntegralController *buyIntegralVc = [[YYBuyIntegralController alloc] init];
+    [self.navigationController pushViewController:buyIntegralVc animated:YES];
+}
 
 #pragma mark -- layout 子控件配置及相关布局方法  ---------------------------
 
 - (void)configSubView {
+    
+    UIBarButtonItem *buy = [[UIBarButtonItem alloc] initWithTitle:@"购买积分" style:UIBarButtonItemStyleDone target:self action:@selector(buyIntegral)];
+    self.navigationItem.rightBarButtonItem = buy;
     
     UIView *headerView = [[UIView alloc] init];
     headerView.backgroundColor = ThemeColor;
@@ -256,6 +266,7 @@
     YYGoodsDetailController *detail = [[YYGoodsDetailController alloc] init];
     detail.url = model.webUrl;
     detail.shareImgUrl = model.pro_picture;
+    detail.goodId = model.goodsId;
     [self.navigationController pushViewController:detail animated:YES];
     
     

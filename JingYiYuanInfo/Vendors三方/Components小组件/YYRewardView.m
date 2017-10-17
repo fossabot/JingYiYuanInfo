@@ -8,6 +8,8 @@
 
 #import "YYRewardView.h"
 #import "NSArray+Sudoku.h"
+#import "UIImage+Category.h"
+#import "UIView+YYCategory.h"
 
 @interface YYRewardView()
 
@@ -23,7 +25,7 @@
 /** containerBottom 内容视图的底部*/
 @property (nonatomic, strong) UIView *containerBottom;
 
-
+@property (nonatomic, strong) UIButton *reward;
 
 /** integerationArr积分数组*/
 @property (nonatomic, strong) NSArray *integerationArr;
@@ -32,19 +34,17 @@
 
 @implementation YYRewardView
 {
-    NSInteger _index;
+    UIButton *_selectButton;
 }
 
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
+    self = [super initWithFrame:[UIScreen mainScreen].bounds];
     if (self) {
         
         self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
         [self configSubView];
-        
-        [kKeyWindow addSubview:self];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
         [self addGestureRecognizer:tap];
@@ -60,10 +60,10 @@
     [self addSubview:containerView];
     self.containerView = containerView;
     
-    UIView *containerTop = [[UIView alloc] init];
-    containerTop.backgroundColor = [UIColor whiteColor];
-    [self.containerView addSubview:containerTop];
-    self.containerTop = containerTop;
+//    UIView *containerTop = [[UIView alloc] init];
+//    containerTop.backgroundColor = [UIColor whiteColor];
+//    [self.containerView addSubview:containerTop];
+//    self.containerTop = containerTop;
     
     UIView *containerMiddle = [[UIView alloc] init];
     containerMiddle.backgroundColor = [UIColor whiteColor];
@@ -80,19 +80,26 @@
     
     UIButton *top = [UIButton buttonWithType:UIButtonTypeCustom];
     [top setTitle:@"打赏数额" forState:UIControlStateNormal];
+    [top setTitleColor:BlackColor forState:UIControlStateNormal];
+    top.titleLabel.font = NavTitleFont;
     [top setImage:imageNamed(@"community_rewardalert_25x25_") forState:UIControlStateNormal];
     top.userInteractionEnabled = NO;
-    [self.containerTop addSubview:top];
+    [self.containerView addSubview:top];
     
     int i = 0;
     for (NSNumber *integeration in self.integerationArr) {
         
         NSInteger fen = [integeration integerValue];
         UIButton *integerationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        integerationBtn.tag = i;
-        [integerationBtn setTitle:[NSString stringWithFormat:@"%ld分",fen] forState:UIControlStateNormal];
-        [integerationBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [integerationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        integerationBtn.tag = 100+i;
+        integerationBtn.titleLabel.font = sysFont(15);
+        integerationBtn.layer.borderColor = GrayBackGroundColor.CGColor;
+        integerationBtn.layer.borderWidth = 0.5;
+        [integerationBtn setTitle:[NSString stringWithFormat:@"%ld积分",fen] forState:UIControlStateNormal];
+        [integerationBtn setTitleColor:ThemeColor forState:UIControlStateNormal];
+        [integerationBtn setTitleColor:WhiteColor forState:UIControlStateSelected];
+        [integerationBtn setBackgroundImage:[UIImage imageWithColor:WhiteColor] forState:UIControlStateNormal];
+        [integerationBtn setBackgroundImage:[UIImage imageWithColor:ThemeColor] forState:UIControlStateSelected];
         [integerationBtn addTarget:self action:@selector(chooseIntegration:) forControlEvents:UIControlEventTouchUpInside];
         [self.containerMiddle addSubview:integerationBtn];
         
@@ -101,7 +108,10 @@
     
     UIButton *reward = [UIButton buttonWithType:UIButtonTypeCustom];
     [reward setTitle:@"确认打赏" forState:UIControlStateNormal];
+    [reward setTitleColor:WhiteColor forState:UIControlStateNormal];
+    [reward setBackgroundImage:[UIImage imageWithColor:ThemeColor] forState:UIControlStateNormal];
     [reward addTarget:self action:@selector(reward:) forControlEvents:UIControlEventTouchUpInside];
+    self.reward = reward;
     [self.containerBottom addSubview:reward];
     
     
@@ -109,83 +119,97 @@
        
         make.centerX.equalTo(self);
         make.centerY.equalTo(YYInfoCellCommonMargin*2);
-        make.width.height.equalTo(afterScale(self.bounds.size.width));
-    }];
-    
-    [self.containerTop makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.width.equalTo(self.containerView);
-        make.height.equalTo(50);
-        make.top.equalTo(self.containerView);
-    }];
-    
-    [self.containerBottom makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.width.equalTo(self.containerView);
-        make.height.equalTo(100);
-        make.bottom.equalTo(self.containerView);
-    }];
-    
-    [self.containerMiddle makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(self.containerTop.bottom);
-        make.width.equalTo(self.containerView);
-        make.left.right.equalTo(self.containerView);
-        make.bottom.equalTo(self.containerBottom.top);
+        make.width.height.equalTo(afterScale(240));
     }];
     
     [top makeConstraints:^(MASConstraintMaker *make) {
         
-        make.center.equalTo(self.containerTop);
+        make.left.top.right.equalTo(self.containerView);
+        make.height.equalTo(50);
     }];
+    
+//    [self.containerTop makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.left.top.right.equalTo(self.containerView);
+//        make.height.equalTo(50);
+//    }];
+    
+    [self.containerBottom makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.left.bottom.right.equalTo(self.containerView);
+        make.height.equalTo(100);
+    }];
+    
+    [self.containerMiddle makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(top.bottom);
+//        make.width.equalTo(self.containerView);
+        make.left.right.equalTo(self.containerView);
+        make.bottom.equalTo(self.containerBottom.top);
+    }];
+    
+    
     
     //九宫格
-    [self.containerMiddle.subviews mas_distributeSudokuViewsWithFixedItemWidth:0    fixedItemHeight:0
-                                                              fixedLineSpacing:0 fixedInteritemSpacing:0
+    [self.containerMiddle.subviews mas_distributeSudokuViewsWithFixedItemWidth:0
+                                                               fixedItemHeight:0
+                                                              fixedLineSpacing:0
+                                                         fixedInteritemSpacing:0
                                                                      warpCount:3
-                                                                    topSpacing:0 bottomSpacing:0 leadSpacing:0 tailSpacing:0];
+                                                                    topSpacing:0
+                                                                 bottomSpacing:0
+                                                                   leadSpacing:0
+                                                                   tailSpacing:0];
     
     
-    [reward makeConstraints:^(MASConstraintMaker *make) {
+    [self.reward makeConstraints:^(MASConstraintMaker *make) {
         
         make.center.equalTo(self.containerBottom);
-        make.height.equalTo(self.containerBottom.height).multipliedBy(0.5);
-        make.width.equalTo(self.containerBottom.width).multipliedBy(0.5);
+        make.height.equalTo(40);
+        make.width.equalTo(200);
     }];
     
+    [self layoutIfNeeded];
+    [self.containerView cutRoundViewRadius:10];
+    [self.reward cutRoundViewRadius:5];
 }
+
 
 
 /** 选中了相应的积分按钮*/
 - (void)chooseIntegration:(UIButton *)sender {
     
-    if (_index == sender.tag) {
+    if (_selectButton == sender) {
         YYLog(@"打赏就打赏，别老是打我啊，又没用");
         return;
     }
-    if (_index != NSNotFound) {
-        
-        UIButton *selectedBtn = [self.containerMiddle viewWithTag:_index];
-        selectedBtn.selected = NO;
-        selectedBtn.backgroundColor = [UIColor whiteColor];
-    }
+
+    _selectButton.selected = NO;
     sender.selected = YES;
-    sender.backgroundColor = ThemeColor;
-    _index = sender.tag;
+    _selectButton = sender;
 }
 
 /** 打赏*/
 - (void)reward:(UIButton *)sender {
-    if (_index == NSNotFound) {
+    
+    if (!_selectButton) {
         [SVProgressHUD showErrorWithStatus:@"请先选择打赏的积分"];
         [SVProgressHUD dismissWithDelay:1];
         return;
     }
-    NSNumber *num = self.integerationArr[_index];
+   
+    NSNumber *num = self.integerationArr[_selectButton.tag-100];
     YYLog(@"打赏了%ld分",[num integerValue]);
     if (_rewardBlock) {
-        _rewardBlock([num integerValue]);
+        _rewardBlock([NSString stringWithFormat:@"%ld",[num integerValue]]);
     }
+    [self dismiss];
+}
+
+/* 显示打赏界面*/
+- (void)show {
+    
+    [kKeyWindow addSubview:self];
 }
 
 /** remove打赏界面*/
@@ -197,13 +221,12 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    
 }
-     
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
 - (NSArray *)integerationArr{
+    
     if (!_integerationArr) {
         _integerationArr = [NSArray arrayWithObjects:@10,@25,@30,@50,@60,@66,@88,@100,@120, nil];
     }

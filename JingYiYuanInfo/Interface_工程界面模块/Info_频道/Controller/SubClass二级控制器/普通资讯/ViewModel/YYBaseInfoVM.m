@@ -438,8 +438,8 @@
             YYChannelVideoCell *videoCell = [tableView dequeueReusableCellWithIdentifier:YYChannelVideoCellId];
             videoCell.videoModel = model;
             __block NSIndexPath *weakIndexPath = indexPath;
-            __block YYChannelVideoCell *weakCell = videoCell;
-            
+            __weak typeof(videoCell) weakCell = (YYChannelVideoCell *)videoCell;
+            __weak typeof(tableView) weakTableView = tableView;
             // 取出字典中的第一视频URL
             NSURL *videoURL = [NSURL URLWithString:model.v_url];
             YYWeakSelf
@@ -451,7 +451,7 @@
                 strongSelf.playerModel.videoURL         = videoURL;
                 strongSelf.playerModel.placeholderImage = imageNamed(@"loading_bgView");
                 strongSelf.playerModel.placeholderImageURLString = model.v_picture;
-                strongSelf.playerModel.scrollView       = tableView;
+                strongSelf.playerModel.scrollView       = weakTableView;
                 strongSelf.playerModel.indexPath        = weakIndexPath;
                 // player的父视图tag
                 strongSelf.playerModel.fatherViewTag    = weakCell.videoImg.tag;

@@ -345,7 +345,6 @@
 		BFF8C14F1F5FEA4B00FBAB04 /* YYSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF8C0A41F5FEA4A00FBAB04 /* YYSettingViewController.m */; };
 		BFF8C1501F5FEA4B00FBAB04 /* YYSettingViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF8C0A71F5FEA4A00FBAB04 /* YYSettingViewModel.m */; };
 		BFF8C1511F5FEA4B00FBAB04 /* YYMineHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF8C0AA1F5FEA4A00FBAB04 /* YYMineHeaderView.m */; };
-		BFF8C1521F5FEA4B00FBAB04 /* YYMineHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFF8C0AB1F5FEA4A00FBAB04 /* YYMineHeaderView.xib */; };
 		BFF8C1531F5FEA4B00FBAB04 /* YYMineLogOutHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF8C0AD1F5FEA4A00FBAB04 /* YYMineLogOutHeaderView.m */; };
 		BFF8C1541F5FEA4B00FBAB04 /* YYMineLogOutHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFF8C0AE1F5FEA4A00FBAB04 /* YYMineLogOutHeaderView.xib */; };
 		BFF8C1551F5FEA4B00FBAB04 /* YYMineViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF8C0B11F5FEA4A00FBAB04 /* YYMineViewModel.m */; };
@@ -378,6 +377,14 @@
 		F61367531F8DC79E0020A47B /* YYSearchResultCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F61367521F8DC79E0020A47B /* YYSearchResultCell.m */; };
 		F61367561F8DF44A0020A47B /* YYSearchSecModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F61367551F8DF44A0020A47B /* YYSearchSecModel.m */; };
 		F613675A1F8E0CEB0020A47B /* YYSearchViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = F61367591F8E0CEB0020A47B /* YYSearchViewHeader.m */; };
+		F6CAEE5F1F8F5870004A4C56 /* YYMineHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6CAEE5E1F8F5870004A4C56 /* YYMineHeaderView.xib */; };
+		F6CAEE631F8FB379004A4C56 /* YYVideoDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEE621F8FB379004A4C56 /* YYVideoDetailCell.m */; };
+		F6CAEE661F8FE3AD004A4C56 /* YYSearchHotModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEE651F8FE3AD004A4C56 /* YYSearchHotModel.m */; };
+		F6CAEE6A1F904CDE004A4C56 /* YYBuyIntegralController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEE691F904CDE004A4C56 /* YYBuyIntegralController.m */; };
+		F6CAEE6D1F93DBAB004A4C56 /* YYNiuSubscribeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEE6C1F93DBAB004A4C56 /* YYNiuSubscribeModel.m */; };
+		F6CAEE701F93DD1B004A4C56 /* YYSubscribeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEE6F1F93DD1B004A4C56 /* YYSubscribeCell.m */; };
+		F6CAEE731F947C0C004A4C56 /* NSString+AttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEE721F947C0C004A4C56 /* NSString+AttributedString.m */; };
+		F6CAEE761F947C20004A4C56 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEE751F947C20004A4C56 /* NSString+Additions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1064,7 +1071,6 @@
 		BFF8C0A71F5FEA4A00FBAB04 /* YYSettingViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSettingViewModel.m; sourceTree = "<group>"; };
 		BFF8C0A91F5FEA4A00FBAB04 /* YYMineHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYMineHeaderView.h; sourceTree = "<group>"; };
 		BFF8C0AA1F5FEA4A00FBAB04 /* YYMineHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYMineHeaderView.m; sourceTree = "<group>"; };
-		BFF8C0AB1F5FEA4A00FBAB04 /* YYMineHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YYMineHeaderView.xib; sourceTree = "<group>"; };
 		BFF8C0AC1F5FEA4A00FBAB04 /* YYMineLogOutHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYMineLogOutHeaderView.h; sourceTree = "<group>"; };
 		BFF8C0AD1F5FEA4A00FBAB04 /* YYMineLogOutHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYMineLogOutHeaderView.m; sourceTree = "<group>"; };
 		BFF8C0AE1F5FEA4A00FBAB04 /* YYMineLogOutHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YYMineLogOutHeaderView.xib; sourceTree = "<group>"; };
@@ -1120,6 +1126,21 @@
 		F61367551F8DF44A0020A47B /* YYSearchSecModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSearchSecModel.m; sourceTree = "<group>"; };
 		F61367581F8E0CEB0020A47B /* YYSearchViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSearchViewHeader.h; sourceTree = "<group>"; };
 		F61367591F8E0CEB0020A47B /* YYSearchViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSearchViewHeader.m; sourceTree = "<group>"; };
+		F6CAEE5E1F8F5870004A4C56 /* YYMineHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YYMineHeaderView.xib; sourceTree = "<group>"; };
+		F6CAEE611F8FB379004A4C56 /* YYVideoDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYVideoDetailCell.h; sourceTree = "<group>"; };
+		F6CAEE621F8FB379004A4C56 /* YYVideoDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYVideoDetailCell.m; sourceTree = "<group>"; };
+		F6CAEE641F8FE3AD004A4C56 /* YYSearchHotModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSearchHotModel.h; sourceTree = "<group>"; };
+		F6CAEE651F8FE3AD004A4C56 /* YYSearchHotModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSearchHotModel.m; sourceTree = "<group>"; };
+		F6CAEE681F904CDE004A4C56 /* YYBuyIntegralController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYBuyIntegralController.h; sourceTree = "<group>"; };
+		F6CAEE691F904CDE004A4C56 /* YYBuyIntegralController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYBuyIntegralController.m; sourceTree = "<group>"; };
+		F6CAEE6B1F93DBAB004A4C56 /* YYNiuSubscribeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYNiuSubscribeModel.h; sourceTree = "<group>"; };
+		F6CAEE6C1F93DBAB004A4C56 /* YYNiuSubscribeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYNiuSubscribeModel.m; sourceTree = "<group>"; };
+		F6CAEE6E1F93DD1B004A4C56 /* YYSubscribeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSubscribeCell.h; sourceTree = "<group>"; };
+		F6CAEE6F1F93DD1B004A4C56 /* YYSubscribeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSubscribeCell.m; sourceTree = "<group>"; };
+		F6CAEE711F947C0C004A4C56 /* NSString+AttributedString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+AttributedString.h"; sourceTree = "<group>"; };
+		F6CAEE721F947C0C004A4C56 /* NSString+AttributedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AttributedString.m"; sourceTree = "<group>"; };
+		F6CAEE741F947C20004A4C56 /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
+		F6CAEE751F947C20004A4C56 /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1344,6 +1365,8 @@
 				BF79B3B31F66861E008C9D8D /* YYChannelShowRecommendSubCell.m */,
 				BF31E8901F62710A00E8CF0E /* YYChannelVideoCell.h */,
 				BF31E8911F62710A00E8CF0E /* YYChannelVideoCell.m */,
+				F6CAEE611F8FB379004A4C56 /* YYVideoDetailCell.h */,
+				F6CAEE621F8FB379004A4C56 /* YYVideoDetailCell.m */,
 				BFE999711F66BE7D009FE595 /* YYMusicPlayerView.h */,
 				BFE999721F66BE7D009FE595 /* YYMusicPlayerView.m */,
 				BFA4E35C1F70B66800845BB3 /* YYVideoPlayerView.h */,
@@ -2036,6 +2059,10 @@
 				BFF8BEE61F5FD51E00FBAB04 /* NSString+Predicate.m */,
 				BFF8BEE71F5FD51E00FBAB04 /* NSString+Size.h */,
 				BFF8BEE81F5FD51E00FBAB04 /* NSString+Size.m */,
+				F6CAEE711F947C0C004A4C56 /* NSString+AttributedString.h */,
+				F6CAEE721F947C0C004A4C56 /* NSString+AttributedString.m */,
+				F6CAEE741F947C20004A4C56 /* NSString+Additions.h */,
+				F6CAEE751F947C20004A4C56 /* NSString+Additions.m */,
 				BFF8BEE91F5FD51E00FBAB04 /* NSString+YYSecretaryPassword.h */,
 				BFF8BEEA1F5FD51E00FBAB04 /* NSString+YYSecretaryPassword.m */,
 				BFF8BEEB1F5FD51E00FBAB04 /* UIBarButtonItem+YYExtension.h */,
@@ -2900,6 +2927,10 @@
 			children = (
 				BFF8C0911F5FEA4A00FBAB04 /* YYMineSubscriptionViewController.h */,
 				BFF8C0921F5FEA4A00FBAB04 /* YYMineSubscriptionViewController.m */,
+				F6CAEE6B1F93DBAB004A4C56 /* YYNiuSubscribeModel.h */,
+				F6CAEE6C1F93DBAB004A4C56 /* YYNiuSubscribeModel.m */,
+				F6CAEE6E1F93DD1B004A4C56 /* YYSubscribeCell.h */,
+				F6CAEE6F1F93DD1B004A4C56 /* YYSubscribeCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2934,6 +2965,7 @@
 		BFF8C0971F5FEA4A00FBAB04 /* 积分商城 */ = {
 			isa = PBXGroup;
 			children = (
+				F6CAEE671F904CB8004A4C56 /* 购买积分 */,
 				BF273EDA1F7ADD260013E7C3 /* 兑换记录 */,
 				BF273ED91F7ADD170013E7C3 /* 收支明细 */,
 				BF273ED81F7ADCFB0013E7C3 /* 积分规则 */,
@@ -3003,7 +3035,7 @@
 			children = (
 				BFF8C0A91F5FEA4A00FBAB04 /* YYMineHeaderView.h */,
 				BFF8C0AA1F5FEA4A00FBAB04 /* YYMineHeaderView.m */,
-				BFF8C0AB1F5FEA4A00FBAB04 /* YYMineHeaderView.xib */,
+				F6CAEE5E1F8F5870004A4C56 /* YYMineHeaderView.xib */,
 				BFF8C1691F5FF64500FBAB04 /* YYMineHeaderXibView.xib */,
 				BFF8C0AC1F5FEA4A00FBAB04 /* YYMineLogOutHeaderView.h */,
 				BFF8C0AD1F5FEA4A00FBAB04 /* YYMineLogOutHeaderView.m */,
@@ -3142,6 +3174,8 @@
 				BFF8C03F1F5FEA4A00FBAB04 /* YYMainSearchController.m */,
 				F61367511F8DC79E0020A47B /* YYSearchResultCell.h */,
 				F61367521F8DC79E0020A47B /* YYSearchResultCell.m */,
+				F6CAEE641F8FE3AD004A4C56 /* YYSearchHotModel.h */,
+				F6CAEE651F8FE3AD004A4C56 /* YYSearchHotModel.m */,
 			);
 			path = "搜索控制器";
 			sourceTree = "<group>";
@@ -3235,6 +3269,15 @@
 			name = searchView;
 			sourceTree = "<group>";
 		};
+		F6CAEE671F904CB8004A4C56 /* 购买积分 */ = {
+			isa = PBXGroup;
+			children = (
+				F6CAEE681F904CDE004A4C56 /* YYBuyIntegralController.h */,
+				F6CAEE691F904CDE004A4C56 /* YYBuyIntegralController.m */,
+			);
+			name = "购买积分";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3248,6 +3291,7 @@
 				BFF8BE3E1F5FCEC800FBAB04 /* Resources */,
 				2E586AA8DE79D88A429D8DEA /* [CP] Embed Pods Frameworks */,
 				6A73AC58045BBED597110B64 /* [CP] Copy Pods Resources */,
+				F6CAEE601F8F5CAF004A4C56 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3369,11 +3413,11 @@
 				BF273EF31F7CA5230013E7C3 /* guide_1.png in Resources */,
 				BFF8C13E1F5FEA4B00FBAB04 /* YYBundleSDKCell.xib in Resources */,
 				BFF8BE531F5FCEC800FBAB04 /* LaunchScreen.storyboard in Resources */,
-				BFF8C1521F5FEA4B00FBAB04 /* YYMineHeaderView.xib in Resources */,
 				BFF8C15F1F5FEA4B00FBAB04 /* YYRegisterViewController.xib in Resources */,
 				BFF8C1391F5FEA4B00FBAB04 /* YYMineIntroductionViewController.xib in Resources */,
 				BFF8C1571F5FEA4B00FBAB04 /* YYChangePwdController.xib in Resources */,
 				BFF8C0FC1F5FEA4A00FBAB04 /* ChannelCollectionViewCell.xib in Resources */,
+				F6CAEE5F1F8F5870004A4C56 /* YYMineHeaderView.xib in Resources */,
 				BFF8C1591F5FEA4B00FBAB04 /* YYChangePhoneNumViewController.xib in Resources */,
 				BFF8C16A1F5FF64500FBAB04 /* YYMineHeaderXibView.xib in Resources */,
 				BFF8C0FA1F5FEA4A00FBAB04 /* ChannelCollectionReusableView.xib in Resources */,
@@ -3605,6 +3649,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JingYiYuanInfoUITests/Pods-JingYiYuanInfoUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F6CAEE601F8F5CAF004A4C56 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n#\n# Copyright 2016 Bugly, Tencent. All rights reserved.\n#\n# V1.4.0\n#\n# 2016.08.03\n#\n#\n#\n######################################################\n# 1. 脚本集成到Xcode工程的Target\n######################################################\n#\n# --- Copy the SCRIPT to the Run Script of Build Phases in the Xcode project ---\n#\n# #\nBUGLY_APP_ID=\"660117ce1d\"\n# #\nBUGLY_APP_KEY=\"937af888-4415-4931-9bee-ab4f2d8db41c\"\n# #\nBUNDLE_IDENTIFIER=\"com.yyinfo\"\n# #\nUPLOAD_DSYM_ONLY=1\n#\n# # 脚本默认配置的版本格式为CFBundleShortVersionString(CFBundleVersion),  如果你修改默认的版本格式, 请设置此变量, 如果不想修改, 请忽略此设置\n# CUSTOMIZED_APP_VERSION=\"\"\n#\n# # Debug模式编译是否上传，1＝上传 0＝不上传，默认不上传\nUPLOAD_DEBUG_SYMBOLS=1\n#\n# # 模拟器编译是否上传，1=上传 0=不上传，默认不上传\nUPLOAD_SIMULATOR_SYMBOLS=1\n#\n# #只有Archive操作时上传, 1=支持Archive上传 0=所有Release模式编译都上传\n# UPLOAD_ARCHIVE_ONLY=0\n#\n# #\n# source dSYMUpload.sh\n#\n# --- END OF SCRIPT ---\n#\n#\n#\n#\n#######################################################\n# 2. 脚本根据输入参数处理\n#######################################################\n#\n# #命令行下输入应用基本信息, .dSYM文件的父目录路径, 输出文件目录即可\n#\n# sh dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir>\n#\n# #\n#\n# #注意:\n# # 1. dSYMUpload.sh会调用buglySymboliOS.jar进行.dSYM解析，所以依赖Java运行时环境\n# # 2. dSYMUpload.sh和buglySymboliOS.jar的文件路径需一致\n#\n#\n\n#\n# --- CONTENT OF SCRIPT ---\n#\n\n# Bugly服务域名\nBUGLY_DSYM_UPLOAD_DOMAIN=\"api.bugly.qq.com\"\n\n# 注意jar工具的路径跟dSYMUpload.sh脚本路径一致, 请务必保证jar路径的正确性\nBUGLY_SYMBOL_JAR_PATH=\"dsymtool/buglySymboliOS.jar\"\n# 查找添加到系统目录的jar工具\nif [ ! -f \"${BUGLY_SYMBOL_JAR_PATH}\" ]; then\nBUGLY_SYMBOL_JAR_PATH=\"$HOME/bin/buglySymboliOS.jar\"\nfi\n\n# 打印错误信息\nfunction exitWithMessage(){\n    echo \"--------------------------------\"\n    echo \"${1}\"\n    echo \"--------------------------------\"\n    exit ${2}\n}\n\n# 上传bSYMBOL文件\nfunction dSYMUpload() {\n    P_APP_ID=\"$1\"\n    P_APP_KEY=\"$2\"\n    P_APP_BUNDLE_ID=\"$3\"\n    P_APP_VERSION=\"$4\"\n    P_BSYMBOL_ZIP_FILE=\"$5\"\n    \n    #\n    P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE##*/}\n        P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE_NAME//&/_}\n            P_BSYMBOL_ZIP_FILE_NAME=\"${P_BSYMBOL_ZIP_FILE_NAME// /_}\"\n            \n            DSYM_UPLOAD_URL=\"https://${BUGLY_DSYM_UPLOAD_DOMAIN}/openapi/file/upload/symbol?app_id=${P_APP_ID}&app_key=${P_APP_KEY}\"\n            echo \"dSYM upload url: ${DSYM_UPLOAD_URL}\"\n            \n            echo \"-----------------------------\"\n            STATUS=$(/usr/bin/curl -k \"${DSYM_UPLOAD_URL}\" --form \"api_version=1\" --form \"app_id=${P_APP_ID}\" --form \"app_key=${P_APP_KEY}\" --form \"symbolType=2\"  --form \"bundleId=${BUNDLE_IDENTIFIER}\" --form \"productVersion=${BUGLY_APP_VERSION}\" --form \"fileName=${P_BSYMBOL_ZIP_FILE_NAME}\" --form \"file=@${P_BSYMBOL_ZIP_FILE}\" --verbose)\n            echo \"-----------------------------\"\n            \n            UPLOAD_RESULT=\"FAILTURE\"\n            echo \"Bugly server response: ${STATUS}\"\n            if [ ! \"${STATUS}\" ]; then\n            echo \"Error: Failed to upload the zip archive file.\"\n            elif [[ \"${STATUS}\" == *\"{\\\"reponseCode\\\":\\\"0\\\"}\"* ]]; then\n            echo \"Success to upload the dSYM for the app [${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION}]\"\n            UPLOAD_RESULT=\"SUCCESS\"\n            else\n            echo \"Error: Failed to upload the zip archive file to Bugly.\"\n            fi\n            \n            #Remove temp dSYM archive\n            #echo \"Remove temporary zip archive: ${DSYM_ZIP_FPATH}\"\n            #/bin/rm -f \"${DSYM_ZIP_FPATH}\"\n            \n            if [ \"$?\" -ne 0 ]; then\n            exitWithMessage \"Error: Failed to remove temporary zip archive.\" 0\n            fi\n            \n            echo \"--------------------------------\"\n            echo \"${UPLOAD_RESULT} - dSYM upload complete.\"\n            \n            if [[ \"${UPLOAD_RESULT}\" == \"FAILTURE\" ]]; then\n            echo \"--------------------------------\"\n            echo \"Failed to upload the dSYM\"\n            echo \"Please check the script and try it again.\"\n            fi\n        }\n        \n        # .dSYM解析为bSYMBOL文件\n        function dSYMParse() {\n            DSYM_FILE=\"$1\"\n            DSYM_SYMBOL_FILE=\"$2\"\n            \n            echo \"--------------------------------\"\n            echo \"Extract symbol info from .dSYM file. to ${DSYM_SYMBOL_FILE}\"\n            (/usr/bin/java -Xms512m -Xmx1024m -Dfile.encoding=UTF8 -jar \"${BUGLY_SYMBOL_JAR_PATH}\" -i \"${DSYM_FILE}\" -o \"${DSYM_SYMBOL_FILE}\" ) || exitWithMessage \"Error: Failed to extract symbols.\" 1\n            echo \"--------------------------------\"\n            \n        }\n        \n        # 执行\n        function run() {\n            \n            CONFIG_BUGLY_APP_ID=\"$1\"\n            CONFIG_BUGLY_APP_KEY=\"$2\"\n            \n            CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER=\"$3\"\n            CONFIG_BUGLY_APP_VERSION=\"$4\"\n            CONFIG_DSYM_SOURCE_DIR=\"$5\"\n            CONFIG_DSYM_DEST_DIR=\"$6\"\n            CONFIG_UPLOAD_DSYM_ONLY=\"$7\"\n            \n            # 检查必须参数是否设置\n            if [ ! \"${CONFIG_BUGLY_APP_ID}\" ]; then\n            exitWithMessage \"Error: Bugly App ID not defined. Please set 'BUGLY_APP_ID' \" 0\n            fi\n            \n            if [[ \"${CONFIG_BUGLY_APP_ID}\" == *\"App ID\"* ]]; then\n            exitWithMessage \"Error: Bugly App ID not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_KEY}\" ]; then\n            exitWithMessage \"Error: Bugly App Key not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER}\" ]; then\n            exitWithMessage \"Error: Bundle Identifier not defined.\" 0\n            fi\n            \n            if [ ! \"${CONFIG_BUGLY_APP_VERSION}\" ]; then\n            exitWithMessage \"Error: App Version not defined.\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_SOURCE_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_SOURCE_DIR}\" 0\n            fi\n            \n            if [ ! \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_DEST_DIR}\" 0\n            fi\n            \n            if [ ! -e \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n            mkdir ${CONFIG_DSYM_DEST_DIR}\n            fi\n            \n            DSYM_FOLDER=\"${CONFIG_DSYM_SOURCE_DIR}\"\n            IFS=$'\\n'\n            \n            echo \"Scaning dSYM FOLDER: ${DSYM_FOLDER} ...\"\n            RET=\"F\"\n            \n            #\n            for dsymFile in $(find \"$DSYM_FOLDER\" -name '*.dSYM'); do\n            RET=\"T\"\n            echo \"Found dSYM file: $dsymFile\"\n            \n            DSYM_FILE_NAME=${dsymFile##*/}\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_FILE_NAME}.zip\"\n                DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_SYMBOL_ZIP_FILE_NAME// /_}\"\n                DSYM_SYMBOL_ZIP_FILE=${CONFIG_DSYM_DEST_DIR}/${DSYM_SYMBOL_ZIP_FILE_NAME}\n                \n                if [ $CONFIG_UPLOAD_DSYM_ONLY -eq 1 ]; then\n                if [ -e $DSYM_SYMBOL_ZIP_FILE ]; then\n                rm -f $DSYM_SYMBOL_ZIP_FILE\n                fi\n                # 如果只上传dSYM，直接压缩dSYM目录\n                zip -r -j $DSYM_SYMBOL_ZIP_FILE $dsymFile -x *.plist\n                else\n                # 使用符号表工具来生成Symbol文件\n                dSYMParse $dsymFile $DSYM_SYMBOL_ZIP_FILE\n                fi\n                \n                # 上传\n                dSYMUpload $CONFIG_BUGLY_APP_ID $CONFIG_BUGLY_APP_KEY $CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER $CONFIG_BUGLY_APP_VERSION $DSYM_SYMBOL_ZIP_FILE\n                done\n                \n                if [ $RET = \"F\" ]; then\n                exitWithMessage \"No .dSYM found in ${DSYM_FOLDER}\" 0\n                fi\n            }\n            \n            # 在Xcode工程中执行\n            function runInXcode(){\n                echo \"Uploading dSYM to Bugly in Xcode ...\"\n                \n                echo \"Info.Plist : ${INFOPLIST_FILE}\"\n                \n                BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' \"${INFOPLIST_FILE}\")\n                BUNDLE_SHORT_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' \"${INFOPLIST_FILE}\")\n                \n                # 组装Bugly默认识别的版本信息(格式为CFBundleShortVersionString(CFBundleVersion), 例如: 1.0(1))\n                if [ ! \"${CUSTOMIZED_APP_VERSION}\" ]; then\n                BUGLY_APP_VERSION=\"${BUNDLE_SHORT_VERSION}(${BUNDLE_VERSION})\"\n                else\n                BUGLY_APP_VERSION=\"${CUSTOMIZED_APP_VERSION}\"\n                fi\n                \n                echo \"--------------------------------\"\n                echo \"Prepare application information.\"\n                echo \"--------------------------------\"\n                \n                echo \"Product Name: ${PRODUCT_NAME}\"\n                echo \"Bundle Identifier: ${BUNDLE_IDENTIFIER}\"\n                echo \"Version: ${BUNDLE_SHORT_VERSION}\"\n                echo \"Build: ${BUNDLE_VERSION}\"\n                \n                echo \"Bugly App ID: ${BUGLY_APP_ID}\"\n                echo \"Bugly App key: ${BUGLY_APP_KEY}\"\n                echo \"Bugly App Version: ${BUGLY_APP_VERSION}\"\n                \n                echo \"--------------------------------\"\n                echo \"Check the arguments ...\"\n                \n                ##检查模拟器编译是否允许上传符号\n                if [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-iphonesimulator\" ]; then\n                if [ $UPLOAD_SIMULATOR_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for simulator and skipping to upload. \\nYou can modify 'UPLOAD_SIMULATOR_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否是Release模式编译\n                if [ \"${CONFIGURATION=}\" == \"Debug\" ]; then\n                if [ $UPLOAD_DEBUG_SYMBOLS -eq 0 ]; then\n                exitWithMessage \"Warning: Build for debug mode and skipping to upload. \\nYou can modify 'UPLOAD_DEBUG_SYMBOLS' to 1 in the script.\" 0\n                fi\n                fi\n                \n                ##检查是否Archive操作\n                if [ $UPLOAD_ARCHIVE_ONLY -eq 1 ]; then\n                if [[ \"$TARGET_BUILD_DIR\" == *\"/Archive\"* ]]; then\n                echo \"Archive the package\"\n                else\n                exitWithMessage \"Warning: Build for NOT Archive mode and skipping to upload. \\nYou can modify 'UPLOAD_ARCHIVE_ONLY' to 0 in the script.\" 0\n                fi\n                fi\n                \n                #\n                run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${BUILD_DIR}/BuglySymbolTemp ${UPLOAD_DSYM_ONLY}\n            }\n            \n            # 根据Xcode的环境变量判断是否处于Xcode环境\n            INFO_PLIST_FILE=\"${INFOPLIST_FILE}\"\n            \n            BuildInXcode=\"F\"\n            if [ -f \"${INFO_PLIST_FILE}\" ]; then\n            BuildInXcode=\"T\"\n            fi\n            \n            if [ $BuildInXcode = \"T\" ]; then\n            runInXcode\n            else\n            echo \"\\nUsage: dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir> [upload_dsym_only]\\n\"\n            # 你可以在此处直接设置BuglyAppID和BuglyAppKey，排除不常变参数的输入\n            BUGLY_APP_ID=\"$1\"\n            BUGLY_APP_KEY=\"$2\"\n            BUNDLE_IDENTIFIER=\"$3\"\n            BUGLY_APP_VERSION=\"$4\"\n            DWARF_DSYM_FOLDER_PATH=\"$5\"\n            SYMBOL_OUTPUT_PATH=\"$6\"\n            UPLOAD_DSYM_ONLY=$7\n            run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${SYMBOL_OUTPUT_PATH} ${UPLOAD_DSYM_ONLY}\n            fi";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -3630,6 +3687,8 @@
 				BFEB31BE1F72749700EFB167 /* YYThreeSeekTabView.m in Sources */,
 				BFC1FCC91F77C2B800593D81 /* YYRegistController.m in Sources */,
 				BFF8BE7A1F5FCF1D00FBAB04 /* TestViewController.m in Sources */,
+				F6CAEE631F8FB379004A4C56 /* YYVideoDetailCell.m in Sources */,
+				F6CAEE731F947C0C004A4C56 /* NSString+AttributedString.m in Sources */,
 				BFF8BF0F1F5FD51E00FBAB04 /* UIView+YYParentController.m in Sources */,
 				BFF8C1011F5FEA4A00FBAB04 /* YYSearchModel.m in Sources */,
 				BFF8C1161F5FEA4A00FBAB04 /* YYNewsBigPicCell.m in Sources */,
@@ -3689,11 +3748,13 @@
 				BF273EE31F7B6F590013E7C3 /* YYQuestionDetailController.m in Sources */,
 				BF63940A1F7D189A00F3BD82 /* UITableViewRowAction.m in Sources */,
 				BF60528D1F6A547F00354741 /* YYCompanyModel.m in Sources */,
+				F6CAEE661F8FE3AD004A4C56 /* YYSearchHotModel.m in Sources */,
 				BFF8BF111F5FD51E00FBAB04 /* UIView+YYViewInWindow.m in Sources */,
 				BF273ED71F7ADB1B0013E7C3 /* YYIOModel.m in Sources */,
 				BFF8C1041F5FEA4A00FBAB04 /* YYHotModel.m in Sources */,
 				BFF8BE7B1F5FCF1D00FBAB04 /* ViewController.m in Sources */,
 				BFEB31D01F73C07500EFB167 /* NSArray+Sudoku.m in Sources */,
+				F6CAEE761F947C20004A4C56 /* NSString+Additions.m in Sources */,
 				BFF8C0E21F5FEA4A00FBAB04 /* YYProjectViewController.m in Sources */,
 				BF63943F1F7E4DCE00F3BD82 /* YYNiuManDetailVM.m in Sources */,
 				BFF8C1061F5FEA4A00FBAB04 /* YYHotTagModel.m in Sources */,
@@ -3866,6 +3927,7 @@
 				BFEB31CD1F73A2D100EFB167 /* YYRewardView.m in Sources */,
 				BFF8BECE1F5FD32200FBAB04 /* YYTextField.m in Sources */,
 				BFF8C11A1F5FEA4A00FBAB04 /* YYMainEightBtnCell.m in Sources */,
+				F6CAEE701F93DD1B004A4C56 /* YYSubscribeCell.m in Sources */,
 				BFD1244C1F6AC8E2000AB5A9 /* YYPicsDetailController.m in Sources */,
 				BFF8C0F71F5FEA4A00FBAB04 /* YYVideoHeaderView.m in Sources */,
 				BFC1FD1A1F7A227B00593D81 /* YYGoodsModel.m in Sources */,
@@ -3907,6 +3969,7 @@
 				BFEB31F81F74F29700EFB167 /* UIView+CustomControlView.m in Sources */,
 				BFF8C13F1F5FEA4B00FBAB04 /* YYChangeUserInfoController.m in Sources */,
 				BFF8C14F1F5FEA4B00FBAB04 /* YYSettingViewController.m in Sources */,
+				F6CAEE6D1F93DBAB004A4C56 /* YYNiuSubscribeModel.m in Sources */,
 				BFF8C1611F5FEA4B00FBAB04 /* YYLoginManager.m in Sources */,
 				BFEB31F41F74F29700EFB167 /* UIAlertController+ZFPlayerRotation.m in Sources */,
 				BFC1FD261F7A79B000593D81 /* YYMainMarketDataModel.m in Sources */,
@@ -3920,6 +3983,7 @@
 				BFF8C0FB1F5FEA4A00FBAB04 /* ChannelCollectionViewCell.m in Sources */,
 				BFC1FCDF1F77F78200593D81 /* YYCommunityMediaController.m in Sources */,
 				BFF8BF491F5FD69C00FBAB04 /* THBaseTableViewController.m in Sources */,
+				F6CAEE6A1F904CDE004A4C56 /* YYBuyIntegralController.m in Sources */,
 				BFF8BF0B1F5FD51E00FBAB04 /* UIImage+Category.m in Sources */,
 				BFF8C1531F5FEA4B00FBAB04 /* YYMineLogOutHeaderView.m in Sources */,
 				BFF8C12D1F5FEA4B00FBAB04 /* YYCalendarTopView.m in Sources */,

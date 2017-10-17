@@ -18,7 +18,4 @@
 /** isScrollToProduct*/
 @property (nonatomic, assign) BOOL isScrollToProduct;
 
-/** companyModel*/
-//@property (nonatomic, strong) YYCompanyModel *companyModel;
-
 @end

@@ -35,43 +35,6 @@ static NSString * const historyCellId = @"historyCell";
 @end
 
 
-@implementation HistoryCell
-
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.imageView.image = imageNamed(@"searchhistory_44x44");
-        [self.contentView addSubview:self.accessoryButton];
-    }
-    return self;
-}
-
-- (UIButton *)accessoryButton{
-    if (!_accessoryButton) {
-        _accessoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_accessoryButton setImage:imageNamed(@"searchdelete_44x44") forState:UIControlStateNormal];
-        _accessoryButton.frame = CGRectMake(kSCREENWIDTH - 50, 5, 30, 30);
-        [_accessoryButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _accessoryButton;
-}
-
-- (void)deleteCell:(UIButton *)sender {
-    
-    if ([self.delegate respondsToSelector:@selector(searchViewDidDeleteCell:)]) {
-        [self.delegate searchViewDidDeleteCell:self];
-    }
-//    YYWeakSelf
-//    if (self.historyBlock) {
-//        YYStrongSelf
-//        self.historyBlock(strongSelf);
-//    }
-}
-
-
-@end
-
 @implementation SearchView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -79,12 +42,14 @@ static NSString * const historyCellId = @"historyCell";
     self = [super initWithFrame:frame];
     if (self) {
         NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-        self.searchCachePath = [path stringByAppendingPathComponent:@"searchCachePath.plist"];
+        self.searchCachePath = [path stringByAppendingPathComponent:@"searchCachePath.txt"];
+        self.historyArr = [NSMutableArray arrayWithContentsOfFile:self.searchCachePath];
         [self addSubview:self.tableView];
         [self.tableView makeConstraints:^(MASConstraintMaker *make) {
            
             make.edges.equalTo(self);
         }];
+        [self reloadData];
     }
     return self;
 }
@@ -135,8 +100,14 @@ static NSString * const historyCellId = @"historyCell";
 - (void)insertSearchText:(NSString *)text {
     [self exchangeHistoryIndexWithText:text];
     
-    [NSKeyedArchiver archiveRootObject:self.historyArr toFile:self.searchCachePath];
-//    BOOL success = [self.historyArr writeToFile:self.searchCachePath atomically:YES];
+//    [NSKeyedArchiver archiveRootObject:self.historyArr toFile:self.searchCachePath];
+    BOOL success = [self.historyArr writeToFile:self.searchCachePath atomically:YES];
+    if (success) {
+        YYLog(@"写入success");
+    }else {
+        YYLog(@"写入failure");
+    }
+    
     
     [self.tableView reloadData];
 }
@@ -185,8 +156,8 @@ static NSString * const historyCellId = @"historyCell";
     [self.historyArr removeObjectAtIndex:indexPath.row];
     [self.historyArr insertObject:text atIndex:0];
     [self.historyArr writeToFile:_searchCachePath atomically:YES];
-    [tableView moveRowAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathWithIndex:0]];
-    
+//    [tableView moveRowAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathWithIndex:0]];
+    [tableView reloadData];
     //代理执行搜索
     if ([self.delegate respondsToSelector:@selector(searchView:didSelectText:)]) {
         
@@ -224,8 +195,13 @@ static NSString * const historyCellId = @"historyCell";
     HistoryCell *historyCell = (HistoryCell *)cell;
     NSIndexPath *index = [self.tableView indexPathForCell:historyCell];
     [self.historyArr removeObjectAtIndex:index.row];
-//    [self.historyArr writeToFile:_searchCachePath atomically:YES];
-    [NSKeyedArchiver archiveRootObject:self.historyArr toFile:self.searchCachePath];
+    BOOL success = [self.historyArr writeToFile:self.searchCachePath atomically:YES];
+    if (success) {
+        YYLog(@"写入success");
+    }else {
+        YYLog(@"写入failure");
+    }
+//    [NSKeyedArchiver archiveRootObject:self.historyArr toFile:self.searchCachePath];
     [self.tableView deleteRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationNone];
 }
 
@@ -237,6 +213,7 @@ static NSString * const historyCellId = @"historyCell";
     if (!_footer) {
         _footer = [UIButton buttonWithType:UIButtonTypeCustom];
         _footer.frame = CGRectMake(0, 0, kSCREENWIDTH, 40);
+        _footer.titleLabel.font = SubTitleFont;
         [_footer setTitle:@"清除历史记录" forState:UIControlStateNormal];
         [_footer setTitleColor:ThemeColor forState:UIControlStateNormal];
         [_footer setBackgroundColor:WhiteColor];
@@ -261,6 +238,7 @@ static NSString * const historyCellId = @"historyCell";
         _tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.tableFooterView = self.footer;
         _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
         [_tableView registerClass:[HistoryCell class] forCellReuseIdentifier:historyCellId];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -272,11 +250,60 @@ static NSString * const historyCellId = @"historyCell";
     if (!_historyArr) {
         
 //        _historyArr = [NSMutableArray arrayWithContentsOfFile:self.searchCachePath];
-        _historyArr = [NSKeyedUnarchiver unarchiveObjectWithFile:self.searchCachePath];
+//        _historyArr = [NSKeyedUnarchiver unarchiveObjectWithFile:self.searchCachePath]; 
+        NSMutableArray *tempArr = [NSMutableArray arrayWithContentsOfFile:self.searchCachePath];
+        if (tempArr) {
+            _historyArr = tempArr;
+        }else {
+            _historyArr = [NSMutableArray array];
+        }
     }
     return _historyArr;
 }
 
 
+@end
+
+
+@interface HistoryCell()
 
 @end
+
+@implementation HistoryCell
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.imageView.image = imageNamed(@"searchhistory_44x44");
+        self.textLabel.textColor = SubTitleColor;
+        [self.contentView addSubview:self.accessoryButton];
+    }
+    return self;
+}
+
+- (UIButton *)accessoryButton{
+    if (!_accessoryButton) {
+        _accessoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_accessoryButton setImage:imageNamed(@"searchdelete_44x44") forState:UIControlStateNormal];
+        _accessoryButton.frame = CGRectMake(kSCREENWIDTH - 50, 5, 30, 30);
+        [_accessoryButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _accessoryButton;
+}
+
+- (void)deleteCell:(UIButton *)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(searchViewDidDeleteCell:)]) {
+        [self.delegate searchViewDidDeleteCell:self];
+    }
+    //    YYWeakSelf
+    //    if (self.historyBlock) {
+    //        YYStrongSelf
+    //        self.historyBlock(strongSelf);
+    //    }
+}
+
+
+@end
+

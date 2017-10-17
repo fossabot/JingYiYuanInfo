@@ -15,7 +15,7 @@
 #import "YYNiuArticleModel.h"
 #import "YYNiuNewsDetailViewController.h"
 
-@interface YYNiuManDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface YYNiuManDetailViewController ()
 
 /** imageView*/
 @property (nonatomic, strong) UIImageView *imageView;
@@ -29,6 +29,9 @@
 /** viewModel*/
 @property (nonatomic, strong) YYNiuManDetailVM *viewModel;
 
+//关注牛人的状态
+@property (nonatomic, assign) BOOL followState;
+
 @end
 
 @implementation YYNiuManDetailViewController
@@ -36,7 +39,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _followState = NO;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    [self checkFollowState];
     [self configSubView];
     [self loadNewData];
     
@@ -46,11 +51,11 @@
 
 - (void)configSubView {
     
-//    UIBarButtonItem *focusItem = [[UIBarButtonItem alloc] initWithTitle:@"+关注" style:UIBarButtonItemStyleDone target:self action:@selector(focus)];
-//    self.navigationItem.rightBarButtonItem = focusItem;
-//    self.focusItem = focusItem;
+    UIBarButtonItem *focusItem = [[UIBarButtonItem alloc] initWithTitle:@"关注" style:UIBarButtonItemStyleDone target:self action:@selector(focus)];
+    self.navigationItem.rightBarButtonItem = focusItem;
+    self.focusItem = focusItem;
 
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 7, 30, 30)];
     titleView.backgroundColor = [UIColor clearColor];
     self.navigationItem.titleView = titleView;
     
@@ -64,13 +69,86 @@
     [self.view addSubview:self.tableView];
 }
 
+
+
+//检查关注牛人状态
+- (void)checkFollowState {
+    
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        return;
+    }
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"quebyniuid",@"act",user.userid,USERID,self.niuid,@"niu_id", nil];
+    [YYHttpNetworkTool GETRequestWithUrlstring:subscribdNiuUrl parameters:para success:^(id response) {
+        
+        if (response) {
+            if ([response[@"info"] isEqualToString:@"1"]) {
+                [_focusItem setTitle:@"已关注"];
+                _followState = YES;
+            }else {
+                _followState = NO;
+            }
+            
+        }
+    } failure:^(NSError *error) {
+        
+    } showSuccessMsg:nil];
+}
+
 /**
  *  关注牛人
  */
 - (void)focus {
     
     //关注后修改右耳目为已关注
-    [self.focusItem setTitle:@"已关注"];
+//  info=  1查询时候标识已经关注/添加时候表示成功 0未关注/添加失败
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        [SVProgressHUD showErrorWithStatus:@"未登录账户"];
+        [SVProgressHUD dismissWithDelay:1];
+        return;
+    }
+
+    NSDictionary *para = nil;
+    if (!_followState) {
+        para = [NSDictionary dictionaryWithObjectsAndKeys:@"add",@"act",user.userid,USERID,self.niuid,@"niu_id", nil];
+        [YYHttpNetworkTool GETRequestWithUrlstring:subscribdNiuUrl parameters:para success:^(id response) {
+            
+            if (response) {
+                if ([response[@"info"] isEqualToString:@"1"]) {
+                    [SVProgressHUD showSuccessWithStatus:@"关注成功"];
+                    [_focusItem setTitle:@"已关注"];
+                    _followState = YES;
+                }else {
+                    [SVProgressHUD showErrorWithStatus:@"网络错误"];
+                }
+                [SVProgressHUD dismissWithDelay:1];
+            }
+        } failure:^(NSError *error) {
+            
+        } showSuccessMsg:nil];
+    }else {
+        
+        para = [NSDictionary dictionaryWithObjectsAndKeys:@"delbyniuid",@"act",user.userid,USERID,self.niuid,@"niu_id", nil];
+        
+        [YYHttpNetworkTool GETRequestWithUrlstring:subscribdNiuUrl parameters:para success:^(id response) {
+            
+            if (response) {
+                if ([response[STATE] isEqualToString:@"1"]) {
+                    [SVProgressHUD showSuccessWithStatus:@"取消关注"];
+                    [_focusItem setTitle:@"关注"];
+                    _followState = NO;
+                }else {
+                    [SVProgressHUD showErrorWithStatus:@"网络错误"];
+                }
+                [SVProgressHUD dismissWithDelay:1];
+            }
+        } failure:^(NSError *error) {
+            
+        } showSuccessMsg:nil];
+
+    }
+    
 }
 
 /**
@@ -149,6 +227,8 @@
             YYStrongSelf
             YYNiuArticleModel *model = (YYNiuArticleModel *)data;
             YYNiuNewsDetailViewController *niuNewsDetail = [[YYNiuNewsDetailViewController alloc] init];
+            niuNewsDetail.niuNewsId = model.art_id;
+//            niuNewsDetail.niuId = model.niu_id;
             niuNewsDetail.url = model.webUrl;
             niuNewsDetail.shareImgUrl = model.picurl;
             [strongSelf.navigationController pushViewController:niuNewsDetail animated:YES];
@@ -175,7 +255,7 @@
             [strongSelf loadMoreData];
         }];
         /** 普通闲置状态  壹元君正努力为您加载数据*/
-        footer.stateLabel.text = @"壹元君正努力为您加载中...";
+//        footer.stateLabel.text = @"壹元君正努力为您加载中...";
         _tableView.mj_footer = footer;
         
         MJRefreshStateHeader *header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
@@ -183,7 +263,7 @@
             YYStrongSelf
             [strongSelf loadNewData];
         }];
-        header.stateLabel.text = @"壹元君正努力为您加载中...";
+//        header.stateLabel.text = @"壹元君正努力为您加载中...";
         _tableView.mj_header = header;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

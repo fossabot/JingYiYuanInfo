@@ -119,8 +119,9 @@
             //通知个人中心，更新个人信息
             [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
             
-//            [self.userInfoViewModel changeModelAtIndexPath:indexPath];
-            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            [self.userInfoViewModel changeModelAtIndexPath:indexPath];
+            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 //            [self.tableView reloadData];
         }else{
             [SVProgressHUD showErrorWithStatus:@"更改头像失败"];
@@ -230,19 +231,19 @@
         
         // 第三方登录数据(为空表示平台未提供)
         // 授权数据
-        NSLog(@" uid: %@", resp.uid);
-        NSLog(@" openid: %@", resp.openid);
-        NSLog(@" accessToken: %@", resp.accessToken);
-        NSLog(@" refreshToken: %@", resp.refreshToken);
-        NSLog(@" expiration: %@", resp.expiration);
+        YYLog(@" uid: %@", resp.uid);
+        YYLog(@" openid: %@", resp.openid);
+        YYLog(@" accessToken: %@", resp.accessToken);
+        YYLog(@" refreshToken: %@", resp.refreshToken);
+        YYLog(@" expiration: %@", resp.expiration);
         
         // 用户数据
-        NSLog(@" name: %@", resp.name);
-        NSLog(@" iconurl: %@", resp.iconurl);
-        NSLog(@" gender: %@", resp.unionGender);
+        YYLog(@" name: %@", resp.name);
+        YYLog(@" iconurl: %@", resp.iconurl);
+        YYLog(@" gender: %@", resp.unionGender);
         
         // 第三方平台SDK原始数据
-        NSLog(@" originalResponse: %@", resp.originalResponse);
+        YYLog(@" originalResponse: %@", resp.originalResponse);
         YYWeakSelf
         YYUser *user = [YYUser shareUser];
         NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:parakey,@"act",user.userid,USERID,resp.uid,parakey, nil];

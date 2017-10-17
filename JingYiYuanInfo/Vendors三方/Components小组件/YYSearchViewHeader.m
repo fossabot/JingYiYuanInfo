@@ -92,7 +92,10 @@
 
 - (LabelContainer *)tagZone {
     if (!_tagZone) {
-        _tagZone = [[LabelContainer alloc] initWithTitles:_datas andFrame:CGRectMake(0, CGRectGetMaxY(self.caiView.frame)+10, kSCREENWIDTH, 0) labelContainerStableEdge:LabelContainerStableEdgeWidth delegate:self];
+        _tagZone = [[LabelContainer alloc] initWithTitles:_datas andFrame:CGRectMake(0, CGRectGetMaxY(self.caiView.frame), kSCREENWIDTH, 0) labelContainerStableEdge:LabelContainerStableEdgeWidth rowMargin:10 labelMargin:15 delegate:self];
+        _tagZone.labelMaskToBounds = YES;
+        _tagZone.labelCornerRadius = 5;
+        _tagZone.labelTitleColor = SubTitleColor;
     }
     return _tagZone;
 }
