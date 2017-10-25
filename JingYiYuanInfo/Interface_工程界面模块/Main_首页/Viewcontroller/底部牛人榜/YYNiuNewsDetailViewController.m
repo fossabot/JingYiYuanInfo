@@ -10,6 +10,7 @@
 #import "YYDetailToolBar.h"
 #import "YYRewardView.h"
 #import "UIViewController+BackButtonHandler.h"
+#import "YYLoginManager.h"
 
 @interface YYNiuNewsDetailViewController ()<YYDetailToolBarDelegate>
 
@@ -97,7 +98,7 @@
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     
-    self.wkWebview.frame = CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-64-40);
+    self.wkWebview.frame = CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight-ToolBarHeight);
     
     self.navigationItem.rightBarButtonItem.enabled = YES;
     YYWeakSelf
@@ -105,7 +106,7 @@
         weakSelf.navigationItem.title = title;
     }];
     [SVProgressHUD dismiss];
-    self.toolBar.transform = CGAffineTransformMakeTranslation(0, -40);
+    self.toolBar.transform = CGAffineTransformMakeTranslation(0, -ToolBarHeight);
 //    self.toolBar.hidden = NO;
     [self checkCollectState];
     
@@ -138,13 +139,20 @@
         
         case DetailToolBarTypeReward:{
             
+            YYUser *user = [YYUser shareUser];
+            if (!user.isLogin) {
+                [SVProgressHUD showErrorWithStatus:@"账号未登录"];
+                [SVProgressHUD dismissWithDelay:1];
+                return;
+            }
             //弹出打赏界面
             YYWeakSelf
             
             YYRewardView *rewardView = [[YYRewardView alloc] init];
             rewardView.rewardBlock = ^(NSString *integeration) {
               
-                YYUser *user = [YYUser shareUser];
+                
+                
                 
                 NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"reward",@"act",user.userid,USERID,integeration,@"num",weakSelf.niuNewsId,@"articleid", nil];
                 [YYHttpNetworkTool GETRequestWithUrlstring:rewardUrl parameters:para success:^(id response) {
@@ -153,6 +161,7 @@
                         if ([response[STATE] isEqualToString:@"1"]) {
                             
                             [SVProgressHUD showSuccessWithStatus:@"感谢您的打赏！您的打赏让牛人更有动力创作更有质量的文章！"];
+                            [YYLoginManager getUserInfo];
                         }else if ([response[STATE] isEqualToString:@"0"]) {
                             
                             [SVProgressHUD showInfoWithStatus:@"积分不足，可以去积分商城购买"];
@@ -290,7 +299,7 @@
 - (YYDetailToolBar *)toolBar {
     
     if (!_toolBar) {
-        _toolBar = [[YYDetailToolBar alloc] initWithFrame:CGRectMake(0, kSCREENHEIGHT-YYTopNaviHeight, kSCREENWIDTH, 40)];
+        _toolBar = [[YYDetailToolBar alloc] initWithFrame:CGRectMake(0, kSCREENHEIGHT-YYTopNaviHeight, kSCREENWIDTH, ToolBarHeight)];
         _toolBar.placeHolder = @"提问";
         _toolBar.toolBarType = DetailToolBarTypeWriteComment | DetailToolBarTypeReward | DetailToolBarTypeFavor | DetailToolBarTypeShare;
         _toolBar.delegate = self;

@@ -279,7 +279,9 @@
 + (void)changePasswordWithOldPassword:(NSString *)oldPwd newPwd:(NSString *)newPwd completion:(void(^)())completion{
  
     YYUser *user = [YYUser shareUser];
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,oldPwd,@"oldpwd",newPwd,@"newpwd", nil];
+    NSString *_oldPwd = [oldPwd translateIntoScretaryPassword];
+    NSString *_newPwd = [newPwd translateIntoScretaryPassword];
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,_oldPwd,@"oldpwd",_newPwd,@"newpwd", nil];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
     [YYHttpNetworkTool GETRequestWithUrlstring:mineChangePwdUrl parameters:para success:^(id response) {

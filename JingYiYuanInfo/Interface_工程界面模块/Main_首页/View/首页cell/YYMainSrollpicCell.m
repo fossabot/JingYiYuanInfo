@@ -80,9 +80,11 @@
 - (SDCycleScrollView *)cycleScrollView{
     if (!_cycleScrollView) {
         _cycleScrollView = [[SDCycleScrollView alloc] init];
+        _cycleScrollView.placeholderImage = imageNamed(placeHolderMini);
         _cycleScrollView.showPageControl = NO;
         _cycleScrollView.delegate = self;
         _cycleScrollView.infiniteLoop = YES;
+        _cycleScrollView.autoScrollTimeInterval = 3;
     }
     return _cycleScrollView;
 }

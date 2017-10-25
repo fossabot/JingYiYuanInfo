@@ -31,13 +31,16 @@
     tagLabel.textColor = ThemeColor;
     tagLabel.font = UnenableTitleFont;
     [tagLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+    [tagLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     self.tagLabel = tagLabel;
     [self.contentView addSubview:tagLabel];
     
     UILabel *title = [[UILabel alloc] init];
     title.textColor = UnenableTitleColor;
     title.font = UnenableTitleFont;
+//    title.textAlignment = NSTextAlignmentCenter;
     title.numberOfLines = 2;
+//    [title setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     self.title = title;
     [self.contentView addSubview:title];
     
@@ -50,6 +53,7 @@
     self.integration = integration;
     [self.contentView addSubview:integration];
     
+    
     [self.imageView makeConstraints:^(MASConstraintMaker *make) {
        
         make.left.top.right.equalTo(self.contentView);
@@ -58,7 +62,7 @@
     
     [self.tagLabel makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.lessThanOrEqualTo(self.contentView).offset(10);
+        make.left.equalTo(10);
         make.top.equalTo(self.imageView.bottom).offset(5);
     }];
     
@@ -67,6 +71,7 @@
         make.top.equalTo(self.tagLabel);
         make.left.equalTo(self.tagLabel.right).offset(5);
         make.right.equalTo(self.contentView).offset(-5);
+//        make.width.lessThanOrEqualTo(self.contentView.width-self.tagLabel.width-15);
     }];
     
     [self.integration makeConstraints:^(MASConstraintMaker *make) {

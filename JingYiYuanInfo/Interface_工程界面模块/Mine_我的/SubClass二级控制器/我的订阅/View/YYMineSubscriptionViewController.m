@@ -136,11 +136,6 @@
     [self.navigationController pushViewController:niuManDetail animated:YES];
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-//    YYSubscribeCell *subCell = (YYSubscribeCell *)cell;
-//    [subCell clipRound];
-}
 
 #pragma mark tableview 数据源方法  ---------------------------------
 
@@ -170,8 +165,8 @@
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        /** 普通闲置状态  壹元君正努力为您加载数据*/
-//        footer.stateLabel.text = @"壹元君正努力为您加载中...";
+        
+        [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = footer;
         
         MJRefreshStateHeader *header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
@@ -179,7 +174,7 @@
             YYStrongSelf
             [strongSelf loadData];
         }];
-//        header.stateLabel.text = @"壹元君正努力为您加载中...";
+        [header setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_header = header;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

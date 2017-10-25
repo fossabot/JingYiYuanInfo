@@ -13,6 +13,7 @@
 #define domainUrl  @"http://yyapp.1yuaninfo.com"  //域名拼接地址
 #define yyfwJointUrl @"http://yyfw.1yuaninfo.com/houtai/" //之前服务器数据图片，
 #define yyappJointUrl @"http://yyapp.1yuaninfo.com/app/houtai/" //图片拼接地址
+
 #define showWebJointUrl  @"http://yyapp.1yuaninfo.com/app/yyfwapp/showdetails.php?id=" // 演出详情拼接的地址
 #define infoVideoJointUrl @"http://yyapp.1yuaninfo.com/app/houtai/" // 视频拼接的地址
 #define infoWebJointUrl  @"http://yyapp.1yuaninfo.com/app/yyfwapp/news-details.php?id=" //资讯详情拼接的地址
@@ -277,6 +278,17 @@
 
 
 
+#pragma 评论接口
+//参数：act=first  articleid=
+//http://yyapp.1yuaninfo.com/app/application/articlecomment.php
+/*一级评论接口*/
+#define articleCommentUrl [NSString stringWithFormat:@"%@/app/application/articlecomment.php",domainUrl]
+
+
+
+
+
+
 #pragma ------------------------------------------------------------------------
 #pragma -----------------------  频道界面的接口  ---------------------------------
 #pragma 所有接口都一样，只是参数不同
@@ -395,11 +407,15 @@
 
 
 
-#pragma 频道产品  -----  按产品分类接口  按公司分类接口  接口一致，参数不一致
-//http://yyapp.1yuaninfo.com/app/application/product.php?act=product 按产品分类
+#pragma 频道产品  -----   按公司分类接口  接口一致，参数不一致
 //http://yyapp.1yuaninfo.com/app/application/product.php?act=company 按公司分类
 #define channelProductionUrl  [NSString stringWithFormat:@"%@/app/application/product.php",domainUrl]
 
+
+#pragma 按产品分类的接口 独立出来了  和按公司的区别开，同时按公司分类的公司详情界面接口也是这个
+//参数 ：act=product
+//公司详情：act=comproduct  classid=公司的id
+#define newProductionUrl  [NSString stringWithFormat:@"%@/app/application/product_ios.php",domainUrl]
 
 
 #pragma 频道项目接口
@@ -452,7 +468,7 @@
 #pragma ------------------------------------------------------------------------
 #pragma -----------------------  公社界面的接口  ---------------------------------
 #pragma 公社接口一致  参数不同
-//轮播图:http://yyapp.1yuaninfo.com/app/application/commune.php?act=rollpic
+//:http://yyapp.1yuaninfo.com/app/application/commune.php
 #define communityUrl   [NSString stringWithFormat:@"%@/app/application/commune.php",domainUrl]
 
 
@@ -586,7 +602,7 @@
 #pragma ------------------------------------------------------------------------
 #pragma mark  积分商城  --------------------------------------------------
 //返回值 ： hot_arr:[]   tj_arr:[]
-//http://yyapp.1yuaninfo.com/app/application/shoppingmall.php  act=goods
+//http://yyapp.1yuaninfo.com/app/application/shoppingmall.php?act=goods
 #define shopUrl  [NSString stringWithFormat:@"%@/app/application/shoppingmall.php",domainUrl]
 
 #pragma mark  积分规则静态页

@@ -66,7 +66,7 @@
         
         if (response) {
             
-            self.questionDataSource = [YYCommunityQuestionModel mj_objectArrayWithKeyValuesArray:response[@"wd_arr"]];
+            [self.questionDataSource addObjectsFromArray:[YYCommunityQuestionModel mj_objectArrayWithKeyValuesArray:response[@"wd_arr"]]];
             self.lastid = response[@"lastid"];
             completion(YES);
         }else {
@@ -83,6 +83,7 @@
 
 #pragma -- mark TableViewDelegate  -----------------
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
     return self.questionDataSource.count;
 }
 

@@ -190,6 +190,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(musicTimeInterval:) name:@"musicTimeInterval" object:nil];
     //监听，当音乐界面离开window后，暂停播放音乐
     [kNotificationCenter addObserver:self selector:@selector(playOrPause:) name:@"musicViewDidLeave" object:nil];
+    //监听播放结束
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:[self.player currentItem]];
 }
 
 /** 通知 监听时间变化，设置时间 */
@@ -253,8 +255,6 @@
         self.playBtn.selected = YES;
         [self playerPlay];
     }
-    
-    
 }
 
 // 播放
@@ -262,8 +262,7 @@
 {
     [_player play];
     _isPlay = YES;
-    //监听播放结束
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:[self.player currentItem]];
+    
 }
 
 //暂停

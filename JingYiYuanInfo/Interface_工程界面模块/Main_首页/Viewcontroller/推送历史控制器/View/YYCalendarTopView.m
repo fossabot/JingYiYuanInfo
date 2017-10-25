@@ -53,19 +53,21 @@
     return self;
 }
 
+
 - (void)configViewWithFrame:(CGRect)frame {
     
     [self addSubview:self.leftImageView];
     [self addSubview:self.rightImageView];
     [self addSubview:self.collectionView];
     [self refreshTopViewWithDate:[NSDate date]];
-    
+
 }
 
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 
 - (void)refreshTopViewWithDate:(NSDate *)date {
+    
     [self.dataSource removeAllObjects];
     NSMutableArray *tempArr = [self.viewModel oldNineDaysAndLastFiveDaysAccordingDate:date];
     int i = 0;
@@ -86,8 +88,28 @@
         i++;
         [self.dataSource addObject:model];
     }
+    
 //    self.dataSource = tempArr;
     [self.collectionView reloadData];
+    
+    [self.collectionView setContentOffset:CGPointMake(470-self.collectionView.yy_width/2, 0) animated:NO];
+}
+
+- (void)scrollToSelectedIndex:(NSInteger)index {
+ 
+    CGFloat centerx = 20 + 50*index;
+    
+    if (centerx > self.collectionView.yy_width/2 && centerx < self.collectionView.contentSize.width - self.collectionView.yy_width/2) {//中间徘徊时
+        
+        [self.collectionView setContentOffset:CGPointMake(centerx-self.collectionView.yy_width/2, 0) animated:YES];
+    }else if (centerx <= self.collectionView.yy_width/2) {//处于左侧时
+        
+        [self.collectionView setContentOffset:CGPointMake(0, 0) animated:YES];
+        
+    }else if (centerx >= self.collectionView.contentSize.width - self.collectionView.yy_width/2) {//处于右侧时
+        
+        [self.collectionView setContentOffset:CGPointMake(self.collectionView.contentSize.width - self.collectionView.yy_width, 0) animated:YES];
+    }
 }
 
 /** 根据weekday转换成中文周几*/
@@ -147,25 +169,14 @@
     if (_selectedIndex == indexPath.row) {
         return;
     }
+    
     lastModel.isSelected = NO;
     selectedModel.isSelected = YES;
     NSIndexPath *_selectedIndexPath = [NSIndexPath indexPathForRow:_selectedIndex inSection:0];
     [collectionView reloadItemsAtIndexPaths:@[_selectedIndexPath,indexPath]];
     _selectedIndex = indexPath.row;
-    YYCalendarCollectionCell *cell = (YYCalendarCollectionCell *)[collectionView cellForItemAtIndexPath:_selectedIndexPath];
     
-    CGFloat centerx = [cell convertPoint:CGPointMake(cell.yy_centerX, 0) toView:collectionView].x;
-    
-    if (centerx > collectionView.yy_width/2 && centerx < collectionView.contentSize.width - collectionView.yy_width/2) {
-        
-        [collectionView scrollToItemAtIndexPath:_selectedIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-    }else if (centerx <= collectionView.yy_width/2) {
-        
-        [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
-    }else if (centerx >= collectionView.contentSize.width - collectionView.yy_width/2) {
-        
-        [collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
-    }
+    [self scrollToSelectedIndex:indexPath.row];
     
     if (_selectedBlock) {
         

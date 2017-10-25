@@ -29,7 +29,7 @@
     if ([_picurl containsString:@"http"]) {
         return _picurl;
     }
-    return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_picurl];
+    return [NSString stringWithFormat:@"%@%@",yyfwJointUrl,_picurl];
 }
 
 - (NSString *)label {

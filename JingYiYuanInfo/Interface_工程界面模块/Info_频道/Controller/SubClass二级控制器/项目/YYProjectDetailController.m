@@ -189,6 +189,8 @@
 }
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    
+    webView.yy_height = kSCREENHEIGHT - YYTopNaviHeight - 50;
     self.favor.enabled = YES;
     [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError * _Nullable error) {
         self.navigationItem.title = title;

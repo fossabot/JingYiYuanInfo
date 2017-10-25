@@ -225,13 +225,13 @@
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 30)];
     backView.backgroundColor = WhiteColor;
     
-    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 2, 10)];
+    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(10, 5, 2, 20)];
     redView.backgroundColor = ThemeColor;
     [backView addSubview:redView];
     
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 100, 20)];
-    title.textColor = SubTitleColor;
-    title.font = SubTitleFont;
+    title.textColor = TitleColor;
+    title.font = NavTitleFont;
     YYSearchSecModel *secModel = self.myDataSource[section];
     title.text = secModel.className;
     [backView addSubview:title];
@@ -494,6 +494,7 @@
         textField.leftViewMode = UITextFieldViewModeAlways;
         textField.leftView = [[UIImageView alloc] initWithImage:imageNamed(@"searchicon_44x44")];
         textField.tintColor = ThemeColor;
+        textField.textColor = SubTitleColor;
         textField.font = SubTitleFont;
         textField.placeholder = @"搜索股票、基金、牛人";
         textField.borderStyle = UITextBorderStyleRoundedRect;

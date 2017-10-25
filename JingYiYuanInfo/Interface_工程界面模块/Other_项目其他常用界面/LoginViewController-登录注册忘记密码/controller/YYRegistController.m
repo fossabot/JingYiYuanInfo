@@ -287,7 +287,7 @@
     self.textFilterPassword = [[YYTextFilter alloc] init];
     [self.textFilterPassword SetFilter:self.passwordTextfield
                               delegate:self
-                                maxLen:MAXFLOAT
+                                maxLen:30
                               allowNum:YES
                                allowCH:NO
                            allowLetter:YES

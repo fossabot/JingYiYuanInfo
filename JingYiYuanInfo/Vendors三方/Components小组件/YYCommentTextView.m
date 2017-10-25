@@ -49,7 +49,7 @@
     if (self.placeText.length==0) {
         return;
     }
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         if (_Textnil) {
             [[self viewWithTag:999] setAlpha:1.0];
         }else{

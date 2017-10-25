@@ -25,11 +25,26 @@
  },
  */
 
-/** artitle*/
-@property (nonatomic, copy) NSString *artitle;
+/** 回答的id*/
+@property (nonatomic, copy) NSString *answerId;
 
-/** question*/
-@property (nonatomic, copy) NSString *question;
+/** questionid问题的id*/
+@property (nonatomic, copy) NSString *questionid;
+
+/** niuhead牛人头像*/
+@property (nonatomic, copy) NSString *niuhead;
+
+/** answer 回答内容*/
+@property (nonatomic, copy) NSString *content;
+
+/** 牛人id*/
+@property (nonatomic, copy) NSString *niuid;
+
+/** 回答时间*/
+@property (nonatomic, copy) NSString *posttime;
+
+/** 提问内容*/
+@property (nonatomic, copy) NSString *qucotent;
 
 /** qtime 提问时间*/
 @property (nonatomic, copy) NSString *qtime;
@@ -37,19 +52,5 @@
 /** arid 文章id*/
 @property (nonatomic, copy) NSString *arid;
 
-/** answer 回复*/
-@property (nonatomic, copy) NSString *answer;
-
-/** questionid*/
-@property (nonatomic, copy) NSString *questionid;
-
-/** niuid*/
-@property (nonatomic, copy) NSString *niuid;
-
-/** atime 回复的时间*/
-@property (nonatomic, copy) NSString *atime;
-
-/** niuhead*/
-@property (nonatomic, copy) NSString *niuhead;
 
 @end

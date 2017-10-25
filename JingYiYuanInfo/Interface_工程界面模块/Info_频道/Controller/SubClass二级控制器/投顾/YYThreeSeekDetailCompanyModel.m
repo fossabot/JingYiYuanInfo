@@ -19,6 +19,10 @@
     return _logo;
 }
 
+//- (NSString *)regmoney {
+//    return [NSString stringWithFormat:@"￥%@",_regmoney];
+//}
+
 - (CGFloat)introductionHeight {
     
     //段落样式

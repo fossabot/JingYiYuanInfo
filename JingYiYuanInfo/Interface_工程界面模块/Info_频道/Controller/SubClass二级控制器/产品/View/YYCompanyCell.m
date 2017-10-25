@@ -210,6 +210,7 @@
             [self dispatchTags:keywords comType:companyModel.comtype];
         }else {
             
+            self.tag1.text = [self part:companyModel.part comType:companyModel.comtype];
             [self.tag2 updateConstraints:^(MASConstraintMaker *make) {
                 
                 make.width.equalTo(0);
@@ -220,7 +221,26 @@
                 make.width.equalTo(0);
                 make.left.equalTo(self.tag2.right);
             }];
+            
         }
+    }else{
+        [self.tag1 updateConstraints:^(MASConstraintMaker *make) {
+            
+            make.width.equalTo(0);
+            make.left.equalTo(self.logoImageView.right);
+        }];
+        
+        [self.tag2 updateConstraints:^(MASConstraintMaker *make) {
+            
+            make.width.equalTo(0);
+            make.left.equalTo(self.tag1.right);
+        }];
+        [self.tag3 updateConstraints:^(MASConstraintMaker *make) {
+            
+            make.width.equalTo(0);
+            make.left.equalTo(self.tag2.right);
+        }];
+
     }
     
     self.authTag.text = companyModel.auth_tag;
@@ -244,7 +264,7 @@
 /** 功能标签 根据公司类型来确定相应的功能标签*/
 - (NSString *)part:(NSString *)part comType:(NSString *)comType {
     
-    NSDictionary *dic = [self.partDic objectForKey:comType];
+    NSDictionary *dic = [[self partDic] objectForKey:comType];
     NSString *function = [dic objectForKey:part];
     return function;
 }

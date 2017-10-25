@@ -18,6 +18,10 @@
              };
 }
 
+- (NSString *)iosyprice {
+    return [NSString stringWithFormat:@"￥%@",_iosyprice];
+}
+
 - (NSString *)sellstate {
     
     if ([_sellstate isEqualToString:@"1"]) {

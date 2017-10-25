@@ -174,6 +174,8 @@
     }
     
     YYWeakSelf
+    
+    
     [YYLoginManager changePasswordWithOldPassword:_oldPwdTextField.text newPwd:_changedPwdTextField.text completion:^{
         
         [weakSelf.navigationController popViewControllerAnimated:YES];

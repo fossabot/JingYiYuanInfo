@@ -154,7 +154,6 @@
 		BFEB31BB1F72736500EFB167 /* YYThreeSeekDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEB31BA1F72736500EFB167 /* YYThreeSeekDetailController.m */; };
 		BFEB31BE1F72749700EFB167 /* YYThreeSeekTabView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEB31BD1F72749700EFB167 /* YYThreeSeekTabView.m */; };
 		BFEB31C11F72A6F200EFB167 /* YYThreeSeekDetailCompanyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEB31C01F72A6F200EFB167 /* YYThreeSeekDetailCompanyModel.m */; };
-		BFEB31C41F72A85800EFB167 /* YYRelativeProductionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEB31C31F72A85800EFB167 /* YYRelativeProductionModel.m */; };
 		BFEB31C71F72B1EC00EFB167 /* YYThreeSeekIntroduceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEB31C61F72B1EC00EFB167 /* YYThreeSeekIntroduceCell.m */; };
 		BFEB31CA1F72B41100EFB167 /* YYRelativeProductionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEB31C91F72B41100EFB167 /* YYRelativeProductionCell.m */; };
 		BFEB31CD1F73A2D100EFB167 /* YYRewardView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEB31CC1F73A2D100EFB167 /* YYRewardView.m */; };
@@ -385,6 +384,15 @@
 		F6CAEE701F93DD1B004A4C56 /* YYSubscribeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEE6F1F93DD1B004A4C56 /* YYSubscribeCell.m */; };
 		F6CAEE731F947C0C004A4C56 /* NSString+AttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEE721F947C0C004A4C56 /* NSString+AttributedString.m */; };
 		F6CAEE761F947C20004A4C56 /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEE751F947C20004A4C56 /* NSString+Additions.m */; };
+		F6CAEEB81F97508F004A4C56 /* YYCommentVM.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEEB71F97508E004A4C56 /* YYCommentVM.m */; };
+		F6CAEEBB1F9751E1004A4C56 /* YYCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEEBA1F9751E1004A4C56 /* YYCommentModel.m */; };
+		F6CAEEBE1F9752E9004A4C56 /* YYCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEEBD1F9752E9004A4C56 /* YYCommentCell.m */; };
+		F6CAEEC11F984D5C004A4C56 /* YYCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEEC01F984D5A004A4C56 /* YYCommentView.m */; };
+		F6CAEEC41F988164004A4C56 /* YYSecCommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEEC31F988163004A4C56 /* YYSecCommentModel.m */; };
+		F6CAEEC71F988F5E004A4C56 /* YYFirstCommentController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEEC61F988F5E004A4C56 /* YYFirstCommentController.m */; };
+		F6CAEECA1F988F8C004A4C56 /* YYSecondCommentController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEEC91F988F8C004A4C56 /* YYSecondCommentController.m */; };
+		F6CAEECD1F989423004A4C56 /* YYCommentSectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CAEECC1F989423004A4C56 /* YYCommentSectionHeader.m */; };
+		F6CAEECF1F989450004A4C56 /* YYCommentSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6CAEECE1F989450004A4C56 /* YYCommentSectionHeader.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -697,8 +705,6 @@
 		BFEB31BD1F72749700EFB167 /* YYThreeSeekTabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYThreeSeekTabView.m; sourceTree = "<group>"; };
 		BFEB31BF1F72A6F200EFB167 /* YYThreeSeekDetailCompanyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYThreeSeekDetailCompanyModel.h; sourceTree = "<group>"; };
 		BFEB31C01F72A6F200EFB167 /* YYThreeSeekDetailCompanyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYThreeSeekDetailCompanyModel.m; sourceTree = "<group>"; };
-		BFEB31C21F72A85800EFB167 /* YYRelativeProductionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYRelativeProductionModel.h; sourceTree = "<group>"; };
-		BFEB31C31F72A85800EFB167 /* YYRelativeProductionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYRelativeProductionModel.m; sourceTree = "<group>"; };
 		BFEB31C51F72B1EC00EFB167 /* YYThreeSeekIntroduceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYThreeSeekIntroduceCell.h; sourceTree = "<group>"; };
 		BFEB31C61F72B1EC00EFB167 /* YYThreeSeekIntroduceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYThreeSeekIntroduceCell.m; sourceTree = "<group>"; };
 		BFEB31C81F72B41100EFB167 /* YYRelativeProductionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYRelativeProductionCell.h; sourceTree = "<group>"; };
@@ -1141,6 +1147,23 @@
 		F6CAEE721F947C0C004A4C56 /* NSString+AttributedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+AttributedString.m"; sourceTree = "<group>"; };
 		F6CAEE741F947C20004A4C56 /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
 		F6CAEE751F947C20004A4C56 /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
+		F6CAEEB61F97508E004A4C56 /* YYCommentVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYCommentVM.h; sourceTree = "<group>"; };
+		F6CAEEB71F97508E004A4C56 /* YYCommentVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYCommentVM.m; sourceTree = "<group>"; };
+		F6CAEEB91F9751E1004A4C56 /* YYCommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYCommentModel.h; sourceTree = "<group>"; };
+		F6CAEEBA1F9751E1004A4C56 /* YYCommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYCommentModel.m; sourceTree = "<group>"; };
+		F6CAEEBC1F9752E9004A4C56 /* YYCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYCommentCell.h; sourceTree = "<group>"; };
+		F6CAEEBD1F9752E9004A4C56 /* YYCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYCommentCell.m; sourceTree = "<group>"; };
+		F6CAEEBF1F984D59004A4C56 /* YYCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYCommentView.h; sourceTree = "<group>"; };
+		F6CAEEC01F984D5A004A4C56 /* YYCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYCommentView.m; sourceTree = "<group>"; };
+		F6CAEEC21F988163004A4C56 /* YYSecCommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSecCommentModel.h; sourceTree = "<group>"; };
+		F6CAEEC31F988163004A4C56 /* YYSecCommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSecCommentModel.m; sourceTree = "<group>"; };
+		F6CAEEC51F988F5E004A4C56 /* YYFirstCommentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYFirstCommentController.h; sourceTree = "<group>"; };
+		F6CAEEC61F988F5E004A4C56 /* YYFirstCommentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYFirstCommentController.m; sourceTree = "<group>"; };
+		F6CAEEC81F988F8B004A4C56 /* YYSecondCommentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSecondCommentController.h; sourceTree = "<group>"; };
+		F6CAEEC91F988F8C004A4C56 /* YYSecondCommentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYSecondCommentController.m; sourceTree = "<group>"; };
+		F6CAEECB1F989423004A4C56 /* YYCommentSectionHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYCommentSectionHeader.h; sourceTree = "<group>"; };
+		F6CAEECC1F989423004A4C56 /* YYCommentSectionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYCommentSectionHeader.m; sourceTree = "<group>"; };
+		F6CAEECE1F989450004A4C56 /* YYCommentSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YYCommentSectionHeader.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1213,6 +1236,10 @@
 				BF6051FC1F6909B700354741 /* YYShowOtherDetailController.m */,
 				BFF8BF8B1F5FEA4A00FBAB04 /* YYVideoDetailController.h */,
 				BFF8BF8C1F5FEA4A00FBAB04 /* YYVideoDetailController.m */,
+				F6CAEEC51F988F5E004A4C56 /* YYFirstCommentController.h */,
+				F6CAEEC61F988F5E004A4C56 /* YYFirstCommentController.m */,
+				F6CAEEC81F988F8B004A4C56 /* YYSecondCommentController.h */,
+				F6CAEEC91F988F8C004A4C56 /* YYSecondCommentController.m */,
 			);
 			path = "资讯详情页";
 			sourceTree = "<group>";
@@ -1371,6 +1398,11 @@
 				BFE999721F66BE7D009FE595 /* YYMusicPlayerView.m */,
 				BFA4E35C1F70B66800845BB3 /* YYVideoPlayerView.h */,
 				BFA4E35D1F70B66800845BB3 /* YYVideoPlayerView.m */,
+				F6CAEEBC1F9752E9004A4C56 /* YYCommentCell.h */,
+				F6CAEEBD1F9752E9004A4C56 /* YYCommentCell.m */,
+				F6CAEECB1F989423004A4C56 /* YYCommentSectionHeader.h */,
+				F6CAEECC1F989423004A4C56 /* YYCommentSectionHeader.m */,
+				F6CAEECE1F989450004A4C56 /* YYCommentSectionHeader.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1398,6 +1430,10 @@
 				BF31E88D1F626A5B00E8CF0E /* YYShowLikeModel.m */,
 				BF31E8891F626A4200E8CF0E /* YYShowRecommendModel.h */,
 				BF31E88A1F626A4200E8CF0E /* YYShowRecommendModel.m */,
+				F6CAEEB91F9751E1004A4C56 /* YYCommentModel.h */,
+				F6CAEEBA1F9751E1004A4C56 /* YYCommentModel.m */,
+				F6CAEEC21F988163004A4C56 /* YYSecCommentModel.h */,
+				F6CAEEC31F988163004A4C56 /* YYSecCommentModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1409,6 +1445,8 @@
 				BF31E8751F62340D00E8CF0E /* YYBaseInfoVM.m */,
 				BFA4E35F1F70CA1B00845BB3 /* YYVideoControllerVM.h */,
 				BFA4E3601F70CA1B00845BB3 /* YYVideoControllerVM.m */,
+				F6CAEEB61F97508E004A4C56 /* YYCommentVM.h */,
+				F6CAEEB71F97508E004A4C56 /* YYCommentVM.m */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1778,8 +1816,6 @@
 				BFEB31B41F725E9B00EFB167 /* YYThreeSeekListModel.m */,
 				BFEB31BF1F72A6F200EFB167 /* YYThreeSeekDetailCompanyModel.h */,
 				BFEB31C01F72A6F200EFB167 /* YYThreeSeekDetailCompanyModel.m */,
-				BFEB31C21F72A85800EFB167 /* YYRelativeProductionModel.h */,
-				BFEB31C31F72A85800EFB167 /* YYRelativeProductionModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1975,6 +2011,8 @@
 				BFF8BEB71F5FD32200FBAB04 /* YYCountDownButton.m */,
 				BFE999741F67848A009FE595 /* YYDetailToolBar.h */,
 				BFE999751F67848A009FE595 /* YYDetailToolBar.m */,
+				F6CAEEBF1F984D59004A4C56 /* YYCommentView.h */,
+				F6CAEEC01F984D5A004A4C56 /* YYCommentView.m */,
 				BF7DC5B11F75757000FA3F23 /* YYPlaceHolderView.h */,
 				BF7DC5B21F75757000FA3F23 /* YYPlaceHolderView.m */,
 				BFF8BEB81F5FD32200FBAB04 /* YYEdgeLabel.h */,
@@ -3430,6 +3468,7 @@
 				BFF8C0F81F5FEA4A00FBAB04 /* YYVideoHeaderView.xib in Resources */,
 				BFF8C0D21F5FEA4A00FBAB04 /* YYServiceBuying365ViewController.xib in Resources */,
 				BFEB31FD1F74F29700EFB167 /* ZFPlayer.bundle in Resources */,
+				F6CAEECF1F989450004A4C56 /* YYCommentSectionHeader.xib in Resources */,
 				BFF8BE4E1F5FCEC800FBAB04 /* Main.storyboard in Resources */,
 				BFF8C1541F5FEA4B00FBAB04 /* YYMineLogOutHeaderView.xib in Resources */,
 				BFF8C15D1F5FEA4B00FBAB04 /* YYLoginViewController.xib in Resources */,
@@ -3691,6 +3730,8 @@
 				F6CAEE731F947C0C004A4C56 /* NSString+AttributedString.m in Sources */,
 				BFF8BF0F1F5FD51E00FBAB04 /* UIView+YYParentController.m in Sources */,
 				BFF8C1011F5FEA4A00FBAB04 /* YYSearchModel.m in Sources */,
+				F6CAEEC71F988F5E004A4C56 /* YYFirstCommentController.m in Sources */,
+				F6CAEEBE1F9752E9004A4C56 /* YYCommentCell.m in Sources */,
 				BFF8C1161F5FEA4A00FBAB04 /* YYNewsBigPicCell.m in Sources */,
 				BFF8C0ED1F5FEA4A00FBAB04 /* YYCollectionViewFlowLayout.m in Sources */,
 				BFF8BF441F5FD69C00FBAB04 /* YYBaseDetailController.m in Sources */,
@@ -3718,9 +3759,11 @@
 				BFEB31BB1F72736500EFB167 /* YYThreeSeekDetailController.m in Sources */,
 				BFC1FD001F789AA300593D81 /* YYChangePasswordController.m in Sources */,
 				F61367531F8DC79E0020A47B /* YYSearchResultCell.m in Sources */,
+				F6CAEEBB1F9751E1004A4C56 /* YYCommentModel.m in Sources */,
 				BFC1FCEB1F77F9E900593D81 /* YYCommunityQuestionVM.m in Sources */,
 				BFF8BF101F5FD51E00FBAB04 /* UIView+YYViewFrame.m in Sources */,
 				BFF8C1481F5FEA4B00FBAB04 /* YYMinePaymentViewController.m in Sources */,
+				F6CAEEC11F984D5C004A4C56 /* YYCommentView.m in Sources */,
 				BFF8C1211F5FEA4B00FBAB04 /* YYMainCycleWebviewController.m in Sources */,
 				BFF8C15E1F5FEA4B00FBAB04 /* YYRegisterViewController.m in Sources */,
 				BFF8C1341F5FEA4B00FBAB04 /* YYPushListCellModel.m in Sources */,
@@ -3786,11 +3829,11 @@
 				BF269DAE1F6F77F8009539BB /* _JZValue.m in Sources */,
 				BFF8BEC91F5FD32200FBAB04 /* WRCellView.m in Sources */,
 				BF6052811F6A4B6F00354741 /* YYProductionListModel.m in Sources */,
+				F6CAEEB81F97508F004A4C56 /* YYCommentVM.m in Sources */,
 				BF0ABFB81F6634D80057A3A0 /* YYFastMsgSecionModel.m in Sources */,
 				BF31E8921F62710A00E8CF0E /* YYChannelVideoCell.m in Sources */,
 				F61367561F8DF44A0020A47B /* YYSearchSecModel.m in Sources */,
 				BF6394091F7D189A00F3BD82 /* UITableViewRowAction+JZExtension.m in Sources */,
-				BFEB31C41F72A85800EFB167 /* YYRelativeProductionModel.m in Sources */,
 				BFC1FD091F78C44500593D81 /* YYSubscribleSettingController.m in Sources */,
 				BF6394161F7DDB1000F3BD82 /* YYPeriodCell.m in Sources */,
 				BFF8C1071F5FEA4A00FBAB04 /* YYNiuArticleModel.m in Sources */,
@@ -3810,6 +3853,7 @@
 				BF6394131F7DDA3000F3BD82 /* YYPeriodDetailController.m in Sources */,
 				BFF8C1301F5FEA4B00FBAB04 /* YYHotView.m in Sources */,
 				BFF8C1031F5FEA4A00FBAB04 /* YYHotInfoModel.m in Sources */,
+				F6CAEECA1F988F8C004A4C56 /* YYSecondCommentController.m in Sources */,
 				BF31E8701F61805E00E8CF0E /* YYCommunityBannerDetailController.m in Sources */,
 				BFF8C1081F5FEA4A00FBAB04 /* YYNiuManModel.m in Sources */,
 				BFF8C1021F5FEA4A00FBAB04 /* YYHotHotModel.m in Sources */,
@@ -3859,6 +3903,7 @@
 				BF31E8881F626A2900E8CF0E /* YYShowBannerModel.m in Sources */,
 				BF6052931F6A57A000354741 /* YYThreeSeekController.m in Sources */,
 				BFC1FD201F7A44DE00593D81 /* YYIODetailController.m in Sources */,
+				F6CAEECD1F989423004A4C56 /* YYCommentSectionHeader.m in Sources */,
 				BFF8C12A1F5FEA4B00FBAB04 /* YYCalendarCollectionCell.m in Sources */,
 				BFC1FCF71F7821DE00593D81 /* YYCommunityMediaCell.m in Sources */,
 				BF7DC5B31F75757000FA3F23 /* YYPlaceHolderView.m in Sources */,
@@ -3997,6 +4042,7 @@
 				BF6394341F7E241E00F3BD82 /* BRStringPickerView.m in Sources */,
 				BFEB31FF1F74F29700EFB167 /* ZFPlayerModel.m in Sources */,
 				BFC1FD1D1F7A3E6900593D81 /* YYIntegrationRulesDetailController.m in Sources */,
+				F6CAEEC41F988164004A4C56 /* YYSecCommentModel.m in Sources */,
 				BFEB31F71F74F29700EFB167 /* UITabBarController+ZFPlayerRotation.m in Sources */,
 				BFEB31B51F725E9B00EFB167 /* YYThreeSeekListModel.m in Sources */,
 				BFEB31FB1F74F29700EFB167 /* MMMaterialDesignSpinner.m in Sources */,

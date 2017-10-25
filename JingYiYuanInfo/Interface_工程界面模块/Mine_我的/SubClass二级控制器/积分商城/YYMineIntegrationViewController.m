@@ -148,8 +148,8 @@
 
 - (void)configSubView {
     
-    UIBarButtonItem *buy = [[UIBarButtonItem alloc] initWithTitle:@"购买积分" style:UIBarButtonItemStyleDone target:self action:@selector(buyIntegral)];
-    self.navigationItem.rightBarButtonItem = buy;
+//    UIBarButtonItem *buy = [[UIBarButtonItem alloc] initWithTitle:@"购买积分" style:UIBarButtonItemStyleDone target:self action:@selector(buyIntegral)];
+//    self.navigationItem.rightBarButtonItem = buy;
     
     UIView *headerView = [[UIView alloc] init];
     headerView.backgroundColor = ThemeColor;
@@ -267,6 +267,7 @@
     detail.url = model.webUrl;
     detail.shareImgUrl = model.pro_picture;
     detail.goodId = model.goodsId;
+    detail.integral = model.pro_presentprice;
     [self.navigationController pushViewController:detail animated:YES];
     
     
@@ -323,7 +324,7 @@
 - (UICollectionViewFlowLayout *)flowLayout{
     if (!_flowLayout) {
         _flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        _flowLayout.itemSize = CGSizeMake((kSCREENWIDTH-30)/2, (kSCREENWIDTH-30)/2+50);
+        _flowLayout.itemSize = CGSizeMake((kSCREENWIDTH-30)/2, (kSCREENWIDTH-30)/2+70);
         _flowLayout.headerReferenceSize = CGSizeMake(kSCREENWIDTH, 30);
         _flowLayout.minimumLineSpacing = 10;
         _flowLayout.minimumInteritemSpacing = 10;
@@ -354,7 +355,7 @@
             [strongSelf loadMoreData];
         }];
         
-        stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
+        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _collectionView.mj_footer = stateFooter;
         
         

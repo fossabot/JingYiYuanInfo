@@ -134,7 +134,7 @@
     self.changePhone = changePhone;
     [self.view addSubview:changePhone];
     
-
+    
     [self.view1 makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.right.equalTo(self.view);

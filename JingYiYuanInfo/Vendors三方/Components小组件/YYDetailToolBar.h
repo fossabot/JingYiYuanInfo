@@ -53,4 +53,7 @@ typedef void(^SendComment)(NSString *comment);
 /** 写评论*/
 - (void)writeComments:(void(^)(NSString *comment))comment;
 
+/* 清除评论text*/
+- (void)clearText;
+
 @end

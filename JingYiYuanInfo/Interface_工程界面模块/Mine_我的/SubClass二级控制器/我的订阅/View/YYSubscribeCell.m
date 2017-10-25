@@ -119,9 +119,6 @@
     [self.niuImageView cutRoundView];
 }
 
-- (void)clipRound {
-    
-    [self.niuImageView cutRoundView];
-}
+
 
 @end

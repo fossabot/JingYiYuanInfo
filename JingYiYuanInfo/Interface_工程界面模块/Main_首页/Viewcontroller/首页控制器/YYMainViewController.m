@@ -7,6 +7,8 @@
 //
 
 #import "YYMainViewController.h"
+#import "YYTabBarViewController.h"
+#import "YYNavigationViewController.h"
 #import "PresentAnimation.h"
 #import "YYMessageController.h"
 #import "YYMainSearchController.h"
@@ -161,6 +163,14 @@
     if (![self.view yy_intersectsWithAnotherView:nil]) return;
     
     [self.tableview.mj_header beginRefreshing];
+//    [self.tableview scrollsToTop];
+//    [self.tableview scrollRectToVisible:CGRectZero animated:YES];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [self.tableview scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+//        [self.tableview setContentOffset:CGPointMake(0, 0) animated:YES];
+    });
     
 }
 
@@ -343,7 +353,7 @@
     }else if(alpha <= 0){
         alpha = 0;
     }
-    [self.navView setBackgroundColor:[[UIColor redColor] colorWithAlphaComponent:alpha]];
+    [self.navView setBackgroundColor:[ThemeColor colorWithAlphaComponent:alpha]];
     
     CGRect frame = self.searchBtn.frame;
     
@@ -400,9 +410,6 @@
 
 
 
-
-
-
 #pragma mark -- 推送区域  -------------------------------------
 
 //处理远程推送通知
@@ -424,29 +431,36 @@
 - (void)handleRemoteNotice:(NSDictionary *)userInfo {
     
     NSString *type = userInfo[@"type"];
-//    YYNavigationViewController *nav = (YYNavigationViewController *)self.selectedViewController;
+    
+    YYTabBarViewController *tab = (YYTabBarViewController *)kKeyWindow.rootViewController;
+    YYNavigationViewController  *nav = tab.selectedViewController;
+    UIViewController *vc = nav.visibleViewController;
+    
     if ([type isEqualToString:@"1"]) {//1普通资讯,
         
         YYBaseInfoDetailController *detail = [[YYBaseInfoDetailController alloc] init];
         detail.url = [NSString stringWithFormat:@"%@%@",infoWebJointUrl,userInfo[@"id"]];
         detail.newsId = userInfo[@"id"];
         detail.jz_wantsNavigationBarVisible = YES;
-        [self.navigationController pushViewController:detail animated:YES];
+        [vc.navigationController pushViewController:detail animated:YES];
     }else if ([type isEqualToString:@"2"]) {//2演出,
         
         YYShowOtherDetailController *detail = [[YYShowOtherDetailController alloc] init];
         detail.url = [NSString stringWithFormat:@"%@%@",showWebJointUrl,userInfo[@"id"]];
         detail.jz_wantsNavigationBarVisible = YES;
-        [self.navigationController pushViewController:detail animated:YES];
+        [vc.navigationController pushViewController:detail animated:YES];
     }else if ([type isEqualToString:@"3"]) {//3牛人资讯
         
         YYNiuNewsDetailViewController *detail = [[YYNiuNewsDetailViewController alloc] init];
         detail.url = [NSString stringWithFormat:@"%@%@",niuWebJointUrl,userInfo[@"id"]];
         detail.niuNewsId = userInfo[@"id"];
         detail.jz_wantsNavigationBarVisible = YES;
-        [self.navigationController pushViewController:detail animated:YES];
+        [vc.navigationController pushViewController:detail animated:YES];
     }else if ([type isEqualToString:@"365"]) {//365推送
         
+        if ([vc isKindOfClass:[YYPushController class]]) {
+            return;
+        }
         YYPushController *push = [[YYPushController alloc] init];
         push.pushId = userInfo[@"id"];
         push.jz_wantsNavigationBarVisible = YES;

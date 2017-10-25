@@ -34,6 +34,8 @@ UIKIT_EXTERN CGFloat const YYTopNaviHeight;
 /** 分页cell的tab高度*/
 UIKIT_EXTERN CGFloat const TabHeaderH;
 
+/** 分页cell的tab高度*/
+UIKIT_EXTERN CGFloat const ToolBarHeight;
 
 /** 新闻列表的第一个cell的标题字号*/
 UIKIT_EXTERN CGFloat const YYInfoCellTitleFont;

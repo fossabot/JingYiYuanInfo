@@ -9,6 +9,9 @@
 #import "YYProductionCommonModel.h"
 #import <MJExtension/MJExtension.h>
 
+
+#define sepecialDetailUrl @"http://yyapp.1yuaninfo.com/app/yyfwapp/goods_info.php?goodtpye=2&goodid="
+
 @implementation YYProductionCommonModel
 
 + (NSDictionary *)mj_replacedKeyFromPropertyName {
@@ -29,8 +32,8 @@
     }
 }
 
-- (NSString *)yprice {
-    return [NSString stringWithFormat:@"￥%@",_yprice];
+- (NSString *)iosyprice {
+    return [NSString stringWithFormat:@"￥%@",_iosyprice];
 }
 
 - (NSString *)ystate {
@@ -42,5 +45,10 @@
     }
 }
 
+
+- (NSString *)webUrl {
+    
+    return [NSString stringWithFormat:@"%@%@",sepecialDetailUrl,_productionId];
+}
 
 @end

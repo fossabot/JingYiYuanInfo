@@ -105,8 +105,8 @@ YYSingletonM(User)
 - (void)setIntegral:(NSString *)integral {
     
     NSString *str = [NSString stringWithFormat:@"%@",integral];
-    if ([str isKindOfClass:[NSNull class]]) {
-        integral = @"0";
+    if ([str isKindOfClass:[NSNull class]] || str.length == 0 || [integral isKindOfClass:[NSNull class]]) {
+        str = @"0";
     }
     [kUserDefaults setValue:str forKey:@"user_integral"];
     [kUserDefaults synchronize];
@@ -183,7 +183,11 @@ YYSingletonM(User)
 }
 
 - (NSString *)integral {
-    return [kUserDefaults objectForKey:@"user_integral"];
+    NSString *integralStr = [kUserDefaults objectForKey:@"user_integral"];
+    if (!integralStr.length) {
+        return @"0";
+    }
+    return integralStr;
 }
 
 - (CGFloat)webfont{
@@ -259,7 +263,12 @@ YYSingletonM(User)
  用户登出，删除所有用户信息
  */
 + (void)logOut {
-//    YYUser *user = [self shareUser];
+    
+    YYUser *user = [self shareUser];
+    [[SDImageCache sharedImageCache] removeImageForKey:user.avatar withCompletion:^{
+        
+    }];
+    
     //将user的各属性置为nil
     
     YYWeakSelf
@@ -273,7 +282,6 @@ YYSingletonM(User)
          [kUserDefaults synchronize];
          [weakSelf alertNotification];
      }];
-    
     
 //    [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
 //    

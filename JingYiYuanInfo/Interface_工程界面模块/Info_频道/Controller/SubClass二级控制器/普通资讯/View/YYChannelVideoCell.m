@@ -85,7 +85,7 @@
     playCount.layer.masksToBounds = YES;
     playCount.edgeInsets = UIEdgeInsetsMake(2, 3, 2, 3);
     playCount.textColor = [UIColor whiteColor];
-    playCount.layer.borderColor = [UIColor blackColor].CGColor;
+//    playCount.layer.borderColor = [UIColor blackColor].CGColor;
     playCount.font = UnenableTitleFont;
     [self.videoImg addSubview:playCount];
     self.playCount = playCount;
@@ -96,7 +96,7 @@
     time.layer.masksToBounds = YES;
     time.edgeInsets = UIEdgeInsetsMake(2, 3, 2, 3);
     time.textColor = [UIColor whiteColor];
-    time.layer.borderColor = [UIColor blackColor].CGColor;
+//    time.layer.borderColor = [UIColor blackColor].CGColor;
     time.font = UnenableTitleFont;
     [self.videoImg addSubview:time];
     self.time = time;
@@ -105,6 +105,7 @@
     YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
     tag1.font = UnenableTitleFont;
     tag1.textColor = ThemeColor;
+    tag1.layer.borderColor = ThemeColor.CGColor;
     tag1.layer.cornerRadius = 3.0;
     tag1.layer.masksToBounds = YES;
     [self.contentView addSubview:tag1];
@@ -113,6 +114,7 @@
     YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
     tag2.font = UnenableTitleFont;
     tag2.textColor = ThemeColor;
+    tag2.layer.borderColor = ThemeColor.CGColor;
     tag2.layer.cornerRadius = 3.0;
     tag2.layer.masksToBounds = YES;
     [self.contentView addSubview:tag2];
@@ -225,12 +227,12 @@
     
 }
 
+
 /**
  *  播放视频
  */
 - (void)playVideo {
     
-//    [self hideOtherView];
     if (_playBlock) {
         _playBlock();
     }

@@ -48,7 +48,6 @@
     }
     
     YYUser *user = [YYUser shareUser];
-//#warning userid需改成用户的
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,@"inall",@"act", nil];
     YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:inOutHistoryUrl parameters:para success:^(id response) {
@@ -114,7 +113,7 @@
     
     YYIOTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:YYIOTableViewCellId];
     YYIOModel *model = self.dataSource[indexPath.row];
-    cell.title.text = model.explain;
+    cell.title.text = model.goodtitle;
     cell.desc.text = model.addtime;
     cell.integration.text = model.amount;
     return cell;
@@ -131,14 +130,14 @@
         [_tableView registerClass:[YYIOTableViewCell class] forCellReuseIdentifier:YYIOTableViewCellId];
         
         YYWeakSelf
-//        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
-//            
-//            YYStrongSelf
-//            [strongSelf loadMoreData];
-//        }];
-//        
-//        stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
-//        _tableView.mj_footer = stateFooter;        
+        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+            
+            YYStrongSelf
+            [strongSelf loadMoreData];
+        }];
+        
+        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
+        self.tableView.mj_footer = stateFooter;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
         configer.emptyImage = imageNamed(emptyImageName);

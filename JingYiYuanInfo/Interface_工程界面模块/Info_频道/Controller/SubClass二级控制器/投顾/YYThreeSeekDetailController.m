@@ -12,21 +12,16 @@
 #import "YYThreeSeekTabView.h"
 
 #import "YYThreeSeekDetailCompanyModel.h"
-#import "YYRelativeProductionModel.h"
+#import "YYProductionCommonModel.h"
 
 #import "YYThreeSeekIntroduceCell.h"
 #import "YYProductionCell.h"
 #import "UITableView+FDTemplateLayoutCell.h"
 
-//#import "YYPlaceHolderView.h"
-#import "BAButton.h"
 #import <MJExtension/MJExtension.h>
 
 @interface YYThreeSeekDetailController ()<UITableViewDelegate,UITableViewDataSource,YYThreeSeekTabViewDelegate>
 
-
-/** tipView*/
-@property (nonatomic, strong) BAButton *tipView;
 
 /** headerView*/
 @property (nonatomic, strong) UIView *headerView;
@@ -80,18 +75,8 @@
     
     [self configSubView];
     [self masonrySubView];
-    YYWeakSelf
-    [YYHttpNetworkTool globalNetStatusNotice:^(AFNetworkReachabilityStatus status) {
-        if (status == AFNetworkReachabilityStatusNotReachable) {
-            
-//            [weakSelf emptyPlaceHolder];
-            self.tipView.hidden = NO;
-        }else {
-            
-            [weakSelf loadData];
-        }
-        
-    }];
+
+    [self loadData];
     
 }
 
@@ -153,36 +138,26 @@
     [self.tableView reloadData];
 }
 
-/** 无网络或者加载失败时调用的占位图片*/
-- (void)emptyPlaceHolder {
-    
-//    YYWeakSelf
-//    [YYPlaceHolderView showInView:self.view image:@"yyfw_push_empty_112x94_" clickAction:^{
-//        [weakSelf loadData];
-//    } dismissAutomatically:YES];
 
-}
-
-
-#pragma mark -- network   数据请求方法  ---------------------------
+#pragma mark -- network  数据请求方法  ---------------------------
 
 /** 加载数据*/
 - (void)loadData {
-    self.tipView.hidden = YES;
+
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:self.comid,@"comid", nil];
     YYWeakSelf
     [PPNetworkHelper GET:companyDetailUrl parameters:para responseCache:^(id responseCache) {
         if (responseCache) {
             
             weakSelf.companyDetailModel = [YYThreeSeekDetailCompanyModel mj_objectWithKeyValues:responseCache[@"com_intro_arr"]];
-            weakSelf.relativeProductions = [YYRelativeProductionModel mj_objectArrayWithKeyValuesArray:responseCache[@"prod_arr"]];
+            weakSelf.relativeProductions = [YYProductionCommonModel mj_objectArrayWithKeyValuesArray:responseCache[@"prod_arr"]];
         }
     } success:^(id responseObject) {
         
         if (responseObject) {
             
             weakSelf.companyDetailModel = [YYThreeSeekDetailCompanyModel mj_objectWithKeyValues:responseObject[@"com_intro_arr"]];
-            weakSelf.relativeProductions = [YYRelativeProductionModel mj_objectArrayWithKeyValuesArray:responseObject[@"prod_arr"]];
+            weakSelf.relativeProductions = [YYProductionCommonModel mj_objectArrayWithKeyValuesArray:responseObject[@"prod_arr"]];
             [weakSelf refreshData];
         }
     } failure:^(NSError *error) {
@@ -190,8 +165,6 @@
         [SVProgressHUD showErrorWithStatus:@"网络出错"];
         [SVProgressHUD dismissWithDelay:1];
         
-//        [weakSelf emptyPlaceHolder];
-        weakSelf.tipView.hidden = NO;
     }];
 
 }
@@ -496,24 +469,27 @@
         _tableView.backgroundColor = WhiteColor;
         _tableView.estimatedRowHeight = 100;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTopNaviHeight, 0);
         [_tableView registerClass:[YYThreeSeekIntroduceCell class] forCellReuseIdentifier:YYThreeSeekIntroduceCellId];
         [_tableView registerClass:[YYProductionCell class] forCellReuseIdentifier:YYProductionCellId];
+        
+        YYWeakSelf
+        FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
+        configer.emptyImage = imageNamed(emptyImageName);
+        configer.emptyTitle = @"暂无数据,点此重新加载";
+        configer.emptyTitleColor = UnenableTitleColor;
+        configer.emptyTitleFont = SubTitleFont;
+        configer.allowScroll = NO;
+        configer.emptyViewTapBlock = ^{
+            [weakSelf loadData];
+        };
+        [self.tableView emptyViewConfiger:configer];
+        
     }
     return _tableView;
 }
 
 
-- (BAButton *)tipView{
-    if (!_tipView) {
-        _tipView = [BAButton creatButtonWithFrame:CGRectMake(0, 0, 160, 154) title:@"网络出错，点此重新加载" selTitle:@"网络出错，点此重新加载" titleColor:[UIColor grayColor] titleFont:[UIFont systemFontOfSize:14] image:[UIImage imageNamed:@"yyfw_push_empty_112x94_"] selImage:[UIImage imageNamed:@"yyfw_push_empty_112x94_"] buttonPositionStyle:BAButtonPositionStyleTop target:self selector:@selector(loadData)];
-        _tipView.hidden = YES;
-        _tipView.yy_centerX = self.view.yy_centerX;
-        _tipView.yy_centerY = self.view.yy_centerY-40;
-        _tipView.padding = 20;
-        [self.view addSubview:_tipView];
-    }
-    return _tipView;
-}
 
 - (NSArray *)titles {
     

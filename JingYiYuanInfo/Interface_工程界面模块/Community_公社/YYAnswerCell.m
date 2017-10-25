@@ -24,9 +24,9 @@
 - (void)setModel:(YYAnswerModel *)model {
     
     _model = model;
-    [self.icon sd_setImageWithURL:[NSURL URLWithString:model.niuhead] placeholderImage:imageNamed(placeHolderMini)];
-    self.time.text = model.atime;
-    self.answer.text = model.answer;
+    self.question.text = model.qucotent;
+    self.answer.text = model.content;
+    self.time.text = model.posttime;
 }
 
 - (void)layoutSubviews {
@@ -36,22 +36,15 @@
 
 - (void)configSubView {
     
-    UIImageView *icon = [[UIImageView alloc] init];
-    self.icon = icon;
-    [self.contentView addSubview:icon];
-    
-//    UILabel *name = [[UILabel alloc] init];
-//    name.textColor = TitleColor;
-//    name.font = TitleFont;
-//    self.name = name;
-//    [self.contentView addSubview:name];
-    
-    UILabel *time = [[UILabel alloc] init];
-    time.numberOfLines = 0;
-    time.font = UnenableTitleFont;
-    time.textColor = UnenableTitleColor;
-    self.time = time;
-    [self.contentView  addSubview:time];
+//    UIImageView *icon = [[UIImageView alloc] init];
+//    self.icon = icon;
+//    [self.contentView addSubview:icon];
+//    
+    UILabel *question = [[UILabel alloc] init];
+    question.textColor = TitleColor;
+    question.font = TitleFont;
+    self.question = question;
+    [self.contentView addSubview:question];
     
     UILabel *answer = [[UILabel alloc] init];
     answer.numberOfLines = 0;
@@ -60,33 +53,31 @@
     self.answer = answer;
     [self.contentView  addSubview:answer];
     
+    UILabel *time = [[UILabel alloc] init];
+    time.numberOfLines = 0;
+    time.font = UnenableTitleFont;
+    time.textColor = UnenableTitleColor;
+    self.time = time;
+    [self.contentView  addSubview:time];
+
     
-    [self.icon makeConstraints:^(MASConstraintMaker *make) {
+    [self.question makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.top.equalTo(15);
-        make.width.height.equalTo(30);
-    }];
-    
-//    [self.name makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.left.equalTo(self.icon.right).offset(10);
-//        make.right.equalTo(-15);
-//        make.top.equalTo(self.icon);
-//    }];
-    
-    [self.time makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.left.equalTo(self.icon.right).offset(YYInfoCellCommonMargin);
         make.right.equalTo(-15);
-        make.centerY.equalTo(self.icon);
-//        make.top.equalTo(self.icon).offset(20);
     }];
     
     [self.answer makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.time);
+        make.left.equalTo(self.question);
         make.right.equalTo(-15);
-        make.top.equalTo(self.icon.bottom).offset(5);
+        make.top.equalTo(self.question.bottom).offset(YYInfoCellCommonMargin);
+    }];
+    
+    [self.time makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.answer.bottom).offset(YYInfoCellCommonMargin);
+        make.right.equalTo(-15);
         make.bottom.equalTo(-YYInfoCellCommonMargin);
     }];
     

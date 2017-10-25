@@ -116,7 +116,7 @@
         _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 5);
         [_tableView registerClass:[YYCompanyCell class] forCellReuseIdentifier:YYCompanyCellId];
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
@@ -128,7 +128,7 @@
             [strongSelf loadMoreData];
         }];
         
-        stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
+        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

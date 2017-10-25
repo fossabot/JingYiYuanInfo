@@ -83,15 +83,16 @@
     UILabel *subTitle = [[UILabel alloc] init];
     subTitle.font = UnenableTitleFont;
     subTitle.textColor = SubTitleColor;
+    subTitle.numberOfLines = 2;
     [self.contentView addSubview:subTitle];
     self.subTitle = subTitle;
     
-    YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
-    tag1.font = UnenableTitleFont;
-    tag1.textColor = ThemeColor;
-    tag1.layer.borderColor = ThemeColor.CGColor;
-    [self.contentView addSubview:tag1];
-    self.tag1 = tag1;
+//    YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
+//    tag1.font = UnenableTitleFont;
+//    tag1.textColor = ThemeColor;
+//    tag1.layer.borderColor = ThemeColor.CGColor;
+//    [self.contentView addSubview:tag1];
+//    self.tag1 = tag1;
     
 //    YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
 //    tag2.font = UnenableTitleFont;
@@ -142,12 +143,14 @@
         
         make.top.equalTo(self.leftImageView);
         make.left.equalTo(self.leftImageView.right).offset(YYInfoCellCommonMargin);
+        make.right.equalTo(-YYInfoCellCommonMargin);
     }];
     
     [self.subTitle makeConstraints:^(MASConstraintMaker *make) {
         
         make.top.equalTo(self.title.bottom);
         make.left.equalTo(self.title);
+        make.right.equalTo(-YYInfoCellCommonMargin);
     }];
     
     [self.price makeConstraints:^(MASConstraintMaker *make) {
@@ -156,11 +159,11 @@
         make.left.equalTo(self.title);
     }];
     
-    [self.tag1 makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.bottom.equalTo(self.price.top).offset(-2);
-        make.left.equalTo(self.title);
-    }];
+//    [self.tag1 makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.bottom.equalTo(self.price.top).offset(-2);
+//        make.left.equalTo(self.title);
+//    }];
     
 //    [self.tag2 makeConstraints:^(MASConstraintMaker *make) {
 //        
@@ -187,29 +190,16 @@
 - (void)setCommonModel:(YYProductionCommonModel *)commonModel {
     
     _commonModel = commonModel;
-    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:commonModel.com_pic] placeholderImage:imageNamed(@"placeholder")];
+    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:commonModel.com_pic] placeholderImage:imageNamed(placeHolderMini)];
     self.imageTagLabel.text = commonModel.label;
     self.title.text = commonModel.yname;
     self.subTitle.text = commonModel.introduce;
-    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:commonModel.com_pic] placeholderImage:imageNamed(placeHolderMini)];
-    
-//    if (commonModel.part.length) {
-//        if ([commonModel.part containsString:@" "]) {
-//            NSArray *keywords = [commonModel.part componentsSeparatedByString:@" "];
-//            self.tag1.text = keywords[0];
-//            self.tag2.text = keywords[1];
-//        }else{
-//            self.tag1.text = commonModel.part;
-//        }
-//    }
-
-    self.tag1.text = commonModel.part;
-    self.price.text = commonModel.yprice;
+    self.price.text = commonModel.iosyprice;
     self.status.text = commonModel.ystate;
-    if ([commonModel.ystate isEqualToString:@"1"]) {
-        self.status.backgroundColor = UnactiveColor;
+    if ([commonModel.ystate isEqualToString:@"在售"]) {
+        self.status.backgroundColor = OrangeColor;
     }else {
-       self.status.backgroundColor = OrangeColor;
+        self.status.backgroundColor = UnactiveColor;
     }
     
 }
@@ -219,7 +209,7 @@
     _vipModel = vipModel;
     [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:vipModel.titleimg] placeholderImage:imageNamed(placeHolderMini)];
     self.title.text = vipModel.title;
-    self.price.text = @"￥388/年";
+    self.price.text = vipModel.iosyprice;
     self.status.text = vipModel.sellstate;
     if ([vipModel.sellstate isEqualToString:@"在售"]) {
         self.status.backgroundColor = OrangeColor;

@@ -56,6 +56,11 @@
 /** 首页通知刷新操作，如果存在lastid说明已经初始化过了，可以刷新，否则不用刷新，viewDidLoad中有刷新*/
 - (void)refreshNotice:(NSNotification *)notice {
     if (self.viewModel.lastid) {
+        CGPoint point = self.tableView.contentOffset;
+        if (![NSStringFromCGPoint(point) isEqualToString:NSStringFromCGPoint(CGPointMake(0, 0))] ) {
+            
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        }
         [self loadNewData];
     }
 }
@@ -161,7 +166,7 @@
         [strongSelf loadMoreData];
     }];
     
-    stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
+    [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
     self.tableView.mj_footer = stateFooter;
     
     FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

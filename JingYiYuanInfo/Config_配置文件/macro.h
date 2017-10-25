@@ -52,6 +52,8 @@ alpha: 1]
 //强引用
 #define YYStrongSelf  __strong typeof(self) strongSelf = weakSelf;
 
+#define weakObject(object) __weak typedof(id object) weak##object = object;
+
 //---------------------------------  常用的一些单例宏  -----------------------------------------------
 ///通知中心
 #define kNotificationCenter [NSNotificationCenter defaultCenter]
@@ -151,6 +153,8 @@ tabCell;\
 #define placeHolderMini @"placeholder"  //图片占位图（小的）
 
 #define placeHolderLarge @"placeholderLarge"  //图片占位图（大的）
+
+#define placeHolderAvatar @"yyfw_mine_unloginicon_83x83_"   //头像的占位图
 
 
 #endif /* macro_h */

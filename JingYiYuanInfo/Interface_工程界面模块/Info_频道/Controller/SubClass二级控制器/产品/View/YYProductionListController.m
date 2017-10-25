@@ -12,6 +12,7 @@
 #import "YYThreeSeekDetailController.h"
 
 #import "YYCompanyModel.h"
+#import "YYProductionCommonModel.h"
 
 #import <MJRefresh/MJRefresh.h>
 #import "YYProductionVM.h"
@@ -20,6 +21,7 @@
 
 
 #define vipDetailUrl @"http://yyapp.1yuaninfo.com/app/yyfwapp/goods_info.php?goodtpye=1&goodid=1"
+#define sepecialDetailUrl @"http://yyapp.1yuaninfo.com/app/yyfwapp/goods_info.php?goodtpye=2&goodid="
 
 @interface YYProductionListController ()
 
@@ -92,7 +94,7 @@
         [_tableView registerClass:[YYProductionCell class] forCellReuseIdentifier:YYProductionCellId];
         [_tableView registerClass:[YYCompanyCell class] forCellReuseIdentifier:YYCompanyCellId];
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
@@ -104,7 +106,7 @@
             [strongSelf loadMoreData];
         }];
 
-        stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
+        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
@@ -140,9 +142,11 @@
                 case YYProductionTypeNormal:{
                     
                     YYLog(@"点击了普通项目，暂无详情页，需登录并且注册会员方可购买");
-//                    YYProductionDetailController *productionDetail = [[YYProductionDetailController alloc] init];
-//                    
-//                    [weakSelf.navigationController pushViewController:productionDetail animated:YES];
+                    YYProductionDetailController *productionDetail = [[YYProductionDetailController alloc] init];
+                    YYProductionCommonModel *commonModel = (YYProductionCommonModel *)data;
+                    productionDetail.url = commonModel.webUrl;
+                    productionDetail.shareImgUrl = commonModel.com_pic;
+                    [weakSelf.navigationController pushViewController:productionDetail animated:YES];
                 }
                 break;
                     

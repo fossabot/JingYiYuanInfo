@@ -28,6 +28,8 @@ CGFloat const YYTopNaviHeight = 64.0;
 /** 分页cell的tab高度*/
 CGFloat const TabHeaderH = 40;
 
+/** 分页cell的tab高度*/
+CGFloat const ToolBarHeight = 45;
 
 /** 新闻列表的第一个cell的标题字号*/
 CGFloat const YYInfoCellTitleFont = 16;

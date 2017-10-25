@@ -11,6 +11,7 @@
 #import "NSCalendar+YYCommentDate.h"
 #import "NSString+Size.h"
 #import "YYHotPicsModel.h"
+#import "YYUser.h"
 
 static CGFloat const leftPicH = 70;
 //static CGFloat const bigPicH = (kSCREENWIDTH-20)*0.6;
@@ -37,7 +38,8 @@ static CGFloat const leftPicH = 70;
 
 - (NSString *)webUrl {
     
-    return [NSString stringWithFormat:@"%@%@",infoWebJointUrl,_infoid];
+    YYUser *user = [YYUser shareUser];
+    return [NSString stringWithFormat:@"%@%@&userid=%@",infoWebJointUrl,_infoid,user.userid];
 }
 
 - (NSString *)picurl {

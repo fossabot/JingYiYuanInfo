@@ -98,8 +98,6 @@
         YYWeakSelf
         _viewModel.cellSelectedBlock = ^(id data, NSIndexPath *indexPath) {
             
-            //
-            YYStrongSelf
             
         };
         
@@ -122,8 +120,8 @@
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        /** 普通闲置状态  壹元君正努力为您加载数据*/
-        footer.stateLabel.text = @"壹元君正努力为您加载中...";
+        
+        [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = footer;
         
         MJRefreshStateHeader *header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
@@ -131,7 +129,8 @@
             YYStrongSelf
             [strongSelf loadNewData];
         }];
-        header.stateLabel.text = @"壹元君正努力为您加载中...";
+        
+        [header setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_header = header;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

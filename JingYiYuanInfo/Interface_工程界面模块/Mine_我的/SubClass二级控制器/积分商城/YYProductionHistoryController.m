@@ -48,8 +48,7 @@
         [self.tableView.mj_footer endRefreshing];
     }
     YYUser *user = [YYUser shareUser];
-#warning userid需改成用户的
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"1499064765j6qavy",USERID,@"inall",@"act", nil];
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,@"out",@"act", nil];
     YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:inOutHistoryUrl parameters:para success:^(id response) {
         
@@ -73,8 +72,8 @@
     }
     
     YYUser *user = [YYUser shareUser];
-#warning userid需改成用户的
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"1499064765j6qavy",USERID,@"inall",@"act",self.lastid,LASTID, nil];
+
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,@"out",@"act",self.lastid,LASTID, nil];
     YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:inOutHistoryUrl parameters:para success:^(id response) {
         
@@ -133,14 +132,21 @@
         [_tableView registerClass:[YYGoodsIOCell class] forCellReuseIdentifier:YYGoodsIOCellId];
         
         YYWeakSelf
-//        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
-//            
-//            YYStrongSelf
-//            [strongSelf loadMoreData];
-//        }];
-//        
-//        stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
-//        _tableView.mj_footer = stateFooter;
+        
+        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+           
+            YYStrongSelf
+            [strongSelf loadNewData];
+        }];
+        _tableView.mj_header = header;
+        
+        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+            
+            YYStrongSelf
+            [strongSelf loadMoreData];
+        }];
+        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
+        _tableView.mj_footer = stateFooter;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
         configer.emptyImage = imageNamed(emptyImageName);

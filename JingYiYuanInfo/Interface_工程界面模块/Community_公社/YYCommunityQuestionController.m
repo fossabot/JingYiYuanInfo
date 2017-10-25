@@ -44,6 +44,12 @@
         [self.tableView.mj_footer endRefreshing];
     }
     
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        [SVProgressHUD showErrorWithStatus:@"账号未登录"];
+        [SVProgressHUD dismissWithDelay:1];
+        return;
+    }
     YYWeakSelf
     [self.viewModel fetchNewDataCompletion:^(BOOL success) {
         
@@ -65,6 +71,12 @@
         [self.tableView.mj_header endRefreshing];
     }
     
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        [SVProgressHUD showErrorWithStatus:@"账号未登录"];
+        [SVProgressHUD dismissWithDelay:1];
+        return;
+    }
     YYWeakSelf
     [self.viewModel fetchMoreDataCompletion:^(BOOL success) {
         
@@ -110,15 +122,15 @@
         _tableView.dataSource = self.viewModel;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.tableFooterView = [UIView new];
-        [self.tableView registerClass:[YYQuestionCell class] forCellReuseIdentifier:YYQuestionCellId];
+        [_tableView registerClass:[YYQuestionCell class] forCellReuseIdentifier:YYQuestionCellId];
         
         YYWeakSelf
         MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        /** 普通闲置状态  壹元君正努力为您加载数据*/
-//        footer.stateLabel.text = @"壹元君正努力为您加载中...";
+        
+        [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = footer;
         
         MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -127,7 +139,7 @@
             [strongSelf loadNewData];
         }];
         
-//        header.stateLabel.text = @"壹元君正努力为您加载中...";
+        [header setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_header = header;
     
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

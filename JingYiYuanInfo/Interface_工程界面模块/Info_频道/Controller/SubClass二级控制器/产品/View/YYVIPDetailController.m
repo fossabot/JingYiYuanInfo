@@ -14,8 +14,6 @@
 /** buy*/
 @property (nonatomic, strong) UIButton *buy;
 
-//@property (nonatomic, strong) UIButton *test;
-
 @end
 
 @implementation YYVIPDetailController
@@ -31,14 +29,6 @@
         make.height.equalTo(50);
     }];
     
-//    [self.view addSubview:self.test];
-//    
-//    [self.test makeConstraints:^(MASConstraintMaker *make) {
-//      
-//        make.left.right.equalTo(self.view);
-//        make.bottom.equalTo(self.buy.top);
-//        make.height.equalTo(40);
-//    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,6 +40,12 @@
 /** 购买会员*/
 - (void)buyVip:(UIButton *)sender {
     
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        [SVProgressHUD showErrorWithStatus:@"账号未登录"];
+        [SVProgressHUD dismissWithDelay:1];
+        return;
+    }
     [YYIAPTool buyProductByProductionId:@"com.yyapp_vip_1" type:@"1"];
     
 }
@@ -122,8 +118,6 @@
     [SVProgressHUD showErrorWithStatus:@"网络出错"];
     [SVProgressHUD dismissWithDelay:1];
 }
-
-
 
 
 

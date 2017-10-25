@@ -43,7 +43,7 @@
     
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:[self act],@"act", nil];
     
-    [PPNetworkHelper GET:channelProductionUrl parameters:para responseCache:^(id responseCache) {
+    [PPNetworkHelper GET:[self requestUrl] parameters:para responseCache:^(id responseCache) {
         
         if (responseCache && !self.normalDataSource.count) {
            
@@ -79,7 +79,7 @@
     
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:[self actMore],@"act", nil];
     
-    [YYHttpNetworkTool GETRequestWithUrlstring:channelProductionUrl parameters:para success:^(id response) {
+    [YYHttpNetworkTool GETRequestWithUrlstring:[self requestUrl] parameters:para success:^(id response) {
         
         if (response) {
             
@@ -204,7 +204,7 @@
         
         YYProductionListModel *proListModel = [YYProductionListModel mj_objectWithKeyValues:response];
 #warning 这个版本不打开  下个版本再上线产品
-//        self.normalDataSource = (NSMutableArray *)proListModel.pro_arr;
+        self.normalDataSource = (NSMutableArray *)proListModel.pro_arr;
         self.vipModel = proListModel.vip;
         self.lastid = proListModel.lastid;
     }else {
@@ -220,9 +220,9 @@
     
     if ([self.classid isEqualToString:@"1"]) {
         
-//        YYProductionListModel *proListModel = [YYProductionListModel mj_objectWithKeyValues:response];
-//        [self.normalDataSource addObjectsFromArray:proListModel.pro_arr];
-//        self.lastid = proListModel.lastid;
+        YYProductionListModel *proListModel = [YYProductionListModel mj_objectWithKeyValues:response];
+        [self.normalDataSource addObjectsFromArray:proListModel.pro_arr];
+        self.lastid = proListModel.lastid;
     }else {
         
         YYCompanyListModel *companyListModel = [YYCompanyListModel mj_objectWithKeyValues:response];
@@ -243,6 +243,18 @@
     }
 }
 
+/** 请求的地址*/
+- (NSString *)requestUrl {
+    
+    if ([_classid isEqualToString:@"1"]) {//产品分类
+        
+        return newProductionUrl;
+    }else {//公司分类
+        
+        return channelProductionUrl;
+    }
+}
+
 /** 请求更多数据的act参数*/
 - (NSString *)actMore {
     if ([_classid isEqualToString:@"1"]) {//产品分类
@@ -252,6 +264,14 @@
         
         return @"commore";
     }
+}
+
+- (NSMutableArray *)normalDataSource {
+    
+    if (!_normalDataSource) {
+        _normalDataSource = [NSMutableArray array];
+    }
+    return _normalDataSource;
 }
 
 @end

@@ -97,7 +97,7 @@
         [_tableView registerClass:[YYProjectCell class] forCellReuseIdentifier:YYProjectCellId];
         
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
@@ -109,7 +109,7 @@
             [strongSelf loadMoreData];
         }];
         
-        stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
+        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
         

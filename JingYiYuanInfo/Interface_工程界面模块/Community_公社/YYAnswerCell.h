@@ -18,7 +18,7 @@ static NSString * const YYAnswerCellId = @"YYAnswerCell";
 @property (nonatomic, strong) UIImageView *icon;
 
 /** 牛人名字*/
-//@property (nonatomic, strong) UILabel *name;
+@property (nonatomic, strong) UILabel *question;
 
 /** 回答*/
 @property (nonatomic, strong) UILabel *answer;

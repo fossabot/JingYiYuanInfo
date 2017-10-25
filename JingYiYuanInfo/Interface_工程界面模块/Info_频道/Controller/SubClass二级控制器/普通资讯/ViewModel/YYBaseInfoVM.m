@@ -459,7 +459,7 @@
                 [strongSelf.playerView playerControlView:nil playerModel:strongSelf.playerModel];
                 // 下载功能
                 strongSelf.playerView.hasDownload = NO;
-                strongSelf.playerView.hasPreviewView = NO;
+                strongSelf.playerView.hasPreviewView = YES;
                 
                 if (user.onlyWIFIPlay) {
                     
@@ -521,9 +521,9 @@
 - (void)showAlert:(void(^)(BOOL permit))permition {
     
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"是否使用流量播放视频" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"即将使用流量播放视频" message:@"如需关闭提醒，请到设置中关闭仅WiFi下播放视频" preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *permit = [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *permit = [UIAlertAction actionWithTitle:@"播放" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         permition(YES);
     }];
@@ -684,7 +684,7 @@
         // 静音
         // _playerView.mute = YES;
         // 移除屏幕移除player
-        // _playerView.stopPlayWhileCellNotVisable = YES;
+         _playerView.stopPlayWhileCellNotVisable = YES;
         
     }
     return _playerView;

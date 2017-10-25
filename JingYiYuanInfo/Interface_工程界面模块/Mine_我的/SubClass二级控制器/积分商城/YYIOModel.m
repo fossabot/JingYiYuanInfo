@@ -39,8 +39,8 @@
     return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_goodimg];
 }
 
-- (NSString *)addtime {
-    return [NSCalendar commentDateByOriginalDate:_addtime withDateFormat:yyyyMMddHHmmss];
-}
+//- (NSString *)addtime {
+//    return [NSCalendar commentDateByOriginalDate:_addtime withDateFormat:yyyyMMddHHmmss];
+//}
 
 @end

@@ -6,6 +6,7 @@
 //  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
 //
 
+#import <AVFoundation/AVFoundation.h>
 #import "YYCommunityMediaCell.h"
 #import "YYEdgeLabel.h"
 #import "ShareView.h"
@@ -15,7 +16,7 @@
 @interface YYCommunityMediaCell()
 
 /** title*/
-@property (nonatomic, strong) UILabel *title;
+@property (nonatomic, strong) UIButton *title;
 
 /** 播放按钮*/
 @property (nonatomic, strong) UIButton *play;
@@ -57,16 +58,21 @@
 - (void)configSubView {
     
     UIImageView *videoImg = [[UIImageView alloc] init];
-    videoImg.tag = 101;
+    videoImg.tag = 1001;
     videoImg.userInteractionEnabled = YES;
     [self.contentView addSubview:videoImg];
     self.videoImg = videoImg;
     
-    UILabel *title = [[UILabel alloc] init];
-    title.font = TitleFont;
-    title.textColor = WhiteColor;
-    title.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
-    title.numberOfLines = 0;
+    UIButton *title = [UIButton buttonWithType:UIButtonTypeCustom];
+    title.userInteractionEnabled = NO;
+    title.titleLabel.font = TitleFont;
+    [title setTitleColor:WhiteColor forState:UIControlStateNormal];
+    [title setBackgroundImage:imageNamed(@"YYPlayer_top_shadow") forState:UIControlStateNormal];
+//    title.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+    title.titleLabel.numberOfLines = 0;
+    [title setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    [title setContentVerticalAlignment:UIControlContentVerticalAlignmentTop];
+    [title setTitleEdgeInsets:UIEdgeInsetsMake(5, 5, -5, 5)];
     [self.videoImg addSubview:title];
     self.title = title;
     
@@ -82,7 +88,7 @@
     playCount.layer.masksToBounds = YES;
     playCount.edgeInsets = UIEdgeInsetsMake(2, 3, 2, 3);
     playCount.textColor = [UIColor whiteColor];
-    playCount.layer.borderColor = [UIColor blackColor].CGColor;
+//    playCount.layer.borderColor = [UIColor blackColor].CGColor;
     playCount.font = UnenableTitleFont;
     [self.videoImg addSubview:playCount];
     self.playCount = playCount;
@@ -93,7 +99,7 @@
     time.layer.masksToBounds = YES;
     time.edgeInsets = UIEdgeInsetsMake(2, 3, 2, 3);
     time.textColor = [UIColor whiteColor];
-    time.layer.borderColor = [UIColor blackColor].CGColor;
+//    time.layer.borderColor = [UIColor blackColor].CGColor;
     time.font = UnenableTitleFont;
     [self.videoImg addSubview:time];
     self.time = time;
@@ -102,6 +108,7 @@
     YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
     tag1.font = UnenableTitleFont;
     tag1.textColor = ThemeColor;
+    tag1.layer.borderColor = ThemeColor.CGColor;
     tag1.layer.cornerRadius = 3.0;
     tag1.layer.masksToBounds = YES;
     [self.contentView addSubview:tag1];
@@ -110,6 +117,7 @@
     YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
     tag2.font = UnenableTitleFont;
     tag2.textColor = ThemeColor;
+    tag2.layer.borderColor = ThemeColor.CGColor;
     tag2.layer.cornerRadius = 3.0;
     tag2.layer.masksToBounds = YES;
     [self.contentView addSubview:tag2];
@@ -195,7 +203,7 @@
 - (void)setMediaModel:(YYCommunityMediaModel *)mediaModel {
     
     _mediaModel = mediaModel;
-    self.title.text = mediaModel.v_name;
+    [self.title setTitle:mediaModel.v_name forState:UIControlStateNormal];
     [self.videoImg sd_setImageWithURL:[NSURL URLWithString:mediaModel.v_picture] placeholderImage:imageNamed(@"loading_bgView")];
     self.playCount.text = mediaModel.v_hits;
     self.time.text = mediaModel.v_time;
@@ -229,7 +237,6 @@
  */
 - (void)playVideo {
     
-    YYUser *user = [YYUser shareUser];
     if (_playBlock) {
         _playBlock();
     }

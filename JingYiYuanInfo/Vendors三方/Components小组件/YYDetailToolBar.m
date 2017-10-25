@@ -85,14 +85,22 @@
 - (void)setPlaceHolder:(NSString *)placeHolder {
     
     _placeHolder = placeHolder;
+    self.title.text = placeHolder;
     [self.writeButton setTitle:placeHolder forState:UIControlStateNormal];
 }
 
+/** 写评论*/
 - (void)writeComments:(void (^)(NSString *))comment {
     
     _sendCommentBlock = comment;
     [self write];
     
+}
+
+/* 清除评论text*/
+- (void)clearText {
+    
+    self.textView.text = nil;
 }
 
 - (void)setToolBarType:(DetailToolBarType)toolBarType {
@@ -206,6 +214,20 @@
     [coverView removeFromSuperview];
 }
 
+/* 显示评论框*/
+- (void)showCommentTextView {
+    
+    coverView = [[UIView alloc] initWithFrame:kMainScreen.bounds];
+    [kKeyWindow addSubview:coverView];
+    coverView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignResponder)];
+    [coverView addGestureRecognizer:tap];
+    
+    [coverView addSubview:self.textViewContainer];
+    [self.textView becomeFirstResponder];
+
+}
+
 /** 弹出评论框，写评论*/
 - (void)write {
     
@@ -218,18 +240,10 @@
             [SVProgressHUD dismissWithDelay:1];
             return;
         }else {
-
-            coverView = [[UIView alloc] initWithFrame:kMainScreen.bounds];
-            [kKeyWindow addSubview:coverView];
-            coverView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:weakSelf action:@selector(resignResponder)];
-            [coverView addGestureRecognizer:tap];
             
-            [coverView addSubview:weakSelf.textViewContainer];
-            [weakSelf.textView becomeFirstResponder];
+            [weakSelf showCommentTextView];
         }
     }];
-    
 }
 
 /** 跳转评论页*/
@@ -326,12 +340,18 @@
             return;
         }
         
-//        if ([weakSelf.delegate respondsToSelector:@selector(detailToolBar:didSelectBarType:)]) {
-//            
-//            [weakSelf.delegate detailToolBar:weakSelf didSelectBarType:DetailToolBarTypeWriteComment];
-//        }
+        NSString *text = weakSelf.textView.text;
+        //判断输入框全是空格的思路 ：把空格和换行符全删除后剩余的字符长度不等于0，说明不全是空格
+        NSCharacterSet *set=[NSCharacterSet whitespaceAndNewlineCharacterSet];
+        NSString *trimedString=[text stringByTrimmingCharactersInSet:set];
+        if (trimedString.length == 0) {
+            YYLog(@"当前输入框为空");
+            [SVProgressHUD showImage:nil status:@"输入为空"];
+            [SVProgressHUD dismissWithDelay:1];
+            return;
+        }
         if (weakSelf.sendCommentBlock) {
-            weakSelf.sendCommentBlock(weakSelf.textView.text);
+            weakSelf.sendCommentBlock(text);
         }
         [weakSelf cancelSend];
     }];
@@ -449,7 +469,7 @@
             make.left.equalTo(self.cancel.left);
             make.right.equalTo(self.send.right);
             make.top.equalTo(self.title.bottom).offset(YYInfoCellCommonMargin);
-            make.bottom.offset(-YYInfoCellCommonMargin*2);
+            make.bottom.equalTo(-YYInfoCellCommonMargin*2);
         }];
     }
     return _textViewContainer;

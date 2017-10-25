@@ -253,13 +253,13 @@
         
         YYWeakSelf
         
-        MJRefreshStateHeader *stateHeader = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        MJRefreshNormalHeader *stateHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
         
-        stateHeader.stateLabel.text = @"壹元君正努力为您加载中...";
+        [stateHeader setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_header = stateHeader;
         
         MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
@@ -268,7 +268,7 @@
             [strongSelf loadMoreData];
         }];
 
-        stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
+        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

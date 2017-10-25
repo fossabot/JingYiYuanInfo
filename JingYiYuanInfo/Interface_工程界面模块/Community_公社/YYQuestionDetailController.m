@@ -185,7 +185,7 @@
         
         make.left.equalTo(self.icon.right).offset(YYInfoCellCommonMargin);
         make.right.equalTo(-YYInfoCellCommonMargin);
-        make.top.equalTo(self.icon);
+        make.centerY.equalTo(self.icon);
     }];
     
     
@@ -220,7 +220,7 @@
     [self.toolBar makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.right.bottom.equalTo(self.view);
-        make.height.equalTo(40);
+        make.height.equalTo(45);
     }];
 
     
@@ -232,11 +232,13 @@
     
     YYUser *user = [YYUser shareUser];
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"useraddq",@"act", user.userid,USERID,self.articleId,@"artid", self.titleStr,@"arttitle", question, @"content",nil];
+    YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:communityUrl parameters:para success:^(id response) {
         
         if (response) {
             if ([response[STATE] isEqualToString:@"1"]) {
-                [SVProgressHUD showSuccessWithStatus:@"提问成功,在我的问答可查看牛人回复哦"];
+                [SVProgressHUD showSuccessWithStatus:@"提问成功,静候牛人给您的回复哦"];
+                [weakSelf.toolBar clearText];
             }else {
                 [SVProgressHUD showErrorWithStatus:@"服务器忙，稍后再试"];
             }
@@ -256,7 +258,7 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, 40, 0);
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 60, 0, 10);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
         _tableView.tableFooterView = [[UIView alloc] init];
         [_tableView registerClass:[YYAnswerCell class] forCellReuseIdentifier:YYAnswerCellId];
         YYWeakSelf
@@ -289,7 +291,7 @@
     if (!_toolBar) {
         _toolBar = [[YYDetailToolBar alloc] init];
         _toolBar.toolBarType = DetailToolBarTypeWriteComment;
-        _toolBar.placeHolder = @"提问";
+        _toolBar.placeHolder = @"  提问";
         YYWeakSelf
         _toolBar.sendCommentBlock = ^(NSString *comment) {
             

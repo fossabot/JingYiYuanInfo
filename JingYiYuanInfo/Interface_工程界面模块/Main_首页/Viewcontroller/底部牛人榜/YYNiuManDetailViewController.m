@@ -242,7 +242,7 @@
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-64) style:UITableViewStylePlain];
-        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 49, 0);
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
@@ -255,15 +255,15 @@
             [strongSelf loadMoreData];
         }];
         /** 普通闲置状态  壹元君正努力为您加载数据*/
-//        footer.stateLabel.text = @"壹元君正努力为您加载中...";
+        [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = footer;
         
-        MJRefreshStateHeader *header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
-//        header.stateLabel.text = @"壹元君正努力为您加载中...";
+        [header setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_header = header;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

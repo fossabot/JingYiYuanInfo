@@ -40,6 +40,7 @@
     if (self) {
         
         _seekTime = 0;
+        self.userInteractionEnabled = YES;
         [self configSubView];
     }
     return self;
@@ -47,7 +48,14 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    [self.playerView autoPlayTheVideo];
+    if (_seekTime != 0) {
+        
+        [self.playerView autoPlayTheVideo];
+        _seekTime = 0;
+    }else {
+        
+        [self.playerView pause];
+    }
 }
 
 /**
@@ -56,11 +64,12 @@
 - (void)configSubView {
     
     UIImageView *videoImg = [[UIImageView alloc] init];
+    videoImg.userInteractionEnabled = YES;
     [self addSubview:videoImg];
     self.videoImg = videoImg;
     
     UIButton *playBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [playBtn setImage:imageNamed(@"") forState:UIControlStateNormal];
+    [playBtn setImage:imageNamed(@"YYPlayerView_play") forState:UIControlStateNormal];
     [playBtn addTarget:self action:@selector(play) forControlEvents:UIControlEventTouchUpInside];
     [self.videoImg addSubview:playBtn];
     self.playBtn = playBtn;
@@ -121,7 +130,6 @@
  */
 - (void)play {
     
-//    self.playBtn.hidden = YES;
     [self.playerView play];
 }
 
@@ -156,11 +164,13 @@
 }
 
 
+
 #pragma mark -------  setter -------------------------
 
 - (void)setVideoTitle:(NSString *)videoTitle {
     _videoTitle = videoTitle;
     self.title.text = videoTitle;
+    _playerModel.title = videoTitle;
 }
 
 - (void)setPlaceHolderImageUrl:(NSString *)placeHolderImageUrl {
@@ -171,6 +181,7 @@
 - (void)setSeekTime:(NSInteger)seekTime {
     _seekTime = seekTime;
     self.playerModel.seekTime = seekTime;
+    
 }
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
@@ -201,15 +212,16 @@
         
         // 设置代理
         _playerView.delegate = self;
+    
         
         //（可选设置）可以设置视频的填充模式，内部设置默认（ZFPlayerLayerGravityResizeAspect：等比例填充，直到一个维度到达区域边界）
-         _playerView.playerLayerGravity = ZFPlayerLayerGravityResize;
+//         _playerView.playerLayerGravity = ZFPlayerLayerGravityResize;
         
         // 打开下载功能（默认没有这个功能）
         _playerView.hasDownload    = NO;
         
         // 打开预览图
-        self.playerView.hasPreviewView = NO;
+        self.playerView.hasPreviewView = YES;
         
     }
     return _playerView;

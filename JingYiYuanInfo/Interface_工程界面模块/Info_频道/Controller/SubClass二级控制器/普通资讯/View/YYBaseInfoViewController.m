@@ -191,19 +191,19 @@
         [_tableView registerClass:[YYChannelShowLikeCell class] forCellReuseIdentifier:YYChannelShowLikeCellId];
         
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
         
-        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        MJRefreshBackNormalFooter *stateFooter = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
         
-        stateFooter.stateLabel.text = @"壹元君正努力为您加载中...";
+        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
 
         

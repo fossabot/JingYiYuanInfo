@@ -12,12 +12,14 @@
 
 /** 
  "vip": {
- "id": "365会员",
+ "id": "1",
+ "titleimg": "http://yyapp.1yuaninfo.com/app/application/img/vvvip.jpg",
  "title": "365会员",
  "expense": "365",
- "sellstate": "0"
- },
- */
+ "sellstate": "1",
+ "iosproid": "com.yyapp_vip_1",
+ "iosyprice": "388"
+ }, */
 
 /** id*/
 @property (nonatomic, copy) NSString *vipId;
@@ -33,5 +35,11 @@
 
 /** 销售状态*/
 @property (nonatomic, copy) NSString *sellstate;
+
+/** ios产品的苹果后台的id */
+@property (nonatomic, copy) NSString *iosproid;
+
+/** ios的售价*/
+@property (nonatomic, copy) NSString *iosyprice;
 
 @end

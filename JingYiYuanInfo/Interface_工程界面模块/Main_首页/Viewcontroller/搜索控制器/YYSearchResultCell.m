@@ -19,7 +19,7 @@
         [self.contentView addSubview:self.title];
         [self.title makeConstraints:^(MASConstraintMaker *make) {
            
-            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(10, 10, 10, 10));
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(15, 15, 15, 15));
         }];
     }
     return self;
@@ -30,7 +30,7 @@
     
     if (!_title) {
         _title = [[UILabel alloc] init];
-        _title.font = SubTitleFont;
+        _title.font = TitleFont;
         _title.textColor = SubTitleColor;
         _title.numberOfLines = 0;
     }

@@ -35,23 +35,26 @@
     self.integration = [[UILabel alloc] init];
     self.integration.textColor = ThemeColor;
     self.integration.font = SubTitleFont;
+    [self.integration setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+    [self.integration setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     [self.contentView addSubview:self.integration];
     
     [self.title makeConstraints:^(MASConstraintMaker *make) {
     
-        make.left.top.equalTo(10);
+        make.left.top.equalTo(YYInfoCellCommonMargin);
+        make.right.equalTo(self.integration.left).offset(-YYInfoCellCommonMargin);
     }];
     
     [self.desc makeConstraints:^(MASConstraintMaker *make) {
        
         make.left.equalTo(self.title);
-        make.bottom.equalTo(-10);
+        make.bottom.equalTo(-YYInfoCellCommonMargin);
     }];
     
     [self.integration makeConstraints:^(MASConstraintMaker *make) {
        
         make.centerY.equalTo(self.contentView);
-        make.right.equalTo(-10);
+        make.right.equalTo(-YYInfoCellCommonMargin);
     }];
     
     

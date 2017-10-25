@@ -108,7 +108,8 @@
             [strongSelf loadMoreData];
         }];
         /** 普通闲置状态  壹元君正努力为您加载数据*/
-        footer.stateLabel.text = @"壹元君正努力为您加载中...";
+        [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
+//        footer.stateLabel.text = @"壹元君正努力为您加载中...";
         _tableView.mj_footer = footer;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

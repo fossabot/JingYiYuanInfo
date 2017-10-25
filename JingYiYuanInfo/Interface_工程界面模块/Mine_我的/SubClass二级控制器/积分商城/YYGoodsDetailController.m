@@ -8,6 +8,7 @@
 
 #import "YYGoodsDetailController.h"
 #import "YYAddressController.h"
+#import "YYLoginManager.h"
 
 @interface YYGoodsDetailController ()
 
@@ -38,14 +39,34 @@
         [_buy setTitle:@"兑换商品" forState:UIControlStateNormal];
         [_buy setTitleColor:WhiteColor forState:UIControlStateNormal];
         [_buy setBackgroundColor:ThemeColor];
-        [_buy addTarget:self action:@selector(buyGoods:) forControlEvents:UIControlEventTouchUpInside];
+        [_buy addTarget:self action:@selector(alertUser) forControlEvents:UIControlEventTouchUpInside];
     }
     return _buy;
 }
 
-/** 购买会员*/
-- (void)buyGoods:(UIButton *)sender {
+/* 提醒用户是否兑换商品*/
+- (void)alertUser {
+    
+    NSString *msg = [NSString stringWithFormat:@"您是否要花费%@积分兑换该商品",self.integral];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"兑换商品" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        YYLog(@"点击了取消");
+    }]];
+    
+    YYWeakSelf
+    [alert addAction:[UIAlertAction actionWithTitle:@"兑换" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        [weakSelf buyGoods];
+    }]];
+    
+    [kKeyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+}
+
+/** 兑换商品*/
+- (void)buyGoods {
  
+    
     YYUser *user = [YYUser shareUser];
     if (user.isLogin) {
         
@@ -53,7 +74,7 @@
         NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:self.goodId,@"goodid",user.userid,USERID, nil];
         [YYHttpNetworkTool GETRequestWithUrlstring:exchangeGoodUrl parameters:para success:^(id response) {
             
-            if (response) {//state  0收货地址为空1成功2积分不足3入库失败
+            if (response) {//state  0收货地址为空 1成功 2积分不足 3入库失败
                 if ([response[STATE] isEqualToString:@"0"]) {
                     [SVProgressHUD showErrorWithStatus:@"没有收货地址"];
                     [SVProgressHUD dismissWithDelay:1 completion:^{
@@ -63,24 +84,28 @@
                     }];
                 }else if ([response[STATE] isEqualToString:@"1"]) {
                     
-                    [SVProgressHUD showInfoWithStatus:@"兑换成功，稍后客服会与您联系！"];
+                    [SVProgressHUD showSuccessWithStatus:@"兑换成功，稍后客服会与您联系！"];
+                    [YYLoginManager getUserInfo];
                 }else if ([response[STATE] isEqualToString:@"2"]) {
                     
                     [SVProgressHUD showInfoWithStatus:@"积分不足"];
                 }else {
-                    [SVProgressHUD showInfoWithStatus:@"服务器忙，稍后再试"];
+                    [SVProgressHUD showErrorWithStatus:@"服务器忙，稍后再试"];
                 }
-                [SVProgressHUD dismissWithDelay:1];
+                [SVProgressHUD dismissWithDelay:2];
             }
         } failure:^(NSError *error) {
             
         } showSuccessMsg:nil];
         
     }else {
-        [SVProgressHUD showInfoWithStatus:@"暂未登录"];
+        
+        [SVProgressHUD showInfoWithStatus:@"对不起！账号未登录，无法兑换！"];
         [SVProgressHUD dismissWithDelay:1];
     }
 }
+
+
 
 
 #pragma mark -------  wkWebview 代理方法  --------------------------------

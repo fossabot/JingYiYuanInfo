@@ -16,6 +16,5 @@ static NSString * const YYSubscribeCellId = @"YYSubscribeCell";
 
 @property (nonatomic, strong) YYNiuSubscribeModel *model;
 
-- (void)clipRound;
 
 @end

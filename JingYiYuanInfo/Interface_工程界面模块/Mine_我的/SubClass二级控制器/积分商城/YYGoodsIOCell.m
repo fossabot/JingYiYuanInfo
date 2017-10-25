@@ -29,11 +29,12 @@
     UILabel *title = [[UILabel alloc] init];
     title.textColor = TitleColor;
     title.font = TitleFont;
+    title.numberOfLines = 2;
     self.title = title;
     [self.contentView addSubview:title];
     
     UILabel *integral = [[UILabel alloc] init];
-    integral.textColor = UnenableTitleColor;
+    integral.textColor = ThemeColor;
     integral.font = UnenableTitleFont;
     self.integral = integral;
     [self.contentView addSubview:integral];
@@ -56,6 +57,7 @@
        
         make.left.equalTo(self.leftImageView.right).offset(10);
         make.top.equalTo(self.leftImageView);
+        make.right.equalTo(-YYInfoCellCommonMargin);
     }];
     
     [self.integral makeConstraints:^(MASConstraintMaker *make) {
