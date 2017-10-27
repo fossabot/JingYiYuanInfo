@@ -107,7 +107,6 @@
     }];
     [SVProgressHUD dismiss];
     self.toolBar.transform = CGAffineTransformMakeTranslation(0, -ToolBarHeight);
-//    self.toolBar.hidden = NO;
     [self checkCollectState];
     
 }
@@ -151,9 +150,6 @@
             YYRewardView *rewardView = [[YYRewardView alloc] init];
             rewardView.rewardBlock = ^(NSString *integeration) {
               
-                
-                
-                
                 NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"reward",@"act",user.userid,USERID,integeration,@"num",weakSelf.niuNewsId,@"articleid", nil];
                 [YYHttpNetworkTool GETRequestWithUrlstring:rewardUrl parameters:para success:^(id response) {
                     

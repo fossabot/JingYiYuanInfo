@@ -46,6 +46,11 @@
         [SVProgressHUD dismissWithDelay:1];
         return;
     }
+    if (![user.groupid containsString:@"3"]) {
+        [SVProgressHUD showInfoWithStatus:@"非会员用户不能购买该产品"];
+        [SVProgressHUD dismissWithDelay:1];
+        return;
+    }
     [YYIAPTool buyProductByProductionId:@"com.yyapp_vip_1" type:@"1"];
     
 }
@@ -54,12 +59,6 @@
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 
-- (void)share {
-    
-    [ShareView shareWithTitle:self.navigationItem.title subTitle:@"" webUrl:self.url imageUrl:self.shareImgUrl isCollected:NO shareViewContain:nil shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
-        
-    }];
-}
 
 //- (void)ttest {
 // 
@@ -72,6 +71,7 @@
 - (UIButton *)buy{
     if (!_buy) {
         _buy = [UIButton buttonWithType:UIButtonTypeCustom];
+        _buy.enabled = NO;
         [_buy setTitle:@"购买会员" forState:UIControlStateNormal];
         [_buy setTitleColor:WhiteColor forState:UIControlStateNormal];
         [_buy setBackgroundColor:ThemeColor];
@@ -108,6 +108,7 @@
     [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError * _Nullable error) {
         weakSelf.navigationItem.title = title;
     }];
+    _buy.enabled = YES;
     [SVProgressHUD dismiss];
     
 }

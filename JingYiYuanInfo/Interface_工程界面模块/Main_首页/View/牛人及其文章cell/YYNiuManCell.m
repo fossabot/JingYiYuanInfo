@@ -70,7 +70,7 @@
     [_icon sd_setImageWithURL:urlString(niuManModel.niu_img) placeholderImage:nil];
     _name.text = niuManModel.niu_name;
     _niutag.text = niuManModel.niu_tag;
-    _modtime.text = niuManModel.niu_modtime;
+//    _modtime.text = niuManModel.niu_modtime;
     _introduce.text = niuManModel.niu_introduce;
     _renqiValue.text = niuManModel.niu_pop;
     
@@ -102,7 +102,7 @@
     [_icon sd_setImageWithURL:urlString(niuManModel.niu_img) placeholderImage:nil];
     _name.text = niuManModel.niu_name;
     _niutag.text = niuManModel.niu_tag;
-    _modtime.text = niuManModel.niu_modtime;
+//    _modtime.text = niuManModel.niu_modtime;
     _introduce.text = niuManModel.niu_introduce;
     _renqiValue.text = niuManModel.niu_pop;
     [_indexButton updateConstraints:^(MASConstraintMaker *make) {
@@ -199,7 +199,7 @@
     
     [self.name makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.icon.top);
-        make.left.equalTo(self.icon.right).offset(YYInfoCellSubMargin);
+        make.left.equalTo(self.icon.right).offset(YYInfoCellCommonMargin);
     }];
     
     [self.niutag makeConstraints:^(MASConstraintMaker *make) {

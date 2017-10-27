@@ -11,6 +11,8 @@
 #import "LabelContainer.h"
 #import "YYThreeSeekTabView.h"
 
+#import "YYProductionDetailController.h"
+
 #import "YYThreeSeekDetailCompanyModel.h"
 #import "YYProductionCommonModel.h"
 
@@ -55,8 +57,6 @@
 
 /** tableView*/
 @property (nonatomic, strong) UITableView *tableView;
-
-
 
 /** 公司详情模型*/
 @property (nonatomic, strong) YYThreeSeekDetailCompanyModel *companyDetailModel;
@@ -124,17 +124,7 @@
         }];
     }
     
-//    [self.headerView updateConstraints:^(MASConstraintMaker *make) {
-//       
-//        make.bottom.equalTo(self.separatorView).offset(10);
-//    }];
-//    [self.labelContainer setTitles:nil];
-//    [self.tag1 sizeToFit];
-//    self.tag1.yy_x = self.companyName.yy_x;
-//    self.tag1.yy_y =
-//    self.headerView.yy_height = CGRectGetMaxY(self.separatorView.frame)+10;
-//    self.tabView.yy_y = CGRectGetMaxY(self.headerView.frame)+10;
-//    self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.tabView.frame), kSCREENWIDTH, kSCREENHEIGHT-64-CGRectGetMaxY(self.tabView.frame));
+
     [self.tableView reloadData];
 }
 
@@ -151,6 +141,7 @@
             
             weakSelf.companyDetailModel = [YYThreeSeekDetailCompanyModel mj_objectWithKeyValues:responseCache[@"com_intro_arr"]];
             weakSelf.relativeProductions = [YYProductionCommonModel mj_objectArrayWithKeyValuesArray:responseCache[@"prod_arr"]];
+            [weakSelf refreshData];
         }
     } success:^(id responseObject) {
         
@@ -189,25 +180,6 @@
     return 3;
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//
-//    switch (indexPath.section) {
-//        case 0:
-//            return self.companyDetailModel.trendcontentHeight;
-//            break;
-//            
-//        case 1:
-////            return self.companyDetailModel.introductionHeight;
-//            return 100;
-//            break;
-//            
-//        default:
-//            return 100;
-//            break;
-//    }
-//
-//}
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 2) {
         return self.relativeProductions.count;
@@ -216,11 +188,36 @@
 }
 
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section != 2) {
+        
+        return [tableView fd_heightForCellWithIdentifier:YYThreeSeekIntroduceCellId cacheByIndexPath:indexPath configuration:^(YYThreeSeekIntroduceCell *cell) {
+            
+            NSString *str = indexPath.section ? self.companyDetailModel.introduction : self.companyDetailModel.trendcontent;
+            cell.introduce = str;
+        }];
+    }else {
+        return 90;
+//        [tableView fd_heightForCellWithIdentifier:YYProductionCellId cacheByIndexPath:indexPath configuration:^(YYProductionCell *cell) {
+        
+//            cell.commonModel = self.relativeProductions[indexPath.row];
+//        }];
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    
+    if (indexPath.section == 2) {
+        
+        YYProductionDetailController *productionDetail = [[YYProductionDetailController alloc] init];
+        YYProductionCommonModel *commonModel = self.relativeProductions[indexPath.row];
+        productionDetail.url = commonModel.webUrl;
+        [self.navigationController pushViewController:productionDetail animated:YES];
+        
+    }
 }
 
 #pragma -- mark TableViewDataSource  ---------------------
@@ -467,7 +464,7 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = WhiteColor;
-        _tableView.estimatedRowHeight = 100;
+//        _tableView.estimatedRowHeight = 100;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTopNaviHeight, 0);
         [_tableView registerClass:[YYThreeSeekIntroduceCell class] forCellReuseIdentifier:YYThreeSeekIntroduceCellId];

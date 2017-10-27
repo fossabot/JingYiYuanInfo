@@ -26,4 +26,8 @@
     return _logo;
 }
 
+- (NSString *)regmoney {
+    return [NSString stringWithFormat:@"资金量: %@万元",_regmoney];
+}
+
 @end

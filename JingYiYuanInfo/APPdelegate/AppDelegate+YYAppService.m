@@ -129,7 +129,8 @@ static YYNewVersionViewController *new;
     //[NSString stringWithFormat:@"https://itunes.apple.com/cn/lookup?bundleid=%@", bundleId]
     //[NSString stringWithFormat:@"https://itunes.apple.com/cn/lookup?id=%@", appleid]
     
-    [YYHttpNetworkTool GETRequestWithUrlstring:versionUrl parameters:nil success:^(id response) {
+    [PPNetworkHelper GET:versionUrl parameters:nil success:^(id response) {
+        
         NSDictionary * results = [response[@"results"] lastObject];
         //版本号
         NSString * verCode = results[@"version"];
@@ -157,7 +158,10 @@ static YYNewVersionViewController *new;
 
     } failure:^(NSError *error) {
         
-    } showSuccessMsg:nil];
+        
+    }];
+    
+    
 }
 
 

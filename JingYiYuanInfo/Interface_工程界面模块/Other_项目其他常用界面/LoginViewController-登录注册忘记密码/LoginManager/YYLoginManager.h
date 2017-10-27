@@ -13,8 +13,12 @@
 //根据userid获取个人信息
 + (void)getUserInfo;
 
+/** 检查设备是否在其他设备登录，如果是真 则退出账号，直接清除本地账号不需要跟后台交互*/
++ (void)checkLogInOtherDevice;
+
 /** 退出登录*/
-+ (void)logOutAccountSuccess:(void(^)(BOOL))success;
++ (void)logOutAccountSuccess:(void(^)(BOOL success))success;
+
 
 /**
  登录时 验证账号密码
@@ -23,7 +27,6 @@
  @param password 密码
  @param success 返回BOOL值 成功或者失败
  */
-
 + (void)loginSucceedWithAccount:(NSString *)account password:(NSString *)password responseMsg:(void (^)(BOOL success))success;
 
 

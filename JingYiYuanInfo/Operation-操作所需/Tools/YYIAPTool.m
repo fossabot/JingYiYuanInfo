@@ -24,7 +24,7 @@
 }
 
 
-/** 购买产品  通过产品id(通常为产品id一般为你工程的 Bundle ID + 功能 + 数字，ps:com.yyinfo)  需与iTunes connect 产品ID后台一致  productType   商品类型1会员2特色3三找4积分*/
+/** 购买产品  通过产品id(通常为产品id一般为你工程的 Bundle ID + 功能 + 数字，ps:com.yyinfo)  需与iTunes connect 产品ID后台一致  productType (商品类型1会员2特色3三找4积分)现在是废物*/
 + (void)buyProductByProductionId:(NSString *)productionId type:(NSString *)productType{
     
 //    [SVProgressHUD showWithStatus:@"购买时请不要关闭应用..."];
@@ -48,7 +48,6 @@
         [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后重试"];
         [SVProgressHUD dismissWithDelay:1];
     } showSuccessMsg:nil];
-    
     
 }
 

@@ -19,6 +19,9 @@
 + (void)getUserInfo {
     
     YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        return;
+    }
     [YYHttpNetworkTool GETRequestWithUrlstring:userInfoUrl parameters:@{USERID:user.userid} success:^(id response) {
         
         if (response) {
@@ -64,6 +67,7 @@
         [SVProgressHUD dismissWithDelay:1];
         
     } failure:^(NSError *error) {
+        
         //封装的方法内部有网络不佳的提醒，网络请求失败
         success(NO);
         [SVProgressHUD dismissWithDelay:1];
@@ -71,6 +75,62 @@
     
 }
 
+
+/** 检查设备是否在其他设备登录，如果是真 则退出账号，直接清除本地账号不需要跟后台交互*/
++ (void)checkLogInOtherDevice {
+    
+    NSString *url = @"http://yyapp.1yuaninfo.com/app/application/chechUserLogin.php";
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        return;
+    }
+    
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.deviceToken,@"devicetoken",user.userid,USERID, nil];
+//    [YYHttpNetworkTool GETRequestWithUrlstring:url parameters:para success:^(id response) {
+//        
+//        if (response) {
+//            
+//            if ([response[STATE] isEqualToString:@"1"]) {
+//                
+//                
+//                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"您的账号已在其他设备登录，如非本人操作，请及时修改密码！" preferredStyle:UIAlertControllerStyleAlert];
+//                [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                    
+//                    [YYUser logOut];
+//                    [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
+//                }]];
+//                [kKeyWindow.rootViewController presentViewController:alert animated:YES completion:^{
+//                    
+//                }];
+//            }
+//        }
+//
+//    } failure:^(NSError *error) {
+//        
+//    } showSuccessMsg:nil];
+    
+    [PPNetworkHelper GET:url parameters:para success:^(id responseObject) {
+       
+        if (responseObject) {
+            
+            if ([responseObject[STATE] isEqualToString:@"1"]) {
+
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"您的账号已在其他设备登录，如非本人操作，请及时修改密码！" preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    
+                    [YYUser logOut];
+                    [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
+                }]];
+                [kKeyWindow.rootViewController presentViewController:alert animated:YES completion:^{
+                    
+                }];
+            }
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+    
+}
 
 /** 退出登录*/
 + (void)logOutAccountSuccess:(void(^)(BOOL))success {
@@ -82,6 +142,7 @@
         [YYUser logOut];
         success(YES);
     } failure:^(NSError *error) {
+        
         success(NO);
         [SVProgressHUD showErrorWithStatus:@"退出失败"];
         [SVProgressHUD dismissWithDelay:1];

@@ -370,6 +370,9 @@
 		BFF8C1841F61170700FBAB04 /* YYMainMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF8C1831F61170600FBAB04 /* YYMainMessageCell.m */; };
 		BFF8C1871F611C3500FBAB04 /* YYMessageDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF8C1861F611C3500FBAB04 /* YYMessageDetailController.m */; };
 		DBF184A43E7A45B831EA479C /* Pods_JingYiYuanInfo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 235484E61E105545ECE94180 /* Pods_JingYiYuanInfo.framework */; };
+		F61260491FA0D0C400441439 /* YYMineOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F61260481FA0D0C400441439 /* YYMineOrderCell.m */; };
+		F612604C1FA0D76900441439 /* YYOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F612604B1FA0D76900441439 /* YYOrderModel.m */; };
+		F612604F1FA1BD3B00441439 /* YYPushServiceDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = F612604E1FA1BD3A00441439 /* YYPushServiceDetailController.m */; };
 		F61367481F86181D0020A47B /* YYDataBaseTool.m in Sources */ = {isa = PBXBuildFile; fileRef = F61367471F86181D0020A47B /* YYDataBaseTool.m */; };
 		F613674B1F887A3B0020A47B /* YYIapModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F613674A1F887A3B0020A47B /* YYIapModel.m */; };
 		F613674D1F8C9B130020A47B /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F613674C1F8C9B130020A47B /* libsqlite3.0.tbd */; };
@@ -1121,6 +1124,12 @@
 		BFF8C1861F611C3500FBAB04 /* YYMessageDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYMessageDetailController.m; sourceTree = "<group>"; };
 		C32C93215A72C790C69175C5 /* Pods-JingYiYuanInfoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JingYiYuanInfoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JingYiYuanInfoTests/Pods-JingYiYuanInfoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D3A4813676F9AA7A96185494 /* Pods-JingYiYuanInfoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JingYiYuanInfoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-JingYiYuanInfoUITests/Pods-JingYiYuanInfoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		F61260471FA0D0C400441439 /* YYMineOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYMineOrderCell.h; sourceTree = "<group>"; };
+		F61260481FA0D0C400441439 /* YYMineOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYMineOrderCell.m; sourceTree = "<group>"; };
+		F612604A1FA0D76900441439 /* YYOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYOrderModel.h; sourceTree = "<group>"; };
+		F612604B1FA0D76900441439 /* YYOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYOrderModel.m; sourceTree = "<group>"; };
+		F612604D1FA1BD3A00441439 /* YYPushServiceDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYPushServiceDetailController.h; sourceTree = "<group>"; };
+		F612604E1FA1BD3A00441439 /* YYPushServiceDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYPushServiceDetailController.m; sourceTree = "<group>"; };
 		F61367461F86181D0020A47B /* YYDataBaseTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYDataBaseTool.h; sourceTree = "<group>"; };
 		F61367471F86181D0020A47B /* YYDataBaseTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYDataBaseTool.m; sourceTree = "<group>"; };
 		F61367491F887A3B0020A47B /* YYIapModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYIapModel.h; sourceTree = "<group>"; };
@@ -2771,6 +2780,8 @@
 			children = (
 				BFF8C0401F5FEA4A00FBAB04 /* YYMainViewController.h */,
 				BFF8C0411F5FEA4A00FBAB04 /* YYMainViewController.m */,
+				F612604D1FA1BD3A00441439 /* YYPushServiceDetailController.h */,
+				F612604E1FA1BD3A00441439 /* YYPushServiceDetailController.m */,
 			);
 			path = "首页控制器";
 			sourceTree = "<group>";
@@ -2948,6 +2959,10 @@
 			children = (
 				BFF8C08D1F5FEA4A00FBAB04 /* YYMinePaymentViewController.h */,
 				BFF8C08E1F5FEA4A00FBAB04 /* YYMinePaymentViewController.m */,
+				F61260471FA0D0C400441439 /* YYMineOrderCell.h */,
+				F61260481FA0D0C400441439 /* YYMineOrderCell.m */,
+				F612604A1FA0D76900441439 /* YYOrderModel.h */,
+				F612604B1FA0D76900441439 /* YYOrderModel.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3859,6 +3874,7 @@
 				BFF8C1021F5FEA4A00FBAB04 /* YYHotHotModel.m in Sources */,
 				BF1D12F11F76532900C389C4 /* YYBaseViewModel.m in Sources */,
 				BFF8BF4A1F5FD69C00FBAB04 /* THBaseViewController.m in Sources */,
+				F61260491FA0D0C400441439 /* YYMineOrderCell.m in Sources */,
 				BFF8BF0E1F5FD51E00FBAB04 /* UITextField+LeftView.m in Sources */,
 				BFEB31CA1F72B41100EFB167 /* YYRelativeProductionCell.m in Sources */,
 				BFF8C1131F5FEA4A00FBAB04 /* YYNiuArticleCell.m in Sources */,
@@ -4017,6 +4033,7 @@
 				F6CAEE6D1F93DBAB004A4C56 /* YYNiuSubscribeModel.m in Sources */,
 				BFF8C1611F5FEA4B00FBAB04 /* YYLoginManager.m in Sources */,
 				BFEB31F41F74F29700EFB167 /* UIAlertController+ZFPlayerRotation.m in Sources */,
+				F612604C1FA0D76900441439 /* YYOrderModel.m in Sources */,
 				BFC1FD261F7A79B000593D81 /* YYMainMarketDataModel.m in Sources */,
 				BF31E88E1F626A5B00E8CF0E /* YYShowLikeModel.m in Sources */,
 				BFF8C1871F611C3500FBAB04 /* YYMessageDetailController.m in Sources */,
@@ -4046,6 +4063,7 @@
 				BFEB31F71F74F29700EFB167 /* UITabBarController+ZFPlayerRotation.m in Sources */,
 				BFEB31B51F725E9B00EFB167 /* YYThreeSeekListModel.m in Sources */,
 				BFEB31FB1F74F29700EFB167 /* MMMaterialDesignSpinner.m in Sources */,
+				F612604F1FA1BD3B00441439 /* YYPushServiceDetailController.m in Sources */,
 				BFF8C1051F5FEA4A00FBAB04 /* YYHotPicsModel.m in Sources */,
 				BFF8BF1A1F5FD53400FBAB04 /* Foundation+Log.m in Sources */,
 				BFF8BF211F5FD61000FBAB04 /* YYConst.m in Sources */,

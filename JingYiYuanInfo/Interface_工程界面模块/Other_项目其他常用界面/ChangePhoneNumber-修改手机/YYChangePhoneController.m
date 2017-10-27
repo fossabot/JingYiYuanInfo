@@ -154,7 +154,7 @@
     [self.view2 makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.right.equalTo(self.view);
-        make.top.equalTo(self.view1.bottom);
+        make.top.equalTo(self.view1.bottom).offset(1);
         make.height.equalTo(60);
     }];
     

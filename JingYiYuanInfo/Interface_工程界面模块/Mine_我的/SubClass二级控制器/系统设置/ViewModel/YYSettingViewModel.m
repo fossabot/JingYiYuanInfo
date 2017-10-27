@@ -192,7 +192,7 @@ static NSString * const logOutCellID = @"logOutCell";
         model4.canWifiPlay = user.onlyWIFIPlay;
         
         YYMineSettingCellModel *model5 = [[YYMineSettingCellModel alloc] init];
-        model5.title = @"清楚缓存";
+        model5.title = @"清除缓存";
         model5.subTitle = [self cacheSize];
     
         [_dataSource addObject:@[model0,model1,model2,model3,model4,model5]];

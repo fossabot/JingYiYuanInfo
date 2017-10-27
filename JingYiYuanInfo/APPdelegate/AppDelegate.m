@@ -89,25 +89,22 @@
 - (void)handleRemoteNotification:(NSDictionary *)remoteNotice{
    
     YYLogFunc;
+    UIApplicationState sate = [UIApplication sharedApplication].applicationState;
     if (kApplication.applicationState == UIApplicationStateActive) {//APP处于激活状态
         //APP在前台状态时，接收到信息，直接弹框提醒用户查看消息
         YYLog(@"UIApplicationStateActiveAPP在前台状态时");
-//        [self showAlert:@"StateActiveAPP在前台状态时"];
         [kNotificationCenter postNotificationName:YYReceivedRemoteNotification object:nil userInfo:remoteNotice];
-    }else if(kApplication.applicationState == UIApplicationStateInactive) {//调开通知栏，双击home键的任务栏状态，当前APP直接锁屏时的状态
+    }else if(kApplication.applicationState == UIApplicationStateInactive) {//调开通知栏，双击home键的任务栏状态，当前APP直接锁屏时的状态,  APP处于后台状态时 ，这里该直接跳转界面
         
         YYLog(@"UIApplicationStateInactive在未运行状态时");
-//        [self showAlert:@"StateInactive在未运行状态时"];
-//        self.remoteNotice = remoteNotice;
+        self.remoteNotice = remoteNotice;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             [kNotificationCenter postNotificationName:YYReceivedRemoteNotification object:nil userInfo:remoteNotice];
         });
     }else if (kApplication.applicationState == UIApplicationStateBackground) {
         //APP处于后台状态，单击home键，唤起其他APP，被迫进入后台状态
-    YYLog(@"UIApplicationStateBackground在后台状态时");
-//        [self showAlert:@"StateBackground在后台状态时"];
-//        self.remoteNotice = remoteNotice;
+        YYLog(@"UIApplicationStateBackground在后台状态时");
         [kNotificationCenter postNotificationName:YYReceivedRemoteNotification object:nil userInfo:remoteNotice];
     }
     
@@ -173,6 +170,7 @@
     //APP已杀死  点击推送进入finishlaunch 接收到推送  然后进入此方法
     //关闭友盟自带的弹出框
     [UMessage setAutoAlert:NO];
+    [UMessage setBadgeClear:NO];
     [UMessage didReceiveRemoteNotification:userInfo];
 //    self.remoteNotice = userInfo;
     [self handleRemoteNotification:userInfo];
@@ -208,6 +206,9 @@
 /** APP得到活性*/
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     YYLogFunc;
+    
+    [YYLoginManager checkLogInOtherDevice];
+    [YYLoginManager getUserInfo];
 }
 
 /** APP即将shut down*/

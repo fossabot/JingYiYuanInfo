@@ -24,6 +24,7 @@
 
 #define goodsJointUrl  @"http://yyapp.1yuaninfo.com/app/yyfwapp/gift_details.php?id="   //积分兑换的商品详情页
 
+#define pushDetailJointUrl @"http://yyapp.1yuaninfo.com/app/houtai/push.php?"//推送信息详情的拼接地址
 
 
 //请求参数宏
@@ -681,7 +682,10 @@
 
 
 
-
+#pragma 我的订单接口
+//http://yyapp.1yuaninfo.com/app/application/userOrder.php
+//参数：act=orderover  userid=  lastid=
+#define orderUrl  [NSString stringWithFormat:@"%@/app/application/userOrder.php",domainUrl]
 
 #pragma ------------------------------------------------------------------------
 #pragma mark  ------------------- 个人中心部分固定页面静态链接 ----------------------

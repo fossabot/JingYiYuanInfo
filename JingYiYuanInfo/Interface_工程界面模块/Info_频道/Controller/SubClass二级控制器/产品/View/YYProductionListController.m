@@ -144,8 +144,8 @@
                     YYLog(@"点击了普通项目，暂无详情页，需登录并且注册会员方可购买");
                     YYProductionDetailController *productionDetail = [[YYProductionDetailController alloc] init];
                     YYProductionCommonModel *commonModel = (YYProductionCommonModel *)data;
+                    productionDetail.productionId = commonModel.iosproid;
                     productionDetail.url = commonModel.webUrl;
-                    productionDetail.shareImgUrl = commonModel.com_pic;
                     [weakSelf.navigationController pushViewController:productionDetail animated:YES];
                 }
                 break;

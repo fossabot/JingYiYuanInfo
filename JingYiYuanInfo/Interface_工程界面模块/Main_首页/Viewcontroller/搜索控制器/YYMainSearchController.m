@@ -500,6 +500,7 @@
         textField.borderStyle = UITextBorderStyleRoundedRect;
         textField.backgroundColor = YYRGB(239, 240, 241);
         textField.returnKeyType = UIReturnKeySearch;
+        textField.clearButtonMode = UITextFieldViewModeAlways;
         [textField addTarget:self action:@selector(textFieldBeingNull) forControlEvents:UIControlEventEditingChanged];
         [_searchBar addSubview:textField];
         self.textField = textField;

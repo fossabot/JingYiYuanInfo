@@ -35,7 +35,7 @@
 #import "YYBaseInfoDetailController.h"
 #import "YYShowOtherDetailController.h"
 #import "YYNiuNewsDetailViewController.h"
-
+#import "YYPushServiceDetailController.h"
 
 #import "YYBottomContainerView.h"
 #import "YYMainTouchTableView.h"
@@ -407,9 +407,6 @@
 
 
 
-
-
-
 #pragma mark -- 推送区域  -------------------------------------
 
 //处理远程推送通知
@@ -431,6 +428,7 @@
 - (void)handleRemoteNotice:(NSDictionary *)userInfo {
     
     NSString *type = userInfo[@"type"];
+//    YYUser *user = [YYUser shareUser];
     
     YYTabBarViewController *tab = (YYTabBarViewController *)kKeyWindow.rootViewController;
     YYNavigationViewController  *nav = tab.selectedViewController;
@@ -464,13 +462,17 @@
         YYPushController *push = [[YYPushController alloc] init];
         push.pushId = userInfo[@"id"];
         push.jz_wantsNavigationBarVisible = YES;
-        [self.navigationController pushViewController:push animated:YES];
+        [vc.navigationController pushViewController:push animated:YES];
     }else if ([type isEqualToString:@"sp_time"]) {//按时间推送
         
+        YYPushServiceDetailController *serviceDetail = [[YYPushServiceDetailController alloc] init];
+        serviceDetail.url = [NSString stringWithFormat:@"%@&id=%@",pushDetailJointUrl,userInfo[@"id"]];
+        serviceDetail.jz_wantsNavigationBarVisible = YES;
+        [vc.navigationController pushViewController:serviceDetail animated:YES];
         
     }else if ([type isEqualToString:@"sp_num"]) {//按次数推送
         
-        
+        [self showAlertNotice:userInfo];
     }
 }
 
@@ -483,25 +485,6 @@
     alertTitle = userInfo[@"aps"][@"alert"][@"title"];
     alertBody = userInfo[@"aps"][@"alert"][@"body"];
     NSString *type = userInfo[@"type"];
-    if ([type isEqualToString:@"1"]) {//1普通资讯,
-        
-        
-    }else if ([type isEqualToString:@"2"]) {//2演出,
-        
-        
-    }else if ([type isEqualToString:@"3"]) {//3牛人资讯
-        
-        
-    }else if ([type isEqualToString:@"365"]) {//365推送
-        
-        
-    }else if ([type isEqualToString:@"sp_time"]) {//按时间推送
-        
-        
-    }else if ([type isEqualToString:@"sp_num"]) {//按次数推送
-        
-        
-    }
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:alertBody preferredStyle:UIAlertControllerStyleAlert];
     
@@ -524,23 +507,19 @@
     [kKeyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
 }
 
-//这是APPdelegate启动接收到的通知，普通资讯不需弹框，直接跳转详情页，特色服务需弹框
-- (void)jumpNotice:(NSDictionary *)userInfo {
-    
-    
-}
 
 /* 第一次点击按次推送的消息  确认已查看*/
 - (void)confirmToResendPush:(NSDictionary *)userInfo {
     
     YYUser *user = [YYUser shareUser];
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:userInfo[@"id"],@"id",userInfo[@"orderid"],@"orderid",user.userid,USERID, nil];
-    [YYHttpNetworkTool GETRequestWithUrlstring:remoteNoticeConfirmUrl parameters:para success:^(id response) {
-        
-        
-    } failure:^(NSError *error) {
-        
-    } showSuccessMsg:nil];
+    YYTabBarViewController *tab = (YYTabBarViewController *)kKeyWindow.rootViewController;
+    YYNavigationViewController  *nav = tab.selectedViewController;
+    UIViewController *vc = nav.visibleViewController;
+    
+    YYPushServiceDetailController *serviceDetail = [[YYPushServiceDetailController alloc] init];
+    serviceDetail.url = [NSString stringWithFormat:@"%@&orderid=%@&id=%@&userid=%@",pushDetailJointUrl,userInfo[@"orderid"],userInfo[@"id"],user.userid];
+    serviceDetail.jz_wantsNavigationBarVisible = YES;
+    [vc.navigationController pushViewController:serviceDetail animated:YES];
     
 }
 

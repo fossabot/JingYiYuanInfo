@@ -13,6 +13,8 @@
 
 #import "YYMineViewModel.h"
 #import "YYUser.h"
+#import "YYLoginManager.h"
+
 
 
 @interface YYMineViewController ()<YYHeaderViewDestinationDelegate>
@@ -54,6 +56,11 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     YYLogFunc
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [YYLoginManager checkLogInOtherDevice];
 }
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------

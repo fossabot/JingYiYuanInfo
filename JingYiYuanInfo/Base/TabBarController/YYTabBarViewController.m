@@ -24,6 +24,7 @@
 #import "YYTabBar.h"
 
 #import "AppDelegate.h"
+#import "YYLoginManager.h"
 
 @interface YYTabBarViewController ()
 
@@ -102,6 +103,7 @@
                     
 //                    [SVProgressHUD showInfoWithStatus:@"已切换至WiFi网络"];
                     YYLog(@"WiFi网络");
+                    [YYLoginManager checkLogInOtherDevice];
                 }
             }
                 break;
@@ -109,8 +111,8 @@
             case AFNetworkReachabilityStatusReachableViaWWAN:
                 if (_status != NSNotFound && _status != status) {
                     YYLog(@"运营商网络");
-                    
 //                    [SVProgressHUD showInfoWithStatus:@"已切换至运营商网络"];
+                    [YYLoginManager checkLogInOtherDevice];
                 }
                 break;
                 

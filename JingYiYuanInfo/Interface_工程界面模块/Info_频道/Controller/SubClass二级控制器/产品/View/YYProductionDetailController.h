@@ -10,5 +10,6 @@
 
 @interface YYProductionDetailController : YYBaseDetailController
 
+@property (nonatomic, copy) NSString *productionId;
 
 @end
