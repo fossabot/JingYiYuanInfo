@@ -56,4 +56,10 @@ typedef void(^SendComment)(NSString *comment);
 /* 清除评论text*/
 - (void)clearText;
 
+
+/**
+ 将评论框从俯视图中移除  否则一直占用着keywindow
+ */
+- (void)removeCommentView;
+
 @end

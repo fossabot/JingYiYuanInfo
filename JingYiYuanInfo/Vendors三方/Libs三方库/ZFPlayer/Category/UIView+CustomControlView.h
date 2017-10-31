@@ -72,6 +72,12 @@
  */
 - (void)zf_playerHasDownloadFunction:(BOOL)sender;
 
+
+/**
+ * 是否有分享功能
+ */
+- (void)zf_playerHasShareFunction:(BOOL)sender;
+
 /**
  * 是否有切换分辨率功能
  * @param resolutionArray 分辨率名称的数组

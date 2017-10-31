@@ -53,8 +53,6 @@
 /** separator3*/
 @property (nonatomic, strong) UIView *separator3;
 
-/** pwdTextField*/
-@property (nonatomic, strong) UITextField *pwdTextField;
 
 
 /** 发送新的密码*/
@@ -132,7 +130,7 @@
     verificationBtn.layer.cornerRadius = 5;
     verificationBtn.layer.borderColor = ThemeColor.CGColor;
     verificationBtn.layer.borderWidth = 0.5;
-    verificationBtn.backgroundColor = ThemeColor;
+    verificationBtn.backgroundColor = WhiteColor;
     [verificationBtn setTitleColor:ThemeColor forState:UIControlStateNormal];
     [verificationBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
     [verificationBtn addTarget:self action:@selector(getVerificattion:) forControlEvents:UIControlEventTouchUpInside];
@@ -145,14 +143,14 @@
     self.separator2 = separator2;
     [self.container addSubview:separator2];
     
-    UITextField *pwdTextField = [[UITextField alloc] init];
-    pwdTextField.delegate = self;
-    pwdTextField.font = SubTitleFont;
-    pwdTextField.placeholder = @"请输入密码(至少6位)";
-    pwdTextField.tintColor = ThemeColor;
-    [pwdTextField setLeftViewWithImage:@"textfield_leftview_password_25x25_"];
-    [self.container addSubview:pwdTextField];
-    self.pwdTextField = pwdTextField;
+    UITextField *resetPasswordTextField = [[UITextField alloc] init];
+    resetPasswordTextField.delegate = self;
+    resetPasswordTextField.font = SubTitleFont;
+    resetPasswordTextField.placeholder = @"请输入密码(至少6位)";
+    resetPasswordTextField.tintColor = ThemeColor;
+    [resetPasswordTextField setLeftViewWithImage:@"textfield_leftview_password_25x25_"];
+    [self.container addSubview:resetPasswordTextField];
+    self.resetPasswordTextField = resetPasswordTextField;
     
     UIView *separator3 = [[UIView alloc] init];
     separator3.backgroundColor = ThemeColor;
@@ -238,7 +236,7 @@
         make.height.equalTo(1);
     }];
     
-    [self.pwdTextField makeConstraints:^(MASConstraintMaker *make) {
+    [self.resetPasswordTextField makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.right.equalTo(self.container);
         make.top.equalTo(self.separator2.bottom).offset(5);
@@ -248,7 +246,7 @@
     [self.separator3 makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.right.equalTo(self.container);
-        make.top.equalTo(self.pwdTextField.bottom).offset(2);
+        make.top.equalTo(self.resetPasswordTextField.bottom).offset(2);
         make.height.equalTo(1);
         make.bottom.equalTo(self.container.bottom).offset(-5);
     }];
@@ -262,13 +260,6 @@
     }];
     
 }
-
-
-
-
-
-
-
 
 
 
@@ -331,6 +322,7 @@
 }
 
 - (BOOL)validToSend {
+    
     if(self.teleTextField.text.length == 11 && self.resetPasswordTextField.text.length >= 6 && self.verificationtextField.text.length == 6){
         return YES;
     }else {
@@ -380,7 +372,7 @@
     
     YYWeakSelf
     [YYLoginManager resetPasswordWithAccount:self.teleTextField.text
-                                    password:[self.resetPasswordTextField.text translateIntoScretaryPassword]
+                                    password:self.resetPasswordTextField.text
                                 verification:self.verificationtextField.text response:^(BOOL success) {
                                     
                                     if (success) {

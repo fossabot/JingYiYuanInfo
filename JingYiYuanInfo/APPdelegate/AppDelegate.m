@@ -333,6 +333,7 @@
             [[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];
         }
         
+        [kNotificationCenter postNotificationName:YYIapSucceedNotification object:nil];
         YYLog(@"IAP收据验证%@",response);
     } failure:^(NSError *erro) {
         

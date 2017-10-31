@@ -37,9 +37,25 @@
 
 - (void)share {
     
+    YYWeakSelf
     [ShareView shareWithTitle:self.navigationItem.title subTitle:@"" webUrl:self.url imageUrl:self.shareImgUrl isCollected:NO shareViewContain:ShareViewTypeWechat | ShareViewTypeWechatTimeline | ShareViewTypeQQ | ShareViewTypeQQZone | ShareViewTypeMicroBlog | ShareViewTypeFont | ShareViewTypeCopyLink shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
         
-        
+        switch (shareViewType) {
+            case ShareViewTypeFont:{
+                
+                YYUser *user = [YYUser shareUser];
+                [PageSlider showPageSliderWithCurrentPoint:user.currentPoint fontChanged:^(CGFloat rate) {
+                    
+                    NSString *js = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%ld%%'",(NSInteger)(100*rate)];
+                    [weakSelf.wkWebview evaluateJavaScript:js completionHandler:nil];
+                }];
+            }
+                break;
+                
+            default:
+                break;
+        }
+
     }];
 }
 
@@ -58,6 +74,10 @@
     [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError * _Nullable error) {
         weakSelf.navigationItem.title = title;
     }];
+    
+    YYUser *user = [YYUser shareUser];
+    NSString *js = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%ld%%'",(NSInteger)user.webfont*100];
+    [webView evaluateJavaScript:js completionHandler:nil];
     [SVProgressHUD dismiss];
     
 }

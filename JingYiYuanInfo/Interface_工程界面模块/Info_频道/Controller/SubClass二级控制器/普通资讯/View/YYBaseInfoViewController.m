@@ -275,6 +275,7 @@
                     YYVideoDetailController *detail = [[YYVideoDetailController alloc] init];
                     YYBaseVideoModel *videoModel = [dic objectForKey:@"data"];
                     NSNumber *seekTime = [dic objectForKey:@"seekTime"];
+                    detail.videoId = videoModel.videoId;
                     detail.videoURL = [NSURL URLWithString:videoModel.v_url];
                     detail.seekTime = [seekTime integerValue];
                     detail.videoTitle = videoModel.v_name;

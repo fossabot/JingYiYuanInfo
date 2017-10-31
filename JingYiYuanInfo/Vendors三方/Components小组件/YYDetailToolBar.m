@@ -363,6 +363,15 @@
     [self resignResponder];
 }
 
+/**
+ 将评论框从俯视图中移除  否则一直占用着keywindow
+ */
+- (void)removeCommentView {
+    
+    [self resignResponder];
+    coverView = nil;
+}
+
 #pragma mark ------- textView的代理方法  -------------------------
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
@@ -390,10 +399,11 @@
 - (UIButton *)writeButton{
     if (!_writeButton) {
         _writeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _writeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [_writeButton addTarget:self action:@selector(write) forControlEvents:UIControlEventTouchUpInside];
         [_writeButton setImage:imageNamed(@"article_write_20x20_") forState:UIControlStateNormal];
         [_writeButton setTitle:@"写评论" forState:UIControlStateNormal];
-        _writeButton.titleLabel.font = SubTitleFont;
+        _writeButton.titleLabel.font = TitleFont;
         [_writeButton setTitleColor:UnenableTitleColor forState:UIControlStateNormal];
     }
     return _writeButton;

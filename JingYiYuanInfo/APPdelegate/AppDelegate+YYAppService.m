@@ -57,7 +57,7 @@ static YYNewVersionViewController *new;
 - (void)registerUShare {
     
     /* 打开调试日志 */
-    [[UMSocialManager defaultManager] openLog:YES];
+    [[UMSocialManager defaultManager] openLog:NO];
     
     /* 设置友盟appkey */
     [[UMSocialManager defaultManager] setUmSocialAppkey:USHARE_APPKEY];
@@ -77,7 +77,7 @@ static YYNewVersionViewController *new;
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:QQ_APPID  appSecret:nil redirectURL:@"http://mobile.umeng.com/social"];
     
     /* 设置新浪的appKey和appSecret */
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:SINA_APPKEY  appSecret:SINA_APPSECRET redirectURL:@"https://sns.whalecloud.com/sina2/callback"];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:SINA_APPKEY  appSecret:SINA_APPSECRET redirectURL:@"https://api.weibo.com/oauth2/default.html"];
     
     
 }
@@ -110,7 +110,7 @@ static YYNewVersionViewController *new;
     
 #endif 
     
-    [UMessage setLogEnabled:YES];
+    [UMessage setLogEnabled:NO];
 
 }
 

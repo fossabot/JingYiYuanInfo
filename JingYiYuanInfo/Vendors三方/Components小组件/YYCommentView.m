@@ -155,7 +155,14 @@
     [self resignResponder];
 }
 
-
+/**
+ 将评论框从俯视图中移除  否则一直占用着keywindow
+ */
+- (void)removeCommentView {
+    
+    [self resignResponder];
+    _textViewContainer = nil;
+}
 
 
 

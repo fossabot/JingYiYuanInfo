@@ -26,6 +26,7 @@
 
 #define pushDetailJointUrl @"http://yyapp.1yuaninfo.com/app/houtai/push.php?"//推送信息详情的拼接地址
 
+#define shareVideoJointUrl @"http://yyapp.1yuaninfo.com/app/share/video_share.php?id="
 
 //请求参数宏
 #define USERID @"userid"

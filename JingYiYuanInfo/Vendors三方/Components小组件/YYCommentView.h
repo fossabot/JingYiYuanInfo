@@ -24,4 +24,9 @@ typedef void(^CommentBlock)(NSString *comment);
 /* 显示评论框*/
 - (void)show;
 
+/**
+ 将评论框从俯视图中移除  否则一直占用着keywindow
+ */
+- (void)removeCommentView;
+
 @end

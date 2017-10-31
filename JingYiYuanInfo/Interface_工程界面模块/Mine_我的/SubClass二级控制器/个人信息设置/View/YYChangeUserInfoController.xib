@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YYChangeUserInfoController">
             <connections>
+                <outlet property="leftLabel" destination="2P1-QW-Xah" id="R3n-d6-nR3"/>
                 <outlet property="sendBtn" destination="U8h-IR-qJd" id="TA1-2k-ihO"/>
                 <outlet property="textField" destination="obp-16-LMz" id="vQb-h9-Qc7"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -24,12 +25,21 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="clP-4y-2is">
                     <rect key="frame" x="0.0" y="64" width="375" height="44"/>
                     <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2P1-QW-Xah">
+                            <rect key="frame" x="10" y="13.5" width="37.5" height="18"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="obp-16-LMz">
-                            <rect key="frame" x="20" y="12.5" width="335" height="19"/>
+                            <rect key="frame" x="57.5" y="12.5" width="297.5" height="19"/>
                             <color key="tintColor" red="0.76470588235294112" green="0.23921568627450979" blue="0.2627450980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <textInputTraits key="textInputTraits"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="leftViewMode" value="UITextFieldViewModeAlways" localized="YES"/>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="bUv-qD-1jc"/>
                             </connections>
@@ -37,10 +47,12 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="obp-16-LMz" firstAttribute="leading" secondItem="clP-4y-2is" secondAttribute="leading" constant="20" id="Bsd-ZV-Toh"/>
+                        <constraint firstItem="obp-16-LMz" firstAttribute="leading" secondItem="2P1-QW-Xah" secondAttribute="trailing" constant="10" id="I6J-nh-lhL"/>
                         <constraint firstAttribute="height" constant="44" id="Jdx-SW-GQH"/>
+                        <constraint firstItem="2P1-QW-Xah" firstAttribute="centerY" secondItem="clP-4y-2is" secondAttribute="centerY" id="KQP-la-L2F"/>
                         <constraint firstAttribute="trailing" secondItem="obp-16-LMz" secondAttribute="trailing" constant="20" id="YcQ-83-gQJ"/>
                         <constraint firstItem="obp-16-LMz" firstAttribute="centerY" secondItem="clP-4y-2is" secondAttribute="centerY" id="bej-Dx-7rx"/>
+                        <constraint firstItem="2P1-QW-Xah" firstAttribute="leading" secondItem="clP-4y-2is" secondAttribute="leading" constant="10" id="rpn-qA-S16"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U8h-IR-qJd">

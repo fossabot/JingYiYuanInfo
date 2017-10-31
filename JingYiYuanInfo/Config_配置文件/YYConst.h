@@ -150,6 +150,10 @@ UIKIT_EXTERN NSString * const YYInfoVideoResetPlayerNotification;
 /** 资讯音乐播放控制器 划出当前窗口，重置player,停止播放*/
 UIKIT_EXTERN NSString * const YYInfoMusicResetPlayerNotification;
 
+/** 支付完成 返回上一界面的通知*/
+UIKIT_EXTERN NSString * const YYIapSucceedNotification;
+
+
 /** 资讯controller的类型枚举，不同类型请求数据参数不一致*/
 typedef NS_ENUM(NSUInteger, YYInfoViewControllerType){
     

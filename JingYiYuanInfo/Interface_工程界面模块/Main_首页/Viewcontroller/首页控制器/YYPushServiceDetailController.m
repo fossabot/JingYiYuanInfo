@@ -36,6 +36,9 @@
     [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError * _Nullable error) {
         weakSelf.navigationItem.title = title;
     }];
+    YYUser *user = [YYUser shareUser];
+    NSString *js = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%ld%%'",(NSInteger)user.webfont*100];
+    [webView evaluateJavaScript:js completionHandler:nil];
     [SVProgressHUD dismiss];
     
 }

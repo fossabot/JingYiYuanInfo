@@ -26,7 +26,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //设置controller的主题色，未设置时默认白色
-    self.view.backgroundColor = GrayBackGroundColor;
+//    self.view.backgroundColor = GrayBackGroundColor;
+    self.view.backgroundColor = WhiteColor;
     
     //设置navigation的背景色
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:17]}];

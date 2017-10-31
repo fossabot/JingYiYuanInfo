@@ -14,6 +14,7 @@
 #import "UIView+YYCategory.h"
 
 @interface YYChangeUserInfoController ()
+@property (weak, nonatomic) IBOutlet UILabel *leftLabel;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UIButton *sendBtn;
 
@@ -24,30 +25,44 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = GrayBackGroundColor;
     self.navigationItem.title = [NSString stringWithFormat:@"修改%@",self.cell.title.text];
     
     YYUser *user = [YYUser shareUser];
     NSString *detail = @"";
+    NSString *placeHolder = @"";
     if ([self.cell.title.text isEqualToString:@"股龄"]) {
+        self.textField.keyboardType = UIKeyboardTypePhonePad;
+        placeHolder = @"股龄";
         detail = user.guling;
     }else if([self.cell.title.text isEqualToString:@"资金量"]) {
+        self.textField.keyboardType = UIKeyboardTypePhonePad;
+        placeHolder = @"资金量";
         detail = user.capital;
+    }else {
+        placeHolder = self.cell.title.text;
+        detail = self.cell.detail.text;
     }
-    self.textField.placeholder = [@"请输入" stringByAppendingString:detail];
+    self.textField.text = detail;
+    
+    self.textField.placeholder = [@"请输入" stringByAppendingString:placeHolder];
     YYLog(@"文字长度%ld",self.cell.detail.text.length);
-    self.textField.text = self.cell.detail.text;
-}
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
     if ([self.cell.title.text isEqualToString:@"股龄"]) {
-        [self.textField setLeftTitle:[self.cell.title.text stringByAppendingString:@"(年)"]];
+        
+        self.leftLabel.text = @"股龄(年):";
+        
     }else if([self.cell.title.text isEqualToString:@"资金量"]) {
-        [self.textField setLeftTitle:[self.cell.title.text stringByAppendingString:@"(万)"]];
+        
+        self.leftLabel.text = @"资金量(万):";
+    }else {
+        
+        self.leftLabel.text = [self.cell.title.text stringByAppendingString:@":"];
     }
     
-    [self.sendBtn cutRoundViewRadius:5];
 }
+
+
 
 /** 提交更改信息*/
 - (IBAction)commit:(UIButton *)sender {
@@ -65,6 +80,8 @@
             return;
         }
     }
+    
+    YYWeakSelf
     YYUser *user = [YYUser shareUser];
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,self.paraKey,@"act",self.textField.text,self.paraKey, nil];
     [YYHttpNetworkTool GETRequestWithUrlstring:mineChangeUserInfoUrl parameters:para success:^(id response) {
@@ -80,6 +97,7 @@
             [SVProgressHUD showImage:nil status:@"修改成功"];
         }
         [SVProgressHUD dismissWithDelay:1];
+        [weakSelf.navigationController popViewControllerAnimated:YES];
     } failure:^(NSError *error) {
         
     } showSuccessMsg:nil];

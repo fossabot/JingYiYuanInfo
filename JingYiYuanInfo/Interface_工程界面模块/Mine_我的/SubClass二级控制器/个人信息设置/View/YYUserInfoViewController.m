@@ -186,6 +186,7 @@
         
         case 4:{
             [self getUserInfoForPlatform:UMSocialPlatformType_WechatSession atIndexPath:indexPath paraKey:@"weixin" completion:^(NSString *uid) {
+                
                 [user setWeixin:uid];
             }];
         }
@@ -253,9 +254,12 @@
             YYStrongSelf
             [strongSelf.userInfoViewModel changeModelAtIndexPath:indexPath];
             [strongSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            [SVProgressHUD showSuccessWithStatus:@"绑定成功"];
+            [SVProgressHUD dismissWithDelay:1];
+            
         } failure:^(NSError *error) {
             
-        } showSuccessMsg:@"绑定成功"];
+        } showSuccessMsg:nil];
     }];
 }
 

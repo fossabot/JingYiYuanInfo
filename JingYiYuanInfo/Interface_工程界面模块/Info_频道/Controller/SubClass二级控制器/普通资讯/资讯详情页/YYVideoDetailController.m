@@ -11,6 +11,7 @@
 #import "YYVideoDetailCell.h"
 #import "YYBaseVideoModel.h"
 #import <MJExtension/MJExtension.h>
+#import "ShareView.h"
 
 @interface YYVideoDetailController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -81,6 +82,12 @@
     self.playerView.backBlock = ^{
         [weakSelf.navigationController popViewControllerAnimated:YES];
     };
+    
+    self.playerView.shareBlock = ^{
+      
+        [weakSelf shareVideo];
+    };
+    
     [self.view addSubview:self.playerView];
     
     [self.view addSubview:self.tableView];
@@ -107,7 +114,13 @@
     
 }
 
-
+/* 分享视频*/
+- (void)shareVideo {
+    
+    [ShareView shareWithTitle:self.videoTitle subTitle:@"" webUrl:[NSString stringWithFormat:@"%@%@",shareVideoJointUrl,self.videoId] imageUrl:self.placeHolderImageUrl isCollected:NO shareViewContain:nil shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
+        
+    }];
+}
 
 #pragma mark tableview 代理方法  ---------------------------------
 
@@ -129,6 +142,10 @@
     self.playerView.videoTitle = model.v_name;
     self.playerView.seekTime = 0;
     self.playerView.placeHolderImageUrl = model.v_picture;
+    self.videoURL = [NSURL URLWithString:model.v_url];
+    self.videoId = model.videoId;
+    self.videoTitle = model.v_name;
+    self.placeHolderImageUrl = model.v_picture;
     [self.playerView changePlayItem];
 }
 

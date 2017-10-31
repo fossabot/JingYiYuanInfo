@@ -220,11 +220,11 @@
         if (_finishedBlock) {
             _finishedBlock(shareViewType, btn.isSelected);
         }
-    }
+    }else {
     
-    //分享第三方
-    UMSocialPlatformType type = [self translateIntoUMSocialPlatformType:shareViewType];
-    if (type) {
+        //分享第三方
+        UMSocialPlatformType type = [self translateIntoUMSocialPlatformType:shareViewType];
+        
         if (self.shareContentType == ShareContentTypeWeb) {
             [YYUMShareManager shareWeburl:self.webUrl title:self.title desc:self.subTitle thumbUrl:self.imageUrl platform:type];
         }else if (self.shareContentType == ShareContentTypeMusic) {
@@ -234,11 +234,9 @@
         }else if (self.shareContentType == ShareContentTypeVideo) {
             [YYUMShareManager shareVideo:self.webUrl title:self.title desc:self.subTitle thumbUrl:self.imageUrl toPlatformType:type];
         }
-        
+    
     }
-    
-    
-    
+
 }
 
 - (UMSocialPlatformType)translateIntoUMSocialPlatformType:(ShareViewType)shareViewType{

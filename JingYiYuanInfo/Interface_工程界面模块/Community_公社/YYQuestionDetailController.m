@@ -55,7 +55,14 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-//    [self.icon cutRoundView];
+
+    
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    
+    [super viewDidDisappear:animated];
+    [_toolBar removeCommentView];
 }
 
 - (void)loadData {
@@ -231,6 +238,12 @@
 - (void)askQuestionForNiuMan:(NSString *)question {
     
     YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        [SVProgressHUD showErrorWithStatus:@"账号未登录"];
+        [SVProgressHUD dismissWithDelay:1];
+        return;
+    }
+    
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"useraddq",@"act", user.userid,USERID,self.articleId,@"artid", self.titleStr,@"arttitle", question, @"content",nil];
     YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:communityUrl parameters:para success:^(id response) {
@@ -291,7 +304,7 @@
     if (!_toolBar) {
         _toolBar = [[YYDetailToolBar alloc] init];
         _toolBar.toolBarType = DetailToolBarTypeWriteComment;
-        _toolBar.placeHolder = @"  提问";
+        _toolBar.placeHolder = @"提问";
         YYWeakSelf
         _toolBar.sendCommentBlock = ^(NSString *comment) {
             

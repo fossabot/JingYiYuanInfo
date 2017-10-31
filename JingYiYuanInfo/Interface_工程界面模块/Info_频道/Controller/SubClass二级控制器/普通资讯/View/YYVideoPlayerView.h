@@ -10,6 +10,8 @@
 
 typedef void(^Back)();
 
+typedef void(^Share)();
+
 @interface YYVideoPlayerView : UIView
 
 /** videoURL*/
@@ -26,6 +28,9 @@ typedef void(^Back)();
 
 /** back*/
 @property (nonatomic, copy) Back backBlock;
+
+/** 分享*/
+@property (nonatomic, copy) Share shareBlock;
 
 /** 当控制器推出其他界面，调用此方法暂停播放*/
 - (void)pauseWhenPushOrPresent;

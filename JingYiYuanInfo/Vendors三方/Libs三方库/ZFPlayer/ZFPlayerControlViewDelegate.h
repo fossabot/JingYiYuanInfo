@@ -50,6 +50,8 @@
 - (void)zf_controlView:(UIView *)controlView downloadVideoAction:(UIButton *)sender;
 /** 切换分辨率按钮事件 */
 - (void)zf_controlView:(UIView *)controlView resolutionAction:(UIButton *)sender;
+/** 分享按钮事件**/
+- (void)zf_controlView:(UIView *)controlView shareAction:(UIButton *)sender;
 /** slider的点击事件（点击slider控制进度） */
 - (void)zf_controlView:(UIView *)controlView progressSliderTap:(CGFloat)value;
 /** 开始触摸slider */

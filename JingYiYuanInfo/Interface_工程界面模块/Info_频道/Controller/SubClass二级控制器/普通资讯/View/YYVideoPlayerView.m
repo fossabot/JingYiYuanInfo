@@ -77,14 +77,16 @@
     UILabel *title = [[UILabel alloc] init];
     title.font = TitleFont;
     title.textColor = TitleColor;
+    title.numberOfLines = 0;
     [self addSubview:title];
     self.title = title;
     
-    UILabel *subTitle = [[UILabel alloc] init];
-    subTitle.font = UnenableTitleFont;
-    subTitle.textColor = UnenableTitleColor;
-    [self addSubview:subTitle];
-    self.subTitle = subTitle;
+//    UILabel *subTitle = [[UILabel alloc] init];
+//    subTitle.font = UnenableTitleFont;
+//    subTitle.textColor = UnenableTitleColor;
+//    subTitle.numberOfLines = 0;
+//    [self addSubview:subTitle];
+//    self.subTitle = subTitle;
     
     [self.videoImg makeConstraints:^(MASConstraintMaker *make) {
         
@@ -102,15 +104,16 @@
         make.top.equalTo(self.videoImg.bottom).offset(YYInfoCellSubMargin);
         make.left.offset(YYInfoCellCommonMargin);
         make.right.offset(-YYInfoCellCommonMargin);
-    }];
-    
-    [self.subTitle makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(self.title.bottom).offset(YYInfoCellSubMargin);
-        make.left.equalTo(self.title.left);
-        make.right.offset(-YYInfoCellCommonMargin);
         make.bottom.offset(-YYInfoCellCommonMargin);
     }];
+    
+//    [self.subTitle makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.top.equalTo(self.title.bottom).offset(YYInfoCellSubMargin);
+//        make.left.equalTo(self.title.left);
+//        make.right.offset(-YYInfoCellCommonMargin);
+//        make.bottom.offset(-YYInfoCellCommonMargin);
+//    }];
     
 }
 
@@ -163,6 +166,12 @@
     }
 }
 
+/** 分享按钮回调*/
+- (void)zf_playerShareVideo {
+    if (_shareBlock) {
+        _shareBlock();
+    }
+}
 
 
 #pragma mark -------  setter -------------------------
@@ -175,6 +184,7 @@
 
 - (void)setPlaceHolderImageUrl:(NSString *)placeHolderImageUrl {
     _placeHolderImageUrl = placeHolderImageUrl;
+    _playerModel.placeholderImageURLString = placeHolderImageUrl;
     [self.videoImg sd_setImageWithURL:[NSURL URLWithString:placeHolderImageUrl] placeholderImage:imageNamed(@"loading_bgView")];
 }
 
@@ -219,6 +229,7 @@
         
         // 打开下载功能（默认没有这个功能）
         _playerView.hasDownload    = NO;
+        _playerView.hasShare = YES;
         
         // 打开预览图
         self.playerView.hasPreviewView = YES;

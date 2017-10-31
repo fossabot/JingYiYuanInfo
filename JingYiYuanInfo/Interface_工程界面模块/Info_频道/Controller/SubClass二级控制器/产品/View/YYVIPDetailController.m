@@ -18,6 +18,12 @@
 
 @implementation YYVIPDetailController
 
+
+- (void)dealloc {
+    
+    [kNotificationCenter removeObserver:self name:YYIapSucceedNotification object:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -29,6 +35,7 @@
         make.height.equalTo(50);
     }];
     
+    [kNotificationCenter addObserver:self selector:@selector(pop:) name:YYIapSucceedNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,6 +62,10 @@
     
 }
 
+- (void)pop:(NSNotification *)notice {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
@@ -108,6 +119,9 @@
     [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError * _Nullable error) {
         weakSelf.navigationItem.title = title;
     }];
+    YYUser *user = [YYUser shareUser];
+    NSString *js = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%ld%%'",(NSInteger)user.webfont*100];
+    [webView evaluateJavaScript:js completionHandler:nil];
     _buy.enabled = YES;
     [SVProgressHUD dismiss];
     

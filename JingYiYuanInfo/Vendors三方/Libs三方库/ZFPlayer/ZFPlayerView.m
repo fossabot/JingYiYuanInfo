@@ -1352,6 +1352,14 @@ typedef NS_ENUM(NSInteger, PanDirection){
     [self.controlView zf_playerHasDownloadFunction:hasDownload];
 }
 
+/**
+ *  是否有分享功能
+ */
+- (void)setHasShare:(BOOL)hasShare {
+    _hasShare = hasShare;
+    [self.controlView zf_playerHasShareFunction:hasShare];
+}
+
 - (void)setResolutionDic:(NSDictionary *)resolutionDic {
     _resolutionDic = resolutionDic;
     self.videoURLArray = [resolutionDic allValues];
@@ -1531,6 +1539,14 @@ typedef NS_ENUM(NSInteger, PanDirection){
     NSString *urlStr = self.videoURL.absoluteString;
     if ([self.delegate respondsToSelector:@selector(zf_playerDownload:)]) {
         [self.delegate zf_playerDownload:urlStr];
+    }
+}
+
+/** 自定义分享*/
+- (void)zf_controlView:(UIView *)controlView shareAction:(UIButton *)sender {
+    
+    if ([self.delegate respondsToSelector:@selector(zf_playerShareVideo)]) {
+        [self.delegate zf_playerShareVideo];
     }
 }
 

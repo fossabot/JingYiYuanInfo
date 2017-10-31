@@ -65,6 +65,10 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 @property (nonatomic, strong) UIImageView             *topImageView;
 /** 缓存按钮 */
 @property (nonatomic, strong) UIButton                *downLoadBtn;
+
+/** 自定义的分享按钮*/
+@property (nonatomic, strong) UIButton                *shareBtn;
+
 /** 切换分辨率按钮 */
 @property (nonatomic, strong) UIButton                *resolutionBtn;
 /** 分辨率的View */
@@ -122,6 +126,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         [self.bottomImageView addSubview:self.totalTimeLabel];
         
         [self.topImageView addSubview:self.downLoadBtn];
+        [self.topImageView addSubview:self.shareBtn];
         [self addSubview:self.lockBtn];
         [self.topImageView addSubview:self.backBtn];
         [self addSubview:self.activity];
@@ -144,6 +149,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         
         self.downLoadBtn.hidden     = YES;
         self.resolutionBtn.hidden   = YES;
+        self.shareBtn.hidden        = YES;
         // 初始化时重置controlView
         [self zf_playerResetControlView];
         // app退到后台
@@ -198,10 +204,19 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         make.centerY.equalTo(self.backBtn.mas_centerY);
     }];
     
+    [self.shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(25);
+        make.trailing.equalTo(self.resolutionBtn.mas_leading).offset(-10);
+        make.centerY.equalTo(self.backBtn.mas_centerY);
+    }];
+
+    
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.backBtn.mas_trailing).offset(5);
         make.centerY.equalTo(self.backBtn.mas_centerY);
-        make.trailing.equalTo(self.resolutionBtn.mas_leading).offset(-10);
+        make.trailing.equalTo(self.shareBtn.mas_leading).offset(-10);
     }];
     
     [self.bottomImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -305,6 +320,33 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 - (void)layoutSubviews {
     [super layoutSubviews];
     
+    if (self.downLoadBtn.hidden) {
+        [self.downLoadBtn updateConstraints:^(MASConstraintMaker *make) {
+           
+            make.width.equalTo(0);
+        }];
+        [self.resolutionBtn updateConstraints:^(MASConstraintMaker *make) {
+            
+            make.right.equalTo(self.downLoadBtn.left);
+        }];
+        
+    }
+    if (self.resolutionBtn.hidden) {
+        [self.resolutionBtn updateConstraints:^(MASConstraintMaker *make) {
+            
+            make.width.equalTo(0);
+        }];
+        [self.shareBtn updateConstraints:^(MASConstraintMaker *make) {
+            
+            make.right.equalTo(self.resolutionBtn.left);
+        }];
+    }
+    if (self.shareBtn.hidden) {
+        [self.shareBtn updateConstraints:^(MASConstraintMaker *make) {
+            
+            make.width.equalTo(0);
+        }];
+    }
     UIInterfaceOrientation currentOrientation = [UIApplication sharedApplication].statusBarOrientation;
     if (currentOrientation == UIDeviceOrientationPortrait) {
         [self setOrientationPortraitConstraint];
@@ -420,6 +462,13 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     sender.selected = !sender.selected;
     // 显示隐藏分辨率View
     self.resolutionView.hidden = !sender.isSelected;
+}
+
+- (void)shareBtnClick:(UIButton *)sender {
+    //分享
+    if ([self.delegate respondsToSelector:@selector(zf_controlView:shareAction:)]) {
+        [self.delegate zf_controlView:self shareAction:sender];
+    }
 }
 
 - (void)centerPlayBtnClick:(UIButton *)sender {
@@ -782,6 +831,17 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     return _resolutionBtn;
 }
 
+- (UIButton *)shareBtn {
+    
+    if (!_shareBtn) {
+        _shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_shareBtn setImage:ZFPlayerImage(@"ZFPlayer_share_@2x") forState:UIControlStateNormal];
+        [_shareBtn addTarget:self action:@selector(shareBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _shareBtn;
+}
+
+
 - (UIButton *)playeBtn {
     if (!_playeBtn) {
         _playeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -881,6 +941,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.repeatBtn.hidden            = YES;
     self.playeBtn.hidden             = YES;
     self.resolutionView.hidden       = YES;
+    self.shareBtn.hidden             = YES;
     self.failBtn.hidden              = YES;
     self.backgroundColor             = [UIColor clearColor];
     self.downLoadBtn.enabled         = YES;
@@ -899,6 +960,7 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.resolutionView.hidden  = YES;
     self.playeBtn.hidden        = YES;
     self.downLoadBtn.enabled    = YES;
+    self.shareBtn.hidden        = YES;
     self.failBtn.hidden         = YES;
     self.backgroundColor        = [UIColor clearColor];
     self.shrink                 = NO;
@@ -1104,6 +1166,15 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 }
 
 /**
+ * 是否有分享功能
+ */
+- (void)zf_playerHasShareFunction:(BOOL)sender {
+
+    self.shareBtn.hidden = !sender;
+}
+
+
+/**
  是否有切换分辨率功能
  */
 - (void)zf_playerResolutionArray:(NSArray *)resolutionArray {
@@ -1157,6 +1228,8 @@ static const CGFloat ZFPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
 - (void)zf_playerDownloadBtnState:(BOOL)state {
     self.downLoadBtn.enabled = state;
 }
+
+
 
 #pragma clang diagnostic pop
 

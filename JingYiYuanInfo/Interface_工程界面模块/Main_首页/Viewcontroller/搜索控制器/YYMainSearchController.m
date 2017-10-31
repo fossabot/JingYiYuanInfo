@@ -438,7 +438,7 @@
     
     if (self.searchListModel.sa_arr.count) {
         YYSearchSecModel *model = [[YYSearchSecModel alloc] init];
-        model.className = @"三找";
+        model.className = @"投顾、券商、基金";
         model.classId = 6;
         model.models = self.searchListModel.sa_arr;
         [self.myDataSource addObject:model];

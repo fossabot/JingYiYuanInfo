@@ -18,6 +18,11 @@
 
 @implementation YYProductionDetailController
 
+- (void)dealloc {
+    
+    [kNotificationCenter removeObserver:self name:YYIapSucceedNotification object:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -29,6 +34,7 @@
         make.height.equalTo(50);
     }];
 
+    [kNotificationCenter addObserver:self selector:@selector(pop:) name:YYIapSucceedNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -50,8 +56,14 @@
         [SVProgressHUD dismissWithDelay:1];
         return;
     }
+    
     [YYIAPTool buyProductByProductionId:self.productionId type:@"3"];
     
+}
+
+- (void)pop:(NSNotification *)notice {
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark -------  wkWebview 代理方法  --------------------------------
@@ -67,6 +79,9 @@
     [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError * _Nullable error) {
         self.navigationItem.title = title;
     }];
+    YYUser *user = [YYUser shareUser];
+    NSString *js = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%ld%%'",(NSInteger)user.webfont*100];
+    [webView evaluateJavaScript:js completionHandler:nil];
     _buy.enabled = YES;
     [SVProgressHUD dismiss];
 }

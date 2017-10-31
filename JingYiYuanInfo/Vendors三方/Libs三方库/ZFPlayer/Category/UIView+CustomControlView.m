@@ -78,6 +78,12 @@
  */
 - (void)zf_playerHasDownloadFunction:(BOOL)sender {}
 
+
+/**
+ * 是否有分享功能
+ */
+- (void)zf_playerHasShareFunction:(BOOL)sender {}
+
 /**
  * 下载按钮状态
  */

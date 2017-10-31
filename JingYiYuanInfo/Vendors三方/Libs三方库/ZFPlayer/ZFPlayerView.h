@@ -33,6 +33,10 @@
 - (void)zf_playerBackAction;
 /** 下载视频 */
 - (void)zf_playerDownload:(NSString *)url;
+
+/** 分享视频*/
+- (void)zf_playerShareVideo;
+
 /** 控制层即将显示 */
 - (void)zf_playerControlViewWillShow:(UIView *)controlView isFullscreen:(BOOL)fullscreen;
 /** 控制层即将隐藏 */
@@ -65,6 +69,8 @@ typedef NS_ENUM(NSInteger, ZFPlayerState) {
 @property (nonatomic, assign) ZFPlayerLayerGravity    playerLayerGravity;
 /** 是否有下载功能(默认是关闭) */
 @property (nonatomic, assign) BOOL                    hasDownload;
+/** 是否有分享功能(默认是关闭) */
+@property (nonatomic, assign) BOOL                    hasShare;
 /** 是否开启预览图 */
 @property (nonatomic, assign) BOOL                    hasPreviewView;
 /** 设置代理 */

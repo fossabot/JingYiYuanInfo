@@ -28,7 +28,7 @@
 
 - (NSString *)posttime {
     
-    if (_posttime) {
+    if (_posttime && _posttime.length) {
         NSString *time = [NSCalendar commentDateByOriginalDate:_posttime withDateFormat:yyyyMMddHHmmss];
         
         return [NSString stringWithFormat:@"%@回复",time];

@@ -148,4 +148,6 @@ NSString * const YYInfoVideoResetPlayerNotification = @"YYInfoVideoResetPlayerNo
 NSString * const YYInfoMusicResetPlayerNotification = @"YYInfoMusicResetPlayerNotification";
 
 
+/** 支付完成 返回上一界面的通知*/
+NSString * const YYIapSucceedNotification = @"YYIapSucceedNotification";
 

@@ -130,8 +130,9 @@
     self.source = source;
     
     UIButton *share = [UIButton buttonWithType:UIButtonTypeCustom];
+    share.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [share setImage:imageNamed(@"share_gray_32x32") forState:UIControlStateNormal];
-    [share addTarget:self action:@selector(shareVideo) forControlEvents:UIControlEventTouchUpInside];
+//    [share addTarget:self action:@selector(shareVideo) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:share];
     self.share = share;
     
@@ -161,21 +162,23 @@
     
     [self.playCount makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.offset(YYInfoCellCommonMargin);
+        make.left.offset(YYInfoCellSubMargin);
         make.bottom.offset(-YYInfoCellSubMargin);
     }];
     
     [self.time makeConstraints:^(MASConstraintMaker *make) {
         
-        make.right.offset(-YYInfoCellCommonMargin);
+        make.right.offset(-YYInfoCellSubMargin);
         make.bottom.offset(-YYInfoCellSubMargin);
     }];
     
     [self.share makeConstraints:^(MASConstraintMaker *make) {
         
-        make.right.equalTo(self.videoImg).offset(-YYInfoCellSubMargin);
-        make.top.equalTo(self.videoImg.bottom).offset(YYInfoCellCommonMargin);
-        make.bottom.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
+        make.right.equalTo(self.videoImg);
+        make.width.equalTo(45);
+        make.height.equalTo(35);
+        make.top.equalTo(self.videoImg.bottom).offset(2);
+        make.bottom.equalTo(self.contentView).offset(-2);
     }];
     
     [self.tag1 makeConstraints:^(MASConstraintMaker *make) {
@@ -247,7 +250,7 @@
  */
 - (void)shareVideo {
     
-    [ShareView shareWithTitle:self.mediaModel.v_name subTitle:@"" webUrl:self.mediaModel.v_sharUrl imageUrl:self.mediaModel.v_picture isCollected:NO shareViewContain:ShareViewTypeWechat | ShareViewTypeWechatTimeline | ShareViewTypeQQ | ShareViewTypeQQZone | ShareViewTypeMicroBlog | ShareViewTypeCopyLink shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
+    [ShareView shareWithTitle:self.mediaModel.v_name subTitle:@"" webUrl:self.mediaModel.v_sharUrl imageUrl:self.mediaModel.v_picture isCollected:NO shareViewContain:ShareViewTypeWechat | ShareViewTypeWechatTimeline | ShareViewTypeQQ | ShareViewTypeQQZone | ShareViewTypeMicroBlog shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
         
     }];
 }
