@@ -86,9 +86,9 @@
             NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@" "];
             self.tagLabel1.text = keywoeds[0];
             self.tagLabel2.text = keywoeds[1];
-        }else if ([hotinfoModel.keywords containsString:@"，"]){
+        }else if ([hotinfoModel.keywords containsString:@","]){
             
-            NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@"，"];
+            NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@","];
             self.tagLabel1.text = keywoeds[0];
             self.tagLabel2.text = keywoeds[1];
         }else{
@@ -130,23 +130,8 @@
     [self.contentView addSubview:newsPic];
     self.newsPic = newsPic;
     
-//    UILabel *subTitle = [[UILabel alloc] init];
-//    subTitle.font = SubTitleFont;
-//    subTitle.textColor = SubTitleColor;
-//    [self.contentView addSubview:title];
-//    self.subTitle = subTitle;
-    
-//    LabelContainer *container = [[LabelContainer alloc] init];
-//    container.fontSize = 12;
-//    container.labelTitleColor = YYRGBCOLOR_HEX(0xd43c33);
-//    container.labelMaskToBounds = YES;
-//    container.labelCornerRadius = 8;
-//    container.labelBorderColor = YYRGBCOLOR_HEX(0xd43c33);
-//    [self.contentView addSubview:container];
-//    self.container = container;
-    
     YYEdgeLabel *tagLabel1 = [[YYEdgeLabel alloc] init];
-    tagLabel1.font = UnenableTitleFont;
+    tagLabel1.font = TagLabelFont;
     tagLabel1.textColor = ThemeColor;
     tagLabel1.layer.borderColor = ThemeColor.CGColor;
 //    tagLabel1.layer.borderWidth = 0.5;
@@ -155,7 +140,7 @@
     self.tagLabel1 = tagLabel1;
     
     YYEdgeLabel *tagLabel2 = [[YYEdgeLabel alloc] init];
-    tagLabel2.font = UnenableTitleFont;
+    tagLabel2.font = TagLabelFont;
     tagLabel2.textColor = ThemeColor;
     tagLabel2.layer.borderColor = ThemeColor.CGColor;
 //    tagLabel2.layer.borderWidth = 0.5;

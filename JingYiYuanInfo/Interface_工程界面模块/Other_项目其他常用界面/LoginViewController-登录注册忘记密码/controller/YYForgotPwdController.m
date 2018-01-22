@@ -87,7 +87,10 @@
     [self.view addSubview:navView];
     
     UIButton *exit = [UIButton buttonWithType:UIButtonTypeCustom];
-    [exit setImage:imageNamed(@"login_close_32x32") forState:UIControlStateNormal];
+    [exit setImage:imageNamed(@"nav_back_white_20x20") forState:UIControlStateNormal];
+    [exit setTitle:@"返回" forState:UIControlStateNormal];
+    exit.titleLabel.font = NavTitleFont;
+    [exit setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 10)];
     [exit addTarget:self action:@selector(dismissCurrentVc) forControlEvents:UIControlEventTouchUpInside];
     self.exit = exit;
     [self.navView addSubview:exit];
@@ -104,7 +107,7 @@
     
     UITextField *teleTextField = [[UITextField alloc] init];
     teleTextField.delegate = self;
-    teleTextField.font = SubTitleFont;
+    teleTextField.font = TitleFont;
     teleTextField.placeholder = @"请输入手机号";
     teleTextField.tintColor = ThemeColor;
     [teleTextField setLeftViewWithImage:@"textfield_leftview_telephone_25x25_"];
@@ -112,13 +115,13 @@
     self.teleTextField = teleTextField;
     
     UIView *separator1 = [[UIView alloc] init];
-    separator1.backgroundColor = ThemeColor;
+    separator1.backgroundColor = LightGraySeperatorColor;
     self.separator1 = separator1;
     [self.container addSubview:separator1];
     
     UITextField *verificationtextField = [[UITextField alloc] init];
     verificationtextField.delegate = self;
-    verificationtextField.font = SubTitleFont;
+    verificationtextField.font = TitleFont;
     verificationtextField.placeholder = @"请输入验证码";
     verificationtextField.tintColor = ThemeColor;
     [verificationtextField setLeftViewWithImage:@"textfield_leftview_verification_25x25_"];
@@ -139,13 +142,13 @@
     
     
     UIView *separator2 = [[UIView alloc] init];
-    separator2.backgroundColor = ThemeColor;
+    separator2.backgroundColor = LightGraySeperatorColor;
     self.separator2 = separator2;
     [self.container addSubview:separator2];
     
     UITextField *resetPasswordTextField = [[UITextField alloc] init];
     resetPasswordTextField.delegate = self;
-    resetPasswordTextField.font = SubTitleFont;
+    resetPasswordTextField.font = TitleFont;
     resetPasswordTextField.placeholder = @"请输入密码(至少6位)";
     resetPasswordTextField.tintColor = ThemeColor;
     [resetPasswordTextField setLeftViewWithImage:@"textfield_leftview_password_25x25_"];
@@ -153,7 +156,7 @@
     self.resetPasswordTextField = resetPasswordTextField;
     
     UIView *separator3 = [[UIView alloc] init];
-    separator3.backgroundColor = ThemeColor;
+    separator3.backgroundColor = LightGraySeperatorColor;
     self.separator3 = separator3;
     [self.container addSubview:separator3];
     
@@ -161,10 +164,11 @@
     UIButton *sendNewPasswordButton = [UIButton buttonWithType:UIButtonTypeCustom];
     sendNewPasswordButton.enabled = NO;
     sendNewPasswordButton.titleLabel.font = TitleFont;
-    sendNewPasswordButton.backgroundColor = LightGraySeperatorColor;
+    sendNewPasswordButton.backgroundColor = UnactiveButtonColor;
     [sendNewPasswordButton setTitle:@"发送" forState:UIControlStateNormal];
     [sendNewPasswordButton setTitleColor:WhiteColor forState:UIControlStateNormal];
     [sendNewPasswordButton addTarget:self action:@selector(sendNewPasswordButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    sendNewPasswordButton.layer.cornerRadius = 5;
     self.sendNewPasswordButton = sendNewPasswordButton;
     [self.view addSubview:sendNewPasswordButton];
     
@@ -180,9 +184,9 @@
     
     [self.exit makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(15);
+        make.left.equalTo(10);
         make.bottom.equalTo(self.navView).offset(-10);
-        make.width.height.equalTo(25);
+//        make.width.height.equalTo(25);
     }];
     
     [self.titleView makeConstraints:^(MASConstraintMaker *make) {
@@ -195,8 +199,9 @@
     [self.container makeConstraints:^(MASConstraintMaker *make) {
         
         make.centerX.equalTo(self.view);
-        make.centerY.equalTo(self.view.centerY).offset(-50);
-        make.width.equalTo(kSCREENWIDTH-80);
+//        make.centerY.equalTo(self.view.centerY).offset(-50);
+        make.top.equalTo(YYTopNaviHeight+40);
+        make.width.equalTo(kSCREENWIDTH-60);
     }];
     
     [self.teleTextField makeConstraints:^(MASConstraintMaker *make) {
@@ -216,7 +221,7 @@
     [self.verificationtextField makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.container);
-        make.top.equalTo(self.separator1.bottom).offset(5);
+        make.top.equalTo(self.separator1.bottom).offset(10);
         make.height.equalTo(35);
     }];
     
@@ -239,7 +244,7 @@
     [self.resetPasswordTextField makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.right.equalTo(self.container);
-        make.top.equalTo(self.separator2.bottom).offset(5);
+        make.top.equalTo(self.separator2.bottom).offset(10);
         make.height.equalTo(35);
     }];
     
@@ -254,8 +259,8 @@
     [self.sendNewPasswordButton makeConstraints:^(MASConstraintMaker *make) {
         
         make.centerX.equalTo(self.view);
-        make.top.equalTo(self.container.bottom).offset(60);
-        make.width.equalTo(kSCREENWIDTH/2);
+        make.top.equalTo(self.container.bottom).offset(40);
+        make.width.equalTo(self.container);
         make.height.equalTo(40);
     }];
     
@@ -318,7 +323,7 @@
     
     //输入框都满足条件，则注册按钮可点击
     self.sendNewPasswordButton.enabled = [self validToSend];
-    self.sendNewPasswordButton.backgroundColor = [self validToSend] ? ThemeColor : LightGraySeperatorColor;
+    self.sendNewPasswordButton.backgroundColor = [self validToSend] ? ThemeColor : UnactiveButtonColor;
 }
 
 - (BOOL)validToSend {
@@ -377,7 +382,7 @@
                                     
                                     if (success) {
                                         //更改密码成功
-                                        [SAMKeychain setPassword:self.resetPasswordTextField.text forService:KEYCHAIN_SERVICE_LOGIN account:self.teleTextField.text];
+//                                        [SAMKeychain setPassword:self.resetPasswordTextField.text forService:KEYCHAIN_SERVICE_LOGIN account:self.teleTextField.text];
                                         [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
                                         [weakSelf dismissVc];
                                         

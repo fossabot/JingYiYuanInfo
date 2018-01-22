@@ -13,17 +13,10 @@
 NSString * const Production_VIP_1 = @"com.yyapp_vip_1";
 
 
-
-
-
 /** 导航栏高度*/
-CGFloat const YYNavgationBarH = 44.f;
-/** 状态栏高度*/
-CGFloat const YYStatusBarH = 20.f;
-/** 底部tabbar高度*/
-CGFloat const YYTabBarH = 49.0;
-/** 顶部导航栏和状态栏的高度和*/
-CGFloat const YYTopNaviHeight = 64.0;
+//CGFloat const YYNavgationBarH = 44.f;
+
+//CGFloat const YYTabBarH = 49.0;
 
 /** 分页cell的tab高度*/
 CGFloat const TabHeaderH = 40;
@@ -39,6 +32,7 @@ CGFloat const YYInfoCellDescFont = 14;
 CGFloat const YYInfoCellSubtitleFont = 12;
 
 
+
 /** 新闻列表cell标题的高度*/
 CGFloat const YYInfoCellTitleHeight = 30.f;
 /** 新闻列表cell里面来源时间点击量的高度*/
@@ -50,6 +44,15 @@ CGFloat const YYInfoCellMiniImageViewHeight = 30.f;
 /** 新闻列表小的cellimageView的宽度*/
 CGFloat const YYInfoCellMiniImageViewWidth = 45.f;
 
+
+/** 系统的cell左右上下边分隔线的间距*/
+CGFloat const YYCommonCellLeftMargin = 15.f;
+
+CGFloat const YYCommonCellRightMargin = 15.f;
+
+CGFloat const YYCommonCellTopMargin = 10.f;
+
+CGFloat const YYCommonCellBottomMargin = 10.f;
 
 /** 新闻列表的通用间隙*/
 CGFloat const YYInfoCellCommonMargin = 10.f;

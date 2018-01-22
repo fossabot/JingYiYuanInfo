@@ -9,6 +9,7 @@
 #import "YYSecondCommentController.h"
 #import "YYDetailToolBar.h"
 #import "YYCommentView.h"
+#import "THBaseTableView.h"
 #import "UIViewController+BackButtonHandler.h"
 #import "UIView+YYCategory.h"
 
@@ -27,7 +28,7 @@
 /** toolBar*/
 @property (nonatomic, strong) YYDetailToolBar *toolBar;
 
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 
@@ -78,16 +79,16 @@
     [header addSubview:comment];
     
     UILabel *time = [[UILabel alloc] init];
-    time.textColor = UnenableTitleColor;
     time.font = UnenableTitleFont;
+    time.textColor = UnenableTitleColor;
     time.text = _firstCommentModel.create_date;
     self.time = time;
     [header addSubview:time];
     
 
     UILabel *tip = [[UILabel alloc] init];
-    tip.textColor = TitleColor;
     tip.font = SubTitleFont;
+    tip.textColor = TitleColor;
     tip.text = @"    全部回复";
     self.tip = tip;
     [header addSubview:tip];
@@ -424,16 +425,16 @@
     return _toolBar;
 }
 
-- (UITableView *)tableView {
+- (THBaseTableView *)tableView {
     
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, ToolBarHeight, 0);
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.tableFooterView = [[UIView alloc] init];
         [_tableView registerClass:[YYCommentCell class] forCellReuseIdentifier:YYCommentCellId];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
         YYWeakSelf
 //        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -447,6 +448,7 @@
             YYStrongSelf
             [strongSelf loadMoreComment];
         }];
+//        _tableView.mj_footer.automaticallyHidden = YES;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
         configer.emptyImage = imageNamed(emptyImageName);

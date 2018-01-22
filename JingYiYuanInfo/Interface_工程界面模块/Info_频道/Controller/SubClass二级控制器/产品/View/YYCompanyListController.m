@@ -7,6 +7,7 @@
 //  按公司分类的界面
 
 #import "YYCompanyListController.h"
+#import "THBaseTableView.h"
 #import "YYProductionVM.h"
 #import <MJRefresh/MJRefresh.h>
 
@@ -16,7 +17,7 @@
 @property (nonatomic, strong) YYProductionVM *viewModel;
 
 /** tableView*/
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 @end
 
@@ -66,9 +67,9 @@
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
-- (UITableView *)tableView{
+- (THBaseTableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStyleGrouped];
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
         YYWeakSelf
@@ -83,6 +84,21 @@
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
+//        _tableView.mj_footer.automaticallyHidden = YES;
+        
+        FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
+        configer.emptyImage = imageNamed(emptyImageName);
+        configer.emptyTitle = @"暂无数据,点此重新加载";
+        configer.emptyTitleColor = UnenableTitleColor;
+        configer.emptyTitleFont = SubTitleFont;
+        configer.allowScroll = NO;
+        configer.emptyViewTapBlock = ^{
+            [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
+        };
+        [self.tableView emptyViewConfiger:configer];
     }
     return _tableView;
 }

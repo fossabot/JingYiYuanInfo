@@ -28,6 +28,12 @@
     self.view.backgroundColor = GrayBackGroundColor;
     self.navigationItem.title = [NSString stringWithFormat:@"修改%@",self.cell.title.text];
     
+    [self.sendBtn addTarget:self action:@selector(obserTextfield:) forControlEvents:UIControlEventEditingChanged];
+    
+}
+
+- (void)initSelf {
+    
     YYUser *user = [YYUser shareUser];
     NSString *detail = @"";
     NSString *placeHolder = @"";
@@ -47,7 +53,7 @@
     
     self.textField.placeholder = [@"请输入" stringByAppendingString:placeHolder];
     YYLog(@"文字长度%ld",self.cell.detail.text.length);
-
+    
     if ([self.cell.title.text isEqualToString:@"股龄"]) {
         
         self.leftLabel.text = @"股龄(年):";
@@ -59,10 +65,12 @@
         
         self.leftLabel.text = [self.cell.title.text stringByAppendingString:@":"];
     }
-    
 }
 
-
+- (void)obserTextfield:(UITextField *)textField {
+    
+    self.sendBtn.backgroundColor = [self validToCommit] ? ThemeColor : UnactiveButtonColor;
+}
 
 /** 提交更改信息*/
 - (IBAction)commit:(UIButton *)sender {
@@ -103,11 +111,11 @@
     } showSuccessMsg:nil];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+
+
+- (BOOL)validToCommit {
+    return self.textField.text.length;
 }
-
-
 
 @end

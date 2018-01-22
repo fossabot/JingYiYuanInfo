@@ -49,7 +49,6 @@
 
 @interface YYMainViewController ()<UIViewControllerTransitioningDelegate,UITableViewDelegate,UITableViewDataSource>
 
-
 /** 导航栏View*/
 @property (nonatomic, strong) UIView *navView;
 
@@ -68,13 +67,11 @@
 /** heightArr*/
 @property (nonatomic, strong) NSArray *heights;
 
-
 @property (nonatomic, assign) BOOL isTopIsCanNotMoveTabView;
 
 @property (nonatomic, assign) BOOL isTopIsCanNotMoveTabViewPre;
 
 @property (nonatomic, assign) BOOL canScroll;
-
 
 @end
 
@@ -110,7 +107,12 @@
     //创建子控件们
     [self createSubviews];
     
-    self.automaticallyAdjustsScrollViewInsets = NO;
+    if (@available(iOS 11.0, *)) {
+        self.tableview.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever ;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
     [self loadNewData];
@@ -128,7 +130,6 @@
 - (void)dealloc {
     [kNotificationCenter removeObserver:self name:YYTabbarItemDidRepeatClickNotification object:nil];
     [kNotificationCenter removeObserver:self name:YYMainVCLeaveTopNotificationName object:nil];
-    
     [kNotificationCenter removeObserver:self name:YYReceivedRemoteNotification object:nil];
 }
 
@@ -211,27 +212,39 @@
 - (void)loadNewData {
 
     //请求成功自动缓存，如果当前数据源有数据，说明是手动刷新的操作，这时不用将缓存赋值给数据源，如果没有，则是第一次初始化等，需要将缓存赋值给数据源等success时，再重新赋值，覆盖掉之前的
+    
+//    [PPNetworkHelper GET:mainUrl parameters:nil success:^(id responseObject) {
+//
+//        [self.tableview.mj_header endRefreshing];
+//        if (responseObject) {
+//            self.mainModel = [YYMainModel mj_objectWithKeyValues:responseObject];
+//            [self.tableview reloadData];
+//        }
+//    } failure:^(NSError *error) {
+//        [self.tableview.mj_header endRefreshing];
+//        [SVProgressHUD showErrorWithStatus:NETERRORMSG];
+//        [SVProgressHUD dismissWithDelay:1];
+//    }];
     [PPNetworkHelper GET:mainUrl parameters:nil responseCache:^(id responseCache) {
-        if (!_mainModel.roll_pic.count) {
-            
+        if (!_mainModel.roll_pic.count && responseCache) {
+
             self.mainModel = [YYMainModel mj_objectWithKeyValues:responseCache];
             [self.tableview reloadData];
         }
     } success:^(id responseObject) {
-        
+
         [self.tableview.mj_header endRefreshing];
         if (responseObject) {
-            
+
             self.mainModel = [YYMainModel mj_objectWithKeyValues:responseObject];
             [self.tableview reloadData];
         }
-        
+
     } failure:^(NSError *error) {
-        
+
         [self.tableview.mj_header endRefreshing];
         [SVProgressHUD showErrorWithStatus:NETERRORMSG];
         [SVProgressHUD dismissWithDelay:1];
-        
     }];
     
     
@@ -321,7 +334,9 @@
         case 4:{
             
             YYMainPushCell *pushCell = [tableView dequeueReusableCellWithIdentifier:YYMainPostMsgCellID];
-            pushCell.postmsgmodel = self.mainModel.post_msg;
+            if (self.mainModel.post_msg) {
+                pushCell.postmsgmodel = self.mainModel.post_msg;
+            }
 
             return pushCell;
         }
@@ -416,15 +431,17 @@
     YYLog(@"userinfo  ----  %@",notice.userInfo);
     AppDelegate *delegate = (AppDelegate *)kAppDelegate;
     if (delegate.remoteNotice) {
-        
+        //未运行APP接收到远程推送并打开
         [self handleRemoteNotice:delegate.remoteNotice];
         delegate.remoteNotice = nil;
     }else {
         //    [self handleRemoteNotice:notice.userInfo];
+        //已经运行APP之后接收到了远程消息，
         [self showAlertNotice:notice.userInfo];
     }
 }
 
+/** 处理推送的后续动作 跳转详情页*/
 - (void)handleRemoteNotice:(NSDictionary *)userInfo {
     
     NSString *type = userInfo[@"type"];
@@ -465,16 +482,27 @@
         [vc.navigationController pushViewController:push animated:YES];
     }else if ([type isEqualToString:@"sp_time"]) {//按时间推送
         
-        YYPushServiceDetailController *serviceDetail = [[YYPushServiceDetailController alloc] init];
-        serviceDetail.url = [NSString stringWithFormat:@"%@&id=%@",pushDetailJointUrl,userInfo[@"id"]];
-        serviceDetail.jz_wantsNavigationBarVisible = YES;
-        [vc.navigationController pushViewController:serviceDetail animated:YES];
+//        YYPushServiceDetailController *serviceDetail = [[YYPushServiceDetailController alloc] init];
+//        serviceDetail.url = [NSString stringWithFormat:@"%@&id=%@",pushDetailJointUrl,userInfo[@"id"]];
+//        serviceDetail.jz_wantsNavigationBarVisible = YES;
+//        [vc.navigationController pushViewController:serviceDetail animated:YES];
         
+        [self showAlertNotice:userInfo];
+//        [self dispatchRemoteSpecialNotice:userInfo];
     }else if ([type isEqualToString:@"sp_num"]) {//按次数推送
         
         [self showAlertNotice:userInfo];
+//        [self dispatchRemoteSpecialNotice:userInfo];
     }
 }
+
+
+/** 处理远程发送的特色服务的信息*/
+- (void)dispatchRemoteSpecialNotice:(NSDictionary *)userinfo {
+    
+    
+}
+
 
 //特色服务需弹框,APP在前台需弹框提醒，是否查看新闻
 - (void)showAlertNotice:(NSDictionary *)userInfo {
@@ -486,18 +514,30 @@
     alertBody = userInfo[@"aps"][@"alert"][@"body"];
     NSString *type = userInfo[@"type"];
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:alertBody preferredStyle:UIAlertControllerStyleAlert];
+    if ([type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_time"]) {
     
+        alertBody = userInfo[@"aps"][@"alert"][@"tip"];
+    }
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:alertBody preferredStyle:UIAlertControllerStyleAlert];
+   
+    YYWeakSelf
     [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         YYLog(@"点击了取消");
+        if ([type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_time"]) {//按次数推送
+            
+            [weakSelf feedback:userInfo isLookUp:@"0"];
+        }else {
+            
+            [weakSelf handleRemoteNotice:userInfo];
+        }
     }]];
-    
-    YYWeakSelf
+
     [alert addAction:[UIAlertAction actionWithTitle:@"查看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        if ([type isEqualToString:@"sp_num"]) {//按次数推送
+        if ([type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_time"]) {//按次数推送
             
-            [weakSelf confirmToResendPush:userInfo];
+            [weakSelf feedback:userInfo isLookUp:@"1"];
         }else {
             
             [weakSelf handleRemoteNotice:userInfo];
@@ -509,20 +549,54 @@
 
 
 /* 第一次点击按次推送的消息  确认已查看*/
-- (void)confirmToResendPush:(NSDictionary *)userInfo {
+- (void)feedback:(NSDictionary *)userInfo isLookUp:(NSString *)isLookUp{
     
     YYUser *user = [YYUser shareUser];
-    YYTabBarViewController *tab = (YYTabBarViewController *)kKeyWindow.rootViewController;
-    YYNavigationViewController  *nav = tab.selectedViewController;
-    UIViewController *vc = nav.visibleViewController;
+    //权限判断
+    NSString *type = [self type:userInfo[@"tip"]];
     
-    YYPushServiceDetailController *serviceDetail = [[YYPushServiceDetailController alloc] init];
-    serviceDetail.url = [NSString stringWithFormat:@"%@&orderid=%@&id=%@&userid=%@",pushDetailJointUrl,userInfo[@"orderid"],userInfo[@"id"],user.userid];
-    serviceDetail.jz_wantsNavigationBarVisible = YES;
-    [vc.navigationController pushViewController:serviceDetail animated:YES];
+    if ([type isEqualToString:@"1"] && [isLookUp isEqualToString:@"1"]) {
+        
+        YYTabBarViewController *tab = (YYTabBarViewController *)kKeyWindow.rootViewController;
+        YYNavigationViewController  *nav = tab.selectedViewController;
+        UIViewController *vc = nav.visibleViewController;
+        
+        YYPushServiceDetailController *serviceDetail = [[YYPushServiceDetailController alloc] init];
+        //    serviceDetail.url = [NSString stringWithFormat:@"%@&orderid=%@&id=%@&userid=%@",pushDetailJointUrl,userInfo[@"orderid"],userInfo[@"id"],user.userid];
+        
+        serviceDetail.url = [NSString stringWithFormat:@"?%@&userid=%@&type=%@&yesno=%@",pushDetailJointUrl,user.userid,type,isLookUp];
+        serviceDetail.jz_wantsNavigationBarVisible = YES;
+        [vc.navigationController pushViewController:serviceDetail animated:YES];
+    }else {
+        
+        NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,type,@"type",isLookUp,@"yesno", nil];
+        [YYHttpNetworkTool GETRequestWithUrlstring:pushDetailJointUrl parameters:para success:^(id response) {
+            
+            //给后台发报告  用户取消或者没有资格并点击了确定
+            YYLog(@"给后台发报告  用户取消或者没有资格并点击了确定 成功");
+        } failure:^(NSError *error) {
+            
+        } showSuccessMsg:nil];
+    }
     
 }
 
+
+- (NSString *)type:(NSString *)tip {
+    
+    if ([tip isEqualToString:@"尊敬的会员，您有新的股票信息，是否确认需要？"]) {
+        return @"1";
+    }else if ([tip isEqualToString:@"尊敬的会员，您已达持股上限3支（以上），再次与您确认是否需要？"]) {
+        return @"1";
+    }else if ([tip isEqualToString:@"尊敬的会员，您已达服务期限已过。"]) {
+        return @"0";
+    }else if ([tip isEqualToString:@"尊敬的会员，您尚未购买此服务，请联系客服010-87777898。"]) {
+        return @"0";
+    }else if ([tip isEqualToString:@"尊敬的用户，您尚未成为会员，请联系客服010-87777898。"]) {
+        return @"0";
+    }
+    return @"0";
+}
 
 #pragma mark -- lazyMethods 懒加载区域  -------------------------------------
 
@@ -531,7 +605,7 @@
  */
 - (UIView *)navView{
     if (!_navView) {
-        _navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 64)];
+        _navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, YYTopNaviHeight)];
         _navView.backgroundColor = [ThemeColor colorWithAlphaComponent:0.f];
     }
     return _navView;
@@ -540,7 +614,7 @@
 - (UIButton *)messageBtn{
     if (!_messageBtn) {
         _messageBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _messageBtn.frame = CGRectMake(10, 27, messageButtonWidth, navSubviewHeight);
+        _messageBtn.frame = CGRectMake(10, YYTopNaviHeight-navSubviewHeight-7, messageButtonWidth, navSubviewHeight);
         [_messageBtn setImage:imageNamed(@"yyfw_main_message_22x22") forState:UIControlStateNormal];
         [_messageBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
         [_messageBtn addTarget:self action:@selector(messageClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -551,7 +625,7 @@
 - (UIButton *)searchBtn{
     if (!_searchBtn) {
         _searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _searchBtn.frame = CGRectMake(kSCREENWIDTH-50, 27, searchButtonWidth, navSubviewHeight);
+        _searchBtn.frame = CGRectMake(kSCREENWIDTH-50, YYTopNaviHeight-navSubviewHeight-7, searchButtonWidth, navSubviewHeight);
         [_searchBtn setImage:imageNamed(@"yyfw_search_translucent_19x19_") forState:UIControlStateNormal];
         [_searchBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 5, 0, 0)];
 //        [_searchBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 15, 0, 0)];
@@ -579,11 +653,8 @@
         _tableview.delegate = self;
         _tableview.dataSource = self;
         _tableview.estimatedRowHeight = 100;
-        _tableview.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
         _tableview.rowHeight = UITableViewAutomaticDimension;
-        [_tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-        _tableview.contentInset = UIEdgeInsetsMake(0, 0, 49, 0);
-        [_tableview setSeparatorInset:UIEdgeInsetsMake(0, 0, 49, 0)];
+        
         MJWeakSelf
         _tableview.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             YYStrongSelf
@@ -599,6 +670,10 @@
         [_tableview registerClass:[YYMainPushCell class] forCellReuseIdentifier:YYMainPostMsgCellID];
         [_tableview registerClass:[YYMainSrollpicCell class] forCellReuseIdentifier:YYMainSrollpicCellID];
     
+        [_tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        _tableview.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
+        [_tableview setSeparatorInset:UIEdgeInsetsMake(0, 0, YYTabBarH, 0)];
+
     }
     
     return _tableview;

@@ -9,6 +9,7 @@
 #import "YYNiuMoreController.h"
 #import <MJRefresh/MJRefresh.h>
 
+#import "THBaseTableView.h"
 #import "YYNiuManCell.h"
 #import "YYNiuManModel.h"
 #import "YYNiuManDetailViewController.h"
@@ -17,7 +18,7 @@
 @interface YYNiuMoreController ()
 
 /** tab*/
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 /** viewModel*/
 @property (nonatomic, strong) YYNiuMoreVM *viewModel;
@@ -107,15 +108,14 @@
 
 
 
-- (UITableView *)tableView {
+- (THBaseTableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-64) style:UITableViewStylePlain];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        //        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
         [self.tableView registerClass:[YYNiuManCell class] forCellReuseIdentifier:YYNiuManCellID];
+        _tableView.separatorInset = UIEdgeInsetsMake(0, -YYInfoCellSubMargin, 0, YYInfoCellCommonMargin);
 
         YYWeakSelf
         MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
@@ -142,6 +142,10 @@
         configer.allowScroll = NO;
         configer.emptyViewTapBlock = ^{
             [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
         };
         [self.tableView emptyViewConfiger:configer];
     }

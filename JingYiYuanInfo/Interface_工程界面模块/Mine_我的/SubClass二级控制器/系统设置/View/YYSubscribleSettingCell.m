@@ -49,7 +49,6 @@
     
     UISwitch *switchBtn = [[UISwitch alloc] init];
     switchBtn.onTintColor = ThemeColor;
-//    switchBtn.thumbTintColor = ThemeColor;
     [switchBtn addTarget:self action:@selector(switchSelect:) forControlEvents:UIControlEventValueChanged];
     [self.contentView addSubview:switchBtn];
     self.switchBtn = switchBtn;

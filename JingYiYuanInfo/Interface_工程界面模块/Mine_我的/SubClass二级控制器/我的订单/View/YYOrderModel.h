@@ -36,6 +36,7 @@
 @property (nonatomic, copy) NSString *lastime;    //剩余次数
 @property (nonatomic, copy) NSString *expiretime; //到期时间
 @property (nonatomic, copy) NSString *buytime;    //购买时间
+@property (nonatomic, copy) NSString *paystatus;  //订单状态 3退单中  4已退单
 
 @property (nonatomic, copy) NSString *expireCalculate; //到期时间的计算结果
 

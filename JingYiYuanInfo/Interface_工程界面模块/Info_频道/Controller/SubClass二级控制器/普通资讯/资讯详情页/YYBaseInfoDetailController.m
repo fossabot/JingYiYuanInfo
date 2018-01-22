@@ -10,6 +10,7 @@
 #import "ShareView.h"
 #import "YYDetailToolBar.h"
 #import "YYCommentView.h"
+#import "THBaseTableView.h"
 #import "UIViewController+BackButtonHandler.h"
 
 #import "YYCommentModel.h"
@@ -20,9 +21,6 @@
 
 #import "YYFirstCommentController.h"
 #import "YYSecondCommentController.h"
-
-#define ViewWidth self.view.bounds.size.width
-#define ViewHeight self.view.bounds.size.height
 
 @interface YYBaseInfoDetailController ()<YYDetailToolBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
@@ -37,7 +35,7 @@
 
 
 
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 
@@ -51,12 +49,8 @@
 }
 
 - (void)viewDidLoad {
-    
-    
+
     [super viewDidLoad];
-    
-    
-    YYLog(@"viewHeight : %lf",ViewHeight);
     
     [self loadComment];
     [self.view addSubview:self.tableView];
@@ -337,9 +331,11 @@
     
     self.navigationItem.rightBarButtonItem.enabled = YES;
     YYWeakSelf
+    
     [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError * _Nullable error) {
         weakSelf.navigationItem.title = title;
     }];
+    
     YYUser *user = [YYUser shareUser];
     NSString *js = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%ld%%'",(NSInteger)user.webfont*100];
     [webView evaluateJavaScript:js completionHandler:nil];
@@ -418,7 +414,6 @@
     [alertController addAction:([UIAlertAction actionWithTitle:@"完成" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         completionHandler(alertController.textFields[0].text?:@"");
     }])];
-    
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
@@ -546,7 +541,7 @@
     
     if (!_toolBar) {
         
-        _toolBar = [[YYDetailToolBar alloc] initWithFrame:CGRectMake(0, ViewHeight-YYTopNaviHeight, ViewWidth, ToolBarHeight)];
+        _toolBar = [[YYDetailToolBar alloc] initWithFrame:CGRectMake(0, kSCREENHEIGHT-YYTopNaviHeight, kSCREENWIDTH, ToolBarHeight)];
         _toolBar.toolBarType = DetailToolBarTypeWriteComment | DetailToolBarTypeComment | DetailToolBarTypeFavor | DetailToolBarTypeShare;
         
         _toolBar.delegate = self;
@@ -559,17 +554,16 @@
     return _toolBar;
 }
 
-- (UITableView *)tableView {
+- (THBaseTableView *)tableView {
     
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStyleGrouped];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, ToolBarHeight, 0);
-//        _tableView.separatorInset = UIEdgeInsetsMake(0, 30, 0, 0);
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[YYCommentCell class] forCellReuseIdentifier:YYCommentCellId];
-        
+        //        _tableView.separatorInset = UIEdgeInsetsMake(0, 30, 0, 0);
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _tableView;
 }

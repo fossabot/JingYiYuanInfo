@@ -12,6 +12,7 @@
 #import "YYNiuManCell.h"
 
 #import <MJExtension/MJExtension.h>
+#import <MJRefresh/MJRefresh.h>
 
 @interface YYNiuMoreVM()
 
@@ -98,12 +99,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 110;
+    return 100;
 }
-
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
+    // 隐藏尾部刷新控件
+    tableView.mj_footer.hidden = (self.niuManDataSource.count%10 != 0);
     return self.niuManDataSource.count;
 }
 

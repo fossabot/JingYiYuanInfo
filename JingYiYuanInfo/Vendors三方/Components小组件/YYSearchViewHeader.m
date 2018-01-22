@@ -11,11 +11,12 @@
 
 @interface YYSearchViewHeader()<LabelContainerClickDelegate>
 
-/** 猜你喜欢*/
-@property (nonatomic, strong) UIView *caiView;
-
+/** 热门搜索*/
+@property (nonatomic, strong) UILabel *hotLabel;
 /** 标签区*/
 @property (nonatomic, strong) LabelContainer *tagZone;
+/** 搜索历史*/
+@property (nonatomic, strong) UILabel *historyLabel;
 
 @end
 
@@ -26,9 +27,9 @@
     if (self) {
         _datas = [datas copy];
         
-        [self addSubview:self.caiView];
-        
+        [self addSubview:self.hotLabel];
         [self addSubview:self.tagZone];
+        [self addSubview:self.historyLabel];
         
         [self renderUI];
     }
@@ -54,7 +55,8 @@
 
 - (void)renderUI {
     
-    self.bounds = CGRectMake(0, 0, kSCREENWIDTH, CGRectGetMaxY(self.tagZone.frame)+YYInfoCellCommonMargin);
+    self.historyLabel.frame = CGRectMake(10, CGRectGetMaxY(self.tagZone.frame), 100, 40);
+    self.bounds = CGRectMake(0, 0, kSCREENWIDTH, CGRectGetMaxY(self.historyLabel.frame)+YYInfoCellCommonMargin);
 }
 
 #pragma mark -- labelcontainer 的代理方法
@@ -69,33 +71,37 @@
 }
 
 
-- (UIView *)caiView {
-    if (!_caiView) {
-        _caiView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
-        _caiView.backgroundColor = [UIColor whiteColor];
-//        UIView *redview = [[UIView alloc] initWithFrame:CGRectMake(YYInfoCellCommonMargin, 13, 3, 14)];
-//        redview.backgroundColor = ThemeColor;
-//        [_caiView addSubview:redview];
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 100, 20)];
-        label.backgroundColor = [UIColor whiteColor];
-        label.text = @"热门搜索";
-        label.textAlignment = NSTextAlignmentLeft;
-        label.font = SubTitleFont;
-        label.textColor = SubTitleColor;
-        [_caiView addSubview:label];
-        
+- (UILabel *)hotLabel {
+    if (!_hotLabel) {
+        _hotLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 100, 20)];
+        _hotLabel.backgroundColor = [UIColor whiteColor];
+        _hotLabel.text = @"热门搜索";
+        _hotLabel.textAlignment = NSTextAlignmentLeft;
+        _hotLabel.font = SubTitleFont;
+        _hotLabel.textColor = TitleColor;
     }
-    return _caiView;
-}
+    return _hotLabel;
+} 
 
+- (UILabel *)historyLabel {
+    if (!_historyLabel) {
+        _historyLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.tagZone.frame), 100, 20)];
+        _historyLabel.backgroundColor = [UIColor whiteColor];
+        _historyLabel.text = @"搜索历史";
+        _historyLabel.textAlignment = NSTextAlignmentLeft;
+        _historyLabel.font = SubTitleFont;
+        _historyLabel.textColor = TitleColor;
+    }
+    return _historyLabel;
+}
 
 - (LabelContainer *)tagZone {
     if (!_tagZone) {
-        _tagZone = [[LabelContainer alloc] initWithTitles:_datas andFrame:CGRectMake(0, CGRectGetMaxY(self.caiView.frame), kSCREENWIDTH, 0) labelContainerStableEdge:LabelContainerStableEdgeWidth rowMargin:10 labelMargin:15 delegate:self];
+        _tagZone = [[LabelContainer alloc] initWithTitles:_datas andFrame:CGRectMake(0, CGRectGetMaxY(self.hotLabel.frame), kSCREENWIDTH, 0) edgeInset:UIEdgeInsetsMake(5, 10, 5, 10) labelContainerStableEdge:LabelContainerStableEdgeWidth rowMargin:10 labelMargin:15 delegate:self];
         _tagZone.labelMaskToBounds = YES;
         _tagZone.labelCornerRadius = 5;
         _tagZone.labelTitleColor = SubTitleColor;
+        
     }
     return _tagZone;
 }

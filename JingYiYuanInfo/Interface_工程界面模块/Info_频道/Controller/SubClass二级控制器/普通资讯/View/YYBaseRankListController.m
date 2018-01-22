@@ -9,6 +9,7 @@
 #import "YYBaseRankListController.h"
 #import "YYBaseRankDetailController.h"
 
+#import "THBaseTableView.h"
 #import "YYHotTableViewCell.h"
 #import "YYBaseHotModel.h"
 #import "UITableView+FDTemplateLayoutCell.h"
@@ -18,7 +19,7 @@
 @interface YYBaseRankListController ()<UITableViewDelegate,UITableViewDataSource>
 
 /** tableView*/
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 /** dataSource*/
 @property (nonatomic, strong) NSMutableArray *dataSource;
@@ -58,6 +59,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
+    self.tableView.mj_footer.hidden = (self.dataSource.count%10 != 0);
     return self.dataSource.count;
 }
 
@@ -93,14 +95,16 @@
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
-- (UITableView *)tableView {
+- (THBaseTableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-64) style:UITableViewStylePlain];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-YYTopNaviHeight) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
         _tableView.tableFooterView = [UIView new];
-        [self.tableView registerClass:[YYHotTableViewCell class] forCellReuseIdentifier:YYHotTableViewCellId];
+        [_tableView registerClass:[YYHotTableViewCell class] forCellReuseIdentifier:YYHotTableViewCellId];
+        
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf
         MJRefreshBackStateFooter *footer = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
@@ -109,17 +113,20 @@
         }];
         /** 普通闲置状态  壹元君正努力为您加载数据*/
         [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
-//        footer.stateLabel.text = @"壹元君正努力为您加载中...";
+//        footer.automaticallyHidden = YES;
         _tableView.mj_footer = footer;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
         configer.emptyImage = imageNamed(emptyImageName);
-        configer.emptyTitle = @"暂无问答数据";
+        configer.emptyTitle = @"暂无数据,点此重新加载";
         configer.emptyTitleColor = UnenableTitleColor;
         configer.emptyTitleFont = SubTitleFont;
         configer.allowScroll = NO;
         configer.emptyViewTapBlock = ^{
             [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
         };
         [self.tableView emptyViewConfiger:configer];
         

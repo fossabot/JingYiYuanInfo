@@ -273,6 +273,7 @@ UIColor *CellRightTextColor = nil;
     objc_setAssociatedObject(self, &kActionHandlerTapBlockKey, block, OBJC_ASSOCIATION_COPY);
 }
 
+
 - (void)handleActionForTapGesture:(UITapGestureRecognizer *)gesture
 {
     if (gesture.state == UIGestureRecognizerStateRecognized)

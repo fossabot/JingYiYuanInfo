@@ -7,6 +7,8 @@
 //
 
 #import "YYQuestionDetailController.h"
+
+#import "THBaseTableView.h"
 #import "YYAnswerCell.h"
 #import "YYDetailToolBar.h"
 #import "YYAnswerModel.h"
@@ -34,7 +36,7 @@
 
 
 /** tableView*/
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 /** toolBar*/
 @property (nonatomic, strong) YYDetailToolBar *toolBar;
@@ -85,7 +87,6 @@
 #pragma mark tableview 代理方法  ---------------------------------
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return self.dataSource.count;
 }
 
@@ -265,9 +266,9 @@
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
-- (UITableView *)tableView{
+- (THBaseTableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, 40, 0);

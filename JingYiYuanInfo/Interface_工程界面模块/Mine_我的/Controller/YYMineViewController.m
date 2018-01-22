@@ -8,6 +8,7 @@
 
 #import "YYMineViewController.h"
 
+#import "THBaseTableView.h"
 #import "YYMineHeaderView.h"
 #import "YYMineLogOutHeaderView.h"
 
@@ -26,7 +27,7 @@
 @property (nonatomic, strong) YYMineLogOutHeaderView *logOutHeaderView;
 
 /** tableview*/
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 /** viewModel*/
 @property (nonatomic, strong) YYMineViewModel *viewModel;
@@ -46,6 +47,13 @@
     [self addNotice];
     
     [self.view addSubview:self.tableView];
+    
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever ;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    
     [self.tableView reloadData];
     //配置tableview的头部视图
     [self configureHeaderView:nil];
@@ -134,10 +142,10 @@
 }
 
 
-- (UITableView *)tableView {
+- (THBaseTableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-        _tableView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0);
+        _tableView = [[THBaseTableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH+10, 0);
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
     }

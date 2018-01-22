@@ -91,7 +91,7 @@
     if (!_caiView) {
         _caiView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
         _caiView.backgroundColor = [UIColor whiteColor];
-        UIView *redview = [[UIView alloc] initWithFrame:CGRectMake(YYInfoCellCommonMargin, 13, 3, 14)];
+        UIView *redview = [[UIView alloc] initWithFrame:CGRectMake(YYInfoCellCommonMargin, 12, 3, 15)];
         redview.backgroundColor = ThemeColor;
         [_caiView addSubview:redview];
         
@@ -99,7 +99,7 @@
         label.backgroundColor = [UIColor whiteColor];
         label.text = @"猜你喜欢";
         label.textAlignment = NSTextAlignmentLeft;
-        label.font = SubTitleFont;
+        label.font = TitleFont;
         label.textColor = SubTitleColor;
         [_caiView addSubview:label];
 
@@ -122,7 +122,8 @@
 
 - (ButtonContainer *)tagZone {
     if (!_tagZone) {
-        _tagZone = [[ButtonContainer alloc] initWithTitles:_datas andFrame:CGRectMake(0, CGRectGetMaxY(self.caiView.frame)+10, kSCREENWIDTH, 0) delegate:self];
+        _tagZone = [[ButtonContainer alloc] initWithTitles:_datas andFrame:CGRectMake(0, CGRectGetMaxY(self.caiView.frame), kSCREENWIDTH, 0) delegate:self];
+        _tagZone.itemEdgeInset = UIEdgeInsetsMake(3, 5, 3, 5);
     }
     return _tagZone;
 }

@@ -41,11 +41,25 @@ alpha: 1]
 #define NewsSubtextColor [UIColor grayColor]
 #define NewsSubtextFont  [UIFont systemFontOfSize:12]
 
+/** 状态栏高度*/
+#define YYStatusBarH [[UIApplication sharedApplication] statusBarFrame].size.height
+
+/** 导航栏高度*/
+#define YYNavgationBarH 44
+
+/** 顶部导航栏和状态栏的高度和*/
+#define YYTopNaviHeight (YYStatusBarH + YYNavgationBarH)
+
+#define YYTabBarH (YYStatusBarH > 20 ? 83:49)
+
+//带有导航栏的屏幕尺寸
+#define kViewRectWithNav CGRectMake(0, YYTopNaviHeight, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight)
 
 //屏幕高
 #define kSCREENHEIGHT [UIScreen mainScreen].bounds.size.height
 //屏幕宽
 #define kSCREENWIDTH [UIScreen mainScreen].bounds.size.width
+
 
 //弱引用
 #define YYWeakSelf  __weak typeof(self) weakSelf = self;

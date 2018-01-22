@@ -7,6 +7,8 @@
 //  公社视频
 
 #import "YYCommunityMediaController.h"
+
+#import "THBaseTableView.h"
 #import "YYCommunityMediaModel.h"
 #import "YYCommunityMediaVM.h"
 #import "YYCommunityMediaCell.h"
@@ -16,7 +18,7 @@
 @interface YYCommunityMediaController ()
 
 /** tab*/
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 /** viewModel*/
 @property (nonatomic, strong) YYCommunityMediaVM *viewModel;
@@ -107,12 +109,14 @@
 
 
 
-- (UITableView *)tableView {
+- (THBaseTableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-64) style:UITableViewStylePlain];
-        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 49, 0);
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-YYTopNaviHeight) style:UITableViewStylePlain];
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
+        _tableView.tableFooterView = [[UIView alloc] init];
         [self.tableView registerClass:[YYCommunityMediaCell class] forCellReuseIdentifier:YYCommunityMediaCellId];
         
         YYWeakSelf
@@ -141,6 +145,9 @@
         configer.allowScroll = NO;
         configer.emptyViewTapBlock = ^{
             [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
         };
         [self.tableView emptyViewConfiger:configer];
     }

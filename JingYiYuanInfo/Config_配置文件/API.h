@@ -24,9 +24,17 @@
 
 #define goodsJointUrl  @"http://yyapp.1yuaninfo.com/app/yyfwapp/gift_details.php?id="   //积分兑换的商品详情页
 
-#define pushDetailJointUrl @"http://yyapp.1yuaninfo.com/app/houtai/push.php?"//推送信息详情的拼接地址
+/** 以前拼接的东西%@&orderid=%@&id=%@&userid=%@
+ 现在拼接的东西  $id = $_GET['id'];//消息id
+ $userid = $_GET['userid'];//用户id
+ $type = $_GET['type'];//1有权限 0没有权限
+ $yesno = $_GET['yesno'];//1确定 0 取消
+ */
+#define pushDetailJointUrl @"http://yyapp.1yuaninfo.com/app/houtai/push.php"//推送信息详情的拼接地址
 
 #define shareVideoJointUrl @"http://yyapp.1yuaninfo.com/app/share/video_share.php?id="
+
+#define pdfReportJointUrl @""
 
 //请求参数宏
 #define USERID @"userid"

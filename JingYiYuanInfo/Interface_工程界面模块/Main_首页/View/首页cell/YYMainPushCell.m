@@ -56,7 +56,13 @@
     _castType.text = [self keyWord:postmsgmodel.keyword1];
     _castTime.text = postmsgmodel.addtime;
     _castTitle.text = postmsgmodel.title;
-    _castDesc.text = postmsgmodel.remark;
+    
+    NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
+    para.lineSpacing = 5;
+    para.paragraphSpacing = 10;
+    para.lineBreakMode = NSLineBreakByTruncatingTail;
+    NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:postmsgmodel.remark attributes:@{NSParagraphStyleAttributeName : para                                                                                                                       }];
+    _castDesc.attributedText = attr;
     
 }
 
@@ -74,8 +80,9 @@
     [self.contentView addSubview:self.castDesc];
     
     [self.castImage makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.offset(YYInfoCellCommonMargin);
-        make.width.height.equalTo(22);
+        make.top.equalTo(YYInfoCellCommonMargin);
+        make.left.equalTo(YYInfoCellCommonMargin);
+        make.width.height.equalTo(20);
     }];
     
     [self.castType makeConstraints:^(MASConstraintMaker *make) {
@@ -102,7 +109,7 @@
 
     [self.castTitle makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.generationView.bottom).offset(YYInfoCellCommonMargin);
-        make.leftMargin.equalTo(YYInfoCellCommonMargin);
+        make.left.equalTo(YYInfoCellCommonMargin);
         make.right.lessThanOrEqualTo(self.moreBtn.right);
     }];
 
@@ -118,12 +125,8 @@
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 
-- (void)more:(UIButton *)btn {
+- (void)more {
     
-//    if (self.postMsgBlock) {
-//        
-//        self.postMsgBlock();
-//    }
     YYPushController *push = [[YYPushController alloc] init];
     push.jz_wantsNavigationBarVisible = YES;
     push.pushId = self.postmsgmodel.postmsg_id;
@@ -165,11 +168,11 @@
             break;
             
         case 12:
-            return @"及时通知";
+            return @"即时通知";
             break;
             
         default:
-            return @"及时通知";
+            return @"即时通知";
             break;
     }
 }
@@ -192,9 +195,9 @@
         [_moreBtn setTitleColor:UnenableTitleColor forState:UIControlStateNormal];
         [_moreBtn setImage:imageNamed(@"more") forState:UIControlStateNormal];
 //        _moreBtn.buttonPositionStyle = BAButtonPositionStyleRight;
-        [_moreBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -20, 0, 20)];
-        [_moreBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 40, 0, -20)];
-        [_moreBtn addTarget:self action:@selector(more:) forControlEvents:UIControlEventTouchUpInside];
+        [_moreBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -16, 0, 16)];
+        [_moreBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 44, 0, -24)];
+        [_moreBtn addTarget:self action:@selector(more) forControlEvents:UIControlEventTouchUpInside];
     }
     return _moreBtn;
 }
@@ -203,7 +206,7 @@
     if (!_castType) {
         _castType = [[UILabel alloc] init];
         _castType.textColor = TitleColor;
-        _castType.font = SubTitleFont;
+        _castType.font = TitleFont;
     }
     return _castType;
 }
@@ -212,7 +215,7 @@
     if (!_castTime) {
         _castTime = [[UILabel alloc] init];
         _castTime.textColor = SubTitleColor;
-        _castTime.font = SubTitleFont;
+        _castTime.font = TitleFont;
     }
     return _castTime;
 }
@@ -232,6 +235,10 @@
         _castDesc.textColor = SubTitleColor;
         _castDesc.font = SubTitleFont;
         _castDesc.numberOfLines = 3;
+        _castDesc.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(more)];
+        [_castDesc addGestureRecognizer:tap];
     }
     return _castDesc;
 }

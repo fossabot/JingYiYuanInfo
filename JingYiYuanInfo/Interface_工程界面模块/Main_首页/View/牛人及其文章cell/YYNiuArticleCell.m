@@ -35,7 +35,7 @@
 @property (nonatomic, strong) YYEdgeLabel *tagLabel2;
 
 /** cellSeparator*/
-@property (nonatomic, strong) UIView *cellSeparator;
+//@property (nonatomic, strong) UIView *cellSeparator;
 
 @end
 
@@ -91,15 +91,16 @@
     UILabel *title = [[UILabel alloc] init];
     title.font = TitleFont;
     title.textColor = TitleColor;
+    title.numberOfLines = 2;
     [self.contentView addSubview:title];
     self.title = title;
     
-    UILabel *desc = [[UILabel alloc] init];
-    desc.font = SubTitleFont;
-    desc.textColor = SubTitleColor;
-    desc.numberOfLines = 2;
-    [self.contentView addSubview:desc];
-    self.desc = desc;
+//    UILabel *desc = [[UILabel alloc] init];
+//    desc.font = SubTitleFont;
+//    desc.textColor = SubTitleColor;
+//    desc.numberOfLines = 2;
+//    [self.contentView addSubview:desc];
+//    self.desc = desc;
     
     UILabel *time = [[UILabel alloc] init];
     time.font = UnenableTitleFont;
@@ -116,28 +117,28 @@
 //    [self.contentView addSubview:labelContainer];
 //    self.labelContainer = labelContainer;
 
-    YYEdgeLabel *tagLabel1 = [[YYEdgeLabel alloc] init];
-    tagLabel1.font = UnenableTitleFont;
-    tagLabel1.textColor = ThemeColor;
-    tagLabel1.layer.borderColor = ThemeColor.CGColor;
-    //    tagLabel1.layer.borderWidth = 0.5;
-    tagLabel1.layer.cornerRadius = 3;
-    [self.contentView addSubview:tagLabel1];
-    self.tagLabel1 = tagLabel1;
+//    YYEdgeLabel *tagLabel1 = [[YYEdgeLabel alloc] init];
+//    tagLabel1.font = TagLabelFont;
+//    tagLabel1.textColor = ThemeColor;
+//    tagLabel1.layer.borderColor = ThemeColor.CGColor;
+//    //    tagLabel1.layer.borderWidth = 0.5;
+//    tagLabel1.layer.cornerRadius = 3;
+//    [self.contentView addSubview:tagLabel1];
+//    self.tagLabel1 = tagLabel1;
     
-    YYEdgeLabel *tagLabel2 = [[YYEdgeLabel alloc] init];
-    tagLabel2.font = UnenableTitleFont;
-    tagLabel2.textColor = ThemeColor;
-    tagLabel2.layer.borderColor = ThemeColor.CGColor;
-    //    tagLabel2.layer.borderWidth = 0.5;
-    tagLabel2.layer.cornerRadius = 3;
-    [self.contentView addSubview:tagLabel2];
-    self.tagLabel2 = tagLabel2;
+//    YYEdgeLabel *tagLabel2 = [[YYEdgeLabel alloc] init];
+//    tagLabel2.font = TagLabelFont;
+//    tagLabel2.textColor = ThemeColor;
+//    tagLabel2.layer.borderColor = ThemeColor.CGColor;
+//    //    tagLabel2.layer.borderWidth = 0.5;
+//    tagLabel2.layer.cornerRadius = 3;
+//    [self.contentView addSubview:tagLabel2];
+//    self.tagLabel2 = tagLabel2;
     
-    UIView *cellSeparator = [[UIView alloc] init];
-    cellSeparator.backgroundColor = LightGraySeperatorColor;
-    [self.contentView addSubview:cellSeparator];
-    self.cellSeparator = cellSeparator;
+//    UIView *cellSeparator = [[UIView alloc] init];
+//    cellSeparator.backgroundColor = LightGraySeperatorColor;
+//    [self.contentView addSubview:cellSeparator];
+//    self.cellSeparator = cellSeparator;
     
 }
 
@@ -150,6 +151,7 @@
         make.left.top.equalTo(self.contentView).offset(YYInfoCellCommonMargin);
         make.height.equalTo(70);
         make.width.equalTo(110);
+        make.bottom.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
     }];
     
     [self.title makeConstraints:^(MASConstraintMaker *make) {
@@ -158,17 +160,16 @@
         make.left.equalTo(self.leftImageView.right).offset(YYInfoCellSubMargin);
     }];
     
-    [self.desc makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.title.bottom).offset(YYInfoCellSubMargin);
-        make.left.equalTo(self.title.left);
-        make.right.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
-        make.bottom.equalTo(self.leftImageView.bottom);
-    }];
+//    [self.desc makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.title.bottom).offset(YYInfoCellSubMargin);
+//        make.left.equalTo(self.title.left);
+//        make.right.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
+//        make.bottom.equalTo(self.leftImageView.bottom);
+//    }];
     
     [self.time makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.contentView.right).offset(-YYInfoCellCommonMargin);
-        make.top.equalTo(self.leftImageView.bottom).offset(YYInfoCellSubMargin);
-        make.bottom.equalTo(self.contentView.bottom).offset(-YYInfoCellCommonMargin);
+        make.left.equalTo(self.leftImageView.right).offset(YYInfoCellCommonMargin);
+        make.bottom.equalTo(self.leftImageView.bottom);
     }];
     
 //    [self.labelContainer makeConstraints:^(MASConstraintMaker *make) {
@@ -177,23 +178,23 @@
 //        make.bottom.equalTo(self.time.bottom);
 //    }];
     
-    [self.tagLabel1 makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.leftImageView.right).offset(YYInfoCellSubMargin);
-        make.bottom.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
-    }];
-    
-    [self.tagLabel2 makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.tagLabel1.right).offset(YYInfoCellCommonMargin);
-        make.bottom.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
-    }];
+//    [self.tagLabel1 makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.leftImageView.right).offset(YYInfoCellSubMargin);
+//        make.bottom.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
+//    }];
+
+//    [self.tagLabel2 makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.tagLabel1.right).offset(YYInfoCellCommonMargin);
+//        make.bottom.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
+//    }];
     
     //底部分隔线的约束
-    [self.cellSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.contentView.bottom).offset(-0.5);
-        make.left.equalTo(self.contentView.left).offset(YYInfoCellCommonMargin);
-        make.right.equalTo(self.contentView.right).offset(-YYInfoCellCommonMargin);
-        make.height.offset(0.5);
-    }];
+//    [self.cellSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.equalTo(self.contentView.bottom).offset(-0.5);
+//        make.left.equalTo(self.contentView.left).offset(YYInfoCellCommonMargin);
+//        make.right.equalTo(self.contentView.right).offset(-YYInfoCellCommonMargin);
+//        make.height.offset(0.5);
+//    }];
     
 }
 

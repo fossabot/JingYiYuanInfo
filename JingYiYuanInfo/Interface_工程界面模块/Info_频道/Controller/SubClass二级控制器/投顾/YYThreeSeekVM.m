@@ -10,6 +10,8 @@
 #import "YYCompanyModel.h"
 #import "YYCompanyCell.h"
 #import <MJExtension/MJExtension.h>
+#import <MJRefresh/MJRefresh.h>
+
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "YYThreeSeekListModel.h"
 
@@ -142,7 +144,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
     if ([self.classid isEqualToString:@"0"]) {
-        return 30;
+        return 40;
     }
     return 0.001;
 }
@@ -178,22 +180,12 @@
         
         return self.recommendDataSource.count;
     }
+    
+//    tableView.mj_footer.hidden = (self.companyDataSource.count%10 != 0);
     return self.companyDataSource.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-//    return [tableView fd_heightForCellWithIdentifier:YYCompanyCellId cacheByIndexPath:indexPath configuration:^(YYCompanyCell *cell) {
-//        YYCompanyModel *companyModel = nil;
-//        if ([self.classid isEqualToString:@"0"] && indexPath.section == 0) {
-//            
-//            companyModel = self.recommendDataSource[indexPath.row];
-//        }else {
-//            companyModel = self.companyDataSource[indexPath.row];
-//        }
-//        [cell setCompanyModel:companyModel];
-//        
-//    }];
 
     return 90;
 }
@@ -321,14 +313,14 @@
 
 - (UIView *)sectionHeaderForSection:(NSInteger)section {
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 30)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 40)];
     view.backgroundColor = WhiteColor;
     
-    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(10, 5, 2, 20)];
+    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(YYCommonCellLeftMargin, 10, 2, 20)];
     redView.backgroundColor = ThemeColor;
     [view addSubview:redView];
     
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 100, 20)];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 100, 20)];
     if (section == 0) {
         
         title.text = @"推荐";
@@ -336,13 +328,13 @@
         title.text = @"公司列表";
     }
     
-    title.font = SubTitleFont;
+    title.font = TitleFont;
     title.textColor = SubTitleColor;
     [view addSubview:title];
     
     if (section == 0) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(kSCREENWIDTH-80, 5, 70, 20);
+        button.frame = CGRectMake(kSCREENWIDTH-80, 10, 70, 20);
         [button setTitle:@"换一批" forState:UIControlStateNormal];
         [button setImage:imageNamed(@"refresh_20x20_") forState:UIControlStateNormal];
         button.titleLabel.font = SubTitleFont;

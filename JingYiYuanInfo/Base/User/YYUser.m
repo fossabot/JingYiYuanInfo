@@ -183,7 +183,7 @@ YYSingletonM(User)
 }
 
 - (NSString *)integral {
-    NSString *integralStr = [kUserDefaults objectForKey:@"user_integral"];
+    NSString *integralStr = [NSString stringWithFormat:@"%@",[kUserDefaults objectForKey:@"user_integral"]];
     if (!integralStr.length) {
         return @"0";
     }

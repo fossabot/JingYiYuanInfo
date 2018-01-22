@@ -11,6 +11,7 @@
 #import "YYProjectListModel.h"
 #import "YYProjectCell.h"
 #import <MJExtension/MJExtension.h>
+#import <MJRefresh/MJRefresh.h>
 
 @interface YYProjectVM()
 
@@ -38,7 +39,6 @@
     }
     
     [PPNetworkHelper GET:projectUrl parameters:para responseCache:^(id responseCache) {
-        
         if (responseCache) {
             
             YYProjectListModel *listModel = [YYProjectListModel mj_objectWithKeyValues:responseCache];
@@ -85,7 +85,7 @@
         if (response) {
             
             YYProjectListModel *listModel = [YYProjectListModel mj_objectWithKeyValues:response];
-            self.recommendDataSource = (NSMutableArray *)listModel.recommend;
+            [self.recommendDataSource addObjectsFromArray:listModel.recommend];
             self.lastid = listModel.lastid;
             completion(YES);
         }else{
@@ -95,22 +95,20 @@
         
         completion(NO);
     } showSuccessMsg:nil];
-    
 }
-
 
 
 #pragma -- mark TableViewDelegate  ---------------------------
 
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-        
+    tableView.mj_footer.hidden = (self.recommendDataSource.count%10 != 0);
     return self.recommendDataSource.count;
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 100;
+    return 110;
 }
 
 
@@ -123,7 +121,9 @@
     if (_cellSelectBlock) {
         _cellSelectBlock(indexPath, projectModel);
     }
+    
 }
+
 
 #pragma -- mark TableViewDataSource  ---------------------------
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -131,10 +131,8 @@
     YYProjectCell * cell = [tableView dequeueReusableCellWithIdentifier:YYProjectCellId];
     
     [cell setProjectModel:self.recommendDataSource[indexPath.row]];
-    
     return cell;
 }
-
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 

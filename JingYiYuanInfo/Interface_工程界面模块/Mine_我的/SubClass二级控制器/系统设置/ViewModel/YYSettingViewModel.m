@@ -76,7 +76,7 @@ static NSString * const logOutCellID = @"logOutCell";
                     [switchBtn addTarget:self action:@selector(switchBtnClick:) forControlEvents:UIControlEventValueChanged];
                     cell.accessoryView = switchBtn;
                 }
-                cell.detailTextLabel.font = SubTitleFont;
+//                cell.detailTextLabel.font = SubTitleFont;
                 cell.textLabel.text = settingModel.title;
                 cell.detailTextLabel.text = settingModel.subTitle;
                 UISwitch *switchB = (UISwitch *)cell.accessoryView;
@@ -93,7 +93,7 @@ static NSString * const logOutCellID = @"logOutCell";
                     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:subTitleCellID];
                     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 }
-                cell.detailTextLabel.font = SubTitleFont;
+//                cell.detailTextLabel.font = SubTitleFont;
                 cell.textLabel.text = settingModel.title;
                 cell.detailTextLabel.text = settingModel.subTitle ? : @"";
                 return cell;

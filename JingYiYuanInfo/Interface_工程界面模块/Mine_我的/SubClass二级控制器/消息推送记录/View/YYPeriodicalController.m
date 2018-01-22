@@ -94,11 +94,11 @@
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-64) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-YYTopNaviHeight) style:UITableViewStylePlain];
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 5);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, YYCommonCellLeftMargin, 0, YYCommonCellRightMargin);
         [_tableView registerClass:[YYPeriodCell class] forCellReuseIdentifier:YYPeriodCellId];
         YYWeakSelf
         _tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
@@ -112,7 +112,7 @@
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
+//        stateFooter.automaticallyHidden = YES;
         [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
@@ -124,6 +124,9 @@
         configer.allowScroll = NO;
         configer.emptyViewTapBlock = ^{
             [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
         };
         [self.tableView emptyViewConfiger:configer];
     }

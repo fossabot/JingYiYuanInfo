@@ -32,7 +32,7 @@
 }
 
 
-- (NSString *)pushAttributedString {
+- (NSAttributedString *)pushAttributedString {
     
     NSString *temp = @"";
     
@@ -116,15 +116,17 @@
     }
     
     YYLog(@"返回的数据：------%@",temp);
-//    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//    paragraphStyle.alignment = NSTextAlignmentLeft;
-//    paragraphStyle.headIndent = 2.0;
-//    paragraphStyle.lineSpacing = 2.0;
-//    
-//    NSAttributedString *attributeStr = [[NSAttributedString alloc] initWithString:temp attributes:@{NSParagraphStyleAttributeName:paragraphStyle,NSFontAttributeName:UnenableTitleFont,NSForegroundColorAttributeName:SubTitleColor}];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentLeft;
+    paragraphStyle.headIndent = 2.0;
+    paragraphStyle.lineSpacing = 2.0;
+    paragraphStyle.paragraphSpacing = 2.f;
     
-    self.lines = [temp countOfCharacter:@"\n"];
-    return temp;
+    NSAttributedString *attributeStr = [[NSAttributedString alloc] initWithString:temp attributes:@{NSParagraphStyleAttributeName:paragraphStyle,NSFontAttributeName:TitleFont,NSForegroundColorAttributeName:SubTitleColor}];
+    
+//    self.lines = [temp countOfCharacter:@"\n"];
+//    return temp;
+    return attributeStr;
 }
 
 
@@ -160,32 +162,40 @@
 
 - (CGFloat)cellHeight {
     
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.alignment = NSTextAlignmentLeft;
-    paragraphStyle.headIndent = 2.0;
-    paragraphStyle.lineSpacing = 2.0;
-    CGSize size = [[self pushAttributedString] boundingRectWithSize:CGSizeMake(kSCREENWIDTH-60, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSParagraphStyleAttributeName:paragraphStyle,NSFontAttributeName:UnenableTitleFont,NSForegroundColorAttributeName:SubTitleColor} context:nil].size;
-    CGFloat height = [[self pushAttributedString] HeightParagraphSpeace:3 withFont:UnenableTitleFont AndWidth:kSCREENWIDTH-60];
+//    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//    paragraphStyle.alignment = NSTextAlignmentLeft;
+//    paragraphStyle.headIndent = 2.0;
+//    paragraphStyle.lineSpacing = 2.0;
+//    CGSize size = [[self pushAttributedString] boundingRectWithSize:CGSizeMake(kSCREENWIDTH-60, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSParagraphStyleAttributeName:paragraphStyle,NSFontAttributeName:TitleFont,NSForegroundColorAttributeName:SubTitleColor} context:nil].size;
+   
+    
+//    CGFloat height = [[self pushAttributedString] HeightParagraphSpeace:3 withFont:TitleFont AndWidth:kSCREENWIDTH-72];
+    
+    CGFloat height = [self sizeForAttributeString:[self pushAttributedString] font:TitleFont maxSize:CGSizeMake(kSCREENWIDTH-72, MAXFLOAT)].height;
+//    [[self pushAttributedString] sizeWithFont:TitleFont maxSize:CGSizeMake(kSCREENWIDTH-72, MAXFLOAT)].height;
     //返回的高度需考虑cell上部一个title的高度和底部的展开按钮高度 顶部30 底部20
-//    CGSize size = [[self pushAttributedString] boundingRectWithSize:CGSizeMake(kSCREENWIDTH-60, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil].size;
-    YYLog(@"size ---- %@",NSStringFromCGSize(size));
+//    CGSize size = [[self pushAttributedString] boundingRectWithSize:CGSizeMake(kSCREENWIDTH-72, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil].size;
+//    YYLog(@"size ---- %@",NSStringFromCGSize(size));
     YYLog(@"推送文字高度 ---- %lf",height);
     
-    UILabel*label = [[UILabel alloc] init];
-    label.numberOfLines = 0;
-    label.text = [self pushAttributedString];
-    [label sizeToFit];
-    YYLog(@"label  size ----- %@",NSStringFromCGSize(label.bounds.size));
+//    UILabel*label = [[UILabel alloc] init];
+//    label.numberOfLines = 0;
+//    label.text = [self pushAttributedString];
+//    [label sizeToFit];
+//    YYLog(@"label  size ----- %@",NSStringFromCGSize(label.bounds.size));
     
 //    CGFloat lineCountH = self.lines*3;
-    if (self.extendState && height > 80) {
+    
+    CGFloat topH = 50;
+    CGFloat bottomH = 30;
+    if (self.extendState && height > 80) {//有展开按钮 并且是展开状态 且高度大于80
         
         _isHaveExtendBtn = YES;
-        return height+30+40;
-    }else if (height > 80 && !self.extendState){
+        return height+bottomH+topH;
+    }else if (height > 80 && !self.extendState){//有展开按钮 不是展开状态 且高度大于80
         
         _isHaveExtendBtn = YES;
-        return 50+30+40;
+        return 70+bottomH+topH;
         
     }else{
         
@@ -257,6 +267,22 @@
             return @"";
             break;
     }
+    
+}
+
+
+- (CGSize)sizeForAttributeString:(NSAttributedString *)string font:(UIFont *)font maxSize:(CGSize)maxSize {
+    
+    //    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+    //    /** 行高 */
+    //    paraStyle.lineSpacing = 3;
+    //    paraStyle.paragraphSpacing = 5;
+    
+    NSDictionary *attrs = @{NSFontAttributeName:font};
+    
+    return [string boundingRectWithSize:maxSize options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+//    return [string boundingRectWithSize:maxSize options:NSStringDrawingUsesFontLeading |  NSStringDrawingUsesLineFragmentOrigin context:nil];
+//    return [string boundingRectWithSize:maxSize options:NSStringDrawingUsesFontLeading |  NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
     
 }
 

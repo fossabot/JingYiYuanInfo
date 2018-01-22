@@ -240,6 +240,7 @@ static NSString * const historyCellId = @"historyCell";
         _tableView.dataSource = self;
         _tableView.tableFooterView = self.footer;
         _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
         [_tableView registerClass:[HistoryCell class] forCellReuseIdentifier:historyCellId];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     }
@@ -249,8 +250,6 @@ static NSString * const historyCellId = @"historyCell";
 - (NSMutableArray *)historyArr{
     if (!_historyArr) {
         
-//        _historyArr = [NSMutableArray arrayWithContentsOfFile:self.searchCachePath];
-//        _historyArr = [NSKeyedUnarchiver unarchiveObjectWithFile:self.searchCachePath]; 
         NSMutableArray *tempArr = [NSMutableArray arrayWithContentsOfFile:self.searchCachePath];
         if (tempArr) {
             _historyArr = tempArr;
@@ -286,7 +285,7 @@ static NSString * const historyCellId = @"historyCell";
     if (!_accessoryButton) {
         _accessoryButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_accessoryButton setImage:imageNamed(@"searchdelete_44x44") forState:UIControlStateNormal];
-        _accessoryButton.frame = CGRectMake(kSCREENWIDTH - 50, 5, 30, 30);
+        _accessoryButton.frame = CGRectMake(kSCREENWIDTH - 40, 5, 30, 30);
         [_accessoryButton addTarget:self action:@selector(deleteCell:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _accessoryButton;

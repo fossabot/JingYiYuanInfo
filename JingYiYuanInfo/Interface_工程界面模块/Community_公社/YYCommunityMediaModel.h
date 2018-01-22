@@ -60,6 +60,4 @@
 /** 分享视频的地址*/
 @property (nonatomic, copy) NSString *v_sharUrl;
 
-
-
 @end

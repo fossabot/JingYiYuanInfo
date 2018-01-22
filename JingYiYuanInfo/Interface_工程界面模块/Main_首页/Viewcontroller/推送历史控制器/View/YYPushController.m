@@ -37,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"推送消息";
+    self.navigationItem.title = @"信息推送";
     self.view.backgroundColor = GrayBackGroundColor;
     UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"month%ld_33x33",[self currentMonth]]];
     self.calendarItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStyleDone target:self action:@selector(pushToCalendarController:)];
@@ -81,11 +81,13 @@
     
     
     self.pushTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, YYTopNaviHeight+5, kSCREENWIDTH, kSCREENHEIGHT-(YYTopNaviHeight+YYTopNaviHeight+5)) style:UITableViewStylePlain];
-    self.pushTableView.separatorInset = UIEdgeInsetsMake(0, 50, 0, 0);
+//    self.pushTableView.separatorInset = UIEdgeInsetsMake(0, 50, 0, 0);
+    self.pushTableView.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
     self.pushTableView.tableFooterView = [[UIView alloc] init];
     self.pushTableView.delegate = self.viewModel;
     self.pushTableView.dataSource = self.viewModel;
     [self.pushTableView registerClass:[YYPushCell class] forCellReuseIdentifier:YYPushCellId];
+    self.pushTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
     configer.emptyImage = imageNamed(emptyImageName);
@@ -151,7 +153,7 @@
 
 - (YYCalendarTopView *)topView{
     if (!_topView) {
-        _topView = [[YYCalendarTopView alloc] initWithFrame:CGRectMake(0, YYTopNaviHeight, kSCREENWIDTH, 60)];
+        _topView = [[YYCalendarTopView alloc] initWithFrame:CGRectMake(0, YYTopNaviHeight, kSCREENWIDTH, 70)];
         [_topView refreshTopViewWithDate:[NSDate date]];
         
     }

@@ -70,23 +70,23 @@
 -(void)PlaceTextLabel{
     if (self.placeText.length>0) {
         if (!_placeTextLab) {
-            CGRect frame=CGRectMake(8,8, self.bounds.size.width-16, 0);
-            _placeTextLab=[[UILabel alloc]initWithFrame:frame];
-            _placeTextLab.font=self.font;
-            _placeTextLab.backgroundColor=[UIColor clearColor];
-            _placeTextLab.textColor=self.placeColor;
-            _placeTextLab.tag=999;
-            _placeTextLab.alpha=0;
-            _placeTextLab.lineBreakMode=NSLineBreakByWordWrapping;
-            _placeTextLab.numberOfLines=0;
+            CGRect frame = CGRectMake(0,8, self.bounds.size.width-16, 0);
+            _placeTextLab = [[UILabel alloc]initWithFrame:frame];
+            _placeTextLab.font = self.font;
+            _placeTextLab.backgroundColor = [UIColor clearColor];
+            _placeTextLab.textColor = self.placeColor;
+            _placeTextLab.tag = 999;
+            _placeTextLab.alpha = 0;
+            _placeTextLab.lineBreakMode = NSLineBreakByWordWrapping;
+            _placeTextLab.numberOfLines = 0;
             [self addSubview:_placeTextLab];
         }
         
-        _placeTextLab.text=self.placeText;
+        _placeTextLab.text = self.placeText;
         [_placeTextLab sizeToFit];
-        [_placeTextLab setFrame:CGRectMake(8, 8, CGRectGetWidth(self.bounds)-16, CGRectGetHeight(_placeTextLab.frame))];
+        [_placeTextLab setFrame:CGRectMake(0, 8, CGRectGetWidth(self.bounds)-16, CGRectGetHeight(_placeTextLab.frame))];
     }
-    if (self.text.length==0 && self.placeText.length>0) {
+    if (self.text.length == 0 && self.placeText.length>0) {
         [[self viewWithTag:999]setAlpha:1.0];
     }
 }

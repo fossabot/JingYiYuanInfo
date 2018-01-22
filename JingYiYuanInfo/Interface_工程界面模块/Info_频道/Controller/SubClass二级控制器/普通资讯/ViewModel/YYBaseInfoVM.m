@@ -8,6 +8,7 @@
 
 #import "YYBaseInfoVM.h"
 #import <MJExtension/MJExtension.h>
+#import <MJRefresh/MJRefresh.h>
 
 #import "YYHotInfoModel.h"
 #import "YYBaseInfoModel.h"
@@ -200,7 +201,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    
     if (self.rankDataSource.count) {
         return 2;
     }else if (self.bannerDataSource.count) {
@@ -209,12 +209,14 @@
     return 1;
 }
 
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (self.rankDataSource.count && section == 0) {
         return self.rankDataSource.count;
     }else if (self.recommendDataSource.count && section == 0) {
         return 1;
     }
+    tableView.mj_footer.hidden = (self.infoDataSource.count%10 != 0);
     return self.infoDataSource.count;
 }
 

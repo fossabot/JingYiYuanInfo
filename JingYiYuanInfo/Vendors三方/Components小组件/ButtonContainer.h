@@ -64,6 +64,9 @@
 /** 标签的圆角大小*/
 @property (nonatomic, assign) CGFloat buttonCornerRadius;
 
+/** item edge inset  button 元素的内容内边距*/
+@property (nonatomic, assign) UIEdgeInsets itemEdgeInset;
+
 ///** 默认选中的button*/
 //@property (nonatomic, strong) UIButton *selectedButton;
 

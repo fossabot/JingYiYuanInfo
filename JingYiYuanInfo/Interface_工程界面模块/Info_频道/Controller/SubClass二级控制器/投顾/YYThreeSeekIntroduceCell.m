@@ -43,22 +43,19 @@
         self.introduceLabel.text = @"";
         return;
     }
-    //段落样式
-    NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc]init];
-    //行间距
-    paragraph.lineSpacing = 5;
-    //段落间距
-    paragraph.paragraphSpacing = 10;
-    //对齐方式
-    //    paragraph.alignment = NSTextAlignmentLeft;
-    //指定段落开始的缩进像素
-    paragraph.firstLineHeadIndent = 30;
-    //调整全部文字的缩进像素
-    paragraph.headIndent = 10;
     
-    NSAttributedString *attributeStr = [[NSAttributedString alloc] initWithString:introduce attributes:@{NSParagraphStyleAttributeName:paragraph}];
+    _introduce = introduce;
+    //NSAttributedString *attributeStr = [[NSAttributedString alloc] initWithString:introduce attributes:@{NSParagraphStyleAttributeName:paragraph}];
+    //NSString *strHtml = @"<b>提示</b><br/>1、测试测试测试测试测试测试测试测试测试测试测试测试<br/>2、测试测试测试测试测试测试测试测试测试测试";
+    
+    
+    NSString *replaceStr = [NSString stringWithFormat:@"<img width=\"%lfpx\"",kSCREENWIDTH-20];
+    [introduce stringByReplacingOccurrencesOfString:@"<img" withString:replaceStr];
+    NSAttributedString * attributeStr = [[NSAttributedString alloc] initWithData:[introduce dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType, NSBaselineOffsetAttributeName : @(5) } documentAttributes:nil error:nil];
     self.introduceLabel.attributedText = attributeStr;
+    
 }
+
 
 
 @end

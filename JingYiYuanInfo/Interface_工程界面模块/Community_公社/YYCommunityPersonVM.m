@@ -155,9 +155,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 0) {
-        return 110;
+        return 100;
     }else {
-        return 107;
+        return 90;
     }
     
 }
@@ -169,11 +169,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    return 40;
+    return 50;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.0001;
+    return 10;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -210,6 +210,17 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, YYInfoCellCommonMargin)];
+    }
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsMake(0, 10, 0, YYInfoCellCommonMargin)];
+    }
+    
+}
+
 #pragma -- mark TableViewDataSource
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -236,28 +247,28 @@
 
 - (UIView *)sectionHeaderForSection:(NSInteger)section {
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 40)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 50)];
     view.backgroundColor = [UIColor whiteColor];
-    UIView *redview = [[UIView alloc] initWithFrame:CGRectMake(YYInfoCellCommonMargin, 10, 3, 20)];
+    UIView *redview = [[UIView alloc] initWithFrame:CGRectMake(YYInfoCellCommonMargin, 15, 3, 20)];
     redview.backgroundColor = ThemeColor;
     [view addSubview:redview];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 100, 20)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 15, 100, 20)];
     label.backgroundColor = [UIColor whiteColor];
     label.text = @[@"牛人推荐",@"牛人观点推荐"][section];
     label.textAlignment = NSTextAlignmentLeft;
-    label.font = SubTitleFont;
+    label.font = TitleFont;
     label.textColor = SubTitleColor;
     [view addSubview:label];
     
     if (section == 0) {
         
         UIButton *more = [UIButton buttonWithType:UIButtonTypeCustom];
-        more.frame = CGRectMake(kSCREENWIDTH-70, 10, 70, 20);
+        more.frame = CGRectMake(kSCREENWIDTH-70, 15, 70, 20);
         [more setTitle:@"查看更多" forState:UIControlStateNormal];
         [more setImage:imageNamed(@"more") forState:UIControlStateNormal];
-        [more setTitleEdgeInsets:UIEdgeInsetsMake(0, -40, 0, 20)];
-        [more setImageEdgeInsets:UIEdgeInsetsMake(0, 40, 0, -20)];
+        [more setTitleEdgeInsets:UIEdgeInsetsMake(0, -30, 0, 20)];
+        [more setImageEdgeInsets:UIEdgeInsetsMake(0, 40, 0, -10)];
         [more setTitleColor:SubTitleColor forState:UIControlStateNormal];
         more.titleLabel.font = SubTitleFont;
         [more addTarget:self action:@selector(more) forControlEvents:UIControlEventTouchUpInside];

@@ -100,6 +100,7 @@
 
 #pragma -- mark TableViewDelegate  -----------------
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    tableView.mj_footer.hidden = (self.dataSource.count%10 != 0);
     return self.dataSource.count;
 }
 
@@ -122,8 +123,8 @@
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-64) style:UITableViewStylePlain];
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
+//        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -147,6 +148,9 @@
         configer.allowScroll = NO;
         configer.emptyViewTapBlock = ^{
             [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
         };
         [self.tableView emptyViewConfiger:configer];
     }

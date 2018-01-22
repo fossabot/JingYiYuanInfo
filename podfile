@@ -11,7 +11,7 @@ target 'JingYiYuanInfo' do
   pod 'SDWebImage'
   pod 'SDWebImage/GIF'    # 添加动态图库
   pod 'Masonry'
-  pod 'MJRefresh'
+  pod 'MJRefresh', '~> 3.1.15'
   pod 'MJExtension'
 #  pod 'RTRootNavigationController' # 导航栏
 #  pod 'JPNavigationController', '~> 2.0.2'  # 导航栏
@@ -24,6 +24,7 @@ target 'JingYiYuanInfo' do
 #  pod 'XHLaunchAd'        # 启动广告
   pod 'WZLBadge'          # uiview的角标
   pod 'DateTools'         # 时间计算库
+  
   use_frameworks!
   pod 'FSCalendar'        # 日历库
   pod 'MLeaksFinder'      # 检测内存泄漏的工具，微信阅读团队开发的工具
@@ -32,6 +33,7 @@ target 'JingYiYuanInfo' do
   pod 'SAMKeychain'       # 钥匙串
   pod 'YPTabBarController' #顶部滑动选择器
   pod 'IAPHelper'          #IAP苹果内购库
+  
   
   # 集成微信(精简版0.2M)
   pod ‘UMengUShare/Social/ReducedWeChat'

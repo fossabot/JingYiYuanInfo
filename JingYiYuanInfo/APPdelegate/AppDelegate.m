@@ -89,7 +89,6 @@
 - (void)handleRemoteNotification:(NSDictionary *)remoteNotice{
    
     YYLogFunc;
-    UIApplicationState sate = [UIApplication sharedApplication].applicationState;
     if (kApplication.applicationState == UIApplicationStateActive) {//APP处于激活状态
         //APP在前台状态时，接收到信息，直接弹框提醒用户查看消息
         YYLog(@"UIApplicationStateActiveAPP在前台状态时");
@@ -102,13 +101,16 @@
             
             [kNotificationCenter postNotificationName:YYReceivedRemoteNotification object:nil userInfo:remoteNotice];
         });
+        
     }else if (kApplication.applicationState == UIApplicationStateBackground) {
+        
         //APP处于后台状态，单击home键，唤起其他APP，被迫进入后台状态
         YYLog(@"UIApplicationStateBackground在后台状态时");
         [kNotificationCenter postNotificationName:YYReceivedRemoteNotification object:nil userInfo:remoteNotice];
     }
     
 }
+
 
 - (void)showAlert:(NSString *)title {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:@"" preferredStyle:UIAlertControllerStyleAlert];
@@ -118,6 +120,7 @@
     [alert addAction:cancel];
     [kKeyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
 }
+
 #pragma mark -- tabbarcontroller  delegate
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {

@@ -27,7 +27,7 @@
     self.tabBar.itemTitleSelectedColor = ThemeColor;
     self.tabBar.itemTitleFont = TitleFont;
     self.tabBar.itemTitleSelectedFont = TitleFont;
-    self.tabBar.leftAndRightSpacing = 10;
+    self.tabBar.leftAndRightSpacing = 0;
     self.tabBar.itemSelectedBgColor = ThemeColor;
     [self.tabBar setItemSelectedBgInsets:UIEdgeInsetsMake(38, 0, 0, 0) tapSwitchAnimated:YES];
     

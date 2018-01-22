@@ -124,8 +124,8 @@
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-64) style:UITableViewStylePlain];
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
+//        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -157,6 +157,9 @@
         configer.emptyViewTapBlock = ^{
             [weakSelf.tableView.mj_header beginRefreshing];
         };
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
+        };
         [self.tableView emptyViewConfiger:configer];
     }
     return _tableView;
@@ -169,6 +172,9 @@
     }
     return _dataSource;
 }
+
+
+
 
 
 @end

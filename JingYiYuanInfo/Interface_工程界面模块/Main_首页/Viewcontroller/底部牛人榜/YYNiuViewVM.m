@@ -103,10 +103,11 @@
             
         default:
         {
-            CGFloat height = [tableView fd_heightForCellWithIdentifier:YYNiuArticleCellID cacheByIndexPath:indexPath configuration:^(YYNiuArticleCell *cell) {
-                cell.niuArtModel = self.niuArtDataSource[indexPath.row];
-            }];
-            return height;
+//            CGFloat height = [tableView fd_heightForCellWithIdentifier:YYNiuArticleCellID cacheByIndexPath:indexPath configuration:^(YYNiuArticleCell *cell) {
+//                cell.niuArtModel = self.niuArtDataSource[indexPath.row];
+//            }];
+//            return height;
+            return 90;
         }
             break;
     }
@@ -116,38 +117,19 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
     if (section == 0) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
-        view.backgroundColor = [UIColor whiteColor];
-        UIView *redview = [[UIView alloc] initWithFrame:CGRectMake(YYInfoCellCommonMargin, 13, 3, 14)];
-        redview.backgroundColor = ThemeColor;
-        [view addSubview:redview];
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 70, 20)];
-        label.backgroundColor = [UIColor whiteColor];
-        label.text = @"为你推荐";
-        label.textAlignment = NSTextAlignmentLeft;
-        label.font = SubTitleFont;
-        label.textColor = SubTitleColor;
-        [view addSubview:label];
-        return view;
+        return [self sectionHeaderForTitle:@"为你推荐"];
+    }else {
+        return [self sectionHeaderForTitle:@"牛人观点"];
     }
-    return nil;
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    switch (section) {
-        case 0:
-            return 30;
-            break;
-            
-        default:
-            return 0.001;
-            break;
-    }
+    return 40;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.1;
+    return 10;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -184,6 +166,18 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, YYInfoCellCommonMargin)];
+    }
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsMake(0, 10, 0, YYInfoCellCommonMargin)];
+    }
+
+}
+
+
 #pragma -- mark TableViewDataSource
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -194,16 +188,12 @@
             return niuManCell;
         }
             break;
-            
-        case 1:{
+      
+        default:{
             YYNiuArticleCell *niuArtCell = [tableView dequeueReusableCellWithIdentifier:YYNiuArticleCellID];
             niuArtCell.niuArtModel = self.niuArtDataSource[indexPath.row];
             return niuArtCell;
         }
-            break;
-            
-        default:
-            return nil;
             break;
     }
     
@@ -222,6 +212,27 @@
     }
 }
 
+
+
+#pragma mark -- inner Methods 自定义方法  -------------------------------
+
+- (UIView *)sectionHeaderForTitle:(NSString *)title {
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
+    view.backgroundColor = [UIColor whiteColor];
+    UIView *redview = [[UIView alloc] initWithFrame:CGRectMake(YYInfoCellCommonMargin, 13, 3, 15)];
+    redview.backgroundColor = ThemeColor;
+    [view addSubview:redview];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 70, 20)];
+    label.backgroundColor = [UIColor whiteColor];
+    label.text = title;
+    label.textAlignment = NSTextAlignmentLeft;
+    label.font = TitleFont;
+    label.textColor = SubTitleColor;
+    [view addSubview:label];
+    return view;
+}
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 

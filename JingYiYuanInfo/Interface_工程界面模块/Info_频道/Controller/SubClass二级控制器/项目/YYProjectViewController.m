@@ -29,7 +29,7 @@
     self.tabBar.itemTitleSelectedColor = ThemeColor;
     self.tabBar.itemTitleFont = TitleFont;
     self.tabBar.itemTitleSelectedFont = NavTitleFont;
-    self.tabBar.leftAndRightSpacing = 10;
+    self.tabBar.leftAndRightSpacing = 0;
     self.tabBar.itemSelectedBgColor = ThemeColor;
     
     [self.tabBar setScrollEnabledAndItemFitTextWidthWithSpacing:20];

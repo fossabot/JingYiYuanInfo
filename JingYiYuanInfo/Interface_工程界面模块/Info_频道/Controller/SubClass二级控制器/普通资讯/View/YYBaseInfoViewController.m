@@ -14,6 +14,7 @@
 #import "YYShowLikeDetailController.h"
 #import "YYPicsDetailController.h"
 
+#import "THBaseTableView.h"
 #import "YYPhotoBrowser.h"
 #import "YYChannelShowBannerView.h"
 #import "YYMusicPlayerView.h"
@@ -41,7 +42,7 @@
 @interface YYBaseInfoViewController ()
 
 /** tableview*/
-@property (nonatomic,strong)  UITableView *tableView;
+@property (nonatomic,strong)  THBaseTableView *tableView;
 
 /** viewModel*/
 @property (nonatomic, strong) YYBaseInfoVM *viewModel;
@@ -59,6 +60,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    YYLog(@"name:%@",self.yp_tabItemTitle);
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
     
@@ -137,7 +139,6 @@
     
 }
 
-
 /** 加载更多数据*/
 - (void)loadMoreData {
     
@@ -171,10 +172,10 @@
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
-- (UITableView *)tableView{
+- (THBaseTableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-64) style:UITableViewStyleGrouped];
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-YYTopNaviHeight) style:UITableViewStyleGrouped];
+        
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
         
@@ -189,6 +190,8 @@
         [_tableView registerClass:[YYChannelMusicCell class] forCellReuseIdentifier:YYChannelMusicCellId];
         [_tableView registerClass:[YYChannelShowRecommendCell class] forCellReuseIdentifier:YYChannelShowRecommendCellId];
         [_tableView registerClass:[YYChannelShowLikeCell class] forCellReuseIdentifier:YYChannelShowLikeCellId];
+        
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf
         _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -216,7 +219,10 @@
         configer.emptyViewTapBlock = ^{
             [weakSelf.tableView.mj_header beginRefreshing];
         };
-        [self.tableView emptyViewConfiger:configer];
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
+        };
+        [_tableView emptyViewConfiger:configer];
         
     }
     return _tableView;
@@ -253,9 +259,6 @@
                     
                     YYPicsDetailController *detail = [[YYPicsDetailController alloc] init];
                     detail.picsModels = (NSArray *)data;
-//                    detail.modalPresentationStyle = UIModalPresentationCustom;
-//                    detail.transitioningDelegate = strongSelf;
-//                    [strongSelf presentViewController:detail animated:YES completion:nil];
                     detail.jz_wantsNavigationBarVisible = NO;
                     [strongSelf.navigationController pushViewController:detail animated:YES];
                 }
@@ -300,7 +303,6 @@
         
         _viewModel.moreBlock = ^(NSString *lastid, NSString *classid){ //跳转更多排行的界面
             YYStrongSelf
-//            YYHotHotModel *hotModel = self.
             YYBaseRankListController *list = [[YYBaseRankListController alloc] init];
             list.lastid = lastid;
             list.classid = classid;

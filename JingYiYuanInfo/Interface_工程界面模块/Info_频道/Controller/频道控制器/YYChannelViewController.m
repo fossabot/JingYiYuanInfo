@@ -31,7 +31,7 @@
 
 #define itemH 45
 #define itemVerticalMargin 5
-#define collectionEdgeMargin 10
+#define collectionEdgeMargin 15
 #define sectionHeader 40
 
 @interface YYChannelViewController ()<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
@@ -228,13 +228,14 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    
+
     return CGSizeMake(0, 60);
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0, 10, 10, 10);//分别为上、左、下、右
+
+    return UIEdgeInsetsMake(0, collectionEdgeMargin, collectionEdgeMargin, collectionEdgeMargin);
 }
 
 - (UIColor *)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout colorForSectionAtIndex:(NSInteger)section {
@@ -284,9 +285,6 @@
 
 - (NSMutableArray *)datas{
     if (!_datas) {
-//        _datas = [NSMutableArray array];
-//        NSString *path = [[NSBundle mainBundle] pathForResource:@"Channel" ofType:@"plist"];
-//        NSArray *arr = [NSArray arrayWithContentsOfFile:path];
         
         self.datas = [YYChannel mj_objectArrayWithFilename:@"Channel.plist"];
         YYChannel *channel = self.datas[0];
@@ -303,7 +301,7 @@
         _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:self.flowLayout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 59, 0);
+        _collectionView.contentInset = UIEdgeInsetsMake(10, 0, YYTabBarH+20, 0);
         UIView *bgView = [[UIView alloc] init];
         bgView.backgroundColor = YYRGB(238, 239, 240);
         _collectionView.backgroundView = bgView;
@@ -321,15 +319,14 @@
         
         _flowLayout = [[YYCollectionViewFlowLayout alloc] init];
         _flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        _flowLayout.itemSize = CGSizeMake((self.view.bounds.size.width-itemVerticalMargin*2-collectionEdgeMargin*2)/3, itemH);
         _flowLayout.minimumInteritemSpacing = itemVerticalMargin;
         _flowLayout.minimumLineSpacing = itemVerticalMargin;
-//        _flowLayout.sectionInset = UIEdgeInsetsMake(10, 0, 0, 0);
+        CGFloat wid = self.collectionView.bounds.size.width - 2*(itemVerticalMargin + collectionEdgeMargin)-10;
+        _flowLayout.itemSize = CGSizeMake(wid/3, itemH);
+
     }
     return _flowLayout;
 }
-
-
 
 
 @end

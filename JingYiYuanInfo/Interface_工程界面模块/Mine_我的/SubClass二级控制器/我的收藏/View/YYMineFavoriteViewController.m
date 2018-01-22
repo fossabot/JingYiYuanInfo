@@ -85,7 +85,7 @@
     }
     
     YYUser *user = [YYUser shareUser];
-#warning userid需改成用户的
+
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,@"query",@"act",self.lastid,LASTID, nil];
     YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:inOutHistoryUrl parameters:para success:^(id response) {
@@ -152,6 +152,7 @@
 
 #pragma -- mark TableViewDelegate  -----------------
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    tableView.mj_footer.hidden = (self.dataSource.count%10 != 10);
     return self.dataSource.count;
 }
 
@@ -244,9 +245,9 @@
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-64) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
         _tableView.tableFooterView = [[UIView alloc] init];
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView registerClass:[YYMineCollectionCell class] forCellReuseIdentifier:YYMineCollectionCellId];
@@ -267,7 +268,6 @@
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-
         [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
@@ -279,6 +279,9 @@
         configer.allowScroll = NO;
         configer.emptyViewTapBlock = ^{
             [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
         };
         [self.tableView emptyViewConfiger:configer];
     }

@@ -25,7 +25,7 @@
 @property (nonatomic, strong) UILabel *niutag;
 
 /** 牛人更新时间*/
-@property (nonatomic, strong) YYEdgeLabel *modtime;
+//@property (nonatomic, strong) YYEdgeLabel *modtime;
 
 /** 牛人介绍*/
 @property (nonatomic, strong) UILabel *introduce;
@@ -51,6 +51,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
+        self.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
         //创建子控件
         [self createSubview];
         
@@ -117,7 +118,6 @@
  */
 - (void)createSubview {
     
-    
     UIButton *indexButton = [UIButton buttonWithType:UIButtonTypeCustom];
     indexButton.userInteractionEnabled = NO;
     indexButton.titleLabel.font = SubTitleFont;
@@ -142,31 +142,31 @@
     [self.contentView addSubview:niutag];
     self.niutag = niutag;
     
-    YYEdgeLabel *modtime = [[YYEdgeLabel alloc] init];
-    modtime.font = UnenableTitleFont;
-    modtime.textColor = UnenableTitleColor;
-    modtime.layer.borderWidth = 0.5;
-    modtime.layer.borderColor = UnenableTitleColor.CGColor;
-    modtime.layer.cornerRadius = 2;
-    [self.contentView addSubview:modtime];
-    self.modtime = modtime;
+//    YYEdgeLabel *modtime = [[YYEdgeLabel alloc] init];
+//    modtime.font = UnenableTitleFont;
+//    modtime.textColor = UnenableTitleColor;
+//    modtime.layer.borderWidth = 0.5;
+//    modtime.layer.borderColor = UnenableTitleColor.CGColor;
+//    modtime.layer.cornerRadius = 2;
+//    [self.contentView addSubview:modtime];
+//    self.modtime = modtime;
     
     UILabel *introduce = [[UILabel alloc] init];
     introduce.font = SubTitleFont;
     introduce.textColor = TitleColor;
-    introduce.numberOfLines = 1;
+    introduce.numberOfLines = 2;
     [self.contentView addSubview:introduce];
     self.introduce = introduce;
    
     UILabel *renqizhi = [[UILabel alloc] init];
-    renqizhi.font = SubTitleFont;
+    renqizhi.font = TagLabelFont;
     renqizhi.textColor = UnenableTitleColor;
     renqizhi.text = @"人气值";
     [self.contentView addSubview:renqizhi];
     self.renqizhi = renqizhi;
     
     UILabel *renqiValue = [[UILabel alloc] init];
-    renqiValue.font = SubTitleFont;
+    renqiValue.font = UnenableTitleFont;
     renqiValue.textColor = ThemeColor;
     renqiValue.textAlignment = NSTextAlignmentRight;
     [self.contentView addSubview:renqiValue];
@@ -193,8 +193,8 @@
     [self.icon makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.indexButton.right).offset(YYInfoCellSubMargin);
         make.top.equalTo(self.indexButton);
-        make.height.equalTo(96);
-        make.width.equalTo(72);
+        make.height.equalTo(90);
+        make.width.equalTo(70);
     }];
     
     [self.name makeConstraints:^(MASConstraintMaker *make) {
@@ -215,10 +215,10 @@
         make.bottom.equalTo(self.contentView.bottom).offset(-YYInfoCellCommonMargin);
     }];
     
-    [self.modtime makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.name.left);
-        make.bottom.equalTo(self.introduce.top);
-    }];
+//    [self.modtime makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.name.left);
+//        make.bottom.equalTo(self.introduce.top);
+//    }];
     
     [self.renqizhi makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.name.top);
@@ -230,6 +230,7 @@
         make.right.equalTo(self.renqizhi.right);
         make.width.height.equalTo(15);
     }];
+    
     [self.renqiValue makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.renqizhi.bottom);
         make.centerY.equalTo(self.upImage);

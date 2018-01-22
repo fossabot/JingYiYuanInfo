@@ -16,6 +16,12 @@ typedef void(^ExtendBlock)(id cell, BOOL selected);
 
 @interface YYPushCell : UITableViewCell
 
+/** topRedLine*/
+@property (nonatomic, strong) UIView *topRedLine;
+
+/** bottomRedLine*/
+@property (nonatomic, strong) UIView *bottomRedLine;
+
 /** pushModel*/
 @property (nonatomic, strong) YYPushListCellModel *pushModel;
 

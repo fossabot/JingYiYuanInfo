@@ -12,13 +12,14 @@
 #import "YYBaseVideoModel.h"
 #import <MJExtension/MJExtension.h>
 #import "ShareView.h"
+#import "THBaseTableView.h"
 
 @interface YYVideoDetailController ()<UITableViewDelegate,UITableViewDataSource>
 
 /** videoPlayerView*/
 @property (nonatomic, strong) YYVideoPlayerView *playerView;
 
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 
@@ -162,10 +163,10 @@
 
 #pragma mark  懒加载方法区域   -------------------------------------------
 
-- (UITableView *)tableView {
+- (THBaseTableView *)tableView {
     
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);

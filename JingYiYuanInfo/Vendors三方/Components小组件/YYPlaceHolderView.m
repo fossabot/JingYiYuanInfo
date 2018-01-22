@@ -154,9 +154,10 @@ typedef void(^Click)();
     
     [close makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.equalTo(whiteBgView.right).offset(20);
-        make.bottom.equalTo(whiteBgView.top).offset(-20);
-        make.width.height.equalTo(50);
+//        make.left.equalTo(whiteBgView.right).offset(20);
+//        make.bottom.equalTo(whiteBgView.top).offset(-20);
+        make.right.top.equalTo(whiteBgView);
+        make.width.height.equalTo(30);
     }];
     
     [top makeConstraints:^(MASConstraintMaker *make) {

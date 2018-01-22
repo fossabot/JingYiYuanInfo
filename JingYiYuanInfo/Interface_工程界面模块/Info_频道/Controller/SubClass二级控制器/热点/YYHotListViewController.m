@@ -28,7 +28,7 @@
     self.tabBar.itemTitleSelectedColor = ThemeColor;
     self.tabBar.itemTitleFont = TitleFont;
     self.tabBar.itemTitleSelectedFont = [UIFont systemFontOfSize:22];
-    self.tabBar.leftAndRightSpacing = 20;
+    self.tabBar.leftAndRightSpacing = 0;
     
     self.tabBar.itemFontChangeFollowContentScroll = YES;
     self.tabBar.itemSelectedBgScrollFollowContent = YES;

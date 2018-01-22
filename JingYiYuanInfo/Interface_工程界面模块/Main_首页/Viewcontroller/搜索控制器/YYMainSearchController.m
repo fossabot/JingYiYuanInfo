@@ -83,7 +83,7 @@
     [self.searchBar makeConstraints:^(MASConstraintMaker *make) {
        
         make.left.top.right.equalTo(self.view);
-        make.height.equalTo(60);
+        make.height.equalTo(YYTopNaviHeight);
     }];
     
     [self.backBtn makeConstraints:^(MASConstraintMaker *make) {
@@ -154,7 +154,13 @@
 
 /** 搜索按钮点击*/
 - (void)dismiss:(UIButton *)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    if (self.textField.text.length) {
+        [self textFieldBeingNull];
+        self.textField.text = @"";
+    }else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 /** 搜索请求数据*/
@@ -171,10 +177,12 @@
     }
     
     [self.searchView insertSearchText:trimedString];
+    
+    [SVProgressHUD show];
     YYWeakSelf
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"global",@"act",trimedString,KEYWORD, nil];
     [YYHttpNetworkTool GETRequestWithUrlstring:searchUrl parameters:para success:^(id response) {
-        
+        [SVProgressHUD dismiss];
         if (response) {
             
             weakSelf.searchListModel = [YYSearchList mj_objectWithKeyValues:response];
@@ -183,9 +191,9 @@
             [weakSelf transferModel];
             [weakSelf.searchListTable reloadData];
         }
-
-    } failure:^(NSError *error) {
         
+    } failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
     } showSuccessMsg:nil];
 }
 
@@ -198,15 +206,14 @@
 
 #pragma -- mark TableViewDelegate   --------------------------------------
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    return 30;
+    return 40;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
-    return 10;
+    return 5;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -222,14 +229,14 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 30)];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 40)];
     backView.backgroundColor = WhiteColor;
     
-    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(10, 5, 2, 20)];
+    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 2, 20)];
     redView.backgroundColor = ThemeColor;
     [backView addSubview:redView];
     
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 100, 20)];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 200, 20)];
     title.textColor = TitleColor;
     title.font = NavTitleFont;
     YYSearchSecModel *secModel = self.myDataSource[section];
@@ -238,12 +245,6 @@
     
     return backView;
 }
-
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//   
-//    YYSearchSecModel *secModel = self.myDataSource[section];
-//    return secModel.className;
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -261,7 +262,7 @@
     
     YYSearchSecModel *secModel = self.myDataSource[indexPath.section];
     YYSearchModel *rowModel = secModel.models[indexPath.row];
-#warning 跳转相应的详情页
+    //跳转相应的详情页
     [self jumpToRelativeVc:secModel.classId searchModel:rowModel];
     
 }
@@ -275,11 +276,6 @@
     YYSearchModel *rowModel = secModel.models[indexPath.row];
     cell.title.text = rowModel.title;
     
-//    NSString *title = self.dataSource[indexPath.section].subClasses[indexPath.row].title;
-//    NSString *desc = self.dataSource[indexPath.section].subClasses[indexPath.row].desc;
-    
-//    cell.textLabel.attributedText = [self attributeStringForStr:title keyWord:self.textField.text];
-//    cell.detailTextLabel.attributedText = [self attributeStringForStr:desc keyWord:self.textField.text];
     return cell;
 }
 
@@ -455,8 +451,8 @@
         _searchListTable.delegate = self;
         _searchListTable.dataSource = self;
         _searchListTable.hidden = YES;
-        _searchListTable.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
-        _searchListTable.contentInset = UIEdgeInsetsMake(20, 0, 20, 0);
+        _searchListTable.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
+        _searchListTable.contentInset = UIEdgeInsetsMake(10, 0, 20, 0);
         [_searchListTable registerClass:[YYSearchResultCell class] forCellReuseIdentifier:YYSearchResultCellId];
         
         YYWeakSelf
@@ -492,7 +488,10 @@
 
         textField.delegate = self;
         textField.leftViewMode = UITextFieldViewModeAlways;
-        textField.leftView = [[UIImageView alloc] initWithImage:imageNamed(@"searchicon_44x44")];
+        UIImageView *leftView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 30)];
+        leftView.contentMode = UIViewContentModeRight;
+        leftView.image = imageNamed(@"searchicon_44x44");
+        textField.leftView = leftView;
         textField.tintColor = ThemeColor;
         textField.textColor = SubTitleColor;
         textField.font = SubTitleFont;

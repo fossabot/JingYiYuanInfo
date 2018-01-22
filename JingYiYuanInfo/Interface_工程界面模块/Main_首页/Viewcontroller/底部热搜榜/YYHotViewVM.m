@@ -195,7 +195,16 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == 0) {
+        return 10;
+    }
     return 0.05;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 10)];
+    view.backgroundColor = WhiteColor;
+    return view;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

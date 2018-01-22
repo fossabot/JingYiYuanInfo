@@ -10,6 +10,7 @@
 #import "YYPeriodCell.h"
 #import "YYPeriodModel.h"
 #import <MJExtension/MJExtension.h>
+#import <MJRefresh/MJRefresh.h>
 #import "UITableView+FDTemplateLayoutCell.h"
 
 
@@ -103,6 +104,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
+    tableView.mj_footer.hidden = (self.periodDataSource.count%10 != 0);
     return self.periodDataSource.count;
 }
 

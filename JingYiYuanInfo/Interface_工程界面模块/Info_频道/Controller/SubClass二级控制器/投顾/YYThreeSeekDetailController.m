@@ -10,6 +10,7 @@
 #import "YYEdgeLabel.h"
 #import "LabelContainer.h"
 #import "YYThreeSeekTabView.h"
+#import "THBaseTableView.h"
 
 #import "YYProductionDetailController.h"
 
@@ -18,6 +19,7 @@
 
 #import "YYThreeSeekIntroduceCell.h"
 #import "YYProductionCell.h"
+#import "YYEmptyDataCell.h"
 #import "UITableView+FDTemplateLayoutCell.h"
 
 #import <MJExtension/MJExtension.h>
@@ -56,7 +58,7 @@
 @property (nonatomic, strong) YYThreeSeekTabView *tabView;
 
 /** tableView*/
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 /** 公司详情模型*/
 @property (nonatomic, strong) YYThreeSeekDetailCompanyModel *companyDetailModel;
@@ -67,7 +69,9 @@
 @end
 
 @implementation YYThreeSeekDetailController
-
+{
+    BOOL _tabSelecting;
+}
 #pragma mark -- lifeCycle 生命周期  --------------------------------
 
 - (void)viewDidLoad {
@@ -182,7 +186,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 2) {
-        return self.relativeProductions.count;
+        return self.relativeProductions.count ? self.relativeProductions.count : 1;
     }
     return 1;
 }
@@ -194,10 +198,13 @@
         
         return [tableView fd_heightForCellWithIdentifier:YYThreeSeekIntroduceCellId cacheByIndexPath:indexPath configuration:^(YYThreeSeekIntroduceCell *cell) {
             
-            NSString *str = indexPath.section ? self.companyDetailModel.introduction : self.companyDetailModel.trendcontent;
+            NSString *str = indexPath.section ? self.companyDetailModel.trendcontent : self.companyDetailModel.introduction;
             cell.introduce = str;
         }];
     }else {
+        if (!self.relativeProductions.count) {
+            return 250;
+        }
         return 90;
 //        [tableView fd_heightForCellWithIdentifier:YYProductionCellId cacheByIndexPath:indexPath configuration:^(YYProductionCell *cell) {
         
@@ -229,7 +236,7 @@
         case 1:{
             
             YYThreeSeekIntroduceCell * cell = [tableView dequeueReusableCellWithIdentifier:YYThreeSeekIntroduceCellId];
-            NSString *str = indexPath.section ? self.companyDetailModel.introduction : self.companyDetailModel.trendcontent;
+            NSString *str = indexPath.section == 0 ? self.companyDetailModel.introduction : self.companyDetailModel.trendcontent;
             cell.introduce = str;
             return cell;
         }
@@ -237,9 +244,15 @@
             
         default:{
             
-            YYProductionCell *cell = [tableView dequeueReusableCellWithIdentifier:YYProductionCellId];
-            cell.commonModel = self.relativeProductions[indexPath.row];
-            return cell;
+            
+            if (!self.relativeProductions.count) {
+                YYEmptyDataCell *empptyCell = [tableView dequeueReusableCellWithIdentifier:YYEmptyDataCellId];
+                return empptyCell;
+            }else{
+                YYProductionCell *cell = [tableView dequeueReusableCellWithIdentifier:YYProductionCellId];
+                cell.commonModel = self.relativeProductions[indexPath.row];
+                return cell;
+            }
         }
             break;
     }
@@ -255,32 +268,44 @@
 /** tab选中了相应的item*/
 - (void)threeSeekTabViewSelectIndex:(NSInteger)index {
     
-    if (index == 2 && self.relativeProductions.count == 0) {
-        return;
-    }
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    _tabSelecting = YES;
+    
+    CGRect secRect = [self.tableView rectForSection:index];
+    YYLog(@"secrect  ----  %@ ----",NSStringFromCGRect(secRect));
+    [self.tableView setContentOffset:secRect.origin animated:YES];
+//    [self.tableView scrollRectToVisible:secRect animated:NO];
+//    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:index] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 
 #pragma mark -------  scrollview  代理方法  ----------------------------
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    YYLog(@"scrollViewDidScroll  --- 1");
     
-    CGFloat offsetY = scrollView.contentOffset.y;
-    
-    if (offsetY <= [_tableView rectForHeaderInSection:1].origin.y ) { //公司简介的区域（小于section1的头部y）
+    if (!_tabSelecting) {
         
-        [self.tabView letMeSelectIndex:0];
-    }else if (offsetY >= [_tableView rectForHeaderInSection:1].origin.y && offsetY < [_tableView rectForHeaderInSection:2].origin.y ) {
+        CGFloat offsetY = scrollView.contentOffset.y;
         
-        [self.tabView letMeSelectIndex:1];
-    }else {
-        
-        [self.tabView letMeSelectIndex:2];
+        if (offsetY <= [_tableView rectForHeaderInSection:1].origin.y ) { //公司简介的区域（小于section1的头部y）
+            
+            [self.tabView letMeSelectIndex:0];
+        }else if (offsetY >= [_tableView rectForHeaderInSection:1].origin.y && offsetY < [_tableView rectForHeaderInSection:2].origin.y ) {
+            
+            [self.tabView letMeSelectIndex:1];
+        }else {
+            
+            [self.tabView letMeSelectIndex:2];
+        }
     }
     
 }
 
+//开始拖动的时候调用
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    YYLog(@"BeginDragging  --- 3");
+    _tabSelecting = NO;
+}
 
 #pragma mark -- layout 子控件配置及相关布局方法  ---------------------------
 
@@ -311,12 +336,14 @@
     self.regMoney = regMoney;
     
     YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
+    tag1.font = TagLabelFont;
     tag1.layer.borderColor = ThemeColor.CGColor;
     tag1.textColor = ThemeColor;
     [self.view addSubview:tag1];
     self.tag1 = tag1;
     
     YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
+    tag2.font = UnenableTitleFont;
     tag2.layer.borderColor = ThemeColor.CGColor;
     tag2.textColor = ThemeColor;
     [self.view addSubview:tag2];
@@ -420,7 +447,7 @@
     
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.tabView.bottom);
+        make.top.equalTo(self.tabView.bottom).offset(YYInfoCellCommonMargin);
         make.left.right.bottom.equalTo(self.view);
     }];
 }
@@ -458,17 +485,19 @@
     return _tabView;
 }
 
-- (UITableView *)tableView{
+- (THBaseTableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.tabView.frame), kSCREENWIDTH, kSCREENHEIGHT-64-CGRectGetMaxY(self.tabView.frame)) style:UITableViewStyleGrouped];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.tabView.frame)+YYInfoCellCommonMargin, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight-YYInfoCellCommonMargin-CGRectGetMaxY(self.tabView.frame)) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = WhiteColor;
 //        _tableView.estimatedRowHeight = 100;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTopNaviHeight, 0);
         [_tableView registerClass:[YYThreeSeekIntroduceCell class] forCellReuseIdentifier:YYThreeSeekIntroduceCellId];
         [_tableView registerClass:[YYProductionCell class] forCellReuseIdentifier:YYProductionCellId];
+        [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([YYEmptyDataCell class]) bundle:nil] forCellReuseIdentifier:YYEmptyDataCellId];
+//        [_tableView registerClass:[YYEmptyDataCell class] forCellReuseIdentifier:YYEmptyDataCellId];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

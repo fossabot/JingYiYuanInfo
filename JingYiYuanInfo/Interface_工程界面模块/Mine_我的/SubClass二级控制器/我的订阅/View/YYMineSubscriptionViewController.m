@@ -116,8 +116,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
+    // 隐藏尾部刷新控件
+    tableView.mj_footer.hidden = (self.dataSource.count%10 != 0);
     return self.dataSource.count;
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -152,13 +155,13 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-64) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
         [self.tableView registerClass:[YYSubscribeCell class] forCellReuseIdentifier:YYSubscribeCellId];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf
         MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
@@ -167,6 +170,7 @@
         }];
         
         [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
+//        footer.automaticallyHidden = YES;
         _tableView.mj_footer = footer;
         
         MJRefreshStateHeader *header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
@@ -186,6 +190,10 @@
         configer.emptyViewTapBlock = ^{
             [weakSelf.tableView.mj_header beginRefreshing];
         };
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
+        };
+        
         [self.tableView emptyViewConfiger:configer];
     }
     return _tableView;

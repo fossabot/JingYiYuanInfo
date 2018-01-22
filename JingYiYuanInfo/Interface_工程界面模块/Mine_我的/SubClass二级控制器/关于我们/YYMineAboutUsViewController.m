@@ -53,26 +53,22 @@ static NSString * const reviewURL = @"http://itunes.apple.com/WebObjects/MZStore
 - (void)configSubView {
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 120) style:UITableViewStylePlain];
-//    tableView.yy_center = self.view.yy_center;
     tableView.delegate = self;
     tableView.dataSource = self;
     tableView.scrollEnabled = NO;
     tableView.rowHeight = 40;
     tableView.backgroundColor = WhiteColor;
+    tableView.separatorInset = UIEdgeInsetsMake(0, -YYCommonCellLeftMargin, 0, 0);
     [self.view addSubview:tableView];
     self.tableView = tableView;
     
     
     UIImageView *logoImageView = [[UIImageView alloc] initWithImage:imageNamed(@"logo")];
-//    logoImageView.yy_centerX = self.view.centerX;
-//    logoImageView.yy_y = 150;
     self.logoImageView = logoImageView;
     [self.view addSubview:logoImageView];
     [logoImageView cutRoundViewRadius:10];
     
     UILabel *version = [[UILabel alloc] init];
-//                        WithFrame:CGRectMake(0, CGRectGetMaxY(logoImageView.frame)+10, 150, 20)];
-//    version.centerX = self.view.yy_centerX;
     version.textColor = UnenableTitleColor;
     version.font = UnenableTitleFont;
     version.text = [NSString stringWithFormat:@"当前版本  %@",kAppVersion];
@@ -82,8 +78,6 @@ static NSString * const reviewURL = @"http://itunes.apple.com/WebObjects/MZStore
     
     
     UILabel *tip = [[UILabel alloc] init];
-//                    WithFrame:CGRectMake(0, 0, kSCREENWIDTH, 45)];
-//    tip.centerX = self.view.centerX;
     tip.numberOfLines = 0;
     tip.yy_y = kSCREENHEIGHT-45;
     tip.textColor = UnenableTitleColor;
@@ -99,8 +93,6 @@ static NSString * const reviewURL = @"http://itunes.apple.com/WebObjects/MZStore
         
         make.left.right.equalTo(self.view);
         make.centerY.equalTo(self.view);
-//        make.center.equalTo(self.view);
-//        make.width.equalTo(self.view.width);
         make.height.equalTo(120);
     }];
     
@@ -112,7 +104,6 @@ static NSString * const reviewURL = @"http://itunes.apple.com/WebObjects/MZStore
     
     [self.logoImageView makeConstraints:^(MASConstraintMaker *make) {
         
-//        make.width.height.equalTo(60);
         make.centerX.equalTo(self.view);
         make.bottom.equalTo(self.version.top).offset(-10);
     }];

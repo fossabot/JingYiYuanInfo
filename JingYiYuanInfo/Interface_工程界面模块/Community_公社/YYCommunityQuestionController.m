@@ -7,6 +7,8 @@
 //
 
 #import "YYCommunityQuestionController.h"
+
+#import "THBaseTableView.h"
 #import "YYQuestionCell.h"
 #import "YYCommunityQuestionModel.h"
 #import "YYCommunityQuestionVM.h"
@@ -16,7 +18,7 @@
 
 @interface YYCommunityQuestionController ()
 /** tab*/
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 /** viewModel*/
 @property (nonatomic, strong) YYCommunityQuestionVM *viewModel;
@@ -114,15 +116,15 @@
 
 
 
-- (UITableView *)tableView {
+- (THBaseTableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-64) style:UITableViewStylePlain];
-        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 49, 0);
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-YYTopNaviHeight) style:UITableViewStylePlain];
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.tableFooterView = [UIView new];
+        _tableView.tableFooterView = [[UIView alloc] init];
         [_tableView registerClass:[YYQuestionCell class] forCellReuseIdentifier:YYQuestionCellId];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf
         MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
@@ -151,8 +153,12 @@
         configer.emptyViewTapBlock = ^{
             [weakSelf.tableView.mj_header beginRefreshing];
         };
-        [self.tableView emptyViewConfiger:configer];
+        configer.emptyViewDidAppear = ^{
 
+            weakSelf.tableView.mj_footer = nil;
+        };
+       
+        [self.tableView emptyViewConfiger:configer];
     }
     return _tableView;
 }

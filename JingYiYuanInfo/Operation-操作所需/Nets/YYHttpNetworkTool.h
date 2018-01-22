@@ -41,7 +41,7 @@ typedef NS_ENUM(NSInteger, YYHttpMethodType) {
  @param para 请求参数
  @param image 图片文件
  @param serverName 服务器图片请求的参数
- @param savedName 服务器保存图片用到文件名
+ @param filename 服务器保存图片用到文件名
  @param progress 上传进度 bytesProgress：每次上传的大小  totalBytesProgress：文件总大小
  @param success 返回值
  @param failure 失败返回

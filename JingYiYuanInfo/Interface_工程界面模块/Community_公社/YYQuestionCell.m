@@ -53,6 +53,7 @@
     
     UIView *bottomView = [[UIView alloc] init];
     bottomView.backgroundColor = LightGraySeperatorColor;
+    self.bottomView = bottomView;
     [self.contentView addSubview:bottomView];
     
     [self.icon makeConstraints:^(MASConstraintMaker *make) {

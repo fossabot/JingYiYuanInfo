@@ -24,5 +24,7 @@ static NSString * const YYQuestionCellId = @"YYQuestionCell";
 /** 我的问题*/
 @property (nonatomic, strong) UILabel *question;
 
+/** bottomView*/
+@property (nonatomic, strong) UIView *bottomView;
 
 @end

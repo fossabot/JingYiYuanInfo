@@ -14,11 +14,13 @@
 #import "YYCompanyModel.h"
 #import "YYProductionCommonModel.h"
 
-#import <MJRefresh/MJRefresh.h>
+
+#import "THBaseTableView.h"
 #import "YYProductionVM.h"
 #import "YYCompanyCell.h"
 #import "YYProductionCell.h"
 
+#import <MJRefresh/MJRefresh.h>
 
 #define vipDetailUrl @"http://yyapp.1yuaninfo.com/app/yyfwapp/goods_info.php?goodtpye=1&goodid=1"
 #define sepecialDetailUrl @"http://yyapp.1yuaninfo.com/app/yyfwapp/goods_info.php?goodtpye=2&goodid="
@@ -29,7 +31,7 @@
 @property (nonatomic, strong) YYProductionVM *viewModel;
 
 /** tableView*/
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 @end
 
@@ -86,13 +88,15 @@
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
-- (UITableView *)tableView{
+- (THBaseTableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-64) style:UITableViewStyleGrouped];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-YYTopNaviHeight) style:UITableViewStyleGrouped];
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
         [_tableView registerClass:[YYProductionCell class] forCellReuseIdentifier:YYProductionCellId];
         [_tableView registerClass:[YYCompanyCell class] forCellReuseIdentifier:YYCompanyCellId];
+        _tableView.separatorInset = UIEdgeInsetsMake(0, YYCommonCellLeftMargin, 0, YYCommonCellRightMargin);
+        
         YYWeakSelf
         _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             
@@ -107,6 +111,7 @@
         }];
 
         [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
+
         _tableView.mj_footer = stateFooter;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
@@ -120,6 +125,7 @@
         };
         [self.tableView emptyViewConfiger:configer];
     }
+    
     return _tableView;
 }
 

@@ -82,7 +82,10 @@
     [self.view addSubview:navView];
     
     UIButton *exit = [UIButton buttonWithType:UIButtonTypeCustom];
-    [exit setImage:imageNamed(@"login_close_32x32") forState:UIControlStateNormal];
+    [exit setImage:imageNamed(@"nav_back_white_20x20") forState:UIControlStateNormal];
+    [exit setTitle:@"返回" forState:UIControlStateNormal];
+    exit.titleLabel.font = NavTitleFont;
+    [exit setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 10)];
     [exit addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
     self.exit = exit;
     [self.navView addSubview:exit];
@@ -99,7 +102,7 @@
     
     UITextField *teleTextField = [[UITextField alloc] init];
     teleTextField.delegate = self;
-    teleTextField.font = SubTitleFont;
+    teleTextField.font = TitleFont;
     teleTextField.placeholder = @"请输入手机号";
     teleTextField.tintColor = ThemeColor;
     [teleTextField setLeftViewWithImage:@"textfield_leftview_telephone_25x25_"];
@@ -107,7 +110,7 @@
     self.teleTextField = teleTextField;
     
     UIView *separator1 = [[UIView alloc] init];
-    separator1.backgroundColor = ThemeColor;
+    separator1.backgroundColor = LightGraySeperatorColor;
     self.separator1 = separator1;
     [self.container addSubview:separator1];
     
@@ -115,7 +118,7 @@
     UITextField *pwdTextField = [[UITextField alloc] init];
     pwdTextField.delegate = self;
     pwdTextField.secureTextEntry = YES;
-    pwdTextField.font = SubTitleFont;
+    pwdTextField.font = TitleFont;
     pwdTextField.placeholder = @"请输入密码(至少6位)";
     pwdTextField.tintColor = ThemeColor;
     [pwdTextField setLeftViewWithImage:@"textfield_leftview_password_25x25_"];
@@ -123,7 +126,7 @@
     self.pwdTextField = pwdTextField;
     
     UIView *separator2 = [[UIView alloc] init];
-    separator2.backgroundColor = ThemeColor;
+    separator2.backgroundColor = LightGraySeperatorColor;
     self.separator2 = separator2;
     [self.container addSubview:separator2];
     
@@ -137,8 +140,8 @@
     
     UIButton *forgot = [UIButton buttonWithType:UIButtonTypeCustom];
     forgot.titleLabel.font = SubTitleFont;
-    [forgot setTitle:@"忘记密码" forState:UIControlStateNormal];
-    [forgot setTitleColor:ThemeColor forState:UIControlStateNormal];
+    [forgot setTitle:@"忘记密码?" forState:UIControlStateNormal];
+    [forgot setTitleColor:GrayColor forState:UIControlStateNormal];
     [forgot addTarget:self action:@selector(forgotPasswordButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     self.forgot = forgot;
     [self.view addSubview:forgot];
@@ -146,10 +149,13 @@
     UIButton *logIn = [UIButton buttonWithType:UIButtonTypeCustom];
     logIn.enabled = NO;
     logIn.titleLabel.font = TitleFont;
-    [logIn setBackgroundColor:LightGraySeperatorColor];
+    [logIn setBackgroundColor:UnactiveButtonColor];
     [logIn setTitle:@"登录" forState:UIControlStateNormal];
     [logIn setTitleColor:WhiteColor forState:UIControlStateNormal];
     [logIn addTarget:self action:@selector(loginButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    logIn.layer.cornerRadius = 5;
+//    logIn.layer.masksToBounds = YES;
+    
     self.logIn = logIn;
     [self.view addSubview:logIn];
     
@@ -165,9 +171,9 @@
     
     [self.exit makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.equalTo(15);
+        make.left.equalTo(10);
         make.bottom.equalTo(self.navView).offset(-10);
-        make.width.height.equalTo(25);
+//        make.width.height.equalTo(25);
     }];
     
     [self.titleView makeConstraints:^(MASConstraintMaker *make) {
@@ -180,8 +186,9 @@
     [self.container makeConstraints:^(MASConstraintMaker *make) {
        
         make.centerX.equalTo(self.view);
-        make.centerY.equalTo(self.view.centerY).offset(-50);
-        make.width.equalTo(kSCREENWIDTH-80);
+//        make.centerY.equalTo(self.view.centerY).offset(-50);
+        make.top.equalTo(YYTopNaviHeight+40);
+        make.width.equalTo(kSCREENWIDTH-60);
     }];
     
     [self.teleTextField makeConstraints:^(MASConstraintMaker *make) {
@@ -200,7 +207,7 @@
     [self.pwdTextField makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.right.equalTo(self.container);
-        make.top.equalTo(self.separator1.bottom).offset(5);
+        make.top.equalTo(self.separator1.bottom).offset(10);
         make.height.equalTo(35);
     }];
     
@@ -224,7 +231,7 @@
         
         make.right.equalTo(self.container);
         make.top.equalTo(self.container.bottom).offset(10);
-        make.width.equalTo(60);
+//        make.width.equalTo(60);
         make.height.equalTo(20);
     }];
     
@@ -232,7 +239,7 @@
     
         make.centerX.equalTo(self.view);
         make.top.equalTo(self.container.bottom).offset(60);
-        make.width.equalTo(kSCREENWIDTH/2);
+        make.width.equalTo(self.container);
         make.height.equalTo(40);
     }];
     
@@ -279,7 +286,6 @@
 
 /** 退出*/
 - (void)dismiss:(UIButton *)sender {
-    
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -337,12 +343,12 @@
 
 /** 监听手机号和密码的输入长度*/
 - (void)observeLengthForTextField:(UITextField *)textField {
-    if (textField == self.teleTextField) {
-        self.pwdTextField.text = [SAMKeychain passwordForService:KEYCHAIN_SERVICE_LOGIN account:self.teleTextField.text];
-    }
+//    if (textField == self.teleTextField) {
+//        self.pwdTextField.text = [SAMKeychain passwordForService:KEYCHAIN_SERVICE_LOGIN account:self.teleTextField.text];
+//    }
     //输入框都满足条件，则注册按钮可点击
     self.logIn.enabled = [self validToLogin];
-    self.logIn.backgroundColor = [self validToLogin] ? ThemeColor : LightGraySeperatorColor;
+    self.logIn.backgroundColor = [self validToLogin] ? ThemeColor : UnactiveButtonColor;
 }
 
 - (BOOL)validToLogin {

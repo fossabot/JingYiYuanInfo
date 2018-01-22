@@ -11,14 +11,9 @@
 
 @interface YYPushCell()
 
-/** topRedLine*/
-@property (nonatomic, strong) UIView *topRedLine;
 
 /** redDot*/
 @property (nonatomic, strong) UIImageView *redDot;
-
-/** bottomRedLine*/
-@property (nonatomic, strong) UIView *bottomRedLine;
 
 /** time*/
 @property (nonatomic, strong) UILabel *time;
@@ -52,7 +47,8 @@
     _pushModel = pushModel;
     self.time.text = pushModel.checktime;
     self.title.text = pushModel.keyword1;
-    self.content.text = [pushModel pushAttributedString];
+    self.content.attributedText = [pushModel pushAttributedString];
+//    self.content.text = [pushModel pushAttributedString];
     self.extendBtn.hidden = !pushModel.isHaveExtendBtn;
     self.extendBtn.selected = pushModel.extendState;
 }
@@ -96,8 +92,8 @@
     [self.contentView addSubview:title];
     
     UILabel *content = [[UILabel alloc] init];
-    content.font = SubTitleFont;
-    content.textColor = UnenableTitleColor;
+    content.font = TitleFont;
+    content.textColor = SubTitleColor;
     content.numberOfLines = 0;
     self.content = content;
     [self.contentView addSubview:content];
@@ -155,14 +151,14 @@
     [self.content makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.title);
-        make.top.equalTo(self.title.bottom).offset(5);
-        make.right.equalTo(-10);
+        make.top.equalTo(self.title.bottom).offset(YYInfoCellCommonMargin);
+        make.right.equalTo(-YYInfoCellCommonMargin);
     }];
 
     [self.extendBtn makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.content.bottom).offset(2);
-        make.right.equalTo(-10);
+        make.top.equalTo(self.content.bottom);
+        make.right.equalTo(-YYInfoCellCommonMargin);
         make.width.equalTo(60);
         make.height.equalTo(30);
         make.bottom.equalTo(-5);

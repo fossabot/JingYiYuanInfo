@@ -273,12 +273,14 @@
     
 }
 
+
+
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     
-    if (kind == UICollectionElementKindSectionHeader) {
+    if ([kind isEqual:UICollectionElementKindSectionHeader]) {
         
         YYIntegrationShopSecHeaderView *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:reusableSectionHeader forIndexPath:indexPath];
-        header.tip.text = indexPath.section==0 ? @"热门兑换" : @"为您推荐";
+        header.tip.text = indexPath.section == 0 ? @"热门兑换" : @"为您推荐";
         return header;
     }
     return nil;
@@ -325,7 +327,8 @@
     if (!_flowLayout) {
         _flowLayout = [[UICollectionViewFlowLayout alloc] init];
         _flowLayout.itemSize = CGSizeMake((kSCREENWIDTH-30)/2, (kSCREENWIDTH-30)/2+70);
-        _flowLayout.headerReferenceSize = CGSizeMake(kSCREENWIDTH, 30);
+        _flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+        _flowLayout.headerReferenceSize = CGSizeMake(kSCREENWIDTH, 40);
         _flowLayout.minimumLineSpacing = 10;
         _flowLayout.minimumInteritemSpacing = 10;
         _flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;

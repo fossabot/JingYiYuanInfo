@@ -157,19 +157,20 @@
     
     [self.receivedMan makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.top.equalTo(YYInfoCellCommonMargin);
+        make.top.equalTo(YYInfoCellCommonMargin*2);
+        make.left.equalTo(YYCommonCellLeftMargin);
     }];
     
     [self.receivedManText makeConstraints:^(MASConstraintMaker *make) {
        
         make.left.equalTo(self.receivedMan.right).offset(YYInfoCellCommonMargin);
         make.centerY.equalTo(self.receivedMan);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
     [self.seperator1 makeConstraints:^(MASConstraintMaker *make) {
        
-        make.top.equalTo(self.receivedMan.bottom).offset(YYInfoCellCommonMargin);
+        make.top.equalTo(self.receivedMan.bottom).offset(YYCommonCellLeftMargin);
         make.left.equalTo(self.receivedMan);
         make.right.equalTo(self.receivedManText);
         make.height.equalTo(0.5);
@@ -178,19 +179,19 @@
     [self.mobile makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.seperator1);
-        make.top.equalTo(self.seperator1.bottom).offset(YYInfoCellCommonMargin);
+        make.top.equalTo(self.seperator1.bottom).offset(YYCommonCellLeftMargin);
     }];
     
     [self.mobileText makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.mobile.right).offset(YYInfoCellCommonMargin);
         make.centerY.equalTo(self.mobile);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
     [self.seperator2 makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.mobile.bottom).offset(YYInfoCellCommonMargin);
+        make.top.equalTo(self.mobile.bottom).offset(YYCommonCellLeftMargin);
         make.left.equalTo(self.mobile);
         make.right.equalTo(self.mobileText);
         make.height.equalTo(0.5);
@@ -205,12 +206,12 @@
     [self.districtBtn makeConstraints:^(MASConstraintMaker *make) {
         
         make.centerY.equalTo(self.district);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
     [self.seperator3 makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.district.bottom).offset(YYInfoCellCommonMargin);
+        make.top.equalTo(self.district.bottom).offset(YYCommonCellLeftMargin);
         make.left.equalTo(self.district);
         make.right.equalTo(self.districtBtn);
         make.height.equalTo(0.5);

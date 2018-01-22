@@ -7,6 +7,8 @@
 //
 
 #import "YYFirstCommentController.h"
+
+#import "THBaseTableView.h"
 #import "YYDetailToolBar.h"
 #import "YYCommentView.h"
 #import "YYCommentSectionHeader.h"
@@ -26,7 +28,7 @@
 /** toolBar*/
 @property (nonatomic, strong) YYDetailToolBar *toolBar;
 
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 
@@ -223,6 +225,7 @@
     if (section == 0) {
         return self.hotDataSource.count;
     }
+    tableView.mj_footer.hidden = (self.dataSource.count%10 != 0);
     return self.dataSource.count;
 }
 
@@ -328,23 +331,18 @@
     return _toolBar;
 }
 
-- (UITableView *)tableView {
+- (THBaseTableView *)tableView {
     
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStyleGrouped];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, ToolBarHeight, 0);
-//        _tableView.separatorInset = UIEdgeInsetsMake(0, 50, 0, 0);
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[YYCommentCell class] forCellReuseIdentifier:YYCommentCellId];
+        //        _tableView.separatorInset = UIEdgeInsetsMake(0, 50, 0, 0);
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf
-//        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-//            
-//            YYStrongSelf
-//            [strongSelf loadComment];
-//        }];
         
         _tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
            
@@ -361,6 +359,9 @@
         configer.emptyViewTapBlock = ^{
             
             [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
         };
         [self.tableView emptyViewConfiger:configer];
     }

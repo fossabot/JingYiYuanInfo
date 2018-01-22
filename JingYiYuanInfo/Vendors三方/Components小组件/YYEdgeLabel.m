@@ -40,8 +40,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        _edgeInsets = UIEdgeInsetsMake(1, 1, 1, 1);
-        
+        _edgeInsets = UIEdgeInsetsMake(2, 3, 2, 3);
         self.font = [UIFont systemFontOfSize:14];
         self.layer.borderWidth = 0.3;
         self.layer.cornerRadius = 3;
@@ -61,10 +60,16 @@
      */
     CGRect rect = [super textRectForBounds:UIEdgeInsetsInsetRect(bounds,
                                                                  self.edgeInsets) limitedToNumberOfLines:numberOfLines];
+    if (rect.size.width == 0) {
+        return rect;
+    }
     //根据edgeInsets，修改绘制文字的bounds
     rect.origin.x -= self.edgeInsets.left;
     rect.origin.y -= self.edgeInsets.top;
     rect.size.width += self.edgeInsets.left + self.edgeInsets.right;
+    if (rect.size.width > kSCREENWIDTH - 30) {
+        rect.size.width = kSCREENWIDTH - 30;
+    }
     rect.size.height += self.edgeInsets.top + self.edgeInsets.bottom;
     return rect;
 }
@@ -73,7 +78,6 @@
 - (void)drawTextInRect:(CGRect)rect {
     [super drawTextInRect:UIEdgeInsetsInsetRect(rect, self.edgeInsets)];
 }
-
 
 
 @end

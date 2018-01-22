@@ -73,6 +73,10 @@
                               allowLETTER:YES
                               allowSymbol:YES
                               allowOthers:nil];
+    
+    //输入框添加监听事件，监听输入长度，使重置密码按钮可点击
+    [self.oldPwdTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+    [self.changedPwdTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
 }
 
 
@@ -92,7 +96,7 @@
     oldPwdTextField.placeholder = @"旧密码(至少6位)";
     oldPwdTextField.tintColor = ThemeColor;
     oldPwdTextField.leftViewMode = UITextFieldViewModeAlways;
-    [oldPwdTextField setLeftTitle:@"旧密码: "];
+    [oldPwdTextField setLeftTitle:@"旧密码"];
     [self.view1 addSubview:oldPwdTextField];
     self.oldPwdTextField = oldPwdTextField;
     
@@ -109,14 +113,14 @@
     changedPwdTextField.placeholder = @"新密码(至少6位)";
     changedPwdTextField.tintColor = ThemeColor;
     changedPwdTextField.leftViewMode = UITextFieldViewModeAlways;
-    [changedPwdTextField setLeftTitle:@"新密码: "];
+    [changedPwdTextField setLeftTitle:@"新密码"];
     [self.view2 addSubview:changedPwdTextField];
     self.changedPwdTextField = changedPwdTextField;
     
-    
     UIButton *changePwd = [UIButton buttonWithType:UIButtonTypeCustom];
-    [changePwd setTitle:@"修改密码" forState:UIControlStateNormal];
-    changePwd.backgroundColor = ThemeColor;
+    [changePwd setTitle:@"确定" forState:UIControlStateNormal];
+    changePwd.layer.cornerRadius = 5;
+    changePwd.backgroundColor = UnactiveButtonColor;
     [changePwd setTitleColor:WhiteColor forState:UIControlStateNormal];
     changePwd.titleLabel.font = TitleFont;
     [changePwd addTarget:self action:@selector(commit:) forControlEvents:UIControlEventTouchUpInside];
@@ -160,7 +164,7 @@
        
         make.centerX.equalTo(self.view);
         make.top.equalTo(self.view2.bottom).offset(50);
-        make.width.equalTo(kSCREENWIDTH/2);
+        make.width.equalTo(kSCREENWIDTH-60);
         make.height.equalTo(40);
     }];
 }
@@ -174,13 +178,21 @@
     }
     
     YYWeakSelf
-    
-    
     [YYLoginManager changePasswordWithOldPassword:_oldPwdTextField.text newPwd:_changedPwdTextField.text completion:^{
         
         [weakSelf.navigationController popViewControllerAnimated:YES];
     }];
     
+}
+
+/** 监听新旧密码的输入长度*/
+- (void)observeLengthForTextField:(UITextField *)textField {
+    //    if (textField == self.teleTextField) {
+    //        self.pwdTextField.text = [SAMKeychain passwordForService:KEYCHAIN_SERVICE_LOGIN account:self.teleTextField.text];
+    //    }
+    //输入框都满足条件，则注册按钮可点击
+    self.changePwd.enabled = [self validToChange];
+    self.changePwd.backgroundColor = [self validToChange] ? ThemeColor : UnactiveButtonColor;
 }
 
 - (BOOL)validToChange {

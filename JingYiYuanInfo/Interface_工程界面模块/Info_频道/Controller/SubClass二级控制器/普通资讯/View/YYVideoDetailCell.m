@@ -59,21 +59,21 @@
     
     YYEdgeLabel *tagLabel = [[YYEdgeLabel alloc] init];
     tagLabel.textColor = ThemeColor;
-    tagLabel.font = UnenableTitleFont;
+    tagLabel.font = TagLabelFont;
     tagLabel.layer.cornerRadius = 3.0;
     tagLabel.layer.masksToBounds = YES;
     self.tagLabel = tagLabel;
     [self.contentView addSubview:tagLabel];
     
     UILabel *source = [[UILabel alloc] init];
-    source.textColor = UnenableTitleColor;
     source.font = UnenableTitleFont;
+    source.textColor = UnenableTitleColor;
     self.source = source;
     [self.contentView addSubview:source];
     
     UILabel *hits = [[UILabel alloc] init];
-    hits.textColor = UnenableTitleColor;
     hits.font = UnenableTitleFont;
+    hits.textColor = UnenableTitleColor;
     self.hits = hits;
     [self.contentView addSubview:hits];
     

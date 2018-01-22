@@ -54,7 +54,7 @@
 /**
  *  获取内容的属性字符串
  */
-- (NSString *)pushAttributedString;
+- (NSAttributedString *)pushAttributedString;
 
 /**
  *  cell的高度

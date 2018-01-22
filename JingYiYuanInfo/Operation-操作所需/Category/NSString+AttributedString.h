@@ -85,7 +85,7 @@
 -(CGFloat)HeightParagraphSpeace:(CGFloat)lineSpeace withFont:(UIFont*)font AndWidth:(CGFloat)width;
 
 
-
+-(CGSize)sizeWithFont:(UIFont *)font maxSize:(CGSize)maxSize;
 
 
 

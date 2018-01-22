@@ -8,6 +8,7 @@
 
 #import "YYDetailToolBar.h"
 #import "YYCommentTextView.h"
+#import "YYUser.h"
 
 @interface YYDetailToolBar()<UITextViewDelegate>
 
@@ -212,6 +213,7 @@
 - (void)resignResponder {
     [self.textView resignFirstResponder];
     [coverView removeFromSuperview];
+    self.textView.text = nil;
 }
 
 /* 显示评论框*/
@@ -230,6 +232,13 @@
 
 /** 弹出评论框，写评论*/
 - (void)write {
+    
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        [SVProgressHUD showErrorWithStatus:@"账号未登录"];
+        [SVProgressHUD dismissWithDelay:1];
+        return;
+    }
     
     YYWeakSelf
     [YYHttpNetworkTool globalNetStatusNotice:^(AFNetworkReachabilityStatus status) {
@@ -272,6 +281,13 @@
 /** 收藏*/
 - (void)favor {
     
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        [SVProgressHUD showErrorWithStatus:@"账号未登录"];
+        [SVProgressHUD dismissWithDelay:1];
+        return;
+    }
+    
     YYWeakSelf
     [YYHttpNetworkTool globalNetStatusNotice:^(AFNetworkReachabilityStatus status) {
         
@@ -295,6 +311,12 @@
 /** 打赏*/
 - (void)reward {
     
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        [SVProgressHUD showErrorWithStatus:@"账号未登录"];
+        [SVProgressHUD dismissWithDelay:1];
+        return;
+    }
     YYWeakSelf
     [YYHttpNetworkTool globalNetStatusNotice:^(AFNetworkReachabilityStatus status) {
         
@@ -330,6 +352,12 @@
 /** 发送评论*/
 - (void)sendComment {
     
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        [SVProgressHUD showErrorWithStatus:@"账号未登录"];
+        [SVProgressHUD dismissWithDelay:1];
+        return;
+    }
     YYWeakSelf
     [YYHttpNetworkTool globalNetStatusNotice:^(AFNetworkReachabilityStatus status) {
         
@@ -376,7 +404,7 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
-    self.send.enabled = textView.text.length ? YES : NO;
+//    self.send.enabled = textView.text.length ? YES : NO;
     return YES;
 }
 
@@ -503,7 +531,7 @@
         [_send setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [_send setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
         _send.titleLabel.font = TitleFont;
-        _send.enabled = NO;
+//        _send.enabled = NO;
         
         [_send addTarget:self action:@selector(sendComment) forControlEvents:UIControlEventTouchUpInside];
     }

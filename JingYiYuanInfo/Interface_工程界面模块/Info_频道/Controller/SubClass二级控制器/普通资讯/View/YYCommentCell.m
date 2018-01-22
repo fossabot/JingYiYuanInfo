@@ -84,8 +84,8 @@
     [self.contentView addSubview:comment];
     
     UILabel *time = [[UILabel alloc] init];
-    time.textColor = UnenableTitleColor;
     time.font = UnenableTitleFont;
+    time.textColor = UnenableTitleColor;
     self.time = time;
     [self.contentView addSubview:time];
     

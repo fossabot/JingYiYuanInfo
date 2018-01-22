@@ -287,9 +287,9 @@
 
 - (UILabel *)topLabel{
     if (!_topLabel) {
-        _topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREENW, TopH)];
+        _topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, SCREENW, TopH)];
         _topLabel.textAlignment = NSTextAlignmentCenter;
-        _topLabel.font = [UIFont systemFontOfSize:12];
+        _topLabel.font = SubTitleFont;
         _topLabel.text = @"壹元服务为您提供专业的投资理财资讯";
         _topLabel.textColor = [UIColor colorWithRed:75/255.0 green:76/255.0 blue:81/255.0 alpha:1.0];
         _topLabel.backgroundColor = [UIColor clearColor];

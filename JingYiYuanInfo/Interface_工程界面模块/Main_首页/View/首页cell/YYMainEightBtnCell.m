@@ -26,8 +26,8 @@
 #import <MJExtension/MJExtension.h>
 
 #define edgeMargin 20
-#define buttonW 40
-#define buttonH 60
+#define buttonW 50
+#define buttonH 75
 
 @interface YYMainEightBtnCell()
 {
@@ -68,19 +68,19 @@
         [btn setImage:imageNamed(self.images[i]) forState:UIControlStateNormal];
         [btn setTitleColor:SubTitleColor forState:UIControlStateNormal];
         [btn setTitle:self.titles[i] forState:UIControlStateNormal];
-        btn.titleLabel.font = SubTitleFont;
-        [btn setImageEdgeInsets:UIEdgeInsetsMake(-10, 0, 20, 0)];
-        [btn setTitleEdgeInsets:UIEdgeInsetsMake(35, -41, 0, 0)];
+        btn.titleLabel.font = sysFont(afterScale(14));
+        [btn setImageEdgeInsets:UIEdgeInsetsMake(-afterScale(10), 5, afterScale(20), 0)];
+        [btn setTitleEdgeInsets:UIEdgeInsetsMake(afterScale(35), -afterScale(41), 0, 0)];
         btn.tag = 100+i;
         [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
         [arr addObject:btn];
         [self.contentView addSubview:btn];
     }
     
-    [arr mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedItemLength:buttonW leadSpacing:afterScale(YYInfoCellCommonMargin*2) tailSpacing:afterScale(YYInfoCellCommonMargin*2)];
+    [arr mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedItemLength:afterScale(buttonW) leadSpacing:afterScale(YYInfoCellCommonMargin*2) tailSpacing:afterScale(YYInfoCellCommonMargin*2)];
     [arr makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(YYInfoCellCommonMargin);
-        make.height.equalTo(70);
+        make.height.equalTo(afterScale(buttonH));
     }];
     
     NSMutableArray *arr1 = [NSMutableArray array];
@@ -90,9 +90,9 @@
         [btn setTitle:self.titles[i] forState:UIControlStateNormal];
         [btn setTitleColor:SubTitleColor forState:UIControlStateNormal];
         [btn setImage:imageNamed(self.images[i]) forState:UIControlStateNormal];
-        btn.titleLabel.font = SubTitleFont;
-        [btn setImageEdgeInsets:UIEdgeInsetsMake(-10, 0, 20, 0)];
-        [btn setTitleEdgeInsets:UIEdgeInsetsMake(35, -41, 0, 0)];
+        btn.titleLabel.font = sysFont(afterScale(14));
+        [btn setImageEdgeInsets:UIEdgeInsetsMake(-afterScale(10), 5, afterScale(20), 0)];
+        [btn setTitleEdgeInsets:UIEdgeInsetsMake(afterScale(35), -afterScale(41), 0, 0)];
         btn.tag = 100+i;
         [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
         [arr1 addObject:btn];
@@ -104,10 +104,10 @@
     }
     
     UIButton *btn = arr[0];
-    [arr1 mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedItemLength:buttonW leadSpacing:afterScale(YYInfoCellCommonMargin*2) tailSpacing:afterScale(YYInfoCellCommonMargin*2)];
+    [arr1 mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedItemLength:afterScale(buttonW) leadSpacing:afterScale(YYInfoCellCommonMargin*2) tailSpacing:afterScale(YYInfoCellCommonMargin*2)];
     [arr1 makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(btn.bottom).offset(YYInfoCellCommonMargin);
-        make.height.equalTo(70);
+        make.height.equalTo(afterScale(buttonH));
         make.bottom.equalTo(-YYInfoCellCommonMargin);
     }];
 }

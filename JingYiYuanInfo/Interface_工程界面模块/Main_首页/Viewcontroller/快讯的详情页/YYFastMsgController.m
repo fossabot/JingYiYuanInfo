@@ -32,6 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = @"快讯";
     [self.view addSubview:self.tableView];
     [self loadNewData];
 }
@@ -96,6 +97,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     YYFastMsgSecionModel *secModel = self.dataSource[section];
+    tableView.mj_footer.hidden = (secModel.info.count%10 != 0);
     return secModel.info.count;
 }
 
@@ -104,7 +106,7 @@
     view.backgroundColor = WhiteColor;
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, kSCREENWIDTH, 20)];
     label.textColor = UnenableTitleColor;
-    label.font = UnenableTitleFont;
+    label.font = TagLabelFont;
     YYFastMsgSecionModel *secModel = self.dataSource[section];
     label.text = secModel.date;
     [view addSubview:label];
@@ -155,11 +157,13 @@
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-64) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight+20) style:UITableViewStyleGrouped];
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        //contentinset的上边距应该和tableview的高度同步，否则将tableview上移之后，但是高度没有增加，则尾部的加载更多的按钮会出现
         _tableView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, YYCommonCellLeftMargin, 0, YYCommonCellLeftMargin);
         YYWeakSelf
         _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             
@@ -172,7 +176,7 @@
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
+
         [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
@@ -187,6 +191,9 @@
         configer.allowScroll = NO;
         configer.emptyViewTapBlock = ^{
             [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
         };
         [self.tableView emptyViewConfiger:configer];
         

@@ -93,7 +93,7 @@
     playCount.edgeInsets = UIEdgeInsetsMake(2, 3, 2, 3);
     playCount.textColor = [UIColor whiteColor];
 //    playCount.layer.borderColor = [UIColor blackColor].CGColor;
-    playCount.font = UnenableTitleFont;
+    playCount.font = TagLabelFont;
     [self.videoImg addSubview:playCount];
     self.playCount = playCount;
     
@@ -104,13 +104,13 @@
     time.edgeInsets = UIEdgeInsetsMake(2, 3, 2, 3);
     time.textColor = [UIColor whiteColor];
 //    time.layer.borderColor = [UIColor blackColor].CGColor;
-    time.font = UnenableTitleFont;
+    time.font = TagLabelFont;
     [self.videoImg addSubview:time];
     self.time = time;
     
     
     YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
-    tag1.font = UnenableTitleFont;
+    tag1.font = TagLabelFont;
     tag1.textColor = ThemeColor;
     tag1.layer.borderColor = ThemeColor.CGColor;
     tag1.layer.cornerRadius = 3.0;
@@ -119,7 +119,7 @@
     self.tag1 = tag1;
     
     YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
-    tag2.font = UnenableTitleFont;
+    tag2.font = TagLabelFont;
     tag2.textColor = ThemeColor;
     tag2.layer.borderColor = ThemeColor.CGColor;
     tag2.layer.cornerRadius = 3.0;
@@ -230,9 +230,9 @@
         NSArray *tags = [videoModel.v_tag componentsSeparatedByString:@" "];
         self.tag1.text = tags[0];
         self.tag2.text = tags[1];
-    }else if ([videoModel.v_tag containsString:@"，"]){
+    }else if ([videoModel.v_tag containsString:@","]){
         
-        NSArray *tags = [videoModel.v_tag componentsSeparatedByString:@"，"];
+        NSArray *tags = [videoModel.v_tag componentsSeparatedByString:@","];
         self.tag1.text = tags[0];
         self.tag2.text = tags[1];
     }else {

@@ -23,6 +23,7 @@
 
 @implementation YYPushViewModel
 {
+    NSIndexPath *_lastIndexPath;
     NSDate *_preDate;
     NSDate *_nextDate;
     
@@ -81,25 +82,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     YYPushListCellModel *model = self.dataSource[indexPath.row];
-//    if (model.extendState) {
-//        
-//        CGFloat height = [tableView fd_heightForCellWithIdentifier:YYPushCellId cacheByIndexPath:indexPath configuration:^(YYPushCell *cell) {
-//            
-//            cell.pushModel = model;
-//        }];
-//        return height;
-//    }else if(!model.extendState && !model.isHaveExtendBtn){
-//        
-//        CGFloat height = [tableView fd_heightForCellWithIdentifier:YYPushCellId cacheByIndexPath:indexPath configuration:^(YYPushCell *cell) {
-//            
-//            cell.pushModel = model;
-//        }];
-//        return height;
-//    }else {
-//        
-//        return 90;
-//    }
-    
     return [model cellHeight];
 }
 
@@ -110,12 +92,42 @@
     __block YYPushListCellModel *model = self.dataSource[indexPath.row];
     cell.pushModel = model;
     __weak typeof(tableView) weakTableView = tableView;
+    YYWeakSelf
     cell.extendBlock = ^(id cell, BOOL selected) {
-      
+        
+        NSArray *arr;
         NSIndexPath *index = [weakTableView indexPathForCell:cell];
-//        model.extendState = selected;
-        [weakTableView reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationNone];
+        if (_lastIndexPath && _lastIndexPath != index) {
+            
+            YYPushListCellModel *lastModel = weakSelf.dataSource[_lastIndexPath.row];
+            lastModel.extendState = NO;
+            [weakSelf.dataSource replaceObjectAtIndex:_lastIndexPath.row withObject:lastModel];
+            arr = [NSArray arrayWithObjects:_lastIndexPath,index, nil];
+        }else {
+            arr = [NSArray arrayWithObject:index];
+        }
+        [weakTableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationNone];
+        _lastIndexPath = index;
     };
+    
+    //  隐藏每个分区最后一个cell的分割线
+    if (indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1)
+    {
+        // 1.系统分割线,移到屏幕外
+        //cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width);
+        
+        // 2.自定义Cell
+        cell.bottomRedLine.hidden = YES;
+    }else {
+        //cell.separatorInset =  UIEdgeInsetsMake(0, 15, 0, 0)
+        cell.bottomRedLine.hidden = NO;
+    }
+    
+    if (indexPath.row == 0) {
+        cell.topRedLine.hidden = YES;
+    }else {
+        cell.topRedLine.hidden = NO;
+    }
     return cell;
 }
 

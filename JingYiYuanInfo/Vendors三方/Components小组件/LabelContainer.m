@@ -7,8 +7,6 @@
 #import "LabelContainer.h"
 #import "YYEdgeLabel.h"
 
-
-
 @implementation LabelContainer
 
 + (instancetype)labelContainerWithTitles:(NSArray *)titles andFrame:(CGRect)frame labelContainerStableEdge:(LabelContainerStableEdge)stableEdge rowMargin:(CGFloat)rowMargin labelMargin:(CGFloat)labelMargin delegate:(id)delegate{
@@ -40,13 +38,18 @@
 
 }
 
-- (instancetype)init{
-    self = [super init];
+/** 初始化带有labelinset属性的*/
+- (instancetype)initWithTitles:(NSArray *)titles andFrame:(CGRect)frame edgeInset:(UIEdgeInsets)edgeinset labelContainerStableEdge:(LabelContainerStableEdge)stableEdge rowMargin:(CGFloat)rowMargin labelMargin:(CGFloat)labelMargin delegate:(id<LabelContainerClickDelegate>)delegate {
     
-    if (self) {
-        
-    }
+    self = [[LabelContainer alloc] initWithFrame:frame];
+    _titles = titles;
+    _stableEdge = stableEdge;
+    _rowMargin = rowMargin;
+    _labelMargin = labelMargin;
+    _delegate = delegate;
+    _labelEdgeInset = edgeinset;
     
+    [self creatSubviews];
     return self;
 }
 

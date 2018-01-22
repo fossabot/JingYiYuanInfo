@@ -249,8 +249,8 @@ static NSString * cellId = @"cellid";
     self.tableView.separatorColor = UnenableTitleColor;
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
     self.tableView.tableFooterView = [[UIView alloc] init];
-    self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
-    
+//    self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
+    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     [self.tableView registerClass:[YYHotTableViewCell class] forCellReuseIdentifier:YYHotTableViewCellId];
     
     [self.tableView registerClass:[YYNewsLeftPicCell class] forCellReuseIdentifier:YYNewsLeftPicCellId];
@@ -260,6 +260,7 @@ static NSString * cellId = @"cellid";
 
     self.tableView.delegate = self.viewModel;
     self.tableView.dataSource = self.viewModel;
+    
     MJWeakSelf;
     
     MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{

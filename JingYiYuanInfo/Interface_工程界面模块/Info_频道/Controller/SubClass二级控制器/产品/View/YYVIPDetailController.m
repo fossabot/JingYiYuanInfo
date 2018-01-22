@@ -53,13 +53,14 @@
         [SVProgressHUD dismissWithDelay:1];
         return;
     }
-    if (![user.groupid containsString:@"3"]) {
-        [SVProgressHUD showInfoWithStatus:@"非会员用户不能购买该产品"];
-        [SVProgressHUD dismissWithDelay:1];
-        return;
-    }
-    [YYIAPTool buyProductByProductionId:@"com.yyapp_vip_1" type:@"1"];
     
+//    if (![user.groupid containsString:@"3"]) {
+//        [SVProgressHUD showInfoWithStatus:@"非会员用户不能购买该产品"];
+//        [SVProgressHUD dismissWithDelay:1];
+//        return;
+//    }
+    
+    [YYIAPTool buyProductByProductionId:@"com.yyapp_vip_1" type:@"1"];
 }
 
 - (void)pop:(NSNotification *)notice {

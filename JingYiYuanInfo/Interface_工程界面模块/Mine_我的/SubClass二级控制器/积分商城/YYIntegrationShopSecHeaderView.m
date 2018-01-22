@@ -28,7 +28,7 @@
     
     UILabel *tip = [[UILabel alloc] init];
     tip.textColor = SubTitleColor;
-    tip.font = SubTitleFont;
+    tip.font = TitleFont;
     [self addSubview:tip];
     self.tip = tip;
     

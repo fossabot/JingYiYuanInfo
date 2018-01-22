@@ -10,6 +10,7 @@
 #import <SDCycleScrollView/SDCycleScrollView.h>
 #import <MJRefresh/MJRefresh.h>
 
+#import "THBaseTableView.h"
 #import "YYNiuManCell.h"
 #import "YYNiuArticleCell.h"
 #import "YYCommunityPersonVM.h"
@@ -28,7 +29,7 @@
 @property (nonatomic, strong) SDCycleScrollView *banner;
 
 /** tab*/
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 /** viewModel*/
 @property (nonatomic, strong) YYCommunityPersonVM *viewModel;
@@ -36,6 +37,7 @@
 @end
 
 @implementation YYCommunityPersonController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -97,7 +99,6 @@
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
-
 - (YYCommunityPersonVM *)viewModel{
     if (!_viewModel) {
         _viewModel = [[YYCommunityPersonVM alloc] init];
@@ -146,17 +147,23 @@
 
 
 
-- (UITableView *)tableView {
+- (THBaseTableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-64) style:UITableViewStyleGrouped];
-        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 49, 0);
-        _tableView.tableFooterView = [[UIView alloc] init];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-YYTopNaviHeight) style:UITableViewStyleGrouped];
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+//        _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
+//        _tableView.separatorInset = UIEdgeInsetsMake(0, -5, 0, 10);
+        if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+            [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, YYInfoCellCommonMargin)];
+        }
+        if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+            [self.tableView setLayoutMargins:UIEdgeInsetsMake(0, 10, 0, YYInfoCellCommonMargin)];
+        }
+        _tableView.tableFooterView = [[UIView alloc] init];
         [self.tableView registerClass:[YYNiuManCell class] forCellReuseIdentifier:YYNiuManCellID];
         [self.tableView registerClass:[YYNiuArticleCell class] forCellReuseIdentifier:YYNiuArticleCellID];
+        
         YYWeakSelf
         MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
             YYStrongSelf

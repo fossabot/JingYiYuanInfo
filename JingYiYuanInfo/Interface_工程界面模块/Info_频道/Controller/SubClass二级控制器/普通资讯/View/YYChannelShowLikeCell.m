@@ -36,6 +36,9 @@
 /** 价格*/
 @property (nonatomic, strong) UILabel *price;
 
+/** sepatator*/
+@property (nonatomic, strong) UIView *separator;
+
 
 @end
 
@@ -102,6 +105,10 @@
     [self.contentView addSubview:price];
     self.price = price;
     
+    UIView *separator = [[UIView alloc] init];
+    separator.backgroundColor = GraySeperatorColor;
+    self.separator = separator;
+    [self.contentView addSubview:separator];
 }
 
 
@@ -160,7 +167,13 @@
         make.bottom.equalTo(self.price.top).offset(-2);
     }];
     
-    
+    [self.separator makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.bottom.equalTo(-0.5);
+        make.height.equalTo(0.5);
+        make.left.equalTo(YYInfoCellCommonMargin);
+        make.right.equalTo(-YYInfoCellCommonMargin);
+    }];
 }
 
 // 切圆角
@@ -193,7 +206,6 @@
         
         self.tag1.text = likeModel.tag;
     }
-    
 }
 
 

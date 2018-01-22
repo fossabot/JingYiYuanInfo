@@ -65,7 +65,8 @@
     
     UIButton *title = [UIButton buttonWithType:UIButtonTypeCustom];
     title.userInteractionEnabled = NO;
-    title.titleLabel.font = TitleFont;
+    title.contentEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5);
+    title.titleLabel.font = NavTitleFont;
     [title setTitleColor:WhiteColor forState:UIControlStateNormal];
     [title setBackgroundImage:imageNamed(@"YYPlayer_top_shadow") forState:UIControlStateNormal];
 //    title.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
@@ -89,7 +90,7 @@
     playCount.edgeInsets = UIEdgeInsetsMake(2, 3, 2, 3);
     playCount.textColor = [UIColor whiteColor];
 //    playCount.layer.borderColor = [UIColor blackColor].CGColor;
-    playCount.font = UnenableTitleFont;
+    playCount.font = TagLabelFont;
     [self.videoImg addSubview:playCount];
     self.playCount = playCount;
     
@@ -100,13 +101,12 @@
     time.edgeInsets = UIEdgeInsetsMake(2, 3, 2, 3);
     time.textColor = [UIColor whiteColor];
 //    time.layer.borderColor = [UIColor blackColor].CGColor;
-    time.font = UnenableTitleFont;
+    time.font = TagLabelFont;
     [self.videoImg addSubview:time];
     self.time = time;
     
-    
     YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
-    tag1.font = UnenableTitleFont;
+    tag1.font = TagLabelFont;
     tag1.textColor = ThemeColor;
     tag1.layer.borderColor = ThemeColor.CGColor;
     tag1.layer.cornerRadius = 3.0;
@@ -115,7 +115,7 @@
     self.tag1 = tag1;
     
     YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
-    tag2.font = UnenableTitleFont;
+    tag2.font = TagLabelFont;
     tag2.textColor = ThemeColor;
     tag2.layer.borderColor = ThemeColor.CGColor;
     tag2.layer.cornerRadius = 3.0;
@@ -132,7 +132,7 @@
     UIButton *share = [UIButton buttonWithType:UIButtonTypeCustom];
     share.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [share setImage:imageNamed(@"share_gray_32x32") forState:UIControlStateNormal];
-//    [share addTarget:self action:@selector(shareVideo) forControlEvents:UIControlEventTouchUpInside];
+    [share addTarget:self action:@selector(shareVideo) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:share];
     self.share = share;
     
@@ -150,6 +150,7 @@
     }];
     
     [self.title makeConstraints:^(MASConstraintMaker *make) {
+        
         make.left.top.right.equalTo(self.videoImg);
     }];
 
@@ -216,9 +217,9 @@
         NSArray *tags = [mediaModel.v_tag componentsSeparatedByString:@" "];
         self.tag1.text = tags[0];
         self.tag2.text = tags[1];
-    }else if ([mediaModel.v_tag containsString:@"，"]){
+    }else if ([mediaModel.v_tag containsString:@","]){
         
-        NSArray *tags = [mediaModel.v_tag componentsSeparatedByString:@"，"];
+        NSArray *tags = [mediaModel.v_tag componentsSeparatedByString:@","];
         self.tag1.text = tags[0];
         self.tag2.text = tags[1];
     }else if (mediaModel.v_tag){
@@ -250,7 +251,7 @@
  */
 - (void)shareVideo {
     
-    [ShareView shareWithTitle:self.mediaModel.v_name subTitle:@"" webUrl:self.mediaModel.v_sharUrl imageUrl:self.mediaModel.v_picture isCollected:NO shareViewContain:ShareViewTypeWechat | ShareViewTypeWechatTimeline | ShareViewTypeQQ | ShareViewTypeQQZone | ShareViewTypeMicroBlog shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
+    [ShareView shareWithTitle:self.mediaModel.v_name subTitle:@"" webUrl:[NSString stringWithFormat:@"%@%@",shareVideoJointUrl,self.mediaModel.mediaId] imageUrl:self.mediaModel.v_picture isCollected:NO shareViewContain:ShareViewTypeWechat | ShareViewTypeWechatTimeline | ShareViewTypeQQ | ShareViewTypeQQZone | ShareViewTypeMicroBlog shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
         
     }];
 }

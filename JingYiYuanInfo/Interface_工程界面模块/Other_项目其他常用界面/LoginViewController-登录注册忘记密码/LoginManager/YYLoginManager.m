@@ -47,7 +47,8 @@
     //用afnetworking进行网络请求，responseMsg返回登录账号密码验证结果，直接用SVProgressHud负责弹出提示框
     password = [password translateIntoScretaryPassword];
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:account,MOBILE,password,PASSWORD,user.deviceToken,@"devicetoken",@"1",@"mobiletype", nil];
-#warning 登录接口
+    //登录接口
+    [SVProgressHUD setFont:[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline]];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
     [YYHttpNetworkTool GETRequestWithUrlstring:signinUrl parameters:para success:^(id response) {
@@ -55,19 +56,21 @@
         if (response) {
             NSString *status = response[@"state"];
             if ([status isEqualToString:@"0"]) {
-                [SVProgressHUD showErrorWithStatus:@"登录失败"];
+                [SVProgressHUD showErrorWithStatus:@"密码错误"];
                 success(NO);
             }else if ([status isEqualToString:@"1"]) {
                 [SVProgressHUD showSuccessWithStatus:@"登录成功"];
                 [YYUser configUserInfoWithDic:response[USERINFO]];
                 //在success回调里通知更新个人信息
                 success(YES);
+            }else if ([status isEqualToString:@"2"]) {
+                [SVProgressHUD showErrorWithStatus:@"账号错误"];
+                success(NO);
             }
         }
         [SVProgressHUD dismissWithDelay:1];
         
     } failure:^(NSError *error) {
-        
         //封装的方法内部有网络不佳的提醒，网络请求失败
         success(NO);
         [SVProgressHUD dismissWithDelay:1];
@@ -161,7 +164,7 @@
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
 
-#warning 更改了注册接口  注册时先获取userid
+    //更改了注册接口  注册时先获取userid
     YYUser *user = [YYUser shareUser];
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"getuserid",@"act",user.deviceToken,@"devicetoken",@"1",@"mobiletype", nil];
     
@@ -174,7 +177,7 @@
             //用afnetworking进行网络请求，responseMsg返回登录账号密码验证结果，controller负责弹出提示框
             passwordStr = [passwordStr translateIntoScretaryPassword];
             NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:account,MOBILE,passwordStr,PASSWORD,verification,YZM,user.deviceToken,@"devicetoken",@"1",@"mobiletype",userid,USERID, nil];
-#warning 注册接口
+    //注册接口
             [YYHttpNetworkTool GETRequestWithUrlstring:signupUrl parameters:para success:^(id response) {
                 
                 //success只是访问网络成功，并没有说明登录成功或失败，response里会有返回的登录信息response[@"status"]来判断登录成功与否，然后在调成功的回调
@@ -229,7 +232,7 @@
     //用afnetworking进行网络请求，responseMsg返回登录账号密码验证结果
     password = [password translateIntoScretaryPassword];
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:account,MOBILE,password,PASSWORD,verification,YZM, nil];
-#warning 重置密码接口
+
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
     [YYHttpNetworkTool GETRequestWithUrlstring:changenewPwdUrl parameters:para success:^(id response) {
@@ -309,7 +312,7 @@
 
  @param mobile 手机号
  */
-+ (void)getRegisterVerificationByMobile:(NSString *)mobile {
++ (void)getRegisterVerificationByMobile:(NSString *)mobile completion:(void(^)(BOOL success))completion {
     
     
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:mobile,MOBILE,@"reg",KEYWORD, nil];
@@ -319,16 +322,19 @@
             NSString *status = response[STATUS];
             if ([status isEqualToString:@"1"]) {
                 [SVProgressHUD showInfoWithStatus:@"验证码即将发送至手机"];
+                completion(YES);
             }else if ([status isEqualToString:@"0"]) {
                 [SVProgressHUD showErrorWithStatus:@"获取验证码失败"];
+                completion(NO);
             }else if ([status isEqualToString:@"3"]) {
                 [SVProgressHUD showInfoWithStatus:@"手机号已注册"];
+                completion(NO);
             }
             [SVProgressHUD dismissWithDelay:1];
         }
         
     } failure:^(NSError *erro) {
-        
+        completion(NO);
     } showSuccessMsg:nil];
     
 }

@@ -169,9 +169,9 @@
             NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@" "];
             self.tagLabel1.text = keywoeds[0];
             self.tagLabel2.text = keywoeds[1];
-        }else if ([hotinfoModel.keywords containsString:@"，"]){
+        }else if ([hotinfoModel.keywords containsString:@","]){
             
-            NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@"，"];
+            NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@","];
             self.tagLabel1.text = keywoeds[0];
             self.tagLabel2.text = keywoeds[1];
         }else{
@@ -220,7 +220,7 @@
     self.newsPic3 = newsPic3;
         
     YYEdgeLabel *tagLabel1 = [[YYEdgeLabel alloc] init];
-    tagLabel1.font = UnenableTitleFont;
+    tagLabel1.font = TagLabelFont;
     tagLabel1.textColor = ThemeColor;
     tagLabel1.layer.borderColor = ThemeColor.CGColor;
 //    tagLabel1.layer.borderWidth = 0.5;
@@ -229,7 +229,7 @@
     self.tagLabel1 = tagLabel1;
     
     YYEdgeLabel *tagLabel2 = [[YYEdgeLabel alloc] init];
-    tagLabel2.font = UnenableTitleFont;
+    tagLabel2.font = TagLabelFont;
     tagLabel2.textColor = ThemeColor;
     tagLabel2.layer.borderColor = ThemeColor.CGColor;
 //    tagLabel2.layer.borderWidth = 0.5;
@@ -292,10 +292,6 @@
         make.top.equalTo(self.newsPic1.bottom).offset(YYInfoCellSubMargin);
     }];
 
-//    [self.container makeConstraints:^(MASConstraintMaker *make) {//container的约束
-//        make.left.equalTo(self.contentView.left).offset(YYInfoCellCommonMargin);
-//        make.top.equalTo(self.time.top);
-//    }];
     
     [self.tagLabel1 makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView).offset(YYInfoCellCommonMargin);

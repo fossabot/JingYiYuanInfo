@@ -14,9 +14,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, CGRectGetHeight(frame)) style:UITableViewStyleGrouped];
-//        self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, CGRectGetHeight(frame)) style:UITableViewStyleGrouped];
+//        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self addSubview:self.tableView];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(acceptMsg:) name:YYMainVCGoTopNotificationName object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(acceptMsg:) name:YYMainVCLeaveTopNotificationName object:nil];//其中一个TAB离开顶部的时候，如果其他几个偏移量不为0的时候，要把他们都置为0

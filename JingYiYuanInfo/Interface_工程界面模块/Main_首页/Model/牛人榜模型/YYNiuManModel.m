@@ -24,4 +24,13 @@
     return [NSString stringWithFormat:@"%@更新",modtime];
 }
 
+- (NSString *)niu_pop {
+    
+    NSInteger pop = [_niu_pop integerValue];
+    if (pop >= 10000) {
+        return [NSString stringWithFormat:@"%.2lf万",(float)pop/10000];
+    }
+    return _niu_pop;
+}
+
 @end

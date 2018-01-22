@@ -66,4 +66,7 @@ typedef NS_ENUM(NSInteger, LabelContainerStableEdge){
 - (instancetype)initWithTitles:(NSArray *)titles andFrame:(CGRect)frame labelContainerStableEdge:(LabelContainerStableEdge)stableEdge rowMargin:(CGFloat)rowMargin labelMargin:(CGFloat)labelMargin delegate:(id<LabelContainerClickDelegate>)delegate;
 
 
+/** 初始化带有labelinset属性的*/
+- (instancetype)initWithTitles:(NSArray *)titles andFrame:(CGRect)frame edgeInset:(UIEdgeInsets)edgeinset labelContainerStableEdge:(LabelContainerStableEdge)stableEdge rowMargin:(CGFloat)rowMargin labelMargin:(CGFloat)labelMargin delegate:(id<LabelContainerClickDelegate>)delegate;
+
 @end

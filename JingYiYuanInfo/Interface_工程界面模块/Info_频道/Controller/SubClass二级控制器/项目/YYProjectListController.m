@@ -14,10 +14,12 @@
 #import "YYProjectCell.h"
 #import "YYProjectDetailController.h"
 
+#import "THBaseTableView.h"
+
 @interface YYProjectListController ()
 
 /** tableview*/
-@property (nonatomic,strong)  UITableView *tableView;
+@property (nonatomic,strong)  THBaseTableView *tableView;
 
 /** viewModel*/
 @property (nonatomic, strong) YYProjectVM *viewModel;
@@ -85,16 +87,15 @@
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
-- (UITableView *)tableView{
+- (THBaseTableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-64) style:UITableViewStylePlain];
-//        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 5);
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-YYTopNaviHeight) style:UITableViewStylePlain];
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
         
         [_tableView registerClass:[YYProjectCell class] forCellReuseIdentifier:YYProjectCellId];
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, YYCommonCellRightMargin);
         
         YYWeakSelf
         _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -108,7 +109,7 @@
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
+
         [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         

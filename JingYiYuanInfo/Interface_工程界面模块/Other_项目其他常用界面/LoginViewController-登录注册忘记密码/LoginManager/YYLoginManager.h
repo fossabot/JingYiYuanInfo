@@ -79,7 +79,7 @@
  
  @param mobile 手机号
  */
-+ (void)getRegisterVerificationByMobile:(NSString *)mobile;
++ (void)getRegisterVerificationByMobile:(NSString *)mobile completion:(void(^)(BOOL success))completion;
 
 
 /**

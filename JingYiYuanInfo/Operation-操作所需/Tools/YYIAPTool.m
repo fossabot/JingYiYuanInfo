@@ -100,7 +100,7 @@
 //                                                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 //                                                formatter.dateFormat = yyyyMMddHHmmss;
 //                                                NSString *now = [formatter stringFromDate:[NSDate date]];
-                                                YYUser *user = [YYUser shareUser];
+//                                                YYUser *user = [YYUser shareUser];
 //                                                [[YYDataBaseTool sharedDataBaseTool]saveIapDataWithTransactionIdentifier:trans.transactionIdentifier productIdentifier:productionId userid:user.userid receipt:receiptBase64 good_type:@"1" transactionDate:now rechargeDate:now state:0];
 //                                                [self sendReceiptToServer:receiptBase64 paymentTransaction:trans];
                                                 /*******上面的sendCheckReceipt请求成功了，会返回用户购买的钻石数量*******/

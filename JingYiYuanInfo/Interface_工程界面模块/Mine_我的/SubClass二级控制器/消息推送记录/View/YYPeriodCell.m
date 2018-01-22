@@ -116,22 +116,20 @@
         
         make.top.equalTo(self.redDot);
         make.left.equalTo(self.redDot.right).offset(YYInfoCellCommonMargin);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+//        make.right.equalTo(-YYInfoCellCommonMargin);
     }];
     
     [self.brief makeConstraints:^(MASConstraintMaker *make) {//来源label的约束
         
         make.left.equalTo(self.title);
         make.bottom.equalTo(self.contentView.bottom).offset(-YYInfoCellCommonMargin);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
     [self.time makeConstraints:^(MASConstraintMaker *make) {//时间label的约束
         
-        make.left.equalTo(self.title);
-        make.top.equalTo(self.title.bottom).offset(5);
-        make.bottom.equalTo(self.brief.top).offset(-YYInfoCellSubMargin);
-        
+        make.top.equalTo(self.title);
+        make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
 }

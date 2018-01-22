@@ -177,5 +177,18 @@
 }
 
 
+- (CGSize)sizeWithFont:(UIFont *)font maxSize:(CGSize)maxSize {
+    
+//    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+//    /** 行高 */
+//    paraStyle.lineSpacing = 3;
+//    paraStyle.paragraphSpacing = 5;
+    
+    NSDictionary *attrs = @{NSFontAttributeName:font};
+    
+    return [self boundingRectWithSize:maxSize options:NSStringDrawingUsesFontLeading |  NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
+    
+}
+
 
 @end

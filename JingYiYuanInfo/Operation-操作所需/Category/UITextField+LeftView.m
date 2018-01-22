@@ -23,10 +23,11 @@
 - (void)setLeftTitle:(NSString *)title {
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = [title stringByAppendingString:@":"];
-    titleLabel.font = SubTitleFont;
+    titleLabel.text = [title stringByAppendingString:@": "];
+    titleLabel.font = TitleFont;
     titleLabel.textColor = BlackColor;
     titleLabel.textAlignment = NSTextAlignmentRight;
+    [titleLabel sizeToFit];
     self.leftViewMode = UITextFieldViewModeAlways;
     [self setLeftView:titleLabel];
 }

@@ -88,7 +88,10 @@
     [self.view addSubview:navView];
     
     UIButton *exit = [UIButton buttonWithType:UIButtonTypeCustom];
-    [exit setImage:imageNamed(@"login_close_32x32") forState:UIControlStateNormal];
+    [exit setImage:imageNamed(@"nav_back_white_20x20") forState:UIControlStateNormal];
+    [exit setTitle:@"返回" forState:UIControlStateNormal];
+    exit.titleLabel.font = NavTitleFont;
+    [exit setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 10)];
     [exit addTarget:self action:@selector(exitbuttonClick) forControlEvents:UIControlEventTouchUpInside];
     self.exit = exit;
     [self.navView addSubview:exit];
@@ -105,7 +108,7 @@
     
     UITextField *telephoneTextfield = [[UITextField alloc] init];
     telephoneTextfield.delegate = self;
-    telephoneTextfield.font = SubTitleFont;
+    telephoneTextfield.font = TitleFont;
     telephoneTextfield.placeholder = @"请输入手机号";
     telephoneTextfield.tintColor = ThemeColor;
     [telephoneTextfield setLeftViewWithImage:@"textfield_leftview_telephone_25x25_"];
@@ -113,13 +116,13 @@
     self.telephoneTextfield = telephoneTextfield;
     
     UIView *separator1 = [[UIView alloc] init];
-    separator1.backgroundColor = ThemeColor;
+    separator1.backgroundColor = LightGraySeperatorColor;
     self.separator1 = separator1;
     [self.container addSubview:separator1];
     
     UITextField *verificationtextField = [[UITextField alloc] init];
     verificationtextField.delegate = self;
-    verificationtextField.font = SubTitleFont;
+    verificationtextField.font = TitleFont;
     verificationtextField.placeholder = @"请输入验证码";
     verificationtextField.tintColor = ThemeColor;
     [verificationtextField setLeftViewWithImage:@"textfield_leftview_verification_25x25_"];
@@ -140,13 +143,13 @@
     
     
     UIView *separator2 = [[UIView alloc] init];
-    separator2.backgroundColor = ThemeColor;
+    separator2.backgroundColor = LightGraySeperatorColor;
     self.separator2 = separator2;
     [self.container addSubview:separator2];
     
     UITextField *pwdTextField = [[UITextField alloc] init];
     pwdTextField.delegate = self;
-    pwdTextField.font = SubTitleFont;
+    pwdTextField.font = TitleFont;
     pwdTextField.placeholder = @"请输入密码(至少6位)";
     pwdTextField.tintColor = ThemeColor;
     [pwdTextField setLeftViewWithImage:@"textfield_leftview_password_25x25_"];
@@ -154,7 +157,7 @@
     self.passwordTextfield = pwdTextField;
     
     UIView *separator3 = [[UIView alloc] init];
-    separator3.backgroundColor = ThemeColor;
+    separator3.backgroundColor = LightGraySeperatorColor;
     self.separator3 = separator3;
     [self.container addSubview:separator3];
     
@@ -162,10 +165,11 @@
     UIButton *registeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     registeButton.enabled = NO;
     registeButton.titleLabel.font = TitleFont;
-    registeButton.backgroundColor = LightGraySeperatorColor;
+    registeButton.backgroundColor = UnactiveButtonColor;
     [registeButton setTitle:@"注册" forState:UIControlStateNormal];
     [registeButton setTitleColor:WhiteColor forState:UIControlStateNormal];
     [registeButton addTarget:self action:@selector(registeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    registeButton.layer.cornerRadius = 5;
     self.registeButton = registeButton;
     [self.view addSubview:registeButton];
     
@@ -181,9 +185,9 @@
     
     [self.exit makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(15);
+        make.left.equalTo(10);
         make.bottom.equalTo(self.navView).offset(-10);
-        make.width.height.equalTo(25);
+//        make.width.height.equalTo(25);
     }];
     
     [self.titleView makeConstraints:^(MASConstraintMaker *make) {
@@ -196,8 +200,9 @@
     [self.container makeConstraints:^(MASConstraintMaker *make) {
         
         make.centerX.equalTo(self.view);
-        make.centerY.equalTo(self.view.centerY).offset(-50);
-        make.width.equalTo(kSCREENWIDTH-80);
+//        make.centerY.equalTo(self.view.centerY).offset(-50);
+        make.top.equalTo(YYTopNaviHeight+40);
+        make.width.equalTo(kSCREENWIDTH-60);
     }];
     
     [self.telephoneTextfield makeConstraints:^(MASConstraintMaker *make) {
@@ -217,7 +222,7 @@
     [self.verificationTextfield makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.container);
-        make.top.equalTo(self.separator1.bottom).offset(5);
+        make.top.equalTo(self.separator1.bottom).offset(10);
         make.height.equalTo(35);
     }];
     
@@ -240,7 +245,7 @@
     [self.passwordTextfield makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.right.equalTo(self.container);
-        make.top.equalTo(self.separator2.bottom).offset(5);
+        make.top.equalTo(self.separator2.bottom).offset(10);
         make.height.equalTo(35);
     }];
     
@@ -255,8 +260,8 @@
     [self.registeButton makeConstraints:^(MASConstraintMaker *make) {
         
         make.centerX.equalTo(self.view);
-        make.top.equalTo(self.container.bottom).offset(60);
-        make.width.equalTo(kSCREENWIDTH/2);
+        make.top.equalTo(self.container.bottom).offset(40);
+        make.width.equalTo(self.container);
         make.height.equalTo(40);
     }];
     
@@ -319,7 +324,7 @@
     
     //输入框都满足条件，则注册按钮可点击
     self.registeButton.enabled = [self validToRegiste];
-    self.registeButton.backgroundColor = [self validToRegiste] ? ThemeColor : LightGraySeperatorColor;
+    self.registeButton.backgroundColor = [self validToRegiste] ? ThemeColor : UnactiveButtonColor;
 }
 
 - (BOOL)validToRegiste {
@@ -334,13 +339,7 @@
 #pragma mark -- outlet Methods
 /** 退出按钮点击事件*/
 - (void)exitbuttonClick {
-    
-//    UIViewController *rootVC = self.presentingViewController;
-//    while (rootVC.presentingViewController) {
-//        rootVC = rootVC.presentingViewController;
-//    }
-//    [rootVC dismissViewControllerAnimated:YES completion:nil];
-    
+     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -349,12 +348,17 @@
     
     BOOL isValidMobileNumber = [NSString isValidMobileNumber:self.telephoneTextfield.text];
     if (isValidMobileNumber) {
-        [sender countDownFromTime:60 unitTitle:@"s后可重发" completion:^(YYCountDownButton *countDownButton) {
-            
-        }];
+        
         //发送请求，获取验证码
         assert(@"发送请求获取验证码");
-        [YYLoginManager getRegisterVerificationByMobile:self.telephoneTextfield.text];
+        [YYLoginManager getRegisterVerificationByMobile:self.telephoneTextfield.text completion:^(BOOL success) {
+            
+            if (success) {
+                [sender countDownFromTime:60 unitTitle:@"s后可重发" completion:^(YYCountDownButton *countDownButton) {
+                    
+                }];
+            }
+        }];
         
     }else{
         [SVProgressHUD showErrorWithStatus:@"手机号格式不正确"];
@@ -373,12 +377,13 @@
 
 /** 注册按钮事件*/
 - (void)registeButtonClick:(UIButton *)sender {
-#warning 注册操作，尚未完成
+    //注册操作，尚未完成
     //发送手机号 验证码 密码等给后台  注册用户  同时密码加密
     [YYLoginManager registeAccount:self.telephoneTextfield.text verification:self.verificationTextfield.text password:self.passwordTextfield.text response:^(BOOL success) {
         
         if (success) {
-            [SAMKeychain setPassword:self.passwordTextfield.text forService:KEYCHAIN_SERVICE_LOGIN account:self.telephoneTextfield.text];
+            //去掉记住密码
+//            [SAMKeychain setPassword:self.passwordTextfield.text forService:KEYCHAIN_SERVICE_LOGIN account:self.telephoneTextfield.text];
             //注册成功，返回主界面，更新个人信息，刷新主界面等操作
             [kUserDefaults setBool:YES forKey:LOGINSTATUS];
             [kUserDefaults synchronize];

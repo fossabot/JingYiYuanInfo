@@ -71,28 +71,28 @@
     self.regMoney = regMoney;
     
     YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
-    tag1.font = UnenableTitleFont;
+    tag1.font = TagLabelFont;
     tag1.textColor = ThemeColor;
     tag1.layer.borderColor = ThemeColor.CGColor;
     [self.contentView addSubview:tag1];
     self.tag1 = tag1;
     
     YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
-    tag2.font = UnenableTitleFont;
+    tag2.font = TagLabelFont;
     tag2.textColor = ThemeColor;
     tag2.layer.borderColor = ThemeColor.CGColor;
     [self.contentView addSubview:tag2];
     self.tag2 = tag2;
 
     YYEdgeLabel *tag3 = [[YYEdgeLabel alloc] init];
-    tag3.font = UnenableTitleFont;
+    tag3.font = TagLabelFont;
     tag3.textColor = ThemeColor;
     tag3.layer.borderColor = ThemeColor.CGColor;
     [self.contentView addSubview:tag3];
     self.tag3 = tag3;
     
     YYEdgeLabel *authTag = [[YYEdgeLabel alloc] init];
-    authTag.font = UnenableTitleFont;
+    authTag.font = TagLabelFont;
     authTag.textColor = ThemeColor;
     authTag.layer.borderColor = ThemeColor.CGColor;
     [self.contentView addSubview:authTag];
@@ -104,8 +104,8 @@
 - (void)masonrySubView {
     
     [self.logoImageView makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.left.top.equalTo(YYInfoCellCommonMargin);
+        make.top.equalTo(YYInfoCellCommonMargin);
+        make.left.equalTo(YYCommonCellLeftMargin);
         make.width.equalTo(100);
         make.height.equalTo(70);
     }];
@@ -114,19 +114,19 @@
         
         make.top.equalTo(self.logoImageView);
         make.left.equalTo(self.logoImageView.right).offset(YYInfoCellCommonMargin);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
     [self.regMoney makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.companyName);
         make.top.equalTo(self.companyName.bottom).offset(YYInfoCellSubMargin);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
     [self.tag1 makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.companyName);
+        make.left.equalTo(self.logoImageView.right).offset(YYInfoCellCommonMargin);
         make.bottom.equalTo(self.logoImageView);
     }];
     
@@ -159,54 +159,15 @@
     self.companyName.text = companyModel.gname;
     self.regMoney.text = companyModel.regmoney;
     
-    /*
-//    if (companyModel.part.length) {
-//        if ([companyModel.part containsString:@" "]) {
-//            
-//            NSArray *keywords = [companyModel.part componentsSeparatedByString:@" "];
-//            self.tag1.text = [self part:keywords[0] comType:companyModel.comtype];
-//            self.tag2.text = [self part:keywords[1] comType:companyModel.comtype];
-//            if (keywords.count >=3) {
-//                self.tag3.text = [self part:keywords[2] comType:companyModel.comtype];
-//            }else {
-//                [self.authTag updateConstraints:^(MASConstraintMaker *make) {
-//                    make.left.equalTo(self.tag2.right).offset(YYInfoCellSubMargin);
-//                }];
-//            }
-//        }else if ([companyModel.part containsString:@"，"]){
-//
-//            NSArray *keywords = [companyModel.part componentsSeparatedByString:@"，"];
-//            self.tag1.text = [self part:keywords[0] comType:companyModel.comtype];
-//            self.tag2.text = [self part:keywords[1] comType:companyModel.comtype];
-//            if (keywords.count >=3) {
-//                self.tag3.text = [self part:keywords[2] comType:companyModel.comtype];
-//            }else{
-//                [self.authTag updateConstraints:^(MASConstraintMaker *make) {
-//                    make.left.equalTo(self.tag2.right).offset(YYInfoCellSubMargin);
-//                }];
-//            }
-//        }else{
-//            self.tag1.text = [self part:companyModel.part comType:companyModel.comtype];
-//            [self.authTag updateConstraints:^(MASConstraintMaker *make) {
-//                make.left.equalTo(self.tag1.right).offset(YYInfoCellSubMargin);
-//            }];
-//        }
-//    }else{
-//        [self.authTag updateConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(self.companyName);
-//        }];
-//    }
-   */
-    
     if (companyModel.part.length) {
         NSArray *keywords = nil;
         if ([companyModel.part containsString:@" "]) {
             
             keywords = [companyModel.part componentsSeparatedByString:@" "];
             [self dispatchTags:keywords comType:companyModel.comtype];
-        }else if ([companyModel.part containsString:@"，"]){
+        }else if ([companyModel.part containsString:@","]){
             
-            keywords = [companyModel.part componentsSeparatedByString:@"，"];
+            keywords = [companyModel.part componentsSeparatedByString:@","];
             [self dispatchTags:keywords comType:companyModel.comtype];
         }else {
             
@@ -227,23 +188,35 @@
         [self.tag1 updateConstraints:^(MASConstraintMaker *make) {
             
             make.width.equalTo(0);
-            make.left.equalTo(self.logoImageView.right);
+            make.left.equalTo(self.companyName);
         }];
         
         [self.tag2 updateConstraints:^(MASConstraintMaker *make) {
             
             make.width.equalTo(0);
-            make.left.equalTo(self.tag1.right);
+            make.left.equalTo(self.companyName);
         }];
+        
         [self.tag3 updateConstraints:^(MASConstraintMaker *make) {
             
             make.width.equalTo(0);
-            make.left.equalTo(self.tag2.right);
+            make.left.equalTo(self.companyName);
         }];
-
+        
+        [self.authTag updateConstraints:^(MASConstraintMaker *make) {
+           
+            make.left.equalTo(self.logoImageView.right).offset(YYInfoCellCommonMargin);
+        }];
     }
     
-    self.authTag.text = companyModel.auth_tag;
+    if (companyModel.auth_tag.length) {
+        self.authTag.text = companyModel.auth_tag;
+    }else {
+        [self.authTag updateConstraints:^(MASConstraintMaker *make) {
+           
+            make.width.equalTo(0);
+        }];
+    }
 }
 
 - (void)dispatchTags:(NSArray *)keywords comType:(NSString *)comtype {

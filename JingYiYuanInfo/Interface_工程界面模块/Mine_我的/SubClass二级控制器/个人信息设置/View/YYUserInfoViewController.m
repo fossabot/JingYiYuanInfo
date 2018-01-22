@@ -179,22 +179,27 @@
     switch (indexPath.row) {
         case 3:{
             [self getUserInfoForPlatform:UMSocialPlatformType_QQ atIndexPath:indexPath paraKey:@"qqnum" completion:^(NSString *uid) {
-                [user setQqnum:uid];
+                if (uid) {
+                    [user setQqnum:uid];
+                }
             }];
         }
             break;
         
         case 4:{
             [self getUserInfoForPlatform:UMSocialPlatformType_WechatSession atIndexPath:indexPath paraKey:@"weixin" completion:^(NSString *uid) {
-                
-                [user setWeixin:uid];
+                if (uid) {
+                    [user setWeixin:uid];
+                }
             }];
         }
             break;
             
         case 5:{
             [self getUserInfoForPlatform:UMSocialPlatformType_Sina atIndexPath:indexPath paraKey:@"weibo" completion:^(NSString *uid) {
-                [user setWeibo:uid];
+                if (uid) {
+                    [user setWeibo:uid];
+                }
             }];
         }
             break;
@@ -228,38 +233,46 @@
 {
     [[UMSocialManager defaultManager] getUserInfoWithPlatform:platformType currentViewController:self completion:^(id result, NSError *error) {
         
-        UMSocialUserInfoResponse *resp = result;
-        
-        // 第三方登录数据(为空表示平台未提供)
-        // 授权数据
-        YYLog(@" uid: %@", resp.uid);
-        YYLog(@" openid: %@", resp.openid);
-        YYLog(@" accessToken: %@", resp.accessToken);
-        YYLog(@" refreshToken: %@", resp.refreshToken);
-        YYLog(@" expiration: %@", resp.expiration);
-        
-        // 用户数据
-        YYLog(@" name: %@", resp.name);
-        YYLog(@" iconurl: %@", resp.iconurl);
-        YYLog(@" gender: %@", resp.unionGender);
-        
-        // 第三方平台SDK原始数据
-        YYLog(@" originalResponse: %@", resp.originalResponse);
-        YYWeakSelf
-        YYUser *user = [YYUser shareUser];
-        NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:parakey,@"act",user.userid,USERID,resp.uid,parakey, nil];
-        [YYHttpNetworkTool GETRequestWithUrlstring:mineChangeUserInfoUrl parameters:para success:^(id response) {
+        if (error) {
             
-            completion(resp.uid);
-            YYStrongSelf
-            [strongSelf.userInfoViewModel changeModelAtIndexPath:indexPath];
-            [strongSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-            [SVProgressHUD showSuccessWithStatus:@"绑定成功"];
+            [SVProgressHUD showErrorWithStatus:@"取消绑定"];
             [SVProgressHUD dismissWithDelay:1];
+        }else {
             
-        } failure:^(NSError *error) {
+            UMSocialUserInfoResponse *resp = result;
             
-        } showSuccessMsg:nil];
+            // 第三方登录数据(为空表示平台未提供)
+            // 授权数据
+            YYLog(@" uid: %@", resp.uid);
+            YYLog(@" openid: %@", resp.openid);
+            YYLog(@" accessToken: %@", resp.accessToken);
+            YYLog(@" refreshToken: %@", resp.refreshToken);
+            YYLog(@" expiration: %@", resp.expiration);
+            
+            // 用户数据
+            YYLog(@" name: %@", resp.name);
+            YYLog(@" iconurl: %@", resp.iconurl);
+            YYLog(@" gender: %@", resp.unionGender);
+            
+            // 第三方平台SDK原始数据
+            YYLog(@" originalResponse: %@", resp.originalResponse);
+            YYWeakSelf
+            YYUser *user = [YYUser shareUser];
+            NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:parakey,@"act",user.userid,USERID,resp.uid,parakey, nil];
+            [YYHttpNetworkTool GETRequestWithUrlstring:mineChangeUserInfoUrl parameters:para success:^(id response) {
+                
+                completion(resp.uid);
+                YYStrongSelf
+                [strongSelf.userInfoViewModel changeModelAtIndexPath:indexPath];
+                [strongSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                [SVProgressHUD showSuccessWithStatus:@"绑定成功"];
+                [SVProgressHUD dismissWithDelay:1];
+                
+            } failure:^(NSError *error) {
+                
+            } showSuccessMsg:nil];
+        }
+        
     }];
 }
 
@@ -270,7 +283,7 @@
 
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStyleGrouped];
         _tableView.delegate = self.userInfoViewModel;
         _tableView.dataSource = self.userInfoViewModel;
 //        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:UITableViewCellID];//手机号cell没有indicator

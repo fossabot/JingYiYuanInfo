@@ -29,7 +29,7 @@
     YYEdgeLabel *tagLabel = [[YYEdgeLabel alloc] init];
     tagLabel.layer.borderColor = ThemeColor.CGColor;
     tagLabel.textColor = ThemeColor;
-    tagLabel.font = UnenableTitleFont;
+    tagLabel.font = TagLabelFont;
     [tagLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     [tagLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     self.tagLabel = tagLabel;
@@ -37,7 +37,7 @@
     
     UILabel *title = [[UILabel alloc] init];
     title.textColor = UnenableTitleColor;
-    title.font = UnenableTitleFont;
+    title.font = SubTitleFont;
 //    title.textAlignment = NSTextAlignmentCenter;
     title.numberOfLines = 2;
 //    [title setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
@@ -49,10 +49,9 @@
     
     UILabel *integration = [[UILabel alloc] init];
     integration.textColor = ThemeColor;
-    integration.font = UnenableTitleFont;
+    integration.font = SubTitleFont;
     self.integration = integration;
     [self.contentView addSubview:integration];
-    
     
     [self.imageView makeConstraints:^(MASConstraintMaker *make) {
        

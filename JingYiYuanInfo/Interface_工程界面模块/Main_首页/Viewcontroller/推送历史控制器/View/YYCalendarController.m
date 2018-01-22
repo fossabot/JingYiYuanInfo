@@ -26,17 +26,21 @@
 @end
 
 @implementation YYCalendarController
-
+{
+    NSString *_selectDate;
+    NSDate *_topDate;
+}
 - (void)loadView
 {
-    UIView *view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    
+    UIView *view = [[UIView alloc] initWithFrame:kViewRectWithNav];
     view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     self.view = view;
     
     FSCalendar *calendar = [[FSCalendar alloc] initWithFrame:self.view.bounds];
     calendar.appearance.headerTitleColor = ThemeColor;
     calendar.appearance.weekdayTextColor = ThemeColor;
-    
+
     calendar.dataSource = self;
     calendar.delegate = self;
     calendar.scrollDirection = FSCalendarScrollDirectionVertical;
@@ -48,21 +52,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStyleDone target:self action:@selector(confirm)];
+    self.navigationItem.rightBarButtonItem =right;
+    
     self.gregorianCalendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
     self.chineseCalendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierChinese];
     self.lunarChars = @[@"初一",@"初二",@"初三",@"初四",@"初五",@"初六",@"初七",@"初八",@"初九",@"初十",@"十一",@"十二",@"十三",@"十四",@"十五",@"十六",@"十七",@"十八",@"十九",@"二十",@"廿一",@"廿二",@"廿三",@"廿四",@"廿五",@"廿六",@"廿七",@"廿八",@"廿九",@"三十"];
     
 }
 
+#pragma mark -- inner Methods 自定义方法  -------------------------------
+
+/** 确定按钮*/
+- (void)confirm {
+    if (_selectDateBlock && _selectDate) {
+        _selectDateBlock(_selectDate,_topDate);
+    }
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
 - (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date atMonthPosition:(FSCalendarMonthPosition)monthPosition {
     
+    if (![self.gregorianCalendar isDateInToday:date]) {
+        [calendar.appearance setTodayColor:[UIColor clearColor]];
+    }
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"yyyy-MM-dd";
     NSString *selectDate = [dateFormatter stringFromDate:date];
-    if (_selectDateBlock) {
-        
-        _selectDateBlock(selectDate,date);
-    }
+    _selectDate = selectDate;
+    _topDate = date;
 }
 
 - (nullable UIColor *)calendar:(FSCalendar *)calendar appearance:(FSCalendarAppearance *)appearance fillDefaultColorForDate:(NSDate *)date {

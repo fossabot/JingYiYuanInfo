@@ -82,6 +82,7 @@
         _fontSize = 15;
         _buttonMaskToBounds = NO;
         _buttonCornerRadius = 5;
+        _itemEdgeInset = UIEdgeInsetsMake(2, 3, 2, 3);
     
     }
     return self;
@@ -123,9 +124,10 @@
                                                 cornerRadius:_buttonCornerRadius];
         
         [tagButton addTarget:self action:@selector(tagButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        
-        width = tagButton.bounds.size.width;
-        height = tagButton.bounds.size.height;
+//        tagButton.contentEdgeInsets = _itemEdgeInset;
+    
+        width = tagButton.bounds.size.width + _itemEdgeInset.left + _itemEdgeInset.right;
+        height = tagButton.bounds.size.height + _itemEdgeInset.top + _itemEdgeInset.bottom;
         
         tagButton.frame = CGRectMake(x, y, width, height);
         

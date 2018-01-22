@@ -8,11 +8,16 @@
 
 #import "YYMinePaymentViewController.h"
 
+#import "YYYanbaoController.h"
 #import "YYMineOrderCell.h"
 #import "YYOrderModel.h"
 #import "UITableView+FDTemplateLayoutCell.h"
 #import <MJRefresh/MJRefresh.h>
 #import <MJExtension/MJExtension.h>
+
+#define yanbaoDetailUrl @"http://yyapp.1yuaninfo.com/app/houtai/admin/pdfReport.php"
+#define cancelOrderUrl @"http://yyapp.1yuaninfo.com/app/houtai/admin/backOrder.php?"
+
 
 @interface YYMinePaymentViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -106,6 +111,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
+    tableView.mj_footer.hidden = (self.dataSource.count%10 != 0);
     return self.dataSource.count;
 }
 
@@ -135,11 +141,64 @@
     YYOrderModel *model = self.dataSource[indexPath.row];
     cell.model = model;
     
+    YYWeakSelf
+    cell.yanbaoBlock = ^(NSString *orderId) {
+        
+        YYYanbaoController *yanbaoDetail = [[YYYanbaoController alloc] init];
+        NSString *url = [NSString stringWithFormat:@"%@orderid=%@",yanbaoDetailUrl,orderId];
+        yanbaoDetail.url = url;
+        [weakSelf.navigationController pushViewController:yanbaoDetail animated:YES];
+    };
+    
+    __weak typeof(tableView) weakTable = tableView;
+    cell.cancelOrderBlcok = ^(NSString *orderId,NSString *orderName,YYMineOrderCell *cell) {
+        
+        NSIndexPath *index = [weakTable indexPathForCell:cell];
+        [weakSelf alertUserToConfirmCancelOrder:orderId orderName:orderName indexPath:index];
+    };
+    
     return cell;
 }
 
 
+/** 提示用户是否真的是要取消这个订单*/
+- (void)alertUserToConfirmCancelOrder:(NSString *)orderId orderName:(NSString *)orderName indexPath:(NSIndexPath *)indexPath {
+    
+    NSString *tip = [NSString stringWithFormat:@"您是否确定取消 %@ 这个订单",orderName];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"取消订单" message:tip preferredStyle:UIAlertControllerStyleAlert];
+    
+    YYWeakSelf
+    UIAlertAction *confim = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        [weakSelf postServerToCancelThisOrder:orderId indexPath:indexPath];
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alert addAction:confim];
+    [alert addAction:cancel];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
+}
 
+- (void)postServerToCancelThisOrder:(NSString *)orderId indexPath:(NSIndexPath *)indexPath {
+    
+    YYWeakSelf
+    YYUser *user = [YYUser shareUser];
+    [YYHttpNetworkTool GETRequestWithUrlstring:cancelOrderUrl parameters:@{@"userid":user.userid,@"orderid":orderId} success:^(id response) {
+        
+        YYOrderModel *model = weakSelf.dataSource[indexPath.row];
+        model.paystatus = @"3";
+        [weakSelf.dataSource replaceObjectAtIndex:indexPath.row withObject:model];
+        [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        [SVProgressHUD showSuccessWithStatus:@"已提交退单申请，稍后工作人员会与您联系，请保持通讯畅通"];
+        [SVProgressHUD dismissWithDelay:2];
+    } failure:^(NSError *error) {
+        
+    } showSuccessMsg:nil];
+}
 
 
 #pragma mark  懒加载方法区域   -------------------------------------------
@@ -159,8 +218,8 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableFooterView = [[UIView alloc] init];
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[YYMineOrderCell class] forCellReuseIdentifier:YYMineOrderCellId];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf
         MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
@@ -168,7 +227,6 @@
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
         [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
@@ -179,7 +237,10 @@
         configer.emptyTitleFont = SubTitleFont;
         configer.allowScroll = NO;
         configer.emptyViewTapBlock = ^{
-            [weakSelf loadData];
+            [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
         };
         [self.tableView emptyViewConfiger:configer];
         

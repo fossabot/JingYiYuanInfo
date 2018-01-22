@@ -32,6 +32,10 @@
     return [NSString stringWithFormat:@"%@%@",yyfwJointUrl,_picurl];
 }
 
+- (NSString *)hits {
+    return [NSString stringWithFormat:@"%@点击",_hits];
+}
+
 - (NSString *)label {
     
     if ([_label isEqualToString:@"1"]) {

@@ -42,6 +42,8 @@
 /** signView*/
 @property (nonatomic, strong) YYSignBgView *signView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *settingTopConstraint;
+
 @end
 
 @implementation YYMineHeaderView
@@ -53,6 +55,7 @@
     return headView;
     
 }
+
 
 // 切圆角
 - (void)cutRoundView:(UIImageView *)imageView
@@ -78,6 +81,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self cutRoundView:self.loginIcon.imageView];
+    self.settingTopConstraint.constant = YYStatusBarH + 10;
 
 }
 
@@ -90,7 +94,6 @@
 //更新签到状态
 - (void)changeSignState {
 
-    
     YYUser *user = [YYUser shareUser];
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,@"quesign",@"act", nil];
     [YYHttpNetworkTool GETRequestWithUrlstring:signIntegralUrl parameters:para success:^(id response) {

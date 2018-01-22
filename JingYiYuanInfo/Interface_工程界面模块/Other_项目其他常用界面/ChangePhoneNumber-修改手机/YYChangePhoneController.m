@@ -22,7 +22,7 @@
 @property (strong, nonatomic) UITextField *telephoneText;
 @property (strong, nonatomic) UITextField *verificationText;
 /** verificationBtn*/
-@property (nonatomic, strong) UIButton *verificationBtn;
+@property (nonatomic, strong) YYCountDownButton *verificationBtn;
 
 /** changePwd*/
 @property (nonatomic, strong) UIButton *changePhone;
@@ -74,6 +74,29 @@
                               allowLETTER:YES
                               allowSymbol:YES
                               allowOthers:nil];
+    
+    //输入框添加监听事件，监听输入长度，使重置密码按钮可点击
+    [self.telephoneText addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+    [self.verificationText addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+}
+
+/** 监听新旧密码的输入长度*/
+- (void)observeLengthForTextField:(UITextField *)textField {
+    //    if (textField == self.teleTextField) {
+    //        self.pwdTextField.text = [SAMKeychain passwordForService:KEYCHAIN_SERVICE_LOGIN account:self.teleTextField.text];
+    //    }
+    //输入框都满足条件，则注册按钮可点击
+    self.changePhone.enabled = [self validToChange];
+    self.changePhone.backgroundColor = [self validToChange] ? ThemeColor : UnactiveButtonColor;
+}
+
+- (BOOL)validToChange {
+    if(self.telephoneText.text.length == 11 && self.verificationText.text.length >= 6){
+        
+        return YES;
+    }else {
+        return NO;
+    }
 }
 
 #pragma mark -- layout 子控件配置及相关布局方法  ---------------------------
@@ -92,7 +115,7 @@
     telephoneText.placeholder = @"新手机号码";
     telephoneText.tintColor = ThemeColor;
     telephoneText.leftViewMode = UITextFieldViewModeAlways;
-    [telephoneText setLeftTitle:@"新手机: "];
+    [telephoneText setLeftTitle:@"新手机"];
     [self.view1 addSubview:telephoneText];
     self.telephoneText = telephoneText;
     
@@ -108,7 +131,7 @@
     verificationText.placeholder = @"验证码";
     verificationText.tintColor = ThemeColor;
     verificationText.leftViewMode = UITextFieldViewModeAlways;
-    [verificationText setLeftTitle:@"验证码 "];
+    [verificationText setLeftTitle:@"验证码"];
     [self.view2 addSubview:verificationText];
     self.verificationText = verificationText;
     
@@ -126,8 +149,9 @@
     
     
     UIButton *changePhone = [UIButton buttonWithType:UIButtonTypeCustom];
-    [changePhone setTitle:@"修改手机" forState:UIControlStateNormal];
-    changePhone.backgroundColor = ThemeColor;
+    [changePhone setTitle:@"确定" forState:UIControlStateNormal];
+    changePhone.backgroundColor = UnactiveButtonColor;
+    changePhone.layer.cornerRadius = 5;
     [changePhone setTitleColor:WhiteColor forState:UIControlStateNormal];
     changePhone.titleLabel.font = TitleFont;
     [changePhone addTarget:self action:@selector(changePhoneNum) forControlEvents:UIControlEventTouchUpInside];
@@ -138,7 +162,7 @@
     [self.view1 makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.right.equalTo(self.view);
-        make.top.equalTo(100);
+        make.top.equalTo(YYTopNaviHeight+40);
         make.height.equalTo(60);
     }];
     
@@ -178,8 +202,8 @@
     [self.changePhone makeConstraints:^(MASConstraintMaker *make) {
         
         make.centerX.equalTo(self.view);
-        make.top.equalTo(self.view2.bottom).offset(50);
-        make.width.equalTo(kSCREENWIDTH/2);
+        make.top.equalTo(self.view2.bottom).offset(40);
+        make.width.equalTo(kSCREENWIDTH-60);
         make.height.equalTo(40);
     }];
 }
@@ -206,13 +230,19 @@
     
     BOOL isValidMobileNumber = [NSString isValidMobileNumber:self.telephoneText.text];
     if (isValidMobileNumber) {
-        [sender countDownFromTime:60 unitTitle:@"s后重发" completion:^(YYCountDownButton *countDownButton) {
-            
-        }];
+        
         //发送请求，获取验证码
         assert(@"发送请求获取验证码");
         
-        [YYLoginManager getRegisterVerificationByMobile:self.telephoneText.text];
+        [YYLoginManager getRegisterVerificationByMobile:self.telephoneText.text completion:^(BOOL success) {
+            
+            if (success) {
+                
+                [sender countDownFromTime:60 unitTitle:@"s后重发" completion:^(YYCountDownButton *countDownButton) {
+                    
+                }];
+            }
+        }];
         
     }else{
         [SVProgressHUD showErrorWithStatus:@"手机号格式不正确"];

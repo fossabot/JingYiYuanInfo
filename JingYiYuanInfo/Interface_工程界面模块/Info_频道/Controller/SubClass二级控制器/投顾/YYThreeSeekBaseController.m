@@ -8,9 +8,12 @@
 
 #import "YYThreeSeekBaseController.h"
 #import "YYThreeSeekDetailController.h"
+
 #import "YYThreeSeekVM.h"
 #import "YYCompanyCell.h"
 #import "YYCompanyModel.h"
+#import "THBaseTableView.h"
+
 #import <MJRefresh/MJRefresh.h>
 
 @interface YYThreeSeekBaseController ()
@@ -19,7 +22,7 @@
 @property (nonatomic, strong) YYThreeSeekVM *viewModel;
 
 /** tableView*/
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) THBaseTableView *tableView;
 
 @end
 
@@ -29,21 +32,19 @@
     [super viewDidLoad];
     
     [self.view addSubview:self.tableView];
+    
     if (self.fatherId == 6) {
-        UILabel *tip = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 20)];
+        UILabel *tip = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 30)];
         tip.textAlignment = NSTextAlignmentCenter;
         tip.text = @"我们只认准国家认证的84家正规机构";
         tip.textColor = ThemeColor;
         tip.font = UnenableTitleFont;
         tip.backgroundColor = LightGraySeperatorColor;
         self.tableView.tableHeaderView = tip;
+    }else {
+        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0.00001)];
     }
     [self.tableView.mj_header beginRefreshing];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -107,13 +108,13 @@
     return _viewModel;
 }
 
-- (UITableView *)tableView{
+- (THBaseTableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-64) style:UITableViewStyleGrouped];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-YYTopNaviHeight) style:UITableViewStyleGrouped];
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 5);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, YYCommonCellRightMargin);
         [_tableView registerClass:[YYCompanyCell class] forCellReuseIdentifier:YYCompanyCellId];
         YYWeakSelf
         _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -127,7 +128,7 @@
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
+
         [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         

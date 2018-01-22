@@ -11,6 +11,7 @@
 
 #import "YYNiuArticleCell.h"
 #import <MJExtension/MJExtension.h>
+#import <MJRefresh/MJRefresh.h>
 
 @interface YYNiuManDetailVM()
 
@@ -97,6 +98,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
    
+    tableView.mj_footer.hidden = (self.niuArtDataSource.count%10 != 0);
     return self.niuArtDataSource.count;
     
 }

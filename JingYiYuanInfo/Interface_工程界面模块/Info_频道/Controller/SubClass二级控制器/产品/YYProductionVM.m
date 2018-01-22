@@ -17,6 +17,7 @@
 #import "YYProductionCell.h"
 
 #import <MJExtension/MJExtension.h>
+#import <MJRefresh/MJRefresh.h>
 
 @interface YYProductionVM()
 
@@ -117,12 +118,15 @@
             return 1;
         }
     }
-    
+    tableView.mj_footer.hidden = (self.normalDataSource.count%10 != 0);
     return self.normalDataSource.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
+    if (section == 0) {
+        return YYInfoCellCommonMargin;
+    }
     return 0.001;
 }
 
@@ -135,7 +139,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([_classid isEqualToString:@"1"]) {
-        return 100;
+        return 110;
     }
     return 90;
 }

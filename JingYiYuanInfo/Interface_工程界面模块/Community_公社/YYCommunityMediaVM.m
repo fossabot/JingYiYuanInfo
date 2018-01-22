@@ -11,6 +11,7 @@
 #import "YYCommunityMediaModel.h"
 
 #import <MJExtension/MJExtension.h>
+#import <MJRefresh/MJRefresh.h>
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "ZFPlayer.h"
 #import "YYUser.h"
@@ -128,6 +129,8 @@
 #pragma -- mark TableViewDelegate  -----------------
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
+    // 隐藏尾部刷新控件
+    tableView.mj_footer.hidden = (self.mediaDataSource.count%10 != 0);
     return self.mediaDataSource.count;
 }
 

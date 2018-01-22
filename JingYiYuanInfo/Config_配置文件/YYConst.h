@@ -16,20 +16,13 @@ UIKIT_EXTERN NSString * const Production_VIP_1;
 
 
 
-
-
-
-
-
 /** 导航栏高度*/
-UIKIT_EXTERN CGFloat const YYNavgationBarH;
+//UIKIT_EXTERN CGFloat const YYNavgationBarH;
 
-/** 状态栏高度*/
-UIKIT_EXTERN CGFloat const YYStatusBarH;
 /** 底部tabbar高度*/
-UIKIT_EXTERN CGFloat const YYTabBarH;
+//UIKIT_EXTERN CGFloat const YYTabBarH;
 /** 顶部导航栏和状态栏的高度和*/
-UIKIT_EXTERN CGFloat const YYTopNaviHeight;
+//UIKIT_EXTERN CGFloat const YYTopNaviHeight;
 
 /** 分页cell的tab高度*/
 UIKIT_EXTERN CGFloat const TabHeaderH;
@@ -54,6 +47,16 @@ UIKIT_EXTERN CGFloat const YYInfoCellBigImageViewHeight;
 UIKIT_EXTERN CGFloat const YYInfoCellMiniImageViewHeight;
 /** 新闻列表小的cellimageView的宽度*/
 UIKIT_EXTERN CGFloat const YYInfoCellMiniImageViewWidth;
+
+
+/** 系统的cell左边分隔线的间距*/
+UIKIT_EXTERN CGFloat const YYCommonCellLeftMargin;
+
+UIKIT_EXTERN CGFloat const YYCommonCellRightMargin;
+
+UIKIT_EXTERN CGFloat const YYCommonCellTopMargin;
+
+UIKIT_EXTERN CGFloat const YYCommonCellBottomMargin;
 
 /** 新闻列表的通用间隙*/
 UIKIT_EXTERN CGFloat const YYInfoCellCommonMargin;

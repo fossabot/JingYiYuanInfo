@@ -53,13 +53,15 @@
         
         make.edges.equalTo(weakSelf.view);
     }];
-    UILabel *tip = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 80)];
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 80)];
+    UILabel *tip = [[UILabel alloc] initWithFrame:CGRectMake(YYCommonCellLeftMargin, 0, kSCREENWIDTH-YYCommonCellLeftMargin-YYCommonCellRightMargin, 80)];
     tip.numberOfLines = 0;
     tip.backgroundColor = ClearColor;
     tip.text = @"\n\n       免责声明：以上产品文章内容和数据仅供参考，不构成投资建议。投资者据此做出的任何投资决策与壹元服务无关。";
     tip.font = SubTitleFont;
     tip.textColor = UnenableTitleColor;
-    self.tableView.tableFooterView = tip;
+    [bottomView addSubview:tip];
+    self.tableView.tableFooterView = bottomView;
     
 }
 
@@ -88,7 +90,7 @@
     for (NSNumber *num in self.dataSource) {
         service = [service stringByAppendingString:[NSString stringWithFormat:@"%ld,",[num integerValue]]];
     }
-    service = [service substringToIndex:service.length-2];
+    service = [service substringToIndex:service.length-1];
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"moddayservice",@"act",service,@"dayservice",user.userid,USERID,nil];
     [YYHttpNetworkTool GETRequestWithUrlstring:settingUrl parameters:para success:^(id response) {
         
@@ -147,6 +149,7 @@
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, YYCommonCellRightMargin);
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = 60;

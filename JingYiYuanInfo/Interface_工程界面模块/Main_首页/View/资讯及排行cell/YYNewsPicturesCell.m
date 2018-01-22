@@ -109,9 +109,9 @@
             NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@" "];
             self.tagLabel1.text = keywoeds[0];
             self.tagLabel2.text = keywoeds[1];
-        }else if ([hotinfoModel.keywords containsString:@"，"]){
+        }else if ([hotinfoModel.keywords containsString:@","]){
             
-            NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@"，"];
+            NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@","];
             self.tagLabel1.text = keywoeds[0];
             self.tagLabel2.text = keywoeds[1];
         }else{
@@ -152,14 +152,8 @@
     [self.contentView addSubview:newsPic];
     self.newsPic = newsPic;
     
-    //    UILabel *subTitle = [[UILabel alloc] init];
-    //    subTitle.font = SubTitleFont;
-    //    subTitle.textColor = SubTitleColor;
-    //    [self.contentView addSubview:title];
-    //    self.subTitle = subTitle;
-   
     UIButton *imageCount = [UIButton buttonWithType:UIButtonTypeCustom];
-    imageCount.titleLabel.font = UnenableTitleFont;
+    imageCount.titleLabel.font = TagLabelFont;
     [imageCount setTitleColor:WhiteColor forState:UIControlStateNormal];
     imageCount.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     [imageCount setImage:imageNamed(@"pics") forState:UIControlStateNormal];
@@ -171,14 +165,14 @@
     
     
     YYEdgeLabel *tagLabel1 = [[YYEdgeLabel alloc] init];
-    tagLabel1.font = UnenableTitleFont;
+    tagLabel1.font = TagLabelFont;
     tagLabel1.textColor = ThemeColor;
     tagLabel1.layer.borderColor = ThemeColor.CGColor;
     [self.contentView addSubview:tagLabel1];
     self.tagLabel1 = tagLabel1;
     
     YYEdgeLabel *tagLabel2 = [[YYEdgeLabel alloc] init];
-    tagLabel2.font = UnenableTitleFont;
+    tagLabel2.font = TagLabelFont;
     tagLabel2.textColor = ThemeColor;
     tagLabel2.layer.borderColor = ThemeColor.CGColor;
     [self.contentView addSubview:tagLabel2];
@@ -233,10 +227,6 @@
         make.top.equalTo(self.newsPic.bottom).offset(YYInfoCellSubMargin);
     }];
     
-//    [self.container makeConstraints:^(MASConstraintMaker *make) {//点击量label的约束
-//        make.left.equalTo(self.contentView.left).offset(YYInfoCellCommonMargin);
-//        make.top.equalTo(self.newsPic.bottom).offset(YYInfoCellSubMargin);
-//    }];
     
     [self.tagLabel1 makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.newsPic);

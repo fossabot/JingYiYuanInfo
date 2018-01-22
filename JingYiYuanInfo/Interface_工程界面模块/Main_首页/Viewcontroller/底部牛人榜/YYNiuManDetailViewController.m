@@ -241,14 +241,14 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-64) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
         [self.tableView registerClass:[YYNiuArticleCell class] forCellReuseIdentifier:YYNiuArticleCellID];
+//        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         YYWeakSelf
         MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
             YYStrongSelf
@@ -274,6 +274,9 @@
         configer.allowScroll = NO;
         configer.emptyViewTapBlock = ^{
             [weakSelf.tableView.mj_header beginRefreshing];
+        };
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.mj_footer.hidden = YES;
         };
         [self.tableView emptyViewConfiger:configer];
     }

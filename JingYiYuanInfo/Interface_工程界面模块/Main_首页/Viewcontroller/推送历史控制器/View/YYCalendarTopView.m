@@ -46,7 +46,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 60)];
+    self = [super initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 70)];
     if (self) {
         [self configViewWithFrame:frame];
     }
@@ -75,7 +75,7 @@
         YYCalendarTopViewModel *model = [[YYCalendarTopViewModel alloc] init];
         model.weekDay = [self weekDayFromComponents:components];
         model.dateStr = [NSString stringWithFormat:@"%ld",components.day];
-        model.date = [NSString stringWithFormat:@"%ld-%0ld-%0ld",components.year,components.month,components.day];
+        model.date = [NSString stringWithFormat:@"%ld-%02ld-%02ld",components.year,components.month,components.day];
         model.isFuture = [NSDate isFuture:components];
         if ([date isEqualToComponents:components]) {
             
@@ -212,7 +212,7 @@
 
 - (UIImageView *)leftImageView {
     if (!_leftImageView) {
-        _leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20, 60)];
+        _leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 20, 60)];
         _leftImageView.backgroundColor = WhiteColor;
         _leftImageView.contentMode = UIViewContentModeCenter;
         _leftImageView.image = imageNamed(@"yyfw_push_calendararrow_left_20x20_");
@@ -222,7 +222,7 @@
 
 - (UIImageView *)rightImageView {
     if (!_rightImageView) {
-        _rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kSCREENWIDTH-20, 0, 20, 60)];
+        _rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kSCREENWIDTH-20, 5, 20, 60)];
         _rightImageView.backgroundColor = WhiteColor;
         _rightImageView.contentMode = UIViewContentModeCenter;
         _rightImageView.image = imageNamed(@"yyfw_push_calendararrow_right_20x20_");
@@ -232,7 +232,7 @@
 
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_leftImageView.frame), 0, kSCREENWIDTH-CGRectGetWidth(_leftImageView.frame)*2, 60) collectionViewLayout:self.flowLayout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_leftImageView.frame), 5, kSCREENWIDTH-CGRectGetWidth(_leftImageView.frame)*2, 60) collectionViewLayout:self.flowLayout];
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;

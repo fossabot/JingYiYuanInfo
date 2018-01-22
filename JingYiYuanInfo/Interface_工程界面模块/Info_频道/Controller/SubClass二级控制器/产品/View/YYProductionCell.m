@@ -68,8 +68,8 @@
     self.leftImageView = leftImageView;
     
     UILabel *imageTagLabel = [[UILabel alloc] init];
-    imageTagLabel.textColor = WhiteColor;
     imageTagLabel.font = UnenableTitleFont;
+    imageTagLabel.textColor = WhiteColor;
     imageTagLabel.backgroundColor = OrangeColor;
     [self.leftImageView addSubview:imageTagLabel];
     self.imageTagLabel = imageTagLabel;
@@ -88,21 +88,21 @@
     self.subTitle = subTitle;
     
 //    YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
-//    tag1.font = UnenableTitleFont;
+//    tag1.font = TagLabelFont;
 //    tag1.textColor = ThemeColor;
 //    tag1.layer.borderColor = ThemeColor.CGColor;
 //    [self.contentView addSubview:tag1];
 //    self.tag1 = tag1;
     
 //    YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
-//    tag2.font = UnenableTitleFont;
+//    tag2.font = TagLabelFont;
 //    tag2.textColor = ThemeColor;
 //    tag2.layer.borderColor = ThemeColor.CGColor;
 //    [self.contentView addSubview:tag2];
 //    self.tag2 = tag2;
 //    
 //    YYEdgeLabel *tag3 = [[YYEdgeLabel alloc] init];
-//    tag3.font = UnenableTitleFont;
+//    tag3.font = TagLabelFont;
 //    tag3.textColor = ThemeColor;
 //    tag3.layer.borderColor = ThemeColor.CGColor;
 //    [self.contentView addSubview:tag3];
@@ -128,7 +128,7 @@
     
     [self.leftImageView makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.top.offset(YYInfoCellCommonMargin);
+        make.left.top.offset(YYCommonCellLeftMargin);
         make.width.equalTo(100);
         make.height.equalTo(80);
     }];
@@ -143,14 +143,14 @@
         
         make.top.equalTo(self.leftImageView);
         make.left.equalTo(self.leftImageView.right).offset(YYInfoCellCommonMargin);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
     [self.subTitle makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.title.bottom);
+        make.top.equalTo(self.title.bottom).offset(YYInfoCellSubMargin);
         make.left.equalTo(self.title);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
     [self.price makeConstraints:^(MASConstraintMaker *make) {
@@ -159,28 +159,9 @@
         make.left.equalTo(self.title);
     }];
     
-//    [self.tag1 makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.bottom.equalTo(self.price.top).offset(-2);
-//        make.left.equalTo(self.title);
-//    }];
-    
-//    [self.tag2 makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.top.equalTo(self.subTitle.bottom);
-//        make.left.equalTo(self.tag1.right).offset(YYInfoCellSubMargin);
-//    }];
-//    
-//    [self.tag3 makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.top.equalTo(self.subTitle.bottom);
-//        make.left.equalTo(self.tag2.right).offset(YYInfoCellSubMargin);
-//    }];
-    
-    
     [self.status makeConstraints:^(MASConstraintMaker *make) {
         
-        make.right.offset(-YYInfoCellCommonMargin);
+        make.right.offset(-YYCommonCellRightMargin);
         make.bottom.equalTo(self.leftImageView);
     }];
     

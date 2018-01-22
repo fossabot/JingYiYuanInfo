@@ -14,6 +14,7 @@
 
 @interface YYMineLogOutHeaderView()
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *settingTopConstraint;
 
 @end
 
@@ -26,6 +27,12 @@
     return headerView;
 }
 
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    self.settingTopConstraint.constant = YYStatusBarH + 10;
+}
 
 
 /** 登录方法  登录成功后换头部*/

@@ -152,9 +152,16 @@
 
     self.tableView.dataSource = self.viewModel;
     self.tableView.delegate = self.viewModel;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView = [[UIView alloc] init];
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
+//    self.tableView.separatorInset = UIEdgeInsetsMake(0, -5, 0, YYInfoCellCommonMargin);
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, -5, 0, YYInfoCellCommonMargin)];
+    }
+    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [self.tableView setLayoutMargins:UIEdgeInsetsMake(0, -5, 0, YYInfoCellCommonMargin)];
+    }
+    
     [self.tableView registerClass:[YYNiuManCell class] forCellReuseIdentifier:YYNiuManCellID];
     [self.tableView registerClass:[YYNiuArticleCell class] forCellReuseIdentifier:YYNiuArticleCellID];
     

@@ -11,6 +11,8 @@
 #import "YYQuestionCell.h"
 #import "YYUser.h"
 #import <MJExtension/MJExtension.h>
+#import <MJRefresh/MJRefresh.h>
+
 #import "UITableView+FDTemplateLayoutCell.h"
 
 @interface YYCommunityQuestionVM()
@@ -51,7 +53,7 @@
             completion(NO);
         }
     } failure:^(NSError *error) {
-        
+        completion(NO);
     }];
     
 }
@@ -84,6 +86,7 @@
 #pragma -- mark TableViewDelegate  -----------------
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
+    tableView.mj_footer.hidden = (self.questionDataSource.count%10 != 0);
     return self.questionDataSource.count;
 }
 
@@ -119,6 +122,21 @@
     cell.name.text = model.niu_name;
     cell.title.text = model.title;
     cell.question.text = model.desc;
+    
+    //  隐藏每个分区最后一个cell的分割线
+    if (indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1)
+    {
+        // 1.系统分割线,移到屏幕外
+//        cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width);
+        
+        // 2.自定义Cell
+        cell.bottomView.hidden = YES;
+    }
+    else
+    {
+//        cell.separatorInset =  UIEdgeInsetsMake(0, 15, 0, 0)
+        cell.bottomView.hidden = NO;
+    }
     return cell;
 }
 

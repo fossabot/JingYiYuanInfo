@@ -57,7 +57,22 @@
         return;
     }
     
-    [YYIAPTool buyProductByProductionId:self.productionId type:@"3"];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"产品提示" message:@"如欲了解关于产品的详细信息，请与我们的客服代表联系，点击确定拨打客服电话：010-87777077" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        if ([kApplication canOpenURL:[NSURL URLWithString:@"telprompt://010-87777077"]]) {
+            [kApplication openURL:[NSURL URLWithString:@"telprompt://010-87777077"]];
+        }
+    }];
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alert addAction:confirm];
+    [alert addAction:cancel];
+    [self presentViewController:alert animated:YES completion:nil];
+    //暂停购买资格，使用alert提示用户与客服代表联系
+//    [YYIAPTool buyProductByProductionId:self.productionId type:@"3"];
     
 }
 
