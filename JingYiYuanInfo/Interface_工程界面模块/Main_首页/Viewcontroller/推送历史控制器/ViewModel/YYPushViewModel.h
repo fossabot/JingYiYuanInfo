@@ -19,4 +19,5 @@ typedef void(^CellSelectBlock)(id cell, NSIndexPath *indexPath);
 - (void)fetchDataWithDate:(NSString *)date completion:(void(^)(BOOL success))completion;
 
 
+
 @end

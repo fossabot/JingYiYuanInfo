@@ -28,4 +28,7 @@ typedef void(^ExtendBlock)(id cell, BOOL selected);
 /** ExtendBlock*/
 @property (nonatomic, copy) ExtendBlock extendBlock;
 
+/** 展开cell或者闭合*/
+- (void)extened;
+
 @end

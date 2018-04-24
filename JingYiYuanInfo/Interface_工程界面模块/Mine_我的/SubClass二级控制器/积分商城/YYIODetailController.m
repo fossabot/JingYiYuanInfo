@@ -7,7 +7,7 @@
 //
 
 #import "YYIODetailController.h"
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 #import <MJExtension/MJExtension.h>
 #import "YYIOModel.h"
 #import "YYIOTableViewCell.h"
@@ -100,7 +100,7 @@
 
 #pragma -- mark TableViewDelegate  -----------------
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    tableView.mj_footer.hidden = (self.dataSource.count%10 != 0);
+    tableView.mj_footer.hidden = (self.dataSource.count%10 != 0) || self.dataSource.count == 0;
     return self.dataSource.count;
 }
 
@@ -124,20 +124,25 @@
 - (UITableView *)tableView{
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
-//        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 0);
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView registerClass:[YYIOTableViewCell class] forCellReuseIdentifier:YYIOTableViewCellId];
         
         YYWeakSelf
-        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        YYNormalHeader *header = [YYNormalHeader headerWithRefreshingBlock:^{
+            
+            YYStrongSelf
+            [strongSelf loadNewData];
+        }];
+        _tableView.mj_header = header;
+        
+        YYBackStateFooter *stateFooter = [YYBackStateFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
-        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         self.tableView.mj_footer = stateFooter;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

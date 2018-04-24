@@ -43,7 +43,7 @@ PODS:
   - SDWebImage/GIF (4.0.0):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
-  - SVProgressHUD (2.1.2)
+  - SVProgressHUD (2.2.2)
   - UMengUShare/Core (6.4.5):
     - UMengUShare/Network
   - UMengUShare/Network (6.4.5)
@@ -83,7 +83,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  Bugly: 00c8701f2bebab4887771ba43afbf51334009742
+  Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
   DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   FBRetainCycleDetector: f0c7b290bf48ae77f6ae060843ce34ae341781eb
@@ -100,12 +100,12 @@ SPEC CHECKSUMS:
   SAMKeychain: 1865333198217411f35327e8da61b43de79b635b
   SDCycleScrollView: d0fd5fe40a80918371fd8939214eb3be81033d83
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
-  SVProgressHUD: c404a55d78acbeb7ebb78b76d3faf986475a6994
+  SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
   UMengUShare: a5711c54e640b04e3048e931d2b88d50f9cfa55c
   WZLBadge: 9ec779dcfd94c825518b395e8315fccaabff1bfa
   YPTabBarController: 6733de539d7ef2410d98dfefcf704be2b259429e
   YYCache: 8105b6638f5e849296c71f331ff83891a4942952
 
-PODFILE CHECKSUM: 600b4ba792f5c745b2f16e62e844c2ccdfb091b5
+PODFILE CHECKSUM: db766221a7abd0deced71dd2d4492a2f0817b3f8
 
 COCOAPODS: 1.3.1

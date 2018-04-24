@@ -13,4 +13,7 @@
 /** scrollView*/
 @property (nonatomic, strong) UIScrollView *baseScrollView;
 
+/** 固定scrollView的宽度*/
+@property (nonatomic, assign) CGFloat stableWidth;
+
 @end

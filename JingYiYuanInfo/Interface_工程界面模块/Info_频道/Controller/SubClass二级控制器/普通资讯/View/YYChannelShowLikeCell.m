@@ -28,10 +28,10 @@
 @property (nonatomic, strong) YYEdgeLabel *tag1;
 
 /** 标签2*/
-@property (nonatomic, strong) YYEdgeLabel *tag2;
+//@property (nonatomic, strong) YYEdgeLabel *tag2;
 
 /** 标签3*/
-@property (nonatomic, strong) YYEdgeLabel *tag3;
+//@property (nonatomic, strong) YYEdgeLabel *tag3;
 
 /** 价格*/
 @property (nonatomic, strong) UILabel *price;
@@ -63,6 +63,7 @@
     UILabel *title = [[UILabel alloc] init];
     title.font = TitleFont;
     title.textColor = TitleColor;
+    title.numberOfLines = 0;
     [self.contentView addSubview:title];
     self.title = title;
     
@@ -79,25 +80,25 @@
     self.place = place;
 
     YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
-    tag1.font = SubTitleFont;
+    tag1.font = TagLabelFont;
     tag1.textColor = ThemeColor;
     tag1.layer.borderColor = ThemeColor.CGColor;
     [self.contentView addSubview:tag1];
     self.tag1 = tag1;
 
-    YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
-    tag2.font = SubTitleFont;
-    tag2.textColor = ThemeColor;
-    tag2.layer.borderColor = ThemeColor.CGColor;
-    [self.contentView addSubview:tag2];
-    self.tag2 = tag2;
-    
-    YYEdgeLabel *tag3 = [[YYEdgeLabel alloc] init];
-    tag3.font = SubTitleFont;
-    tag3.textColor = ThemeColor;
-    tag3.layer.borderColor = ThemeColor.CGColor;
-    [self.contentView addSubview:tag3];
-    self.tag3 = tag3;
+//    YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
+//    tag2.font = SubTitleFont;
+//    tag2.textColor = ThemeColor;
+//    tag2.layer.borderColor = ThemeColor.CGColor;
+//    [self.contentView addSubview:tag2];
+//    self.tag2 = tag2;
+//
+//    YYEdgeLabel *tag3 = [[YYEdgeLabel alloc] init];
+//    tag3.font = SubTitleFont;
+//    tag3.textColor = ThemeColor;
+//    tag3.layer.borderColor = ThemeColor.CGColor;
+//    [self.contentView addSubview:tag3];
+//    self.tag3 = tag3;
     
     UILabel *price = [[UILabel alloc] init];
     price.font = SubTitleFont;
@@ -117,8 +118,8 @@
     [self.leftImageView makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.top.offset(YYInfoCellCommonMargin);
-        make.width.equalTo(80);
-        make.height.equalTo(100);
+        make.width.equalTo(120);
+        make.height.equalTo(180);
     }];
     
     [self.title makeConstraints:^(MASConstraintMaker *make) {
@@ -130,14 +131,14 @@
     
     [self.time makeConstraints:^(MASConstraintMaker *make) {
        
-        make.top.equalTo(self.title.bottom).offset(2);
+        make.top.equalTo(self.title.bottom).offset(YYInfoCellCommonMargin);
         make.left.equalTo(self.leftImageView.right).offset(YYInfoCellCommonMargin);
         make.right.offset(-YYInfoCellCommonMargin);
     }];
     
     [self.place makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(self.time.bottom).offset(2);
+    
+        make.top.equalTo(self.time.bottom).offset(5);
         make.left.equalTo(self.leftImageView.right).offset(YYInfoCellCommonMargin);
         make.right.offset(-YYInfoCellCommonMargin);
     }];
@@ -152,20 +153,20 @@
     [self.tag1 makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.leftImageView.right).offset(YYInfoCellCommonMargin);
-        make.bottom.equalTo(self.price.top).offset(-2);
+        make.bottom.equalTo(self.price.top).offset(-YYInfoCellCommonMargin);
     }];
     
-    [self.tag2 makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.left.equalTo(self.tag1.right).offset(YYInfoCellCommonMargin);
-        make.bottom.equalTo(self.price.top).offset(-2);
-    }];
-    
-    [self.tag3 makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.left.equalTo(self.tag2.right).offset(YYInfoCellCommonMargin);
-        make.bottom.equalTo(self.price.top).offset(-2);
-    }];
+//    [self.tag2 makeConstraints:^(MASConstraintMaker *make) {
+//
+//        make.left.equalTo(self.tag1.right).offset(YYInfoCellCommonMargin);
+//        make.bottom.equalTo(self.price.top).offset(-2);
+//    }];
+//
+//    [self.tag3 makeConstraints:^(MASConstraintMaker *make) {
+//
+//        make.left.equalTo(self.tag2.right).offset(YYInfoCellCommonMargin);
+//        make.bottom.equalTo(self.price.top).offset(-2);
+//    }];
     
     [self.separator makeConstraints:^(MASConstraintMaker *make) {
        
@@ -195,17 +196,8 @@
     self.time.text = likeModel.actiontime;
     self.place.text = likeModel.palace;
     self.price.text = likeModel.price;
-    if ([likeModel.tag containsString:@" "]) {
-        NSArray *tags = [likeModel.tag componentsSeparatedByString:@" "];
-        self.tag1.text = tags[0];
-        self.tag2.text = tags[1];
-        if (tags.count >= 3) {
-            self.tag3.text = tags[3];
-        }
-    }else if (likeModel.tag.length) {
-        
-        self.tag1.text = likeModel.tag;
-    }
+    self.tag1.text = likeModel.tag;
+
 }
 
 

@@ -297,7 +297,7 @@
         
         if (response) {
             if ([response[STATE] isEqualToString:@"1"]) {
-                [SVProgressHUD showSuccessWithStatus:@"提问成功,在我的问答可查看牛人回复哦"];
+                [SVProgressHUD showSuccessWithStatus:@"提问成功,在我的问答可查看"];
             }else {
                 [SVProgressHUD showErrorWithStatus:@"服务器忙，稍后再试"];
             }

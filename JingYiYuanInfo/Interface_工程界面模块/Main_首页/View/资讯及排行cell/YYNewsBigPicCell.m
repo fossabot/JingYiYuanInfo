@@ -8,7 +8,8 @@
 
 #import "YYNewsBigPicCell.h"
 #import "YYHotInfoModel.h"
-#import "YYEdgeLabel.h"
+#import "YYTagView.h"
+
 @interface YYNewsBigPicCell()
 
 /** cell对应的新闻的id  留着给记录阅读状态使用*/
@@ -24,10 +25,10 @@
 @property (nonatomic, strong) UIImageView *newsPic;
 
 /** tag标签*/
-@property (nonatomic, strong) YYEdgeLabel *tagLabel1;
+@property (nonatomic, strong) YYTagView *tagLabel1;
 
 /** tag标签*/
-@property (nonatomic, strong) YYEdgeLabel *tagLabel2;
+@property (nonatomic, strong) YYTagView *tagLabel2;
 
 /** source来源*/
 @property (nonatomic, strong) UILabel *source;
@@ -57,12 +58,12 @@
 - (void)setHotinfoModel:(YYHotInfoModel *)hotinfoModel {
     _hotinfoModel = hotinfoModel;
     _infoid = hotinfoModel.infoid;
-    _title.text = hotinfoModel.title;
+    self.title.text = hotinfoModel.title;
     
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     NSURL *imageUrl = [NSURL URLWithString:hotinfoModel.picurl];
     YYWeakSelf
-    [_newsPic sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [self.newsPic sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
         [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
             if (isInCache) {
@@ -79,31 +80,37 @@
         }];
     }];
     
-    _source.text = hotinfoModel.source;
+    self.source.text = hotinfoModel.source;
     
-    if (hotinfoModel.keywords.length) {
+    if (![hotinfoModel.keywords isEqualToString:@""] ) {
         if ([hotinfoModel.keywords containsString:@" "]) {
             NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@" "];
-            self.tagLabel1.text = keywoeds[0];
-            self.tagLabel2.text = keywoeds[1];
+            self.tagLabel1.title = keywoeds[0];
+            self.tagLabel2.title = keywoeds[1];
         }else if ([hotinfoModel.keywords containsString:@","]){
             
             NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@","];
-            self.tagLabel1.text = keywoeds[0];
-            self.tagLabel2.text = keywoeds[1];
+            self.tagLabel1.title = keywoeds[0];
+            self.tagLabel2.title = keywoeds[1];
         }else{
             
-            self.tagLabel1.text = hotinfoModel.keywords;
-            [self.source updateConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self.tagLabel1.right).offset(YYInfoCellSubMargin);
-            }];
+            self.tagLabel1.title = hotinfoModel.keywords;
+            self.tagLabel2.title = @"";
+//            [self.source updateConstraints:^(MASConstraintMaker *make) {
+//                make.left.equalTo(self.tagLabel1.right).offset(YYInfoCellSubMargin);
+//            }];
         }
     }else{
-        [self.source updateConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.newsPic);
-        }];
+        
+        self.tagLabel1.title = @"";
+        self.tagLabel2.title = @"";
+        
+//        [self.source updateConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(self.newsPic);
+//        }];
     }
-
+    [self.tagLabel1 setNeedsLayout];
+    [self.tagLabel2 setNeedsLayout];
     
 }
 
@@ -130,21 +137,23 @@
     [self.contentView addSubview:newsPic];
     self.newsPic = newsPic;
     
-    YYEdgeLabel *tagLabel1 = [[YYEdgeLabel alloc] init];
-    tagLabel1.font = TagLabelFont;
-    tagLabel1.textColor = ThemeColor;
-    tagLabel1.layer.borderColor = ThemeColor.CGColor;
+    YYTagView *tagLabel1 = [[YYTagView alloc] init];
+    tagLabel1.rightMargin = YYInfoCellSubMargin;
+//    tagLabel1.font = TagLabelFont;
+//    tagLabel1.textColor = ThemeColor;
+//    tagLabel1.layer.borderColor = ThemeColor.CGColor;
 //    tagLabel1.layer.borderWidth = 0.5;
-    tagLabel1.layer.cornerRadius = 3;
+//    tagLabel1.layer.cornerRadius = 3;
     [self.contentView addSubview:tagLabel1];
     self.tagLabel1 = tagLabel1;
     
-    YYEdgeLabel *tagLabel2 = [[YYEdgeLabel alloc] init];
-    tagLabel2.font = TagLabelFont;
-    tagLabel2.textColor = ThemeColor;
-    tagLabel2.layer.borderColor = ThemeColor.CGColor;
+    YYTagView *tagLabel2 = [[YYTagView alloc] init];
+    tagLabel2.rightMargin = YYInfoCellSubMargin;
+//    tagLabel2.font = TagLabelFont;
+//    tagLabel2.textColor = ThemeColor;
+//    tagLabel2.layer.borderColor = ThemeColor.CGColor;
 //    tagLabel2.layer.borderWidth = 0.5;
-    tagLabel2.layer.cornerRadius = 3;
+//    tagLabel2.layer.cornerRadius = 3;
     [self.contentView addSubview:tagLabel2];
     self.tagLabel2 = tagLabel2;
     
@@ -168,7 +177,7 @@
 - (void)configSubviews {
     //底部分隔线的约束
     [self.cellSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.contentView.bottom).offset(-1);
+        make.bottom.equalTo(self.contentView.bottom).offset(-0.5);
         make.left.equalTo(self.contentView.left).offset(YYInfoCellCommonMargin);
         make.right.equalTo(self.contentView.right).offset(-YYInfoCellCommonMargin);
         make.height.equalTo(0.5);
@@ -177,27 +186,24 @@
     
     [self.title makeConstraints:^(MASConstraintMaker *make) {//设置第一个cell的标题label约束
         
-        make.left.top.equalTo(self.contentView).offset(YYInfoCellCommonMargin);
+        make.top.equalTo(YYNewsCellTopMargin);
+        make.left.equalTo(self.contentView).offset(YYInfoCellCommonMargin);
         make.right.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
         
     }];
     
     [self.newsPic makeConstraints:^(MASConstraintMaker *make) {//图片的约束
-        make.top.equalTo(self.title.bottom).offset(YYInfoCellSubMargin);
+        make.top.equalTo(self.title.bottom).offset(YYInfoCellCommonMargin);
         make.left.equalTo(self.contentView.left).offset(YYInfoCellCommonMargin);
         make.right.equalTo(self.contentView.right).offset(-YYInfoCellCommonMargin);
         make.height.equalTo(self.newsPic.width).multipliedBy(0.6);
     }];
     
-//    [self.container makeConstraints:^(MASConstraintMaker *make) {//点击量label的约束
-//        make.left.equalTo(self.contentView.left).offset(YYInfoCellCommonMargin);
-//        make.top.equalTo(self.newsPic.bottom).offset(YYInfoCellSubMargin);
-//    }];
 
     [self.time makeConstraints:^(MASConstraintMaker *make) {//时间label的约束
         make.right.equalTo(self.contentView.right).offset(-YYInfoCellCommonMargin);
-        make.top.equalTo(self.contentView.bottom).offset(YYInfoCellSubMargin);
-        make.bottom.equalTo(self.contentView.bottom).offset(-YYInfoCellCommonMargin);;
+        make.top.equalTo(self.contentView.bottom).offset(YYInfoCellCommonMargin);
+        make.bottom.equalTo(self.contentView.bottom).offset(-YYNewsCellBottomMargin);;
     }];
     
     [self.tagLabel1 makeConstraints:^(MASConstraintMaker *make) {
@@ -206,12 +212,12 @@
     }];
     
     [self.tagLabel2 makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.tagLabel1.right).offset(YYInfoCellSubMargin);
+        make.left.equalTo(self.tagLabel1.right);
         make.centerY.equalTo(self.time);
     }];
     
     [self.source makeConstraints:^(MASConstraintMaker *make) {//来源label的约束
-        make.left.equalTo(self.tagLabel2.right).offset(YYInfoCellSubMargin);
+        make.left.equalTo(self.tagLabel2.right);
         make.bottom.equalTo(self.time);
     }];
     

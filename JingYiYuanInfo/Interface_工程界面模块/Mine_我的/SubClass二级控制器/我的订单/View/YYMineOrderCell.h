@@ -11,7 +11,7 @@
 @class YYOrderModel;
 @class YYMineOrderCell;
 
-typedef void(^YanBaoBlock)(NSString *orderId);
+typedef void(^MoreBlock)(NSString *orderId);
 typedef void(^CancelOrderBlock)(NSString *orderId,NSString *orderName,YYMineOrderCell *cell);
 
 static NSString * const YYMineOrderCellId = @"YYMineOrderCell";
@@ -21,7 +21,7 @@ static NSString * const YYMineOrderCellId = @"YYMineOrderCell";
 @property (nonatomic, strong) YYOrderModel *model;
 
 /** 研报block*/
-@property (nonatomic, copy) YanBaoBlock yanbaoBlock;
+@property (nonatomic, copy) MoreBlock moreBlock;
 
 /** 退单block*/
 @property (nonatomic, copy) CancelOrderBlock cancelOrderBlcok;

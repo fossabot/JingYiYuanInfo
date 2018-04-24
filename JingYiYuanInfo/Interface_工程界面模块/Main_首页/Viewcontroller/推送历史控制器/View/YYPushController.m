@@ -27,26 +27,27 @@
 /** viewModel*/
 @property (nonatomic, strong) YYPushViewModel *viewModel;
 
-/** today*/
-@property (nonatomic, copy) NSString *today;
-
 @end
 
 @implementation YYPushController
+{
+    NSString *_selectedDay;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"信息推送";
     self.view.backgroundColor = GrayBackGroundColor;
-    UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"month%ld_33x33",[self currentMonth]]];
-    self.calendarItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStyleDone target:self action:@selector(pushToCalendarController:)];
+    self.calendarItem = [[UIBarButtonItem alloc] initWithImage:nil style:UIBarButtonItemStyleDone target:self action:@selector(pushToCalendarController:)];
+    [self refreshNavigateItem:[NSDate date]];
     self.navigationItem.rightBarButtonItem = self.calendarItem;
     
     [self configSubView];
+    _selectedDay = self.today;
+    [self loadDataWithDay:_selectedDay];
     
-    [self loadDataWithDay:self.today];
-    
+    [kNotificationCenter addObserver:self selector:@selector(receivedNew365Notification:) name:YYReceived365RemoteNotification object:nil];
 //    [self loadDataWithDay:@"2017-09-13"];
 }
 
@@ -58,7 +59,11 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+}
+
+- (void)dealloc {
     
+    [kNotificationCenter removeObserver:self];
 }
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
@@ -69,19 +74,13 @@
     YYWeakSelf
     self.topView.selectedBlock = ^(NSString *date){
         YYStrongSelf
-        
+        _selectedDay = date;
         [strongSelf loadDataWithDay:date];
-//        [strongSelf.viewModel fetchDataWithDate:date completion:^(BOOL success) {
-//            
-//            if (success) {
-//                [strongSelf.pushTableView reloadData];
-//            }
-//        }];
+        [strongSelf transitDate:date];
     };
     
-    
-    self.pushTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, YYTopNaviHeight+5, kSCREENWIDTH, kSCREENHEIGHT-(YYTopNaviHeight+YYTopNaviHeight+5)) style:UITableViewStylePlain];
-//    self.pushTableView.separatorInset = UIEdgeInsetsMake(0, 50, 0, 0);
+    CGFloat height = CGRectGetHeight(self.topView.frame);
+    self.pushTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, height+3, kSCREENWIDTH, kSCREENHEIGHT-(height+YYTopNaviHeight+3)) style:UITableViewStylePlain];
     self.pushTableView.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
     self.pushTableView.tableFooterView = [[UIView alloc] init];
     self.pushTableView.delegate = self.viewModel;
@@ -91,13 +90,13 @@
     
     FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
     configer.emptyImage = imageNamed(emptyImageName);
-    configer.emptyTitle = @"暂无数据,点此重新加载";
+    configer.emptyTitle = @"暂无数据";
     configer.emptyTitleColor = UnenableTitleColor;
     configer.emptyTitleFont = SubTitleFont;
     configer.allowScroll = NO;
     configer.emptyViewTapBlock = ^{
         
-        [weakSelf loadDataWithDay:weakSelf.today];
+        [weakSelf loadDataWithDay:_selectedDay];
     };
     [self.pushTableView emptyViewConfiger:configer];
     
@@ -105,12 +104,21 @@
 }
 
 
+/** 接收到新的消息后得到通知*/
+- (void)receivedNew365Notification:(NSNotification *)notice {
+    
+    if (self.today != _selectedDay) {
+        [self.topView refreshTopViewWithDate:[NSDate date]];
+    }
+    [self loadDataWithDay:self.today];
+}
+
 #pragma mark -- network   数据请求方法  ---------------------------
 
 /** 根据当前传递的日期，加载相应的推送历史记录*/
 - (void)loadDataWithDay:(NSString *)day {
     
-    _today = day;
+//    _today = day;
     YYWeakSelf
     [self.viewModel fetchDataWithDate:day completion:^(BOOL success) {
         
@@ -125,15 +133,35 @@
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 
+/** 根据date的月份来刷新右耳目的月份图片*/
+- (void)refreshNavigateItem:(NSDate *)date {
+    
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitMonth fromDate:date];
+    UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"month%ld_33x33",dateComponents.month]];
+    [self.calendarItem setImage:image];
+}
+
+/** 转换日期格式*/
+- (void)transitDate:(NSString *)date {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = yyyyMMdd;
+    NSDate *theDate = [formatter dateFromString:date];
+    [self refreshNavigateItem:theDate];
+}
+
 /** 跳转日历界面，选择日期回调，刷新topview数据*/
 - (void)pushToCalendarController:(UIBarButtonItem *)calendarItem {
     
+//    [self loadDataWithDay:@"2018-04-12"];
+//    [self loadDataWithDay:self.today];
     YYCalendarController *calendarController = [[YYCalendarController alloc] init];
     YYWeakSelf
     calendarController.selectDateBlock = ^(NSString *date, NSDate *topDate) {
-      
+
         [weakSelf loadDataWithDay:date];
         [weakSelf.topView refreshTopViewWithDate:topDate];
+        [weakSelf refreshNavigateItem:topDate];
     };
     [self.navigationController pushViewController:calendarController animated:YES];
 }
@@ -154,8 +182,13 @@
 - (YYCalendarTopView *)topView{
     if (!_topView) {
         _topView = [[YYCalendarTopView alloc] initWithFrame:CGRectMake(0, YYTopNaviHeight, kSCREENWIDTH, 70)];
-        [_topView refreshTopViewWithDate:[NSDate date]];
-        
+        if (_today) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = yyyyMMddHHmmss;
+            [_topView refreshTopViewWithDate:[dateFormatter dateFromString:self.todate]];
+        }else {
+            [_topView refreshTopViewWithDate:[NSDate date]];
+        }
     }
     return _topView;
 }
@@ -180,10 +213,6 @@
     return _today;
 }
 
-
-- (void)dealloc {
-    YYLogFunc
-}
 
 
 @end

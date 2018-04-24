@@ -8,7 +8,7 @@
 
 #import "YYProjectCell.h"
 #import "YYProjectModel.h"
-#import "YYEdgeLabel.h"
+#import "YYTagView.h"
 
 @interface YYProjectCell()
 
@@ -25,7 +25,7 @@
 @property (nonatomic, strong) UILabel *subTitle;
 
 /** 标签1*/
-@property (nonatomic, strong) YYEdgeLabel *tag1;
+@property (nonatomic, strong) YYTagView *tag1;
 
 /** 价格*/
 @property (nonatomic, strong) UILabel *hits;
@@ -56,6 +56,7 @@
     self.leftImageView = leftImageView;
     
     UILabel *imageTagLabel = [[UILabel alloc] init];
+    imageTagLabel.textAlignment = NSTextAlignmentCenter;
     imageTagLabel.font = UnenableTitleFont;
     imageTagLabel.textColor = WhiteColor;
     imageTagLabel.backgroundColor = OrangeColor;
@@ -75,10 +76,8 @@
     [self.contentView addSubview:subTitle];
     self.subTitle = subTitle;
     
-    YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
-    tag1.font = TagLabelFont;
-    tag1.textColor = ThemeColor;
-    tag1.layer.borderColor = ThemeColor.CGColor;
+    YYTagView *tag1 = [[YYTagView alloc] init];
+    tag1.rightMargin = YYInfoCellSubMargin;
     [self.contentView addSubview:tag1];
     self.tag1 = tag1;
     
@@ -155,21 +154,22 @@
     
     _projectModel = projectModel;
     [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:projectModel.picurl] placeholderImage:imageNamed(@"placeholder")];
-    self.imageTagLabel.text = projectModel.label;
+    if (projectModel.label.length) {
+        self.imageTagLabel.hidden = NO;
+        self.imageTagLabel.text = projectModel.label;
+    }else {
+        self.imageTagLabel.hidden = YES;
+    }
     self.title.text = projectModel.title;
     self.subTitle.text = projectModel.desc;
     
-    if (projectModel.auth_tag.length) {
-        
-        self.tag1.text = projectModel.auth_tag;
-    }else {
-        [self.tag1 updateConstraints:^(MASConstraintMaker *make) {
-            
-            make.left.equalTo(self.leftImageView.right);
-            make.width.equalTo(0.00001);
-        }];
-    }
-    
+    self.tag1.title = projectModel.auth_tag;
+//    if (![projectModel.auth_tag isEqualToString:@""]) {
+//
+//    }else {
+//
+//    }
+    [self.tag1 setNeedsLayout];
     self.hits.text = projectModel.hits;
     [self.connect setTitle:@"在线咨询" forState:UIControlStateNormal];
     

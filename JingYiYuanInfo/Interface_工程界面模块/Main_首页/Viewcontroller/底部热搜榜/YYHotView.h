@@ -7,7 +7,7 @@
 //
 
 #import "YYBaseTabView.h"
-#import "MJRefresh.h"
+#import "YYRefresh.h"
 
 @interface YYHotView : YYBaseTabView
 

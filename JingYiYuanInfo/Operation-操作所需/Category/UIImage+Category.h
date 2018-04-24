@@ -10,6 +10,7 @@
 
 @interface UIImage (Category)
 
+
 //由颜色生成图片
 + (UIImage *) imageWithColor:(UIColor*)color;
 

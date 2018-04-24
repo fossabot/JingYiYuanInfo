@@ -43,7 +43,7 @@ static NSString * const historyCellId = @"historyCell";
     if (self) {
         NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
         self.searchCachePath = [path stringByAppendingPathComponent:@"searchCachePath.txt"];
-        self.historyArr = [NSMutableArray arrayWithContentsOfFile:self.searchCachePath];
+//        self.historyArr = [NSMutableArray arrayWithContentsOfFile:self.searchCachePath];
         [self addSubview:self.tableView];
         [self.tableView makeConstraints:^(MASConstraintMaker *make) {
            
@@ -60,6 +60,7 @@ static NSString * const historyCellId = @"historyCell";
 - (void)reloadData {
     
     [self.tableView reloadData];
+    self.tableView.tableFooterView = self.historyArr.count != 0 ? self.footer : [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void)setHotArr:(NSArray *)hotArr {
@@ -108,8 +109,7 @@ static NSString * const historyCellId = @"historyCell";
         YYLog(@"写入failure");
     }
     
-    
-    [self.tableView reloadData];
+    [self reloadData];
 }
 
 /**
@@ -118,10 +118,8 @@ static NSString * const historyCellId = @"historyCell";
 - (void)exchangeHistoryIndexWithText:(NSString *)text {
     if ([self.historyArr containsObject:text]) {
         [self.historyArr removeObject:text];
-        [self.historyArr insertObject:text atIndex:0];
-    }else {
-        [self.historyArr addObject:text];
     }
+    [self.historyArr insertObject:text atIndex:0];
 }
 
 /**
@@ -129,7 +127,7 @@ static NSString * const historyCellId = @"historyCell";
  */
 - (void)clearHistory {
     [self.historyArr removeAllObjects];
-    [self.tableView reloadData];
+    [self reloadData];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     [fileManager removeItemAtPath:_searchCachePath error:nil];
@@ -144,7 +142,8 @@ static NSString * const historyCellId = @"historyCell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+    
+//    tableView.tableFooterView = self.historyArr.count != 0 ? self.footer : nil;
     return self.historyArr.count;
 }
 
@@ -156,7 +155,6 @@ static NSString * const historyCellId = @"historyCell";
     [self.historyArr removeObjectAtIndex:indexPath.row];
     [self.historyArr insertObject:text atIndex:0];
     [self.historyArr writeToFile:_searchCachePath atomically:YES];
-//    [tableView moveRowAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathWithIndex:0]];
     [tableView reloadData];
     //代理执行搜索
     if ([self.delegate respondsToSelector:@selector(searchView:didSelectText:)]) {
@@ -201,8 +199,8 @@ static NSString * const historyCellId = @"historyCell";
     }else {
         YYLog(@"写入failure");
     }
-//    [NSKeyedArchiver archiveRootObject:self.historyArr toFile:self.searchCachePath];
     [self.tableView deleteRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationNone];
+    self.tableView.tableFooterView = self.historyArr.count != 0 ? self.footer : [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 
@@ -238,9 +236,8 @@ static NSString * const historyCellId = @"historyCell";
         _tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.tableFooterView = self.footer;
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
-        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 60, 0);
         [_tableView registerClass:[HistoryCell class] forCellReuseIdentifier:historyCellId];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     }
@@ -275,10 +272,19 @@ static NSString * const historyCellId = @"historyCell";
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.imageView.image = imageNamed(@"searchhistory_44x44");
+        self.textLabel.font = TitleFont;
         self.textLabel.textColor = SubTitleColor;
         [self.contentView addSubview:self.accessoryButton];
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    
+    [super layoutSubviews];
+    CGRect frame = self.textLabel.frame;
+    frame.origin.x -= 10;
+    self.textLabel.frame = frame;
 }
 
 - (UIButton *)accessoryButton{
@@ -296,11 +302,6 @@ static NSString * const historyCellId = @"historyCell";
     if ([self.delegate respondsToSelector:@selector(searchViewDidDeleteCell:)]) {
         [self.delegate searchViewDidDeleteCell:self];
     }
-    //    YYWeakSelf
-    //    if (self.historyBlock) {
-    //        YYStrongSelf
-    //        self.historyBlock(strongSelf);
-    //    }
 }
 
 

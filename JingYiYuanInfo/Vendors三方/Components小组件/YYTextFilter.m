@@ -38,7 +38,8 @@
       allowSymbol:(BOOL)allowSymbol
       allowOthers:(NSString *)otherString
 {
-    textField.delegate = self;
+    YYWeakSelf
+    textField.delegate = weakSelf;
     self.textFilterDelegate = delegate;
     self.MaxLen = maxLen;
     m_count_CH_len = NO;
@@ -91,14 +92,24 @@
 
 
 //==============================================================================
-- (void)SetMoneyFilter:(UITextField *)textField delegate:(id<YYTextFilterDelegate>)delegate
+- (void)SetMoneyFilter:(UITextField *)textField maxMoney:(CGFloat)maxMoney delegate:(id<YYTextFilterDelegate>)delegate
 {
     m_money_mode = YES;
+    m_only_number = YES;
+    m_max_money = maxMoney;
     textField.delegate = self;
     self.textFilterDelegate = delegate;
 }
 
-
+- (void)setNumberfilter:(UITextField *)textField maxNum:(NSInteger)maxNum delegate:(id<YYTextFilterDelegate>)delegate {
+    
+    m_only_number = YES;
+    self.AllowNum = YES;
+    m_max_number = maxNum;
+    textField.delegate = self;
+    self.textFilterDelegate = delegate;
+    
+}
 
 
 //==============================================================================
@@ -159,11 +170,27 @@ shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)strin
         strLength = [textField.text length] - range.length + [string length];
     }
     
+    if (m_only_number) {
+        NSString *final_str =
+        [textField.text stringByReplacingCharactersInRange:range
+                                                withString:string];
+        if ([final_str hasPrefix:@"0"]) {
+            return NO;
+        }
+        return YES;
+    }
     if(m_money_mode)
     {
         NSString *final_str =
         [textField.text stringByReplacingCharactersInRange:range
                                                 withString:string];
+        if ([final_str floatValue] >= m_max_money) {
+
+            [textField.text stringByReplacingCharactersInRange:range                                                   withString:@"."];
+            
+            return YES;
+        }
+        
         for (int i=final_str.length-1; i>=0; i--)
         {
             NSCharacterSet *strSet =

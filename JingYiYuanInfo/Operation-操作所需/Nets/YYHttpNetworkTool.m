@@ -7,7 +7,7 @@
 //
 
 #import "YYHttpNetworkTool.h"
-
+#import "YYUser.h"
 
 @implementation YYHttpNetworkTool
 
@@ -73,7 +73,7 @@
             failure(error);
         }
         YYLog(@"开小差的网络 --- --- %@%@",url,para);
-        [SVProgressHUD showErrorWithStatus:@"网络在开小差，请稍后再试"];
+        [SVProgressHUD showErrorWithStatus:@"网络在开小差！！！"];
         [SVProgressHUD dismissWithDelay:2];
     }];
     
@@ -198,6 +198,7 @@
  */
 + (void)globalNetStatusNotice:(void (^)(AFNetworkReachabilityStatus))notice {
     
+    YYUser *user = [YYUser shareUser];
     //是否是运营商网络
     AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];
     [manager startMonitoring];
@@ -205,18 +206,20 @@
         switch (status) {
             case AFNetworkReachabilityStatusUnknown:{
                 YYLog(@"未知网络");
+                user.netStatus = YYHttpNetStatusUnreachable;
 //                [SVProgressHUD showInfoWithStatus:@"未知网络"];
                 notice(AFNetworkReachabilityStatusUnknown);
             }
                 break;
             case AFNetworkReachabilityStatusNotReachable:{
-                
+                user.netStatus = YYHttpNetStatusUnreachable;
                 notice(AFNetworkReachabilityStatusNotReachable);
                 YYLog(@"没有网络");
             }
                 break;
             case AFNetworkReachabilityStatusReachableViaWiFi:
             {
+                user.netStatus = YYHttpNetStatusWIFI;
                 YYLog(@"WiFi网络");
 //                [SVProgressHUD showInfoWithStatus:@"已切换至WiFi网络"];
                 notice(AFNetworkReachabilityStatusReachableViaWiFi);
@@ -224,6 +227,7 @@
             }
                 break;
             case AFNetworkReachabilityStatusReachableViaWWAN:
+                user.netStatus = YYHttpNetStatusWWAN;
                 YYLog(@"运营商网络");
 //                [SVProgressHUD showInfoWithStatus:@"已切换至运营商网络"];
                 notice(AFNetworkReachabilityStatusReachableViaWWAN);
@@ -232,6 +236,7 @@
                 
             default:
                 notice(AFNetworkReachabilityStatusNotReachable);
+                user.netStatus = YYHttpNetStatusUnreachable;
                 break;
         }
     }];

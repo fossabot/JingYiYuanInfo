@@ -100,7 +100,7 @@
     
     [self.redDot makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.left.equalTo(15);
+        make.top.left.equalTo(23);
         make.width.height.equalTo(10);
     }];
     
@@ -122,7 +122,7 @@
     [self.brief makeConstraints:^(MASConstraintMaker *make) {//来源label的约束
         
         make.left.equalTo(self.title);
-        make.bottom.equalTo(self.contentView.bottom).offset(-YYInfoCellCommonMargin);
+        make.bottom.equalTo(self.contentView.bottom).offset(-YYCommonCellLeftMargin);
         make.right.equalTo(-YYCommonCellRightMargin);
     }];
     

@@ -272,7 +272,7 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, 40, 0);
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, YYInfoCellCommonMargin, 0, YYInfoCellCommonMargin);
         _tableView.tableFooterView = [[UIView alloc] init];
         [_tableView registerClass:[YYAnswerCell class] forCellReuseIdentifier:YYAnswerCellId];
         YYWeakSelf

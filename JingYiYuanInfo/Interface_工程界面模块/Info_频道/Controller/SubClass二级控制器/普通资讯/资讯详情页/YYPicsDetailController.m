@@ -96,10 +96,16 @@
     _picsModels = picsModels;
     self.images = [NSMutableArray array];
     self.titles = [NSMutableArray array];
-    for (YYHotPicsModel *model in picsModels) {
+    if (picsModels.count) {
         
-        [_images addObject:model.img];
-        [_titles addObject:model.desc];
+        for (YYHotPicsModel *model in picsModels) {
+            
+            [_images addObject:model.img];
+            [_titles addObject:model.desc];
+        }
+    }else {
+        [_images addObject:@""];
+        [_titles addObject:@"暂无图片"];
     }
     //    [self configSubview];
     [self.collectionView reloadData];

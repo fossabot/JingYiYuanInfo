@@ -108,6 +108,16 @@
     share.title = title;
     share.subTitle = subTitle;
     //weburl代表所有的链接（音乐，视频），除了imageURL
+    
+    if ([webUrl containsString:@"userid"]) {
+        YYLog(@"userid share url ---- %@",webUrl);
+        NSRange range = [webUrl rangeOfString:@"&userid="];
+        NSRange subRange = NSMakeRange(range.location, 24);
+        NSString *temp = [webUrl substringWithRange:subRange];
+        webUrl = [webUrl stringByReplacingOccurrencesOfString:temp withString:@""];
+        YYLog(@"no userid share url ---- %@",webUrl);
+    }
+    
     share.webUrl = webUrl;
     
     share.imageUrl = imageUrl ? : @"logo";

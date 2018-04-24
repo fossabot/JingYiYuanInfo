@@ -20,7 +20,7 @@
 #import "YYCompanyCell.h"
 #import "YYProductionCell.h"
 
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 
 #define vipDetailUrl @"http://yyapp.1yuaninfo.com/app/yyfwapp/goods_info.php?goodtpye=1&goodid=1"
 #define sepecialDetailUrl @"http://yyapp.1yuaninfo.com/app/yyfwapp/goods_info.php?goodtpye=2&goodid="
@@ -98,20 +98,17 @@
         _tableView.separatorInset = UIEdgeInsetsMake(0, YYCommonCellLeftMargin, 0, YYCommonCellRightMargin);
         
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _tableView.mj_header = [YYNormalHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
         
-        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        YYBackStateFooter *stateFooter = [YYBackStateFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-
-        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
-
         _tableView.mj_footer = stateFooter;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
@@ -152,6 +149,8 @@
                     YYProductionCommonModel *commonModel = (YYProductionCommonModel *)data;
                     productionDetail.productionId = commonModel.iosproid;
                     productionDetail.url = commonModel.webUrl;
+                    productionDetail.tip = commonModel.tip;
+                    productionDetail.mobile = commonModel.mobile;
                     [weakSelf.navigationController pushViewController:productionDetail animated:YES];
                 }
                 break;

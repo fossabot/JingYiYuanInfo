@@ -10,7 +10,16 @@
 
 @interface YYProductionCommonModel : NSObject
 
-
+/**
+ "id": "6",    ?????
+ "classid": "48",
+ "ylogo": "http:\/\/yyapp.1yuaninfo.com\/app\/houtai\/uploads\/image\/20180130\/1517283358.jpg",
+ "yname": "名人观点",
+ "ystate": "1",
+ "yprice": "299",
+ "ynum": "10",
+ "sellmodel": "1"
+ */
 
 /** 产品id*/
 @property (nonatomic, copy) NSString *productionId;
@@ -32,6 +41,12 @@
 
 /** iosyprice价格*/
 @property (nonatomic, copy) NSString *iosyprice;
+
+/** tip提示语*/
+@property (nonatomic, copy) NSString *tip;
+
+/** mobile*/
+@property (nonatomic, copy) NSString *mobile;
 
 /** iosproid产品的苹果后台id*/
 @property (nonatomic, copy) NSString *iosproid;

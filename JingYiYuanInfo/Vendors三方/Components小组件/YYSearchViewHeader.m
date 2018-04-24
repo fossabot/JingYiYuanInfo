@@ -55,8 +55,8 @@
 
 - (void)renderUI {
     
-    self.historyLabel.frame = CGRectMake(10, CGRectGetMaxY(self.tagZone.frame), 100, 40);
-    self.bounds = CGRectMake(0, 0, kSCREENWIDTH, CGRectGetMaxY(self.historyLabel.frame)+YYInfoCellCommonMargin);
+    self.historyLabel.frame = CGRectMake(10, CGRectGetMaxY(self.tagZone.frame), 100, 20);
+    self.bounds = CGRectMake(0, 0, kSCREENWIDTH, CGRectGetMaxY(self.historyLabel.frame));
 }
 
 #pragma mark -- labelcontainer 的代理方法
@@ -85,7 +85,7 @@
 
 - (UILabel *)historyLabel {
     if (!_historyLabel) {
-        _historyLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.tagZone.frame), 100, 20)];
+        _historyLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.tagZone.frame)+10, 100, 20)];
         _historyLabel.backgroundColor = [UIColor whiteColor];
         _historyLabel.text = @"搜索历史";
         _historyLabel.textAlignment = NSTextAlignmentLeft;

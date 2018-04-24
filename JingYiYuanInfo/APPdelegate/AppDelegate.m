@@ -32,8 +32,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     YYLogFunc;
-    NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-    YYLog(@"path------%@",path);
+//    NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+//    YYLog(@"path------%@",path);
     //注册bugly
     [self registerBugly];
     //注册友盟
@@ -72,6 +72,8 @@
     
     //打开帧数监听，在statusbar上显示
 //    [[JPFPSStatus sharedInstance] open];
+    
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     
     //打开监听Apple内购返回的receipt数据回调
     [self checkAllUnCompleteReceipt];
@@ -185,7 +187,7 @@
     
     NSString *deviceTokenStr = [[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""] stringByReplacingOccurrencesOfString: @">" withString: @""] stringByReplacingOccurrencesOfString: @" " withString: @""];
     
-    YYLog(@"DEVIVETOKEN-------%@",deviceTokenStr);
+    YYLog(@"DEVICETOKEN-------%@",deviceTokenStr);
     [self firstConfigWithDeviceToken:deviceTokenStr];
 
 }
@@ -233,7 +235,6 @@
             case SKPaymentTransactionStatePurchased:
             {
                 YYLog(@"走了APPdelegate的支付成功回调");
-                
                 //支付完成，取消支付，数据库的的支付订单状态不改变，然后将receipt和其他数据发送给后台
                  NSData *receiptData = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] appStoreReceiptURL]];
                  NSString *receiptBase64 = [NSString base64StringFromData:receiptData length:[receiptData length]];
@@ -330,7 +331,6 @@
     [YYHttpNetworkTool POSTRequestWithUrlstring:IAPReceiptUrl parameters:@{@"productid":paymentTransaction.payment.productIdentifier,USERID:user.userid,@"apple_receipt":receipt} success:^(id response) {
         
         if ([response[@"state"] isEqualToString:@"1"]) {
-            
             YYLog(@"购买成功，并给后台同步返回成功验证");
             [[YYDataBaseTool sharedDataBaseTool] changeTransactionIdentifierState:paymentTransaction.transactionIdentifier];
             [[SKPaymentQueue defaultQueue] finishTransaction:paymentTransaction];

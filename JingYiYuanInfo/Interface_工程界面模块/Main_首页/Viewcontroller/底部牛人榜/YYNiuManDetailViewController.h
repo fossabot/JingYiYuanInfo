@@ -8,6 +8,8 @@
 
 #import "THBaseViewController.h"
 
+typedef void(^FocusChangedBlock)();
+
 @interface YYNiuManDetailViewController : THBaseViewController
 
 /** imgUrl*/
@@ -15,5 +17,19 @@
 
 /** niuid*/
 @property (nonatomic, copy) NSString *niuid;
+
+/** aid 加载文章时候用的*/
+@property (nonatomic, copy) NSString *aid;
+
+/** niuName*/
+@property (nonatomic, copy) NSString *niuName;
+/** hotValue*/
+@property (nonatomic, copy) NSString *hotValue;
+/** introduce*/
+@property (nonatomic, copy) NSString *introduce;
+
+
+@property (nonatomic, copy) FocusChangedBlock focusChangedBlock;
+
 
 @end

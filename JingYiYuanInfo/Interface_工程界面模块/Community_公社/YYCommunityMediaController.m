@@ -13,7 +13,7 @@
 #import "YYCommunityMediaVM.h"
 #import "YYCommunityMediaCell.h"
 
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 
 @interface YYCommunityMediaController ()
 
@@ -97,10 +97,9 @@
 - (YYCommunityMediaVM *)viewModel{
     if (!_viewModel) {
         _viewModel = [[YYCommunityMediaVM alloc] init];
-        YYWeakSelf
+        
         _viewModel.cellSelectedBlock = ^(id data, NSIndexPath *indexPath) {
-            
-            
+
         };
         
     }
@@ -115,26 +114,28 @@
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
+        if ([_tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+            [_tableView setLayoutMargins:UIEdgeInsetsMake(0, YYInfoCellCommonMargin, 0, YYInfoCellCommonMargin)];
+        }
+        
+        if ([_tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+            [_tableView setSeparatorInset:UIEdgeInsetsMake(0, YYInfoCellCommonMargin, 0, YYInfoCellCommonMargin)];
+        }
         _tableView.tableFooterView = [[UIView alloc] init];
         [self.tableView registerClass:[YYCommunityMediaCell class] forCellReuseIdentifier:YYCommunityMediaCellId];
         
         YYWeakSelf
-        MJRefreshBackStateFooter *footer = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        YYBackNormalFooter *footer = [YYBackNormalFooter footerWithRefreshingBlock:^{
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
-        [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = footer;
         
-        MJRefreshStateHeader *header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        YYStateHeader *header = [YYStateHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
-        
-        [header setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_header = header;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

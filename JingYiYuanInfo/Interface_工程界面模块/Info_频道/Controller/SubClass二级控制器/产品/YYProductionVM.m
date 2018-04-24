@@ -118,16 +118,20 @@
             return 1;
         }
     }
-    tableView.mj_footer.hidden = (self.normalDataSource.count%10 != 0);
+    tableView.mj_footer.hidden = (self.normalDataSource.count%10 != 0) || self.normalDataSource.count == 0;
     return self.normalDataSource.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     
     if (section == 0) {
-        return YYInfoCellCommonMargin;
+        return YYCommonSectionMargin;
     }
     return 0.001;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [[UIView alloc] init];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

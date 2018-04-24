@@ -20,6 +20,9 @@ static NSString * const YYCommentCellId = @"YYCommentCell";
 
 @interface YYCommentCell : UITableViewCell
 
+/** separatorView*/
+@property (nonatomic, strong) UIView *separatorView;
+
 @property (nonatomic, copy) ZanBlock zanBlock;
 
 @property (nonatomic, copy) FeedBackBlock feedBackBlock;

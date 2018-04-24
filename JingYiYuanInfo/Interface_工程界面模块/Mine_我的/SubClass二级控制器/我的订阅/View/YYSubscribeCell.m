@@ -40,6 +40,10 @@
 
 - (void)configSubView {
     
+    UIView *cellSeparator = [[UIView alloc] init];
+    cellSeparator.backgroundColor = GraySeperatorColor;
+    [self.contentView addSubview:cellSeparator];
+    
     UIImageView *niuImageView = [[UIImageView alloc] init];
     self.niuImageView = niuImageView;
     [self.contentView addSubview:niuImageView];
@@ -63,11 +67,19 @@
     self.niuPostTime = niuPostTime;
     [self.contentView addSubview:niuPostTime];
     
+    //底部分隔线的约束
+    [cellSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.contentView.bottom).offset(-0.5);
+        make.left.equalTo(self.contentView.left).offset(YYCommonCellLeftMargin);
+        make.right.equalTo(self.contentView.right).offset(-YYCommonCellLeftMargin);
+        make.height.equalTo(0.5);
+    }];
     
     [self.niuImageView makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.top.equalTo(YYInfoCellCommonMargin);
-        make.width.height.equalTo(60);
+//        make.top.equalTo(YYNewsCellTopMargin);
+        make.left.top.equalTo(YYCommonCellLeftMargin);
+        make.width.height.equalTo(80);
     }];
     
     [self.niuIntroduce makeConstraints:^(MASConstraintMaker *make) {
@@ -76,7 +88,6 @@
         make.top.equalTo(self.niuImageView);
         make.right.equalTo(-YYInfoCellCommonMargin);
     }];
-
     
     [self.niuName makeConstraints:^(MASConstraintMaker *make) {
         

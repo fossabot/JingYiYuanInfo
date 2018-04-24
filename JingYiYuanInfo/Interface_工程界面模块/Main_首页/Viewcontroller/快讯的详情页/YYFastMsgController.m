@@ -12,7 +12,7 @@
 #import "YYFastMsgSecionModel.h"
 #import "YYMainRollwordsModel.h"
 #import <MJExtension/MJExtension.h>
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 
 @interface YYFastMsgController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -97,15 +97,15 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     YYFastMsgSecionModel *secModel = self.dataSource[section];
-    tableView.mj_footer.hidden = (secModel.info.count%10 != 0);
+    tableView.mj_footer.hidden = (secModel.info.count%10 != 0) || secModel.info.count == 0;
     return secModel.info.count;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 30)];
     view.backgroundColor = WhiteColor;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, kSCREENWIDTH, 20)];
-    label.textColor = UnenableTitleColor;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 5, kSCREENWIDTH, 20)];
+    label.textColor = SubTitleColor;
     label.font = TagLabelFont;
     YYFastMsgSecionModel *secModel = self.dataSource[section];
     label.text = secModel.date;
@@ -165,19 +165,17 @@
         _tableView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0);
         _tableView.separatorInset = UIEdgeInsetsMake(0, YYCommonCellLeftMargin, 0, YYCommonCellLeftMargin);
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _tableView.mj_header = [YYNormalHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
         
-        MJRefreshBackNormalFooter *stateFooter = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        YYBackNormalFooter *stateFooter = [YYBackNormalFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-
-        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
         

@@ -37,7 +37,7 @@
 #import "YYBaseMusicModel.h"
 #import "YYHotInfoModel.h"
 
-#import "MJRefresh.h"
+#import "YYRefresh.h"
 
 @interface YYBaseInfoViewController ()
 
@@ -122,7 +122,7 @@
         if (success) {
             if ([strongSelf.classid isEqualToString:@"23"]) {//演出
                 
-                YYChannelShowBannerView *view = [[YYChannelShowBannerView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENWIDTH*9/16)];
+                YYChannelShowBannerView *view = [[YYChannelShowBannerView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENWIDTH*0.5)];
                 view.dataSource = strongSelf.viewModel.bannerDataSource;
                 strongSelf.tableView.tableHeaderView = nil;
                 strongSelf.tableView.tableHeaderView = view;
@@ -194,19 +194,17 @@
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _tableView.mj_header = [YYStateHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
         
-        MJRefreshBackNormalFooter *stateFooter = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        YYBackNormalFooter *stateFooter = [YYBackNormalFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
-        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
 
         
@@ -238,7 +236,7 @@
             YYStrongSelf
             switch (cellType) {// 根据celltype不同跳转相应的控制器
                 case YYBaseInfoTypeRank:{
-                    
+                    //排行
                     YYBaseRankDetailController *detail = [[YYBaseRankDetailController alloc] init];
                     detail.url = data;
                     [strongSelf.navigationController pushViewController:detail animated:YES];
@@ -246,26 +244,35 @@
                     break;
                     
                 case YYBaseInfoTypeNews:{
-                    
+                    //普通新闻资讯
                     YYBaseInfoDetailController *detail = [[YYBaseInfoDetailController alloc] init];
                     YYHotInfoModel *hotInfoModel = (YYHotInfoModel *)data;
                     detail.url = hotInfoModel.webUrl;
+                    detail.shareImgUrl = hotInfoModel.picurl;
+                    detail.subTitle = hotInfoModel.infodescription;
                     detail.newsId = hotInfoModel.infoid;
+                    __weak typeof(indexPath) weakIndex = indexPath;
+                    detail.dislikeBlock = ^(NSString *newsId) {
+                        
+                        [strongSelf.viewModel deleteRow:weakIndex.row];
+                        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:weakIndex.section] withRowAnimation:UITableViewRowAnimationNone];
+                    };
                     [strongSelf.navigationController pushViewController:detail animated:YES];
                 }
                     break;
                 
                 case YYBaseInfoTypeNewsPics:{
-                    
+                    //多图新闻
                     YYPicsDetailController *detail = [[YYPicsDetailController alloc] init];
                     detail.picsModels = (NSArray *)data;
+//                    detail.shareImgUrl = hotInfoModel.picurl;
                     detail.jz_wantsNavigationBarVisible = NO;
                     [strongSelf.navigationController pushViewController:detail animated:YES];
                 }
                     break;
                     
                 case YYBaseInfoTypeShow:{
-                    
+                    //演出
                     YYShowLikeDetailController *detail = [[YYShowLikeDetailController alloc] init];
                     detail.url = data;
                     [strongSelf.navigationController pushViewController:detail animated:YES];
@@ -273,7 +280,7 @@
                     break;
                 
                 case YYBaseInfoTypeVideo:{
-                    
+                    //视频
                     NSDictionary *dic = (NSDictionary *)data;
                     YYVideoDetailController *detail = [[YYVideoDetailController alloc] init];
                     YYBaseVideoModel *videoModel = [dic objectForKey:@"data"];
@@ -289,7 +296,7 @@
                     break;
                     
                 case YYBaseInfoTypeMusic:{
-                    
+                    //音乐
                     YYLog(@"点击了音乐cell");
                     YYBaseMusicModel *musicModel = (YYBaseMusicModel *)data;
                     [strongSelf.musicPlayerView setMusicModel:musicModel];

@@ -9,6 +9,7 @@
 #import "YYCompanyCell.h"
 #import "YYEdgeLabel.h"
 #import "YYCompanyModel.h"
+#import "YYTagView.h"
 
 @interface YYCompanyCell()
 
@@ -22,16 +23,16 @@
 @property (nonatomic, strong) UILabel *regMoney;
 
 /** part功能标签模型中用逗号分隔 1，2，3*/
-@property (nonatomic, strong) YYEdgeLabel *tag1;
+@property (nonatomic, strong) YYTagView *tagView1;
 
 /** part功能标签*/
-@property (nonatomic, strong) YYEdgeLabel *tag2;
+@property (nonatomic, strong) YYTagView *tagView2;
 
 /** part功能标签*/
-@property (nonatomic, strong) YYEdgeLabel *tag3;
+@property (nonatomic, strong) YYTagView *tagView3;
 
 /** auth_tag认证标签*/
-@property (nonatomic, strong) YYEdgeLabel *authTag;
+@property (nonatomic, strong) YYTagView *authTagView;
 
 
 /** 功能标签的数组*/
@@ -70,33 +71,25 @@
     [self.contentView addSubview:regMoney];
     self.regMoney = regMoney;
     
-    YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
-    tag1.font = TagLabelFont;
-    tag1.textColor = ThemeColor;
-    tag1.layer.borderColor = ThemeColor.CGColor;
-    [self.contentView addSubview:tag1];
-    self.tag1 = tag1;
+    YYTagView *tagView1 = [[YYTagView alloc] init];
+    tagView1.rightMargin = YYInfoCellSubMargin;
+    [self.contentView addSubview:tagView1];
+    self.tagView1 = tagView1;
     
-    YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
-    tag2.font = TagLabelFont;
-    tag2.textColor = ThemeColor;
-    tag2.layer.borderColor = ThemeColor.CGColor;
-    [self.contentView addSubview:tag2];
-    self.tag2 = tag2;
+    YYTagView *tagView2 = [[YYTagView alloc] init];
+    tagView2.rightMargin = YYInfoCellSubMargin;
+    [self.contentView addSubview:tagView2];
+    self.tagView2 = tagView2;
 
-    YYEdgeLabel *tag3 = [[YYEdgeLabel alloc] init];
-    tag3.font = TagLabelFont;
-    tag3.textColor = ThemeColor;
-    tag3.layer.borderColor = ThemeColor.CGColor;
-    [self.contentView addSubview:tag3];
-    self.tag3 = tag3;
+    YYTagView *tagView3 = [[YYTagView alloc] init];
+    tagView3.rightMargin = YYInfoCellSubMargin;
+    [self.contentView addSubview:tagView3];
+    self.tagView3 = tagView3;
     
-    YYEdgeLabel *authTag = [[YYEdgeLabel alloc] init];
-    authTag.font = TagLabelFont;
-    authTag.textColor = ThemeColor;
-    authTag.layer.borderColor = ThemeColor.CGColor;
-    [self.contentView addSubview:authTag];
-    self.authTag = authTag;
+    YYTagView *authTagView = [[YYTagView alloc] init];
+    authTagView.rightMargin = YYInfoCellSubMargin;
+    [self.contentView addSubview:authTagView];
+    self.authTagView = authTagView;
     
 }
 
@@ -124,27 +117,27 @@
         make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
-    [self.tag1 makeConstraints:^(MASConstraintMaker *make) {
+    [self.tagView1 makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.logoImageView.right).offset(YYInfoCellCommonMargin);
         make.bottom.equalTo(self.logoImageView);
     }];
     
-    [self.tag2 makeConstraints:^(MASConstraintMaker *make) {
+    [self.tagView2 makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.tag1.right).offset(YYInfoCellSubMargin);
+        make.left.equalTo(self.tagView1.right);
         make.bottom.equalTo(self.logoImageView);
     }];
     
-    [self.tag3 makeConstraints:^(MASConstraintMaker *make) {
+    [self.tagView3 makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.tag2.right).offset(YYInfoCellSubMargin);
+        make.left.equalTo(self.tagView2.right);
         make.bottom.equalTo(self.logoImageView);
     }];
     
-    [self.authTag makeConstraints:^(MASConstraintMaker *make) {
+    [self.authTagView makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.tag3.right).offset(YYInfoCellSubMargin);
+        make.left.equalTo(self.tagView3.right);
         make.bottom.equalTo(self.logoImageView);
     }];
     
@@ -159,7 +152,7 @@
     self.companyName.text = companyModel.gname;
     self.regMoney.text = companyModel.regmoney;
     
-    if (companyModel.part.length) {
+    if (![companyModel.part isEqualToString:@""]) {//1,2,3
         NSArray *keywords = nil;
         if ([companyModel.part containsString:@" "]) {
             
@@ -171,67 +164,68 @@
             [self dispatchTags:keywords comType:companyModel.comtype];
         }else {
             
-            self.tag1.text = [self part:companyModel.part comType:companyModel.comtype];
-            [self.tag2 updateConstraints:^(MASConstraintMaker *make) {
-                
-                make.width.equalTo(0);
-                make.left.equalTo(self.tag1.right);
-            }];
-            [self.tag3 updateConstraints:^(MASConstraintMaker *make) {
-               
-                make.width.equalTo(0);
-                make.left.equalTo(self.tag2.right);
-            }];
+            self.tagView1.title = [self part:companyModel.part comType:companyModel.comtype];
+            self.tagView2.title = @"";
+            self.tagView3.title = @"";
+//            [self.tag2 updateConstraints:^(MASConstraintMaker *make) {
+//
+//                make.width.equalTo(0);
+//                make.left.equalTo(self.tag1.right);
+//            }];
+//            [self.tag3 updateConstraints:^(MASConstraintMaker *make) {
+//
+//                make.width.equalTo(0);
+//                make.left.equalTo(self.tag2.right);
+//            }];
+//
+//            [self.authTag makeConstraints:^(MASConstraintMaker *make) {
+//
+//                make.left.equalTo(self.tag1.right).offset(YYInfoCellSubMargin);
+//            }];
             
         }
-    }else{
-        [self.tag1 updateConstraints:^(MASConstraintMaker *make) {
-            
-            make.width.equalTo(0);
-            make.left.equalTo(self.companyName);
-        }];
-        
-        [self.tag2 updateConstraints:^(MASConstraintMaker *make) {
-            
-            make.width.equalTo(0);
-            make.left.equalTo(self.companyName);
-        }];
-        
-        [self.tag3 updateConstraints:^(MASConstraintMaker *make) {
-            
-            make.width.equalTo(0);
-            make.left.equalTo(self.companyName);
-        }];
-        
-        [self.authTag updateConstraints:^(MASConstraintMaker *make) {
-           
-            make.left.equalTo(self.logoImageView.right).offset(YYInfoCellCommonMargin);
-        }];
+    }else{//0
+        self.tagView1.title = @"";
+        self.tagView2.title = @"";
+        self.tagView3.title = @"";
+//        [self.authTag updateConstraints:^(MASConstraintMaker *make) {
+//
+//            make.left.equalTo(self.logoImageView.right).offset(YYInfoCellCommonMargin);
+//        }];
     }
     
-    if (companyModel.auth_tag.length) {
-        self.authTag.text = companyModel.auth_tag;
-    }else {
-        [self.authTag updateConstraints:^(MASConstraintMaker *make) {
-           
-            make.width.equalTo(0);
-        }];
-    }
+    self.authTagView.title = companyModel.auth_tag;
+    
+    [self.tagView1 setNeedsLayout];
+    [self.tagView2 setNeedsLayout];
+    [self.tagView3 setNeedsLayout];
+    [self.authTagView setNeedsLayout];
+//    if (![companyModel.auth_tag isEqualToString:@""]) {
+//    }else {
+//        [self.authTag updateConstraints:^(MASConstraintMaker *make) {
+//
+//            make.width.equalTo(0);
+//        }];
+//    }
 }
 
 - (void)dispatchTags:(NSArray *)keywords comType:(NSString *)comtype {
-    self.tag1.text = [self part:keywords[0] comType:comtype];
-    self.tag2.text = [self part:keywords[1] comType:comtype];
-    if (keywords.count < 3) {
-
-        [self.tag3 updateConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.tag2.right);
-            make.width.equalTo(0);
-        }];
-    }else{
-        
-        self.tag3.text = [self part:keywords[2] comType:comtype];
+    self.tagView1.title = [self part:keywords[0] comType:comtype];
+    self.tagView2.title = [self part:keywords[1] comType:comtype];
+    if (keywords.count >= 3) {
+        self.tagView3.title = [self part:keywords[2] comType:comtype];
+    }else {
+        self.tagView3.title = @"";
     }
+//    if (keywords.count < 3) {//2
+
+//        [self.authTagView updateConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(self.tag2.right).offset(YYInfoCellSubMargin);
+//        }];
+//    }else{//3
+//
+//        self.tagView3.title = [self part:keywords[2] comType:comtype];
+//    }
 }
 
 /** 功能标签 根据公司类型来确定相应的功能标签*/

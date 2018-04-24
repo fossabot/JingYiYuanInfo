@@ -39,7 +39,12 @@ static CGFloat const leftPicH = 70;
 - (NSString *)webUrl {
     
     YYUser *user = [YYUser shareUser];
-    return [NSString stringWithFormat:@"%@%@&userid=%@",infoWebJointUrl,_infoid,user.userid];
+    if (user.isLogin) {
+        
+        return [NSString stringWithFormat:@"%@%@&userid=%@",infoWebJointUrl,_infoid,user.userid];
+    }else{
+        return [NSString stringWithFormat:@"%@%@",infoWebJointUrl,_infoid];
+    }
 }
 
 - (NSString *)picurl {

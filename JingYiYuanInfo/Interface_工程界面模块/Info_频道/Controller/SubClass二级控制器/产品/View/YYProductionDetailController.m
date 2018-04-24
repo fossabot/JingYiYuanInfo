@@ -57,11 +57,17 @@
         return;
     }
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"产品提示" message:@"如欲了解关于产品的详细信息，请与我们的客服代表联系，点击确定拨打客服电话：010-87777077" preferredStyle:UIAlertControllerStyleAlert];
+    if (!_tip.length) {
+        _tip = @"如欲了解关于产品的详细信息，请与我们的客服代表联系，点击确定拨打客服电话：010-87777077";
+    }
+    if (!_mobile.length) {
+        _mobile = @"010-87777077";
+    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"产品提示" message:_tip preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        if ([kApplication canOpenURL:[NSURL URLWithString:@"telprompt://010-87777077"]]) {
-            [kApplication openURL:[NSURL URLWithString:@"telprompt://010-87777077"]];
+        if ([kApplication canOpenURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@",_mobile]]]) {
+            [kApplication openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@",_mobile]]];
         }
     }];
     

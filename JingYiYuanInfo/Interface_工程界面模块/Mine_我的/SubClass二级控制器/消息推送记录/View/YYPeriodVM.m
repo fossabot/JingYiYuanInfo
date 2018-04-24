@@ -104,13 +104,12 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    tableView.mj_footer.hidden = (self.periodDataSource.count%10 != 0);
+    tableView.mj_footer.hidden = (self.periodDataSource.count%10 != 0) || self.periodDataSource.count == 0;
     return self.periodDataSource.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return 75;
+    return 100;
 }
 
 

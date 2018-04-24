@@ -14,7 +14,7 @@
 #import "YYCommunityQuestionVM.h"
 #import "YYQuestionDetailController.h"
 
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 
 @interface YYCommunityQuestionController ()
 /** tab*/
@@ -31,9 +31,13 @@
     [super viewDidLoad];
     
     [self.view addSubview:self.tableView];
-    [self loadNewData];
+//    [self loadNewData];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self loadNewData];
+}
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 
@@ -50,6 +54,7 @@
     if (!user.isLogin) {
         [SVProgressHUD showErrorWithStatus:@"账号未登录"];
         [SVProgressHUD dismissWithDelay:1];
+        [self.tableView.mj_header endRefreshing];
         return;
     }
     YYWeakSelf
@@ -77,6 +82,7 @@
     if (!user.isLogin) {
         [SVProgressHUD showErrorWithStatus:@"账号未登录"];
         [SVProgressHUD dismissWithDelay:1];
+        [self.tableView.mj_header endRefreshing];
         return;
     }
     YYWeakSelf
@@ -127,26 +133,22 @@
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf
-        MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        YYAutoFooter *footer = [YYAutoFooter footerWithRefreshingBlock:^{
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
-        [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = footer;
         
-        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        YYStateHeader *header = [YYStateHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
-        
-        [header setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_header = header;
     
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
         configer.emptyImage = imageNamed(emptyImageName);
-        configer.emptyTitle = @"暂无问答数据";
+        configer.emptyTitle = @"暂无数据，快去提问吧";
         configer.emptyTitleColor = UnenableTitleColor;
         configer.emptyTitleFont = SubTitleFont;
         configer.allowScroll = NO;
@@ -155,7 +157,7 @@
         };
         configer.emptyViewDidAppear = ^{
 
-            weakSelf.tableView.mj_footer = nil;
+            weakSelf.tableView.mj_footer.hidden = YES;
         };
        
         [self.tableView emptyViewConfiger:configer];

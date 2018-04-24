@@ -18,6 +18,9 @@ NSString * const Production_VIP_1 = @"com.yyapp_vip_1";
 
 //CGFloat const YYTabBarH = 49.0;
 
+/** 统一的所有界面的分组间隔*/
+CGFloat const YYCommonSectionMargin = 8;
+
 /** 分页cell的tab高度*/
 CGFloat const TabHeaderH = 40;
 
@@ -53,6 +56,11 @@ CGFloat const YYCommonCellRightMargin = 15.f;
 CGFloat const YYCommonCellTopMargin = 10.f;
 
 CGFloat const YYCommonCellBottomMargin = 10.f;
+
+
+/** 新闻的cell的顶部和底部的间距*/
+CGFloat const YYNewsCellTopMargin = 13.f;
+CGFloat const YYNewsCellBottomMargin = 13.f;
 
 /** 新闻列表的通用间隙*/
 CGFloat const YYInfoCellCommonMargin = 10.f;
@@ -131,6 +139,10 @@ NSString * const YYTabbarItemDidRepeatClickNotification = @"YYTabbarItemDidRepea
 
 /** 接收到远程消息的通知*/
 NSString * const YYReceivedRemoteNotification = @"YYReceivedRemoteNotification";
+
+
+/** 接收到365推送，并且当且停留的页面即为365页面 通知刷新页面的通知*/
+NSString * const YYReceived365RemoteNotification = @"YYReceived365RemoteNotification";
 
 /** 首页tableview上滑到顶部的通知*/
 NSString * const YYMainVCGoTopNotificationName = @"YYMainVCGoTopNotificationName";

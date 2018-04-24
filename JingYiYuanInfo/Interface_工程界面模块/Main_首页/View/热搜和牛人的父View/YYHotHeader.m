@@ -83,7 +83,6 @@
         self.changeTagBlock(index);
     }
     YYLog(@"选中了button ： %@, index : %ld",title,(long)index);
-    
 }
 
 
@@ -110,7 +109,7 @@
 - (UIButton *)huanButton {
     if (!_huanButton) {
         _huanButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _huanButton.frame = CGRectMake(kSCREENWIDTH-90, 10, 80, 20);
+        _huanButton.frame = CGRectMake(kSCREENWIDTH-80, 10, 70, 20);
         [_huanButton setTitle:@"换一批" forState:UIControlStateNormal];
         _huanButton.titleLabel.font = SubTitleFont;
         [_huanButton setTitleColor:SubTitleColor forState:UIControlStateNormal];
@@ -123,6 +122,7 @@
 - (ButtonContainer *)tagZone {
     if (!_tagZone) {
         _tagZone = [[ButtonContainer alloc] initWithTitles:_datas andFrame:CGRectMake(0, CGRectGetMaxY(self.caiView.frame), kSCREENWIDTH, 0) delegate:self];
+        _tagZone.selectedBackColor = ThemeColor;
         _tagZone.itemEdgeInset = UIEdgeInsetsMake(3, 5, 3, 5);
     }
     return _tagZone;

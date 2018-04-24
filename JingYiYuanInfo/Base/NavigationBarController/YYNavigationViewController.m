@@ -27,8 +27,7 @@
     UINavigationBar *navBar = [UINavigationBar appearance];
     [navBar setBarTintColor:NaviColor];
     [navBar setTintColor:WhiteColor];
-    [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:17]}];
-    
+    [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:18]}];
     [navBar setBackgroundImage:[UIImage imageWithColor:ThemeColor] forBarMetrics:UIBarMetricsDefault];
     
     //导航栏左右文字主题
@@ -65,8 +64,8 @@
 //        [button setTitle:@"返回" forState:UIControlStateNormal];
 //        button.titleLabel.font = [UIFont systemFontOfSize:15];
 //        //设置返回的按钮都是中文返回键
-//        [button setImage:[UIImage imageNamed:@"nav_back_white_20x20"] forState:UIControlStateNormal];
-//        [button setImage:[UIImage imageNamed:@"nav_back_white_20x20"] forState:UIControlStateHighlighted];
+//        [button setImage:[UIImage imageNamed:@"nav_back_white_30x30"] forState:UIControlStateNormal];
+//        [button setImage:[UIImage imageNamed:@"nav_back_white_30x30"] forState:UIControlStateHighlighted];
 //        button.size = CGSizeMake(40, 40);
 //        // 让按钮内部的所有内容左对齐
 //        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;

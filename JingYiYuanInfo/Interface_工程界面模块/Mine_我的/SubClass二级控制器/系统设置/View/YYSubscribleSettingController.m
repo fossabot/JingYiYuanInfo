@@ -53,6 +53,14 @@
         
         make.edges.equalTo(weakSelf.view);
     }];
+    
+    [self addTableFooterView];
+    
+}
+
+/** 给tableview加footer*/
+- (void)addTableFooterView {
+    
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 80)];
     UILabel *tip = [[UILabel alloc] initWithFrame:CGRectMake(YYCommonCellLeftMargin, 0, kSCREENWIDTH-YYCommonCellLeftMargin-YYCommonCellRightMargin, 80)];
     tip.numberOfLines = 0;
@@ -62,7 +70,6 @@
     tip.textColor = UnenableTitleColor;
     [bottomView addSubview:tip];
     self.tableView.tableFooterView = bottomView;
-    
 }
 
 - (void)loadData {
@@ -86,12 +93,8 @@
 - (void)save {
     
     YYUser *user = [YYUser shareUser];
-    NSString *service = @"";
-    for (NSNumber *num in self.dataSource) {
-        service = [service stringByAppendingString:[NSString stringWithFormat:@"%ld,",[num integerValue]]];
-    }
-    service = [service substringToIndex:service.length-1];
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"moddayservice",@"act",service,@"dayservice",user.userid,USERID,nil];
+    NSString *servieceStr = [self.dataSource componentsJoinedByString:@","];
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"moddayservice",@"act",servieceStr,@"dayservice",user.userid,USERID,nil];
     [YYHttpNetworkTool GETRequestWithUrlstring:settingUrl parameters:para success:^(id response) {
         
         if (response && [response[STATUS] isEqualToString:@"0"]) {
@@ -161,6 +164,12 @@
         configer.emptyTitleColor = UnenableTitleColor;
         configer.emptyTitleFont = SubTitleFont;
         configer.allowScroll = NO;
+        configer.emptyViewDidAppear = ^{
+            weakSelf.tableView.tableFooterView = nil;
+        };
+        configer.emptyViewDidDisappear = ^{
+            [weakSelf addTableFooterView];
+        };
         configer.emptyViewTapBlock = ^{
             [weakSelf loadData];
         };
@@ -180,11 +189,10 @@
         [_stables addObject:@{@"title":@"下午分享",@"subTitle":@"盘中适时个股分享"}];
         [_stables addObject:@{@"title":@"收评",@"subTitle":@"下午市场点评，次日市场预判"}];
         [_stables addObject:@{@"title":@"夜宵",@"subTitle":@"总结今天，展望明天"}];
-        [_stables addObject:@{@"title":@"及时通知",@"subTitle":@"操作提示"}];
+        [_stables addObject:@{@"title":@"即时通知",@"subTitle":@"操作提示"}];
     }
     return _stables;
 }
-
 
 
 @end

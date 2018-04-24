@@ -13,7 +13,7 @@
 #import "YYHotTableViewCell.h"
 #import "YYBaseHotModel.h"
 #import "UITableView+FDTemplateLayoutCell.h"
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 #import <MJExtension/MJExtension.h>
 
 @interface YYBaseRankListController ()<UITableViewDelegate,UITableViewDataSource>
@@ -59,7 +59,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    self.tableView.mj_footer.hidden = (self.dataSource.count%10 != 0);
+    self.tableView.mj_footer.hidden = (self.dataSource.count%10 != 0) || self.dataSource.count == 0;
     return self.dataSource.count;
 }
 
@@ -97,7 +97,7 @@
 
 - (THBaseTableView *)tableView {
     if (!_tableView) {
-        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-YYTopNaviHeight) style:UITableViewStylePlain];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         
@@ -105,15 +105,14 @@
         [_tableView registerClass:[YYHotTableViewCell class] forCellReuseIdentifier:YYHotTableViewCellId];
         
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+#warning 没有MJHeader
         
         YYWeakSelf
-        MJRefreshBackStateFooter *footer = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        YYBackStateFooter *footer = [YYBackStateFooter footerWithRefreshingBlock:^{
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        /** 普通闲置状态  壹元君正努力为您加载数据*/
-        [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
-//        footer.automaticallyHidden = YES;
         _tableView.mj_footer = footer;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

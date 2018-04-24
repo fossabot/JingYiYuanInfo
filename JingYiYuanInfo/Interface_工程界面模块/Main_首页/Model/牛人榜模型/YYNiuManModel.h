@@ -25,6 +25,9 @@
 /** 牛人id*/
 @property (nonatomic, copy) NSString *niu_id;
 
+/** 请求文章时候用这个aid*/
+@property (nonatomic, copy) NSString *aid;
+
 /** 牛人名称*/
 @property (nonatomic, copy) NSString *niu_name;
 

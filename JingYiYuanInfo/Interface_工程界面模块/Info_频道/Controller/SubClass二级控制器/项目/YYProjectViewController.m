@@ -29,22 +29,18 @@
     self.tabBar.itemTitleSelectedColor = ThemeColor;
     self.tabBar.itemTitleFont = TitleFont;
     self.tabBar.itemTitleSelectedFont = NavTitleFont;
-    self.tabBar.leftAndRightSpacing = 0;
-    self.tabBar.itemSelectedBgColor = ThemeColor;
+//    self.tabBar.itemSelectedBgColor = ThemeColor;
+    self.tabBar.indicatorColor = ThemeColor;
+    self.tabBar.indicatorAnimationStyle = YPTabBarIndicatorAnimationStyleDefault;
+    [self.tabBar setIndicatorInsets:UIEdgeInsetsMake(38, 0, 0, 0) tapSwitchAnimated:NO];
     
     [self.tabBar setScrollEnabledAndItemFitTextWidthWithSpacing:20];
-    
-    [self setContentScrollEnabledAndTapSwitchAnimated:NO];
-    
-    
     self.tabBar.itemFontChangeFollowContentScroll = YES;
-    self.tabBar.itemSelectedBgScrollFollowContent = YES;
     
-    [self.tabBar setItemSelectedBgInsets:UIEdgeInsetsMake(38, 0, 0, 0) tapSwitchAnimated:NO];
+    [self setContentScrollEnabled:YES tapSwitchAnimated:YES];
+    self.interceptRightSlideGuetureInFirstPage = YES;
     
-    [self setContentScrollEnabledAndTapSwitchAnimated:YES];
     self.loadViewOfChildContollerWhileAppear = YES;
-    
     self.tabBar.delegate = self;
     
     // 添加所有子控制器

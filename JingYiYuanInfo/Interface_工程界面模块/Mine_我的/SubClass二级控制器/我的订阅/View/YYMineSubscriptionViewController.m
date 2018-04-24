@@ -9,10 +9,11 @@
 #import "YYMineSubscriptionViewController.h"
 #import "YYSubscribeCell.h"
 #import "YYNiuSubscribeModel.h"
-#import "YYNiuManDetailViewController.h"
+//#import "YYNiuManDetailViewController.h"
+#import "YYNiuManController.h"
 
 #import <MJExtension/MJExtension.h>
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 
 @interface YYMineSubscriptionViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -33,7 +34,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = WhiteColor;
-    
+    self.navigationItem.title = @"我的订阅";
     [self.view addSubview:self.tableView];
     [self loadData];
 }
@@ -50,6 +51,7 @@
     if (!user.isLogin) {
         [SVProgressHUD showErrorWithStatus:@"未登录账户"];
         [SVProgressHUD dismissWithDelay:1];
+        [self.tableView.mj_header endRefreshing];
         return;
     }
     
@@ -117,14 +119,14 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     // 隐藏尾部刷新控件
-    tableView.mj_footer.hidden = (self.dataSource.count%10 != 0);
+    tableView.mj_footer.hidden = (self.dataSource.count%10 != 0) || self.dataSource.count == 0;
     return self.dataSource.count;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 80;
+    return 110;
 }
 
 
@@ -132,11 +134,15 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    YYWeakSelf
     YYNiuSubscribeModel *model = self.dataSource[indexPath.row];
-    YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
-    niuManDetail.niuid = model.niu_id;
-    niuManDetail.imgUrl = model.niu_head;
-    [self.navigationController pushViewController:niuManDetail animated:YES];
+    YYNiuManController *niuManVc = [[YYNiuManController alloc] init];
+    niuManVc.subscribleModel = model;
+    niuManVc.focusChangedBlock = ^{
+        [weakSelf loadData];
+    };
+    
+    [self.navigationController pushViewController:niuManVc animated:YES];
 }
 
 
@@ -159,26 +165,21 @@
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
         [self.tableView registerClass:[YYSubscribeCell class] forCellReuseIdentifier:YYSubscribeCellId];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf
-        MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
+        YYAutoFooter *footer = [YYAutoFooter footerWithRefreshingBlock:^{
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
-        [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
-//        footer.automaticallyHidden = YES;
         _tableView.mj_footer = footer;
         
-        MJRefreshStateHeader *header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        YYStateHeader *header = [YYStateHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadData];
         }];
-        [header setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_header = header;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

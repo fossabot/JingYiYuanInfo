@@ -107,15 +107,6 @@
     time.textColor = UnenableTitleColor;
     [self.contentView addSubview:time];
     self.time = time;
-    
-//    LabelContainer *labelContainer = [[LabelContainer alloc] init];
-//    labelContainer.fontSize = 12;
-//    labelContainer.labelTitleColor = YYRGBCOLOR_HEX(0xd43c33);
-//    labelContainer.labelMaskToBounds = YES;
-//    labelContainer.labelCornerRadius = 8;
-//    labelContainer.labelBorderColor = YYRGBCOLOR_HEX(0xd43c33);
-//    [self.contentView addSubview:labelContainer];
-//    self.labelContainer = labelContainer;
 
 //    YYEdgeLabel *tagLabel1 = [[YYEdgeLabel alloc] init];
 //    tagLabel1.font = TagLabelFont;
@@ -148,16 +139,18 @@
 - (void)configAutoLayout {
     
     [self.leftImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self.contentView).offset(YYInfoCellCommonMargin);
-        make.height.equalTo(70);
+       
+        make.top.equalTo(YYNewsCellTopMargin);
+        make.left.equalTo(self.contentView).offset(YYInfoCellCommonMargin);
+        make.height.equalTo(80);
         make.width.equalTo(110);
-        make.bottom.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
+        make.bottom.equalTo(-YYNewsCellBottomMargin);
     }];
     
     [self.title makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.leftImageView.top);
         make.right.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
-        make.left.equalTo(self.leftImageView.right).offset(YYInfoCellSubMargin);
+        make.left.equalTo(self.leftImageView.right).offset(YYInfoCellCommonMargin);
     }];
     
 //    [self.desc makeConstraints:^(MASConstraintMaker *make) {
@@ -172,11 +165,6 @@
         make.bottom.equalTo(self.leftImageView.bottom);
     }];
     
-//    [self.labelContainer makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(self.title.left);
-////        make.top.equalTo(self.desc.bottom).offset(YYInfoCellSubMargin);
-//        make.bottom.equalTo(self.time.bottom);
-//    }];
     
 //    [self.tagLabel1 makeConstraints:^(MASConstraintMaker *make) {
 //        make.left.equalTo(self.leftImageView.right).offset(YYInfoCellSubMargin);

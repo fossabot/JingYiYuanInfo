@@ -13,7 +13,7 @@
 #import "YYMessageController.h"
 #import "YYMainSearchController.h"
 
-#import "MJRefresh.h"
+#import "YYRefresh.h"
 #import "MJExtension.h"
 
 #import "UIView+YYViewInWindow.h"
@@ -81,6 +81,7 @@
 //    YYContainerViewController *_footer;
     YYBottomContainerView *_footer;
     PresentAnimation *_presentAnimation;
+    BOOL _lock;
 }
 #pragma mark -- lifeCycle 生命周期  ----------------------------------------
 
@@ -212,19 +213,7 @@
 - (void)loadNewData {
 
     //请求成功自动缓存，如果当前数据源有数据，说明是手动刷新的操作，这时不用将缓存赋值给数据源，如果没有，则是第一次初始化等，需要将缓存赋值给数据源等success时，再重新赋值，覆盖掉之前的
-    
-//    [PPNetworkHelper GET:mainUrl parameters:nil success:^(id responseObject) {
-//
-//        [self.tableview.mj_header endRefreshing];
-//        if (responseObject) {
-//            self.mainModel = [YYMainModel mj_objectWithKeyValues:responseObject];
-//            [self.tableview reloadData];
-//        }
-//    } failure:^(NSError *error) {
-//        [self.tableview.mj_header endRefreshing];
-//        [SVProgressHUD showErrorWithStatus:NETERRORMSG];
-//        [SVProgressHUD dismissWithDelay:1];
-//    }];
+
     [PPNetworkHelper GET:mainUrl parameters:nil responseCache:^(id responseCache) {
         if (!_mainModel.roll_pic.count && responseCache) {
 
@@ -271,7 +260,7 @@
             break;
             
         default:
-            return 5.0;
+            return YYCommonSectionMargin;
             break;
     }
 }
@@ -290,7 +279,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
+    if (indexPath.section == 4) {
+        YYPushController *push = [[YYPushController alloc] init];
+        push.jz_wantsNavigationBarVisible = YES;
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = yyyyMMddHHmmss;
+        NSDate *theDay = [formatter dateFromString:self.mainModel.post_msg.addtime];
+        formatter.dateFormat = @"yyyy-MM-dd";
+        push.today = [formatter stringFromDate:theDay];
+        push.todate = self.mainModel.post_msg.addtime;
+//        push.pushId = self.postmsgmodel.postmsg_id;
+        [self.navigationController pushViewController:push animated:YES];
+    }
 }
 
 #pragma -- mark TableViewDataSource
@@ -362,6 +363,21 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
     CGFloat contentOffsetY = scrollView.contentOffset.y;
+    
+    if (contentOffsetY < -40 && self.navView.alpha == 1 && _lock == NO) {
+        _lock = YES;
+        [UIView animateWithDuration:.5f delay:.5 options:UIViewAnimationOptionCurveLinear animations:^{
+            self.navView.alpha = 0;
+            _lock = NO;
+        } completion:nil];
+    }else if (contentOffsetY >= 0 && self.navView.alpha == 0 && _lock == NO){
+        _lock = YES;
+        [UIView animateWithDuration:.2f delay:.2 options:UIViewAnimationOptionCurveLinear animations:^{
+            self.navView.alpha = 1;
+            _lock = NO;
+        } completion:nil];
+    }
+    
     CGFloat alpha = (contentOffsetY-35)/100;
     if (alpha >= 1) {
         alpha = 1;
@@ -369,18 +385,19 @@
         alpha = 0;
     }
     [self.navView setBackgroundColor:[ThemeColor colorWithAlphaComponent:alpha]];
+//    [self.navView setAlpha:alpha];
     
     CGRect frame = self.searchBtn.frame;
     
     if (contentOffsetY > 75) {//变大啦啦啦
-        frame.size.width = kSCREENWIDTH-60;
+        frame.size.width = kSCREENWIDTH-50;
         frame.origin.x = 40;
         [UIView animateWithDuration:0.5 animations:^{
             self.searchBtn.frame = frame;
         }];
     }else if (contentOffsetY < 50) {//变小啦啦啦
         frame.size.width = 30;
-        frame.origin.x = kSCREENWIDTH - 50;
+        frame.origin.x = kSCREENWIDTH - 40;
         [UIView animateWithDuration:0.5 animations:^{
             self.searchBtn.frame = frame;
         }];
@@ -410,13 +427,12 @@
             }
         }
     }
-
 }
 
 
 #pragma mark -------  自定义modal转场的代理方法  ---------------------------
 
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
+-(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
     return _presentAnimation;
 }
 
@@ -445,8 +461,6 @@
 - (void)handleRemoteNotice:(NSDictionary *)userInfo {
     
     NSString *type = userInfo[@"type"];
-//    YYUser *user = [YYUser shareUser];
-    
     YYTabBarViewController *tab = (YYTabBarViewController *)kKeyWindow.rootViewController;
     YYNavigationViewController  *nav = tab.selectedViewController;
     UIViewController *vc = nav.visibleViewController;
@@ -474,6 +488,7 @@
     }else if ([type isEqualToString:@"365"]) {//365推送
         
         if ([vc isKindOfClass:[YYPushController class]]) {
+            [kNotificationCenter postNotificationName:YYReceived365RemoteNotification object:nil userInfo:userInfo];
             return;
         }
         YYPushController *push = [[YYPushController alloc] init];
@@ -482,27 +497,19 @@
         [vc.navigationController pushViewController:push animated:YES];
     }else if ([type isEqualToString:@"sp_time"]) {//按时间推送
         
-//        YYPushServiceDetailController *serviceDetail = [[YYPushServiceDetailController alloc] init];
-//        serviceDetail.url = [NSString stringWithFormat:@"%@&id=%@",pushDetailJointUrl,userInfo[@"id"]];
-//        serviceDetail.jz_wantsNavigationBarVisible = YES;
-//        [vc.navigationController pushViewController:serviceDetail animated:YES];
-        
         [self showAlertNotice:userInfo];
-//        [self dispatchRemoteSpecialNotice:userInfo];
     }else if ([type isEqualToString:@"sp_num"]) {//按次数推送
         
         [self showAlertNotice:userInfo];
-//        [self dispatchRemoteSpecialNotice:userInfo];
+    }else if(type == nil) {
+        
+        YYLog(@"后台啥也没发 就是提醒一下用户而已，刷存在感");
+    }else {
+        
+        [self showAlertNotice:userInfo];
+        YYLog(@"发送的type是售出的推送  ----  %@",type);
     }
 }
-
-
-/** 处理远程发送的特色服务的信息*/
-- (void)dispatchRemoteSpecialNotice:(NSDictionary *)userinfo {
-    
-    
-}
-
 
 //特色服务需弹框,APP在前台需弹框提醒，是否查看新闻
 - (void)showAlertNotice:(NSDictionary *)userInfo {
@@ -516,30 +523,36 @@
     
     if ([type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_time"]) {
     
-        alertBody = userInfo[@"aps"][@"alert"][@"tip"];
+        alertBody = userInfo[@"tip"];
     }
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:alertBody preferredStyle:UIAlertControllerStyleAlert];
    
+    NSString *confirmStr = [[self type:userInfo[@"tip"]] isEqualToString:@"0"] ? @"确定" : @"查看";
+    
     YYWeakSelf
-    [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        YYLog(@"点击了取消");
-        if ([type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_time"]) {//按次数推送
-            
-            [weakSelf feedback:userInfo isLookUp:@"0"];
-        }else {
-            
-            [weakSelf handleRemoteNotice:userInfo];
-        }
-    }]];
-
-    [alert addAction:[UIAlertAction actionWithTitle:@"查看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    if(![type isEqualToString:@"sp_sell"]) {//卖出消息
+        
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            YYLog(@"点击了取消");
+            if ([type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_time"]) {//按次数推送
+                
+                [weakSelf feedback:userInfo isLookUp:@"0"];
+            }else {
+                [weakSelf handleRemoteNotice:userInfo];
+            }
+        }]];
+    }
+    
+    [alert addAction:[UIAlertAction actionWithTitle:confirmStr style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         if ([type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_time"]) {//按次数推送
             
             [weakSelf feedback:userInfo isLookUp:@"1"];
-        }else {
+        }else if ([type isEqualToString:@"sp_sell"]) {//卖出消息
             
+            [weakSelf feedback:userInfo isLookUp:@"1"];
+        }else {
             [weakSelf handleRemoteNotice:userInfo];
         }
     }]];
@@ -554,26 +567,26 @@
     YYUser *user = [YYUser shareUser];
     //权限判断
     NSString *type = [self type:userInfo[@"tip"]];
-    
-    if ([type isEqualToString:@"1"] && [isLookUp isEqualToString:@"1"]) {
-        
-        YYTabBarViewController *tab = (YYTabBarViewController *)kKeyWindow.rootViewController;
-        YYNavigationViewController  *nav = tab.selectedViewController;
-        UIViewController *vc = nav.visibleViewController;
-        
-        YYPushServiceDetailController *serviceDetail = [[YYPushServiceDetailController alloc] init];
-        //    serviceDetail.url = [NSString stringWithFormat:@"%@&orderid=%@&id=%@&userid=%@",pushDetailJointUrl,userInfo[@"orderid"],userInfo[@"id"],user.userid];
-        
-        serviceDetail.url = [NSString stringWithFormat:@"?%@&userid=%@&type=%@&yesno=%@",pushDetailJointUrl,user.userid,type,isLookUp];
-        serviceDetail.jz_wantsNavigationBarVisible = YES;
-        [vc.navigationController pushViewController:serviceDetail animated:YES];
+    if ([userInfo[@"type"] isEqualToString:@"sp_sell"]) {
+        //卖出消息
+        NSString *detailUrl = [NSString stringWithFormat:@"%@%@&",pushSellDetailHointUrl,userInfo[@"id"]];
+        [self pushDetail:detailUrl];
+    }else if ([type isEqualToString:@"1"] && [isLookUp isEqualToString:@"1"]) {
+        //有权限并且还点击了查看按钮
+        NSString *detailUrl = [NSString stringWithFormat:@"%@?userid=%@&id=%@&type=%@&yesno=%@&orderid=%@",pushDetailJointUrl,user.userid,userInfo[@"id"],type,isLookUp,userInfo[@"orderid"]];
+        [self pushDetail:detailUrl];
     }else {
-        
-        NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,type,@"type",isLookUp,@"yesno", nil];
-        [YYHttpNetworkTool GETRequestWithUrlstring:pushDetailJointUrl parameters:para success:^(id response) {
+        //取消查看的按钮
+        NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:userInfo[@"id"],@"id",user.userid,USERID,type,@"type",isLookUp,@"yesno", nil];
+        YYWeakSelf
+        [YYHttpNetworkTool GETRequestWithUrlstring:pushFeedBackJointUrl parameters:para success:^(id response) {
             
             //给后台发报告  用户取消或者没有资格并点击了确定
             YYLog(@"给后台发报告  用户取消或者没有资格并点击了确定 成功");
+            if ([isLookUp isEqualToString:@"1"]) {
+                [weakSelf connectClient];
+            }
+            
         } failure:^(NSError *error) {
             
         } showSuccessMsg:nil];
@@ -581,18 +594,45 @@
     
 }
 
+- (void)pushDetail:(NSString *)detailUrl {
+    
+    YYTabBarViewController *tab = (YYTabBarViewController *)kKeyWindow.rootViewController;
+    YYNavigationViewController  *nav = tab.selectedViewController;
+    UIViewController *vc = nav.visibleViewController;
+    
+    YYPushServiceDetailController *serviceDetail = [[YYPushServiceDetailController alloc] init];
+    
+    serviceDetail.url = detailUrl;
+    serviceDetail.jz_wantsNavigationBarVisible = YES;
+    [vc.navigationController pushViewController:serviceDetail animated:YES];
+}
 
+/** 联系客服*/
+- (void)connectClient {
+    
+    if ([kApplication canOpenURL:[NSURL URLWithString:@"telprompt://010-87777077"]]) {
+        [kApplication openURL:[NSURL URLWithString:@"telprompt://010-87777077"]];
+    }
+}
+
+/**
+ 有新服务通知，您接受本次服务吗？
+ 您的持股已达上限（3支以上），再次与您确认是否需要？
+ 您的服务已结束，如需帮助请联系客服010-87777077。
+ 您尚未购买此服务，如需帮助请联系客服010-87777077。
+ 您尚未成为会员，请联系客服010-87777077。
+ */
 - (NSString *)type:(NSString *)tip {
     
-    if ([tip isEqualToString:@"尊敬的会员，您有新的股票信息，是否确认需要？"]) {
+    if ([tip isEqualToString:@"有新服务通知，您接受本次服务吗？"]) {
         return @"1";
-    }else if ([tip isEqualToString:@"尊敬的会员，您已达持股上限3支（以上），再次与您确认是否需要？"]) {
+    }else if ([tip isEqualToString:@"您的持股已达上限（3支以上），再次与您确认是否需要？"]) {
         return @"1";
-    }else if ([tip isEqualToString:@"尊敬的会员，您已达服务期限已过。"]) {
+    }else if ([tip isEqualToString:@"您的服务已结束，如需帮助请联系客服010-87777077。"]) {
         return @"0";
-    }else if ([tip isEqualToString:@"尊敬的会员，您尚未购买此服务，请联系客服010-87777898。"]) {
+    }else if ([tip isEqualToString:@"您尚未购买此服务，如需帮助请联系客服010-87777077。"]) {
         return @"0";
-    }else if ([tip isEqualToString:@"尊敬的用户，您尚未成为会员，请联系客服010-87777898。"]) {
+    }else if ([tip isEqualToString:@"您尚未成为会员，请联系客服010-87777077。"]) {
         return @"0";
     }
     return @"0";
@@ -625,15 +665,15 @@
 - (UIButton *)searchBtn{
     if (!_searchBtn) {
         _searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _searchBtn.frame = CGRectMake(kSCREENWIDTH-50, YYTopNaviHeight-navSubviewHeight-7, searchButtonWidth, navSubviewHeight);
+        _searchBtn.frame = CGRectMake(kSCREENWIDTH-40, YYTopNaviHeight-navSubviewHeight-7, searchButtonWidth, navSubviewHeight);
         [_searchBtn setImage:imageNamed(@"yyfw_search_translucent_19x19_") forState:UIControlStateNormal];
         [_searchBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 5, 0, 0)];
-//        [_searchBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 15, 0, 0)];
-        [_searchBtn setTitle:@"   搜索股票、基金、债券" forState:UIControlStateNormal];
+        [_searchBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 15, 0, 0)];
+        [_searchBtn setTitle:@" 搜索股票、基金、债券" forState:UIControlStateNormal];
         _searchBtn.layer.masksToBounds = YES;
         _searchBtn.titleLabel.font = SubTitleFont;
         _searchBtn.layer.cornerRadius = navSubviewHeight/2;
-        _searchBtn.backgroundColor = YYRGBA(200, 200, 200, 0.7);
+        _searchBtn.backgroundColor = YYRGBA(200, 200, 200, 0.5);
         [_searchBtn addTarget:self action:@selector(searchClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _searchBtn;
@@ -656,7 +696,7 @@
         _tableview.rowHeight = UITableViewAutomaticDimension;
         
         MJWeakSelf
-        _tableview.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _tableview.mj_header = [YYNormalHeader headerWithRefreshingBlock:^{
             YYStrongSelf
             [strongSelf loadNewData];
             //给热搜和牛人发送通知，主界面刷新后子界面也要刷新
@@ -669,7 +709,7 @@
         [_tableview registerClass:[YYMainMarketDataCell class] forCellReuseIdentifier:YYMainMarketDataCellID];
         [_tableview registerClass:[YYMainPushCell class] forCellReuseIdentifier:YYMainPostMsgCellID];
         [_tableview registerClass:[YYMainSrollpicCell class] forCellReuseIdentifier:YYMainSrollpicCellID];
-    
+
         [_tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
         _tableview.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
         [_tableview setSeparatorInset:UIEdgeInsetsMake(0, 0, YYTabBarH, 0)];

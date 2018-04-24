@@ -28,14 +28,14 @@
     self.tabBar.itemTitleSelectedColor = ThemeColor;
     self.tabBar.itemTitleFont = TitleFont;
     self.tabBar.itemTitleSelectedFont = [UIFont systemFontOfSize:22];
-    self.tabBar.leftAndRightSpacing = 0;
+//    self.tabBar.leftAndRightSpacing = 0;
     
+    self.tabBar.indicatorColor = ThemeColor;
     self.tabBar.itemFontChangeFollowContentScroll = YES;
-    self.tabBar.itemSelectedBgScrollFollowContent = YES;
-    
     [self.tabBar setScrollEnabledAndItemFitTextWidthWithSpacing:40];
     
-    [self setContentScrollEnabledAndTapSwitchAnimated:YES];
+    [self setContentScrollEnabled:YES tapSwitchAnimated:YES];
+    self.interceptRightSlideGuetureInFirstPage = YES;
     self.loadViewOfChildContollerWhileAppear = YES;
     
     // 添加所有子控制器

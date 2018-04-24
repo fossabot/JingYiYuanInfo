@@ -14,6 +14,7 @@
                 <outlet property="leftLabel" destination="2P1-QW-Xah" id="R3n-d6-nR3"/>
                 <outlet property="sendBtn" destination="U8h-IR-qJd" id="TA1-2k-ihO"/>
                 <outlet property="textField" destination="obp-16-LMz" id="vQb-h9-Qc7"/>
+                <outlet property="tipLabel" destination="zjF-r3-xRJ" id="Ssp-RE-Gnv"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -72,11 +73,19 @@
                         <action selector="commit:" destination="-1" eventType="touchUpInside" id="WEW-A5-HfM"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zjF-r3-xRJ">
+                    <rect key="frame" x="10" y="116" width="0.0" height="0.0"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.83137254901960778" green="0.23529411764705882" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="U8h-IR-qJd" secondAttribute="trailing" constant="30" id="FHT-dT-mGz"/>
                 <constraint firstItem="clP-4y-2is" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="Gx3-MZ-0g3"/>
+                <constraint firstItem="zjF-r3-xRJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="KMl-NN-u2Z"/>
+                <constraint firstItem="zjF-r3-xRJ" firstAttribute="top" secondItem="clP-4y-2is" secondAttribute="bottom" constant="8" id="Kdx-cs-zO8"/>
                 <constraint firstItem="U8h-IR-qJd" firstAttribute="top" secondItem="clP-4y-2is" secondAttribute="bottom" constant="50" id="bNc-xd-lOj"/>
                 <constraint firstAttribute="trailing" secondItem="clP-4y-2is" secondAttribute="trailing" id="kfR-gH-jEs"/>
                 <constraint firstItem="U8h-IR-qJd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="oTu-rK-SRa"/>

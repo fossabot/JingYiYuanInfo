@@ -213,6 +213,7 @@
 - (void)resignResponder {
     [self.textView resignFirstResponder];
     [coverView removeFromSuperview];
+    coverView = nil;
     self.textView.text = nil;
 }
 

@@ -70,7 +70,7 @@
 -(void)PlaceTextLabel{
     if (self.placeText.length>0) {
         if (!_placeTextLab) {
-            CGRect frame = CGRectMake(0,8, self.bounds.size.width-16, 0);
+            CGRect frame = CGRectMake(3,8, self.bounds.size.width-16, 0);
             _placeTextLab = [[UILabel alloc]initWithFrame:frame];
             _placeTextLab.font = self.font;
             _placeTextLab.backgroundColor = [UIColor clearColor];
@@ -84,7 +84,7 @@
         
         _placeTextLab.text = self.placeText;
         [_placeTextLab sizeToFit];
-        [_placeTextLab setFrame:CGRectMake(0, 8, CGRectGetWidth(self.bounds)-16, CGRectGetHeight(_placeTextLab.frame))];
+        [_placeTextLab setFrame:CGRectMake(3, 8, CGRectGetWidth(self.bounds)-16, CGRectGetHeight(_placeTextLab.frame))];
     }
     if (self.text.length == 0 && self.placeText.length>0) {
         [[self viewWithTag:999]setAlpha:1.0];

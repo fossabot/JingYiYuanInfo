@@ -62,5 +62,9 @@ typedef void(^YYBaseInfoMoreBlock)(NSString *lastid, NSString *classid);
  */
 - (void)resetSeekTime;
 
+/**
+ *  删除不喜欢的资讯的模型
+ */
+- (void)deleteRow:(NSInteger)row;
 
 @end

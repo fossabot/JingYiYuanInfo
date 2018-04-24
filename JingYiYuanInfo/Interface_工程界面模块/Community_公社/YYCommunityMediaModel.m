@@ -15,7 +15,7 @@
 + (NSDictionary *)mj_replacedKeyFromPropertyName {
     
     return @{
-             @"mideaId":@"id"
+             @"mediaId":@"id"
              };
 }
 

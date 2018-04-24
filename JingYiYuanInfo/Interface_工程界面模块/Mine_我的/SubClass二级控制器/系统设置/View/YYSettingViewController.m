@@ -15,6 +15,7 @@
 #import "YYSettingViewModel.h"
 #import "YYUser.h"
 #import "YYLoginManager.h"
+#import "UIImageView+WebCache.h"
 
 @interface YYSettingViewController ()
 
@@ -85,11 +86,12 @@
             case 5:{
                 
                 [SVProgressHUD showWithStatus:@"正在清理。。。"];
-                [SVProgressHUD dismissWithDelay:3 completion:^{
-                   
+                [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
                     UITableViewCell *cell = [weakSelf.tableView cellForRowAtIndexPath:indexPath];
                     cell.detailTextLabel.text = @"0M";
+                    [SVProgressHUD showSuccessWithStatus:@"清理完成"];
                 }];
+                
             }
                 break;
                 
@@ -109,6 +111,7 @@
                     
                     [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
                 }
+                [weakSelf.navigationController popViewControllerAnimated:YES];
             }];
         }];
         

@@ -32,9 +32,13 @@
  */
 #define pushDetailJointUrl @"http://yyapp.1yuaninfo.com/app/houtai/push.php"//推送信息详情的拼接地址
 
+#define pushFeedBackJointUrl @"http://yyapp.1yuaninfo.com/app/houtai/push.php" //推送消息没有权限却查看的或者有权限却取消的反馈地址
+
+#define pushSellDetailHointUrl @"http://yyapp.1yuaninfo.com/app/houtai/sellpush.php?id="  //推送卖出消息的详情页
+
 #define shareVideoJointUrl @"http://yyapp.1yuaninfo.com/app/share/video_share.php?id="
 
-#define pdfReportJointUrl @""
+#define shareNiuVideoJointUrl @"http://yyapp.1yuaninfo.com/app/share/video_share.php?type=niu&id="
 
 //请求参数宏
 #define USERID @"userid"
@@ -583,18 +587,22 @@
 #define mineChangeTelGetYzmUrl  [NSString stringWithFormat:@"%@/app/application/register.php",domainUrl]
 
 
-#pragma 验证手机号
-//http://yyapp.1yuaninfo.com/app/application/validate.php?mobile=17090028712&yzm=5785010
-//参数 mobile 手机号,   yzm 验证码
+#pragma 修改手机号
+//http://yyapp.1yuaninfo.com/app/application/mod_ph_no.php?act=modphone&yzm=253793&userid=1499064765j6qavy&mobile=17010202123
+//参数 act=modphone  userid  mobile 手机号,   yzm 验证码
 //返回值 status:0 不能为空,1成功,2插入数据库失败,3验证码超时,4验证码错误
-#define mineChangeTelUrl  [NSString stringWithFormat:@"%@/app/application/validate.php",domainUrl]
+#pragma 修改手机号时获取验证码并验证手机是否注册
+//http://yyapp.1yuaninfo.com/app/application/mod_ph_no.php?act=check&phone=17010202123
+//参数 act=check   phone 手机号
+//返回值 status:  0 发送失败, 1 成功, 2 该手机号已经注册
+#define mineChangeTelUrl  [NSString stringWithFormat:@"%@/app/application/mod_ph_no.php",domainUrl]
 
 
 #pragma 修改密码接口：旧密码、新密码验证
 //http://yyapp.1yuaninfo.com/app/application/mod_pwd.php?userid=USERID&oldpwd=pwd& newpwd=pwd
-//参数 userid  oldpwd=旧密码   newpwd=新密码
+//参数 act=modpwd userid  oldpwd=旧密码   newpwd=新密码
 //返回值 states  0 旧密码错误  1 修改成功
-#define mineChangePwdUrl  [NSString stringWithFormat:@"%@/app/application/validate.php",domainUrl]
+#define mineChangePwdUrl  [NSString stringWithFormat:@"%@/app/application/mod_pwd.php",domainUrl]
 
 
 #pragma 签到赢积分
@@ -695,6 +703,10 @@
 //http://yyapp.1yuaninfo.com/app/application/userOrder.php
 //参数：act=orderover  userid=  lastid=
 #define orderUrl  [NSString stringWithFormat:@"%@/app/application/userOrder.php",domainUrl]
+
+#pragma 订单推送的消息列表接口
+//http://yyapp.1yuaninfo.com/app/houtai/admin/user_order_gupiao.php
+#define orderListUrl [NSString stringWithFormat:@"%@/app/houtai/admin/user_order_gupiao.php",domainUrl]
 
 #pragma ------------------------------------------------------------------------
 #pragma mark  ------------------- 个人中心部分固定页面静态链接 ----------------------

@@ -33,6 +33,7 @@
     }else {
         [shareObject setThumbImage:imageUrl];
     }
+    
     //设置网页地址
     shareObject.webpageUrl = weburl;
     
@@ -41,12 +42,17 @@
     
     [[UMSocialManager defaultManager] shareToPlatform:umsocialType messageObject:messageObject currentViewController:nil completion:^(id result, NSError *error) {
         if (error) {
+            [SVProgressHUD showErrorWithStatus:@"分享失败"];
+            [SVProgressHUD dismissWithDelay:1];
             YYLog(@"************ 分享网页错误 ************");
         }else{
             if ([result isKindOfClass:[UMSocialResponse class]]) {
                 UMSocialShareResponse *response = result;
                 YYLog(@"************ 友盟分享返回的信息 ：%@",response.message);
                 YYLog(@"************ 第三方原始的返回信息 ：%@",response.originalResponse);
+                
+                [SVProgressHUD showSuccessWithStatus:@"分享成功"];
+                [SVProgressHUD dismissWithDelay:1];
             }else{
                 YYLog(@"************ 返回的全部数据 ： %@",result);
             }
@@ -111,7 +117,7 @@
  @param platformType 平台
  */
 + (void)shareMusic:(NSString *)musicUrl title:(NSString *)title desc:(NSString *)desc thumbUrl:(NSString *)imageUrl toPlatformType:(UMSocialPlatformType)platformType {
-#warning    分享音乐啦啦啦啦啦啦啦啦
+
     YYLog(@"分享音乐啦啦啦啦啦啦啦啦");
     //创建分享消息对象
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];

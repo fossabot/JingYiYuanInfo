@@ -42,8 +42,10 @@
         return @"热";
     }else if ([_label isEqualToString:@"2"]) {
         return @"荐";
-    }else {
+    }else if ([_label isEqualToString:@"3"]){
         return @"推";
+    }else {
+        return @"";
     }
 }
 

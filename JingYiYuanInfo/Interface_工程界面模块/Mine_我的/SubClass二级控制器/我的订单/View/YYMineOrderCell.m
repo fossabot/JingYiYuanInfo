@@ -10,6 +10,9 @@
 #import "YYOrderModel.h"
 #import "UIView+YYCategory.h"
 
+static const CGFloat margin = 7;
+static const CGFloat contentPadding = 16;
+
 @interface YYMineOrderCell()
 
 @property (nonatomic, strong) UIImageView *container;
@@ -29,7 +32,7 @@
 @property (nonatomic, strong) UILabel *buyTime;
 
 /** 研报按钮*/
-@property (nonatomic, strong) UIButton *yanbaoBtn;
+@property (nonatomic, strong) UIButton *moreBtn;
 
 
 @end
@@ -53,6 +56,7 @@
     
     UIImageView *container = [[UIImageView alloc] init];
 //    container.layer.shadowOffset = CGSizeMake(0, -3);
+    container.userInteractionEnabled = YES;
     container.image = imageNamed(@"yyfw_mine_orderBackImage_60x60");
     container.contentMode = UIViewContentModeScaleToFill;
     self.container = container;
@@ -60,56 +64,52 @@
     
     UILabel *title = [[UILabel alloc] init];
     title.textColor = TitleColor;
-    title.font = SubTitleFont;
+    title.font = TitleFont;
     self.title = title;
     [self.container addSubview:title];
     
     UILabel *state = [[UILabel alloc] init];
-    state.textColor = TitleColor;
-    state.font = SubTitleFont;
+    state.textColor = ThemeColor;
+    state.font = TitleFont;
     state.textAlignment = NSTextAlignmentRight;
     self.state = state;
     [self.container addSubview:state];
     
     UILabel *orderId = [[UILabel alloc] init];
     orderId.textColor = TitleColor;
-    orderId.font = SubTitleFont;
+    orderId.font = TitleFont;
     self.orderId = orderId;
     [self.container addSubview:orderId];
     
     UILabel *price = [[UILabel alloc] init];
     price.textColor = TitleColor;
-    price.font = SubTitleFont;
+    price.font = TitleFont;
     self.price = price;
     [self.container addSubview:price];
     
     UILabel *expireTime = [[UILabel alloc] init];
     expireTime.textColor = TitleColor;
-    expireTime.font = SubTitleFont;
+    expireTime.font = TitleFont;
     self.expireTime = expireTime;
     [self.container addSubview:expireTime];
     
     UILabel *money = [[UILabel alloc] init];
     money.textColor = TitleColor;
-    money.font = SubTitleFont;
+    money.font = TitleFont;
     self.money = money;
     [self.container addSubview:money];
     
     UILabel *buyTime = [[UILabel alloc] init];
     buyTime.textColor = TitleColor;
-    buyTime.font = SubTitleFont;
+    buyTime.font = TitleFont;
     self.buyTime = buyTime;
     [self.container addSubview:buyTime];
     
-    UIButton *yanbaoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    yanbaoBtn.backgroundColor = ThemeColor;
-    [yanbaoBtn setTitleColor:WhiteColor forState:UIControlStateNormal];
-    yanbaoBtn.titleLabel.font = sysFont(12);
-    yanbaoBtn.layer.cornerRadius = 2;
-    [yanbaoBtn setTitle:@"研报" forState:UIControlStateNormal];
-    [yanbaoBtn addTarget:self action:@selector(checkYanBao) forControlEvents:UIControlEventTouchUpInside];
-    [self.container addSubview:yanbaoBtn];
-    self.yanbaoBtn = yanbaoBtn;
+    UIButton *moreBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [moreBtn setImage:imageNamed(@"more") forState:UIControlStateNormal];
+    [moreBtn addTarget:self action:@selector(checkMore) forControlEvents:UIControlEventTouchUpInside];
+    [self.container addSubview:moreBtn];
+    self.moreBtn = moreBtn;
     
     UIButton *cancelOrderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     cancelOrderBtn.backgroundColor = ClearColor;
@@ -119,7 +119,7 @@
     cancelOrderBtn.layer.borderColor = UnenableTitleColor.CGColor;
     cancelOrderBtn.layer.borderWidth = 1;
     cancelOrderBtn.layer.cornerRadius = 2;
-    [cancelOrderBtn setTitle:@"退单" forState:UIControlStateNormal];
+    [cancelOrderBtn setTitle:@"申请终止服务" forState:UIControlStateNormal];
     [cancelOrderBtn addTarget:self action:@selector(cancelThisOrder) forControlEvents:UIControlEventTouchUpInside];
     [self.container addSubview:cancelOrderBtn];
     self.cancelOrderBtn = cancelOrderBtn;
@@ -130,69 +130,63 @@
 - (void)masonrySubView {
     
     [self.container makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(5, 5, 5, 10));
+        make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(YYInfoCellCommonMargin, 5, 5, YYInfoCellCommonMargin));
     }];
     
     [self.title makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.left.equalTo(YYCommonCellTopMargin);
+        make.top.left.equalTo(contentPadding);
         make.right.equalTo(self.state.left).offset(-YYInfoCellSubMargin);
-//        make.top.equalTo(YYInfoCellCommonMargin);
     }];
     
     [self.state makeConstraints:^(MASConstraintMaker *make) {
         
-        make.right.equalTo(-YYCommonCellTopMargin);
-        make.top.equalTo(YYCommonCellTopMargin);
-        
+        make.right.equalTo(-contentPadding);
+        make.top.equalTo(contentPadding);
     }];
     
     [self.orderId makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.title.bottom).offset(5);
+        make.top.equalTo(self.title.bottom).offset(margin);
         make.left.equalTo(self.title);
     }];
     
     [self.price makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.orderId.bottom).offset(5);
+        make.top.equalTo(self.orderId.bottom).offset(margin);
         make.left.equalTo(self.title);
     }];
     
     [self.expireTime makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.price.bottom).offset(5);
+        make.top.equalTo(self.price.bottom).offset(margin);
         make.left.equalTo(self.title);
     }];
     
     [self.money makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.expireTime.bottom).offset(5);
+        make.top.equalTo(self.expireTime.bottom).offset(margin);
         make.left.equalTo(self.title);
     }];
     
     [self.buyTime makeConstraints:^(MASConstraintMaker *make) {
        
-        make.top.equalTo(self.money.bottom).offset(5);
+        make.top.equalTo(self.money.bottom).offset(margin);
         make.left.equalTo(self.title);
-        make.bottom.equalTo(self.container).offset(-YYCommonCellBottomMargin);
+        make.bottom.equalTo(self.container).offset(-contentPadding);
     }];
     
-    [self.yanbaoBtn makeConstraints:^(MASConstraintMaker *make) {
+    [self.moreBtn makeConstraints:^(MASConstraintMaker *make) {
        
-        make.right.equalTo(-YYCommonCellTopMargin);
-//        make.bottom.equalTo(-YYCommonCellBottomMargin);
-        make.centerY.equalTo(self.buyTime);
-        make.width.equalTo(40);
-        make.height.equalTo(20);
+        make.right.equalTo(-contentPadding);
+        make.centerY.equalTo(self.container);
     }];
     
     [self.cancelOrderBtn makeConstraints:^(MASConstraintMaker *make) {
         
-        make.right.equalTo(self.yanbaoBtn.left).offset(-10);
-        make.bottom.equalTo(self.yanbaoBtn);
-        make.width.equalTo(40);
+        make.right.equalTo(-contentPadding);
+        make.centerY.equalTo(self.buyTime);
+        make.width.equalTo(90);
         make.height.equalTo(20);
     }];
     
@@ -205,30 +199,42 @@
     
     self.title.text = model.packname;
     self.state.text = @"支付完成";
-    self.orderId.text = model.ordernum;
+    self.orderId.text = model.unique_ordernum;
     self.price.text = model.price;
     self.expireTime.text = model.expireCalculate;
     self.money.text = model.cost;
     self.buyTime.text = model.buytime;
+    if ([model.packname isEqualToString:@"产品:365会员"]) {
+        self.cancelOrderBtn.hidden = YES;
+        return;
+    }else {
+        self.cancelOrderBtn.hidden = NO;
+    }
     NSString *cancelState;
     BOOL cancelEnable = YES;
     if ([model.paystatus isEqualToString:@"3"]) {//退单中
-        cancelState = @"退单中";
-        cancelEnable = NO;
+        cancelState = @"申请中";
+        cancelEnable = YES;
         [self.cancelOrderBtn updateConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(50);
         }];
     }else if ([model.paystatus isEqualToString:@"4"]) {
-        cancelState = @"已退单";
+        cancelState = @"已终止";
         cancelEnable = NO;
         [self.cancelOrderBtn updateConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(50);
         }];
+    }else if ([model.paystatus isEqualToString:@"5"]) {
+        cancelState = @"已结束服务";
+        cancelEnable = NO;
+        [self.cancelOrderBtn updateConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(75);
+        }];
     }else {
-        cancelState = @"退单";
+        cancelState = @"申请终止服务";
         cancelEnable = YES;
         [self.cancelOrderBtn updateConstraints:^(MASConstraintMaker *make) {
-            make.width.equalTo(40);
+            make.width.equalTo(90);
         }];
     }
     
@@ -237,10 +243,10 @@
 }
 
 /** 查看研报*/
-- (void)checkYanBao {
+- (void)checkMore {
     
-    if (_yanbaoBlock) {
-        _yanbaoBlock(_model.orderId);
+    if (_moreBlock) {
+        _moreBlock(_model.orderId);
     }
 }
 

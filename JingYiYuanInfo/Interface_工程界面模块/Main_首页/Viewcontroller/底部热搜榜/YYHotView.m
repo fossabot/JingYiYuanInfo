@@ -114,7 +114,7 @@ static NSString * cellId = @"cellid";
         return;
     }
     _selectedTag = tag;
-    self.viewModel.classid = [NSString stringWithFormat:@"%ld",tag];
+//    self.viewModel.classid = [NSString stringWithFormat:@"%ld",tag];
     if ([self.tableView.mj_footer isRefreshing]) {
         [self.tableView.mj_footer endRefreshing];
     }
@@ -208,6 +208,13 @@ static NSString * cellId = @"cellid";
                     infoDetail.url = hotInfoModel.webUrl;
                     infoDetail.shareImgUrl = hotInfoModel.picurl;
                     infoDetail.newsId = hotInfoModel.infoid;
+                    __weak typeof(indexPath) weakIndex = indexPath;
+                    infoDetail.dislikeBlock = ^(NSString *newsId) {
+                        [weakSelf.viewModel deleteRow:weakIndex.row];
+                        [strongSelf.tableView deleteRowsAtIndexPaths:@[weakIndex] withRowAnimation:UITableViewRowAnimationLeft];
+//                        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+                    };
+                    infoDetail.subTitle = hotInfoModel.infodescription;
                     [strongSelf.parentNavigationController pushViewController:infoDetail animated:YES];
                 }
                     break;
@@ -215,11 +222,8 @@ static NSString * cellId = @"cellid";
                 case 4:{
                     YYPicsDetailController *picsDetail = [[YYPicsDetailController alloc] init];
                     YYHotInfoModel *hotInfoModel = (YYHotInfoModel *)data;
-                    
-//                    picsDetail.shareImgUrl = hotInfoModel.picurl;
                     picsDetail.picsModels = hotInfoModel.picarr;
                     picsDetail.jz_wantsNavigationBarVisible = NO;
-
                     YYLog(@"hotView的父navigationcontroller的地址  %p",strongSelf.parentNavigationController);
                     [strongSelf.parentNavigationController pushViewController:picsDetail animated:YES];
                 }
@@ -247,8 +251,7 @@ static NSString * cellId = @"cellid";
 - (void)configTableView {
     
     self.tableView.separatorColor = UnenableTitleColor;
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
-    self.tableView.tableFooterView = [[UIView alloc] init];
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, YYContentInsetBottom, 0);
 //    self.tableView.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     [self.tableView registerClass:[YYHotTableViewCell class] forCellReuseIdentifier:YYHotTableViewCellId];
@@ -262,16 +265,12 @@ static NSString * cellId = @"cellid";
     self.tableView.dataSource = self.viewModel;
     
     MJWeakSelf;
-    
-    MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+    YYBackStateFooter *stateFooter = [YYBackStateFooter footerWithRefreshingBlock:^{
         
         YYStrongSelf
         [strongSelf loadMoreData];
     }];
-    
-    [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
     self.tableView.mj_footer = stateFooter;
-    
     
     FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
     configer.emptyImage = imageNamed(emptyImageName);
@@ -280,9 +279,10 @@ static NSString * cellId = @"cellid";
     configer.emptyTitleFont = SubTitleFont;
     configer.allowScroll = NO;
     configer.emptyViewTapBlock = ^{
-        [weakSelf.tableView.mj_header beginRefreshing];
+        [weakSelf refreshData];
     };
     [self.tableView emptyViewConfiger:configer];
+    
 }
 
 

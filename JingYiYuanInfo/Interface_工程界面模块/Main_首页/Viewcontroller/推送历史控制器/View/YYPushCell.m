@@ -45,12 +45,17 @@
 - (void)setPushModel:(YYPushListCellModel *)pushModel {
     
     _pushModel = pushModel;
+    self.content.attributedText = [pushModel pushAttributedString];
     self.time.text = pushModel.checktime;
     self.title.text = pushModel.keyword1;
-    self.content.attributedText = [pushModel pushAttributedString];
-//    self.content.text = [pushModel pushAttributedString];
     self.extendBtn.hidden = !pushModel.isHaveExtendBtn;
     self.extendBtn.selected = pushModel.extendState;
+}
+
+/** 展开cell或者闭合*/
+- (void)extened {
+    
+    [self extendOrNot:self.extendBtn];
 }
 
 - (void)extendOrNot:(UIButton *)sender {
@@ -86,7 +91,7 @@
     [self.contentView addSubview:bottomRedLine];
     
     UILabel *title = [[UILabel alloc] init];
-    title.font = TitleFont;
+    title.font = sysFont(18);
     title.textColor = TitleColor;
     self.title = title;
     [self.contentView addSubview:title];
@@ -123,7 +128,7 @@
         
         make.top.equalTo(self.contentView);
         make.left.equalTo(self.time.right).offset(5);
-        make.height.equalTo(10);
+        make.height.equalTo(20);
         make.width.equalTo(1);
     }];
     
@@ -151,7 +156,7 @@
     [self.content makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.title);
-        make.top.equalTo(self.title.bottom).offset(YYInfoCellCommonMargin);
+        make.top.equalTo(self.title.bottom).offset(YYInfoCellSubMargin);
         make.right.equalTo(-YYInfoCellCommonMargin);
     }];
 
@@ -160,7 +165,7 @@
         make.top.equalTo(self.content.bottom);
         make.right.equalTo(-YYInfoCellCommonMargin);
         make.width.equalTo(60);
-        make.height.equalTo(30);
+        make.height.equalTo(20);
         make.bottom.equalTo(-5);
     }];
 

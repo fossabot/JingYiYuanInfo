@@ -24,17 +24,23 @@
     return [NSCalendar commentDateByOriginalDate:_posttime withDateFormat:yyyyMMddHHmmss];
 }
 
-- (void)setPicurl:(NSString *)picurl {
-    
-    if (![picurl containsString:@"http"]) {
-        
-        _picurl = [NSString stringWithFormat:@"%@%@",yyappJointUrl,picurl];
+- (NSString *)picurl {
+    if ([_picurl containsString:@"http"]) {
+        return _picurl;
     }
+    return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_picurl];
 }
+
+//- (void)setPicurl:(NSString *)picurl {
+//
+//    if (![picurl containsString:@"http"]) {
+//
+//        _picurl = [NSString stringWithFormat:@"%@%@",yyappJointUrl,picurl];
+//    }
+//}
 
 
 - (NSString *)URL {
-    
     
     if ([_URL containsString:@"http"]) {
         return _URL;

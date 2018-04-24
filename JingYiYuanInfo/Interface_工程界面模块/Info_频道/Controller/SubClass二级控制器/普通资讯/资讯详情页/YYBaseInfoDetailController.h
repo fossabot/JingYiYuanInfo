@@ -8,9 +8,17 @@
 
 #import "YYBaseDetailController.h"
 
+typedef void(^DislikeBlock)(NSString *newsId);
+
 @interface YYBaseInfoDetailController : YYBaseDetailController
 
 /** newsId*/
 @property (nonatomic, copy) NSString *newsId;
+
+/** indexPath*/
+@property (nonatomic, strong) NSIndexPath *indexPath;
+
+/** 不喜欢的回调*/
+@property (nonatomic, copy) DislikeBlock dislikeBlock;
 
 @end

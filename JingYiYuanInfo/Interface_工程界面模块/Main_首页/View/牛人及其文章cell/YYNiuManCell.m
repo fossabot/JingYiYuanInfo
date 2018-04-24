@@ -51,7 +51,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        self.separatorInset = UIEdgeInsetsMake(0, 10, 0, 10);
+        self.separatorInset = UIEdgeInsetsMake(0, YYInfoCellCommonMargin, 0, YYInfoCellCommonMargin);
         //创建子控件
         [self createSubview];
         
@@ -174,6 +174,7 @@
     
     UIImageView *upImage = [[UIImageView alloc] init];
     upImage.image = imageNamed(@"yyfw_main_up_20x20_");
+    upImage.contentMode = UIViewContentModeScaleAspectFit;
     [self.contentView addSubview:upImage];
     self.upImage = upImage;
 
@@ -186,15 +187,17 @@
 - (void)configAutoLayout {
     
     [self.indexButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self.contentView).offset(YYInfoCellCommonMargin);
+       
+        make.left.equalTo(YYInfoCellCommonMargin);
+        make.top.equalTo(self.contentView).offset(YYCommonCellLeftMargin);
         make.width.equalTo(25);
     }];
     
     [self.icon makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.indexButton.right).offset(YYInfoCellSubMargin);
         make.top.equalTo(self.indexButton);
-        make.height.equalTo(90);
-        make.width.equalTo(70);
+        make.height.equalTo(100);
+        make.width.equalTo(80);
     }];
     
     [self.name makeConstraints:^(MASConstraintMaker *make) {
@@ -203,7 +206,7 @@
     }];
     
     [self.niutag makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.name.bottom);
+        make.top.equalTo(self.name.bottom).offset(5);
         make.right.equalTo(self.contentView.right).offset(-YYInfoCellCommonMargin*4);
         make.left.equalTo(self.name.left);
     }];
@@ -212,7 +215,7 @@
         make.left.equalTo(self.name.left);
         make.right.equalTo(self.contentView.right).offset(-YYInfoCellCommonMargin);
         make.bottom.equalTo(self.icon.bottom);
-        make.bottom.equalTo(self.contentView.bottom).offset(-YYInfoCellCommonMargin);
+        make.bottom.equalTo(self.contentView.bottom).offset(-YYCommonCellLeftMargin);
     }];
     
 //    [self.modtime makeConstraints:^(MASConstraintMaker *make) {
@@ -227,7 +230,7 @@
     
     [self.upImage makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.renqizhi.bottom);
-        make.right.equalTo(self.renqizhi.right);
+        make.right.equalTo(self.renqizhi.right).offset(2);
         make.width.height.equalTo(15);
     }];
     

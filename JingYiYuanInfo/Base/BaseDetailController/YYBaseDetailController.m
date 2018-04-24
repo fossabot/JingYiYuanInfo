@@ -68,7 +68,6 @@
     NSURL *url = [NSURL URLWithString:self.url];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
     [self.wkWebview loadRequest:request];
-//    self.tipView.hidden = YES;
 }
 
 - (void)share {

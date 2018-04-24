@@ -9,10 +9,11 @@
 #import "YYNiuView.h"
 #import "YYNiuModel.h"
 #import "MJExtension.h"
-#import "MJRefresh.h"
+#import "YYRefresh.h"
 
 #import "YYNiuViewVM.h"
 
+#import "YYNiuManController.h"
 #import "YYNiuManDetailViewController.h"
 #import "YYNiuNewsDetailViewController.h"
 
@@ -126,11 +127,10 @@
             if (indexPath.section == 0) {
                 
                 YYNiuManModel *model = (YYNiuManModel *)data;
-                YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
-                niuManDetail.niuid = model.niu_id;
-                niuManDetail.imgUrl = model.niu_img;
-                niuManDetail.jz_wantsNavigationBarVisible = YES;
-                [strongSelf.parentNavigationController pushViewController:niuManDetail animated:YES];
+                YYNiuManController *niuManVc = [[YYNiuManController alloc] init];
+                niuManVc.niuManModel = model;
+                niuManVc.jz_wantsNavigationBarVisible = YES;
+                [strongSelf.parentNavigationController pushViewController:niuManVc animated:YES];
                 
             }else {
                 
@@ -152,9 +152,7 @@
 
     self.tableView.dataSource = self.viewModel;
     self.tableView.delegate = self.viewModel;
-    self.tableView.tableFooterView = [[UIView alloc] init];
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
-//    self.tableView.separatorInset = UIEdgeInsetsMake(0, -5, 0, YYInfoCellCommonMargin);
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, YYContentInsetBottom, 0);
     if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
         [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, -5, 0, YYInfoCellCommonMargin)];
     }
@@ -165,15 +163,15 @@
     [self.tableView registerClass:[YYNiuManCell class] forCellReuseIdentifier:YYNiuManCellID];
     [self.tableView registerClass:[YYNiuArticleCell class] forCellReuseIdentifier:YYNiuArticleCellID];
     
-    YYWeakSelf
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0.0001)];
+    self.tableView.tableHeaderView = header;
     
-    MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+    YYWeakSelf
+    YYBackStateFooter *stateFooter = [YYBackStateFooter footerWithRefreshingBlock:^{
         
         YYStrongSelf
         [strongSelf loadMoreData];
     }];
-    
-    [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
     self.tableView.mj_footer = stateFooter;
     
     FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
@@ -183,7 +181,7 @@
     configer.emptyTitleFont = SubTitleFont;
     configer.allowScroll = NO;
     configer.emptyViewTapBlock = ^{
-        [weakSelf.tableView.mj_header beginRefreshing];
+        [weakSelf loadNewData];
     };
     [self.tableView emptyViewConfiger:configer];
 }

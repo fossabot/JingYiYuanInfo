@@ -301,7 +301,7 @@
         _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:self.flowLayout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        _collectionView.contentInset = UIEdgeInsetsMake(10, 0, YYTabBarH+20, 0);
+        _collectionView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH+20, 0);
         UIView *bgView = [[UIView alloc] init];
         bgView.backgroundColor = YYRGB(238, 239, 240);
         _collectionView.backgroundView = bgView;

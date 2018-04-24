@@ -7,9 +7,9 @@
 //
 
 
-#import "YYBaseDetailController.h"
+#import "THBaseViewController.h"
 
-@interface YYYanbaoController : YYBaseDetailController
+@interface YYYanbaoController : THBaseViewController
 
 /** orderId*/
 @property (nonatomic, copy) NSString *orderId;

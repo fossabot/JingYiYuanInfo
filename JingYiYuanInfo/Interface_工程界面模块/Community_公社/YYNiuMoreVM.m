@@ -99,13 +99,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 100;
+    return 130;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     // 隐藏尾部刷新控件
-    tableView.mj_footer.hidden = (self.niuManDataSource.count%10 != 0);
+    tableView.mj_footer.hidden = (self.niuManDataSource.count%10 != 0 || self.niuManDataSource.count == 0);
     return self.niuManDataSource.count;
 }
 

@@ -14,7 +14,17 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        
+        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_9_x_Max) {
+            // iOS 9.0 以上系统的处理
+            YYContentInsetBottom = 0;
+        } else {
+            // iOS 9.0 及以下系统的处理
+            YYContentInsetBottom = 20;
+        }
+    
         self.tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, CGRectGetHeight(frame)) style:UITableViewStyleGrouped];
+        self.tableView.tableFooterView = [[UIView alloc] init];
 //        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self addSubview:self.tableView];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(acceptMsg:) name:YYMainVCGoTopNotificationName object:nil];

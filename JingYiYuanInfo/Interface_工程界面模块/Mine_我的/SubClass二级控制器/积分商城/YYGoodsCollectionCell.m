@@ -22,6 +22,13 @@
 
 - (void)configSubView {
     
+    UIView *borderView = [[UIView alloc] init];
+    borderView.layer.borderColor = YYRGB(244, 244, 244).CGColor;
+    borderView.backgroundColor = WhiteColor;
+    borderView.layer.borderWidth = 1;
+    self.borderView = borderView;
+    [self.contentView addSubview:borderView];
+    
     UIImageView *imageView = [[UIImageView alloc] init];
     self.imageView = imageView;
     [self.contentView addSubview:imageView];
@@ -36,9 +43,8 @@
     [self.contentView addSubview:tagLabel];
     
     UILabel *title = [[UILabel alloc] init];
-    title.textColor = UnenableTitleColor;
+    title.textColor = TitleColor;
     title.font = SubTitleFont;
-//    title.textAlignment = NSTextAlignmentCenter;
     title.numberOfLines = 2;
 //    [title setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     self.title = title;
@@ -53,10 +59,14 @@
     self.integration = integration;
     [self.contentView addSubview:integration];
     
+    [self.borderView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.contentView).insets(UIEdgeInsetsZero);
+    }];
+    
     [self.imageView makeConstraints:^(MASConstraintMaker *make) {
-       
-        make.left.top.right.equalTo(self.contentView);
-        make.height.equalTo((kSCREENWIDTH-30)/2);
+        make.left.top.equalTo(self.contentView).offset(5);
+        make.right.equalTo(self.contentView).offset(-5);
+        make.height.equalTo((kSCREENWIDTH-40)/2);
     }];
     
     [self.tagLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -70,7 +80,6 @@
         make.top.equalTo(self.tagLabel);
         make.left.equalTo(self.tagLabel.right).offset(5);
         make.right.equalTo(self.contentView).offset(-5);
-//        make.width.lessThanOrEqualTo(self.contentView.width-self.tagLabel.width-15);
     }];
     
     [self.integration makeConstraints:^(MASConstraintMaker *make) {

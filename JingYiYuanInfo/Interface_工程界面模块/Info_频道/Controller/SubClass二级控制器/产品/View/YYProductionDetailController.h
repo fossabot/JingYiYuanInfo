@@ -11,5 +11,11 @@
 @interface YYProductionDetailController : YYBaseDetailController
 
 @property (nonatomic, copy) NSString *productionId;
+ 
+/** tip提示语*/
+@property (nonatomic, copy) NSString *tip;
+
+/** mobile*/
+@property (nonatomic, copy) NSString *mobile;
 
 @end

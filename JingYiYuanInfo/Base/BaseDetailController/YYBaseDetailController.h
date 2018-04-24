@@ -27,6 +27,9 @@
 /** 分享的图片*/
 @property (nonatomic, strong) NSString *shareImgUrl;
 
+/** 分享的副标题*/
+@property (nonatomic, strong) NSString *subTitle;
+
 /** webview*/
 @property (nonatomic, strong) WKWebView *wkWebview;
 

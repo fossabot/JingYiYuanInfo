@@ -137,7 +137,7 @@
 			</dict>
 			<dict>
 				<key>title</key>
-				<string>电影</string>
+				<string>影视</string>
 				<key>id</key>
 				<string>21</string>
 			</dict>
@@ -354,7 +354,7 @@
 		<array>
 			<dict>
 				<key>title</key>
-				<string>QDII/QfII</string>
+				<string>QDII/QFII</string>
 				<key>id</key>
 				<string>1</string>
 			</dict>

@@ -32,7 +32,10 @@
 /** 推送信息简介*/
 @property (nonatomic, copy) NSString *remark;
 
-/** 推送信息时间  需要格式化成 时:分:秒 */
+/** formatterTime 需要格式化成 时:分:秒*/
+@property (nonatomic, copy) NSString *formatterTime;
+
+/** 推送信息时间  进入推送详情带的参数*/
 @property (nonatomic, copy) NSString *addtime;
 
 @end

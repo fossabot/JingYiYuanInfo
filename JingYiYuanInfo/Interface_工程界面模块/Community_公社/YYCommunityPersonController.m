@@ -8,7 +8,7 @@
 
 #import "YYCommunityPersonController.h"
 #import <SDCycleScrollView/SDCycleScrollView.h>
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 
 #import "THBaseTableView.h"
 #import "YYNiuManCell.h"
@@ -19,7 +19,8 @@
 #import "YYPersonBannerModel.h"
 
 #import "YYNiuMoreController.h"
-#import "YYNiuManDetailViewController.h"
+//#import "YYNiuManDetailViewController.h"
+#import "YYNiuManController.h"
 #import "YYNiuNewsDetailViewController.h"
 #import "YYCommunityBannerDetailController.h"
 
@@ -110,10 +111,17 @@
 
             if (indexPath.section == 0) {
                 YYNiuManModel *model = (YYNiuManModel *)data;
-                YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
-                niuManDetail.niuid = model.niu_id;
-                niuManDetail.imgUrl = model.niu_img;
-                [strongSelf.navigationController pushViewController:niuManDetail animated:YES];
+//                YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
+//                niuManDetail.niuid = model.niu_id;
+//                niuManDetail.aid = model.aid;
+//                niuManDetail.imgUrl = model.niu_img;
+//                niuManDetail.niuName = model.niu_name;
+//                niuManDetail.hotValue = model.niu_pop;
+//                niuManDetail.introduce = model.niu_introduce;
+
+                YYNiuManController *niuManVc = [[YYNiuManController alloc] init];
+                niuManVc.niuManModel = model;
+                [strongSelf.navigationController pushViewController:niuManVc animated:YES];
                 
             }else {
                 
@@ -152,33 +160,28 @@
         _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-40-YYTopNaviHeight) style:UITableViewStyleGrouped];
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
-//        _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
-//        _tableView.separatorInset = UIEdgeInsetsMake(0, -5, 0, 10);
         if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
-            [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, YYInfoCellCommonMargin)];
+            [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, YYInfoCellCommonMargin, 0, YYInfoCellCommonMargin)];
         }
         if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
-            [self.tableView setLayoutMargins:UIEdgeInsetsMake(0, 10, 0, YYInfoCellCommonMargin)];
+            [self.tableView setLayoutMargins:UIEdgeInsetsMake(0, YYInfoCellCommonMargin, 0, YYInfoCellCommonMargin)];
         }
         _tableView.tableFooterView = [[UIView alloc] init];
         [self.tableView registerClass:[YYNiuManCell class] forCellReuseIdentifier:YYNiuManCellID];
         [self.tableView registerClass:[YYNiuArticleCell class] forCellReuseIdentifier:YYNiuArticleCellID];
         
         YYWeakSelf
-        MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
+        YYAutoFooter *footer = [YYAutoFooter footerWithRefreshingBlock:^{
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
-        [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = footer;
         
-        MJRefreshStateHeader *header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        YYStateHeader *header = [YYStateHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
-        [header setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_header = header;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

@@ -67,10 +67,9 @@
             self.headerDataSource = (NSMutableArray *)hotModel.tag_arr;
             self.hotDataSource = (NSMutableArray *)hotModel.hot_arr;
             self.infoDataSource = (NSMutableArray *)hotModel.info_arr;
+            self.classid = hotModel.tag_arr.firstObject.tagid;
             self.lastid = hotModel.lastid;
-            self.classid = [hotModel.tag_arr firstObject].tagid;
             
-            YYLog(@"hotModel : %@",hotModel);
             completion(YES);
         }
     } success:^(id responseObject) {
@@ -81,8 +80,8 @@
         self.headerDataSource = (NSMutableArray *)hotModel.tag_arr;
         self.hotDataSource = (NSMutableArray *)hotModel.hot_arr;
         self.infoDataSource = (NSMutableArray *)hotModel.info_arr;
+        self.classid = hotModel.tag_arr.firstObject.tagid;
         self.lastid = hotModel.lastid;
-        self.classid = [hotModel.tag_arr firstObject].tagid;
         
         //渲染头部
         completion(YES);
@@ -94,15 +93,14 @@
 
 - (void)selectedTag:(NSInteger)tag completion:(void (^)(BOOL))completion {
     
+    self.classid = [NSString stringWithFormat:@"%ld",tag];
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"classify",@"act",@(tag),@"classify",nil];
     
     [YYHttpNetworkTool GETRequestWithUrlstring:newsUrl parameters:para success:^(id response) {
         YYHotModel *hotModel = [YYHotModel mj_objectWithKeyValues:response];
         
-//        self.headerDataSource = (NSMutableArray *)hotModel.tag_arr;
         self.hotDataSource = (NSMutableArray *)hotModel.hot_arr;
         self.infoDataSource = (NSMutableArray *)hotModel.info_arr;
-        self.classid = [hotModel.tag_arr firstObject].tagid;
         self.lastid = hotModel.lastid;
         completion(YES);
     } failure:^(NSError *error) {
@@ -133,7 +131,12 @@
 
 }
 
+#pragma mark -- inner Methods 自定义方法  -------------------------------
 
+- (void)deleteRow:(NSInteger)row {
+    
+    [self.infoDataSource removeObjectAtIndex:row];
+}
 
 
 #pragma mark ----------------------  代理方法区域  -------------------------------

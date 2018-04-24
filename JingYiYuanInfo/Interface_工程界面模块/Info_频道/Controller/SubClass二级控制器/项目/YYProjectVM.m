@@ -101,7 +101,7 @@
 #pragma -- mark TableViewDelegate  ---------------------------
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    tableView.mj_footer.hidden = (self.recommendDataSource.count%10 != 0);
+    tableView.mj_footer.hidden = (self.recommendDataSource.count%10 != 0) || self.recommendDataSource.count == 0;
     return self.recommendDataSource.count;
 }
 

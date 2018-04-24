@@ -41,6 +41,7 @@ alpha: 1]
 #define NewsSubtextColor [UIColor grayColor]
 #define NewsSubtextFont  [UIFont systemFontOfSize:12]
 
+
 /** 状态栏高度*/
 #define YYStatusBarH [[UIApplication sharedApplication] statusBarFrame].size.height
 
@@ -161,6 +162,8 @@ tabCell;\
 #define SIGNDAYS  @"signDays" //签到天数的宏
 
 #define yyyyMMddHHmmss @"yyyy-MM-dd HH:mm:ss"  //时间格式
+
+#define yyyyMMdd @"yyyy-MM-dd"
 
 #define emptyImageName @"yyfw_push_empty_112x94_" ///无数据占位图
 

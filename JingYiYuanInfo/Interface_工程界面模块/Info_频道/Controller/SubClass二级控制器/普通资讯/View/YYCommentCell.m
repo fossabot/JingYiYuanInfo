@@ -43,6 +43,7 @@
     
     UIView *separatorView = [[UIView alloc] init];
     separatorView.backgroundColor = GraySeperatorColor;
+    self.separatorView = separatorView;
     [self.contentView addSubview:separatorView];
     
     UIImageView *avatar = [[UIImageView alloc] initWithImage:imageNamed(placeHolderAvatar)];
@@ -91,7 +92,7 @@
     
     
     [separatorView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.contentView.bottom).offset(-1);
+        make.bottom.equalTo(self.contentView.bottom).offset(-0.5);
         make.left.equalTo(self.contentView.left).offset(YYInfoCellCommonMargin);
         make.right.equalTo(self.contentView.right).offset(-YYInfoCellCommonMargin);
         make.height.equalTo(0.5);

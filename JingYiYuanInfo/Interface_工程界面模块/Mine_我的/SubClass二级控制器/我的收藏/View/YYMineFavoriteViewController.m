@@ -7,8 +7,7 @@
 //
 
 #import "YYMineFavoriteViewController.h"
-#import <MJRefresh/MJRefresh.h>
-#import <MJExtension/MJExtension.h>
+
 #import "YYMineCollectionCell.h"
 #import "YYMineCollectionModel.h"
 #import "UITableViewRowAction+JZExtension.h"
@@ -16,6 +15,9 @@
 #import "YYBaseInfoDetailController.h"
 #import "YYProjectDetailController.h"
 #import "YYNiuNewsDetailViewController.h"
+
+#import "YYRefresh.h"
+#import <MJExtension/MJExtension.h>
 
 @interface YYMineFavoriteViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -55,12 +57,17 @@
 #pragma mark -- network   数据请求方法  ---------------------------
 
 - (void)loadNewData {
-    
+    YYUser *user = [YYUser shareUser];
+    if (!user.isLogin) {
+        [SVProgressHUD showInfoWithStatus:@"账号未登录"];
+        [SVProgressHUD dismissWithDelay:1];
+        [self.tableView.mj_header endRefreshing];
+        return;
+    }
     if ([self.tableView.mj_footer isRefreshing]) {
         [self.tableView.mj_footer endRefreshing];
     }
-    YYUser *user = [YYUser shareUser];
-#warning userid需改成用户的
+
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,@"query",@"act", nil];
     YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:collectionUrl parameters:para success:^(id response) {
@@ -90,13 +97,12 @@
     YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:inOutHistoryUrl parameters:para success:^(id response) {
         
+        [weakSelf.tableView.mj_footer endRefreshing];
         if (response) {
             NSMutableArray *arr = [YYMineCollectionModel mj_objectArrayWithKeyValuesArray:response[@"usercollect"]];
             [self.dataSource addObjectsFromArray:arr];
             self.lastid = response[@"lastid"];
             if (arr) {
-                
-                [weakSelf.tableView.mj_footer endRefreshing];
                 [weakSelf.tableView reloadData];
             }else {
                 
@@ -254,21 +260,18 @@
         
         YYWeakSelf
         
-        MJRefreshNormalHeader *stateHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        YYNormalHeader *stateHeader = [YYNormalHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
-        
-        [stateHeader setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_header = stateHeader;
         
-        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        YYBackStateFooter *stateFooter = [YYBackStateFooter footerWithRefreshingBlock:^{
 
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

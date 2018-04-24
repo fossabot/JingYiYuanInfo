@@ -127,7 +127,7 @@ static NSString * const title = @"文字大小";
     [self addSubview:self.slider];
     [self bringSubviewToFront:self.slider];
     self.slider.maximumValue = _totalPoint-1;
-    self.slider.value = _currentPoint;
+    self.slider.value = _currentPoint-1;
 //    [[_sliderValues objectAtIndex:_currentPoint] floatValue];
     
 }
@@ -146,11 +146,12 @@ static NSString * const title = @"文字大小";
         _slider.tintColor = [UIColor clearColor];
         _slider.backgroundColor = [UIColor clearColor];
         _slider.minimumValue = 0;
-        _slider.maximumValue = 1;
+        _slider.maximumValue = _totalPoint-1;
         
         [_slider setThumbImage:[UIImage imageNamed:@"point"] forState:UIControlStateNormal];
         [_slider setThumbImage:[UIImage imageNamed:@"point"] forState:UIControlStateHighlighted];
-        _slider.value = (float)(_currentPoint-1)/(_totalPoint-1);
+//        _slider.value = (float)(_currentPoint-1)/(_totalPoint-1);
+        _slider.value = _currentPoint-1;
         _slider.continuous = NO;
         [_slider addTarget:self action:@selector(sliderValueDidChanged:) forControlEvents:UIControlEventValueChanged];
         [_slider addTapGestureWithTarget:self action:@selector(sliderValueDidChanged:)];
@@ -159,10 +160,11 @@ static NSString * const title = @"文字大小";
     return _slider;
 }
 
+/** 滑竿的数值数组*/
 - (NSMutableArray *)sliderValues{
     if (!_sliderValues) {
         _sliderValues = [NSMutableArray array];
-        for (int i=0; i<=self.totalPoint; i++) {
+        for (int i=0; i<self.totalPoint; i++) {
 //            [_sliderValues addObject:@((float)i/(self.totalPoint-1))];
             [_sliderValues addObject:@(i)];
         }
@@ -205,7 +207,7 @@ static NSString * const title = @"文字大小";
 - (NSInteger)getNearestValue:(CGFloat)value {
     
     NSInteger nearestValue = 0.0; //最接近的值
-    CGFloat difference = 0.5;  //和数组中的值的差
+    CGFloat difference = 0.5;  //两个节点的差的中间值
     for (NSNumber *temp in self.sliderValues) {
         if(difference >= fabs(value - [temp integerValue])){
 //            difference = fabs(value - [temp floatValue]);

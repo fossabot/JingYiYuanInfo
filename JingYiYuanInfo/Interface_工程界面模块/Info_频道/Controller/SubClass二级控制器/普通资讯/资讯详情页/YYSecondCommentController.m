@@ -21,7 +21,7 @@
 #import "YYSecondCommentController.h"
 
 #import <MJExtension/MJExtension.h>
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 
 @interface YYSecondCommentController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -53,6 +53,8 @@
 
 
 - (void)configSubView {
+    
+    self.navigationItem.title = @"评论详情";
     
     UIView *header = [[UIView alloc] init];
     [self.view addSubview:header];
@@ -437,18 +439,12 @@
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
         YYWeakSelf
-//        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-//            
-//            YYStrongSelf
-//            [strongSelf loadComment];
-//        }];
         
-        _tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
+        _tableView.mj_footer = [YYBackFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreComment];
         }];
-//        _tableView.mj_footer.automaticallyHidden = YES;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
         configer.emptyImage = imageNamed(emptyImageName);

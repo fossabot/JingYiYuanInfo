@@ -103,11 +103,11 @@
             
         default:
         {
-//            CGFloat height = [tableView fd_heightForCellWithIdentifier:YYNiuArticleCellID cacheByIndexPath:indexPath configuration:^(YYNiuArticleCell *cell) {
-//                cell.niuArtModel = self.niuArtDataSource[indexPath.row];
-//            }];
-//            return height;
-            return 90;
+            CGFloat height = [tableView fd_heightForCellWithIdentifier:YYNiuArticleCellID cacheByIndexPath:indexPath configuration:^(YYNiuArticleCell *cell) {
+                cell.niuArtModel = self.niuArtDataSource[indexPath.row];
+            }];
+            return height;
+//            return 106;
         }
             break;
     }
@@ -129,7 +129,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 10;
+    return YYCommonSectionMargin;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

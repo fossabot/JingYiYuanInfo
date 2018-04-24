@@ -37,5 +37,9 @@
 @property (nonatomic, copy) NSString *niu_head;
 
 @property (nonatomic, copy) NSString *posttime;
+/** 人气*/
+@property (nonatomic, copy) NSString *niu_pop;
+
+@property (nonatomic, copy) NSString *aid;
 
 @end

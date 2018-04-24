@@ -89,29 +89,7 @@
     }
     
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.deviceToken,@"devicetoken",user.userid,USERID, nil];
-//    [YYHttpNetworkTool GETRequestWithUrlstring:url parameters:para success:^(id response) {
-//        
-//        if (response) {
-//            
-//            if ([response[STATE] isEqualToString:@"1"]) {
-//                
-//                
-//                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"您的账号已在其他设备登录，如非本人操作，请及时修改密码！" preferredStyle:UIAlertControllerStyleAlert];
-//                [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//                    
-//                    [YYUser logOut];
-//                    [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
-//                }]];
-//                [kKeyWindow.rootViewController presentViewController:alert animated:YES completion:^{
-//                    
-//                }];
-//            }
-//        }
-//
-//    } failure:^(NSError *error) {
-//        
-//    } showSuccessMsg:nil];
-    
+
     [PPNetworkHelper GET:url parameters:para success:^(id responseObject) {
        
         if (responseObject) {
@@ -122,7 +100,7 @@
                 [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     
                     [YYUser logOut];
-                    [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
+//                    [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
                 }]];
                 [kKeyWindow.rootViewController presentViewController:alert animated:YES completion:^{
                     
@@ -271,13 +249,16 @@
         [SVProgressHUD showErrorWithStatus:@"手机号格式不正确"];
         return;
     }
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:telephoneNum,MOBILE,verification,YZM, nil];
+    
+    YYUser *user = [YYUser shareUser];
+    //act=modphone&yzm=253793&userid=1499064765j6qavy&mobile=17010202123
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"modphone",@"act",user.userid,USERID,telephoneNum,MOBILE,verification,YZM, nil];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
     [YYHttpNetworkTool GETRequestWithUrlstring:mineChangeTelUrl parameters:para success:^(id response) {
         if (response) {
             
-            //        status:0 不能为空,1成功,2插入数据库失败,3验证码超时,4验证码错误
+            //status:0 不能为空,1成功,2插入数据库失败,3验证码超时,4验证码错误
             NSString *status = response[STATUS];
             if ([status isEqualToString:@"1"]) {
                 YYUser *user = [YYUser shareUser];
@@ -287,9 +268,9 @@
                     completion(YES);
                 }
             }else if ([status isEqualToString:@"0"]) {
-                [SVProgressHUD showErrorWithStatus:@"手机号不能为空"];
+                [SVProgressHUD showErrorWithStatus:@"输入不能为空"];
             }else if ([status isEqualToString:@"2"]) {
-                [SVProgressHUD showErrorWithStatus:@"服务器繁忙，稍后再试"];
+                [SVProgressHUD showErrorWithStatus:@"系统繁忙"];
             }else if ([status isEqualToString:@"3"]) {
                 [SVProgressHUD showErrorWithStatus:@"验证码超时"];
             }else if ([status isEqualToString:@"4"]) {
@@ -314,10 +295,9 @@
  */
 + (void)getRegisterVerificationByMobile:(NSString *)mobile completion:(void(^)(BOOL success))completion {
     
-    
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:mobile,MOBILE,@"reg",KEYWORD, nil];
-    [YYHttpNetworkTool GETRequestWithUrlstring:registerVerificationUrl parameters:para success:^(id response) {
-        //status:1 (成功) 0 (失败) 3 (失败,已经注册)
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:mobile,@"phone",@"check",@"act", nil];
+    [YYHttpNetworkTool GETRequestWithUrlstring:mineChangeTelUrl parameters:para success:^(id response) {
+        //status:1 (成功) 0 (失败) 2 (失败,已经注册)
         if (response) {
             NSString *status = response[STATUS];
             if ([status isEqualToString:@"1"]) {
@@ -326,7 +306,7 @@
             }else if ([status isEqualToString:@"0"]) {
                 [SVProgressHUD showErrorWithStatus:@"获取验证码失败"];
                 completion(NO);
-            }else if ([status isEqualToString:@"3"]) {
+            }else if ([status isEqualToString:@"2"]) {
                 [SVProgressHUD showInfoWithStatus:@"手机号已注册"];
                 completion(NO);
             }
@@ -345,18 +325,25 @@
  */
 + (void)changePasswordWithOldPassword:(NSString *)oldPwd newPwd:(NSString *)newPwd completion:(void(^)())completion{
  
+    if ([oldPwd isEqualToString:newPwd]) {
+        [SVProgressHUD showImage:nil status:@"新密码不可与旧密码相同"];
+        [SVProgressHUD dismissWithDelay:2];
+        return;
+    }
+    
     YYUser *user = [YYUser shareUser];
     NSString *_oldPwd = [oldPwd translateIntoScretaryPassword];
-    NSString *_newPwd = [newPwd translateIntoScretaryPassword];
-    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,_oldPwd,@"oldpwd",_newPwd,@"newpwd", nil];
-    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+    NSString *resetPwd = [newPwd translateIntoScretaryPassword];
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"modpwd",@"act",user.userid,USERID,_oldPwd,@"oldpwd",resetPwd,@"newpwd", nil];
+//    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
     [SVProgressHUD show];
     [YYHttpNetworkTool GETRequestWithUrlstring:mineChangePwdUrl parameters:para success:^(id response) {
         if (response) {
             
-            if ([response[STATUS] isEqualToString:@"0"]) {
+            NSString *status = response[STATUS];
+            if ([status isEqualToString:@"0"]) {
                 [SVProgressHUD showErrorWithStatus:@"旧密码错误，请重新输入"];
-            }else if ([response[STATUS] isEqualToString:@"1"]) {
+            }else if ([status isEqualToString:@"1"]) {
                 [SVProgressHUD showSuccessWithStatus:@"修改成功，可以使用新密码登录了"];
                 completion();
             }

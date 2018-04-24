@@ -102,7 +102,6 @@
 #pragma mark -- layout 子控件配置及相关布局方法  ---------------------------
 
 - (void)configSubView {
-
     
     UIView *view1 = [[UIView alloc] init];
     view1.backgroundColor = WhiteColor;
@@ -162,7 +161,7 @@
     [self.view1 makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.right.equalTo(self.view);
-        make.top.equalTo(YYTopNaviHeight+40);
+        make.top.equalTo(20);
         make.height.equalTo(60);
     }];
     
@@ -212,13 +211,18 @@
 /** 修改手机号*/
 - (void)changePhoneNum {
     
+    [self.view endEditing:YES];
     YYWeakSelf
     [YYLoginManager resetTelephoneNumber:self.telephoneText.text verification:self.verificationText.text completion:^(BOOL success) {
        
         if (success) {
             
             [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
-            [weakSelf.navigationController popViewControllerAnimated:YES];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+            });
         }
     }];
 }
@@ -232,24 +236,37 @@
     if (isValidMobileNumber) {
         
         //发送请求，获取验证码
-        assert(@"发送请求获取验证码");
         
         [YYLoginManager getRegisterVerificationByMobile:self.telephoneText.text completion:^(BOOL success) {
             
             if (success) {
-                
                 [sender countDownFromTime:60 unitTitle:@"s后重发" completion:^(YYCountDownButton *countDownButton) {
-                    
+
                 }];
             }
         }];
         
     }else{
-        [SVProgressHUD showErrorWithStatus:@"手机号格式不正确"];
+        [SVProgressHUD showImage:nil status:@"手机号格式不正确"];
         [SVProgressHUD dismissWithDelay:1];
     }
     
 }
+
+
+#pragma textField delegate  ----
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    if (textField == self.telephoneText) {
+        [self.verificationText becomeFirstResponder];
+    }else if (textField == _verificationText && [self validToChange]) {
+        [self changePhoneNum];
+    }
+    
+    return YES;
+}
+
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     

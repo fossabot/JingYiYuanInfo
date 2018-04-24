@@ -7,15 +7,17 @@
 //
 
 #import "YYMinePaymentViewController.h"
-
+#import "YYBackOrderController.h"
 #import "YYYanbaoController.h"
+
 #import "YYMineOrderCell.h"
 #import "YYOrderModel.h"
 #import "UITableView+FDTemplateLayoutCell.h"
-#import <MJRefresh/MJRefresh.h>
+
+#import "YYRefresh.h"
 #import <MJExtension/MJExtension.h>
 
-#define yanbaoDetailUrl @"http://yyapp.1yuaninfo.com/app/houtai/admin/pdfReport.php"
+#define yanbaoDetailUrl @"http://yyapp.1yuaninfo.com/app/houtai/admin/pdfReport.php?"
 #define cancelOrderUrl @"http://yyapp.1yuaninfo.com/app/houtai/admin/backOrder.php?"
 
 
@@ -43,7 +45,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    
 }
 
 
@@ -63,41 +64,54 @@
     if (!user.isLogin) {
         [SVProgressHUD showInfoWithStatus:@"账号未登录"];
         [SVProgressHUD dismissWithDelay:1];
+        [self.tableView.mj_header endRefreshing];
         return;
     }
     
+    if ([self.tableView.mj_footer isRefreshing]) {
+        [self.tableView.mj_footer endRefreshing];
+    }
+    
+    YYWeakSelf
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"orderover",@"act",user.userid,USERID, nil];
     [YYHttpNetworkTool GETRequestWithUrlstring:orderUrl parameters:para success:^(id response) {
         
+        [weakSelf.tableView.mj_header endRefreshing];
         if (response) {
-            self.dataSource = [YYOrderModel mj_objectArrayWithKeyValuesArray:response[@"user_order"]];
-            self.lastid = response[LASTID];
-            [self.tableView reloadData];
-            if (self.dataSource.count < 10) {
+            weakSelf.dataSource = [YYOrderModel mj_objectArrayWithKeyValuesArray:response[@"user_order"]];
+            weakSelf.lastid = response[LASTID];
+            [weakSelf.tableView reloadData];
+            if (weakSelf.dataSource.count < 10) {
                 
-                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
             }
         }
-    } failure:^(NSError *error) {
         
+    } failure:^(NSError *error) {
+        [weakSelf.tableView.mj_header endRefreshing];
     } showSuccessMsg:nil];
 }
 
 
 - (void)loadMoreData {
     
+    if ([self.tableView.mj_header isRefreshing]) {
+        [self.tableView.mj_header endRefreshing];
+    }
+    
+    YYWeakSelf
     YYUser *user = [YYUser shareUser];
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"orderover",@"act",user.userid,USERID,self.lastid,LASTID, nil];
     [YYHttpNetworkTool GETRequestWithUrlstring:orderUrl parameters:para success:^(id response) {
         
         if (response) {
             NSMutableArray *arr = [YYOrderModel mj_objectArrayWithKeyValuesArray:response[@"user_order"]];
-            [self.dataSource addObjectsFromArray:arr];
-            self.lastid = response[LASTID];
-            [self.tableView reloadData];
+            [weakSelf.dataSource addObjectsFromArray:arr];
+            weakSelf.lastid = response[LASTID];
+            [weakSelf.tableView reloadData];
             if (arr.count < 10) {
                 
-                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
             }
         }
     } failure:^(NSError *error) {
@@ -111,7 +125,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    tableView.mj_footer.hidden = (self.dataSource.count%10 != 0);
+    tableView.mj_footer.hidden = (self.dataSource.count%10 != 0) || self.dataSource.count == 0;
     return self.dataSource.count;
 }
 
@@ -130,7 +144,8 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    
+    YYOrderModel *model = self.dataSource[indexPath.row];
+    [self checkMore:model.orderId];
 }
 
 #pragma mark tableview 数据源方法  ---------------------------------
@@ -142,62 +157,53 @@
     cell.model = model;
     
     YYWeakSelf
-    cell.yanbaoBlock = ^(NSString *orderId) {
-        
-        YYYanbaoController *yanbaoDetail = [[YYYanbaoController alloc] init];
-        NSString *url = [NSString stringWithFormat:@"%@orderid=%@",yanbaoDetailUrl,orderId];
-        yanbaoDetail.url = url;
-        [weakSelf.navigationController pushViewController:yanbaoDetail animated:YES];
+    cell.moreBlock = ^(NSString *orderId) {
+
+        [weakSelf checkMore:orderId];
     };
     
-    __weak typeof(tableView) weakTable = tableView;
     cell.cancelOrderBlcok = ^(NSString *orderId,NSString *orderName,YYMineOrderCell *cell) {
-        
-        NSIndexPath *index = [weakTable indexPathForCell:cell];
-        [weakSelf alertUserToConfirmCancelOrder:orderId orderName:orderName indexPath:index];
+
+        [weakSelf backOrder:indexPath];
     };
     
     return cell;
 }
 
 
-/** 提示用户是否真的是要取消这个订单*/
-- (void)alertUserToConfirmCancelOrder:(NSString *)orderId orderName:(NSString *)orderName indexPath:(NSIndexPath *)indexPath {
+#pragma mark -- inner Methods 自定义方法  -------------------------------
+
+/** 跳转订单的推送详情页，可查看研报*/
+- (void)checkMore:(NSString *)orderId {
     
-    NSString *tip = [NSString stringWithFormat:@"您是否确定取消 %@ 这个订单",orderName];
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"取消订单" message:tip preferredStyle:UIAlertControllerStyleAlert];
-    
-    YYWeakSelf
-    UIAlertAction *confim = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        [weakSelf postServerToCancelThisOrder:orderId indexPath:indexPath];
-    }];
-    
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    [alert addAction:confim];
-    [alert addAction:cancel];
-    
-    [self presentViewController:alert animated:YES completion:nil];
-    
+    YYYanbaoController *yanbaoDetail = [[YYYanbaoController alloc] init];
+    yanbaoDetail.orderId = orderId;
+    [self.navigationController pushViewController:yanbaoDetail animated:YES];
 }
 
-- (void)postServerToCancelThisOrder:(NSString *)orderId indexPath:(NSIndexPath *)indexPath {
+/** 跳转到取消订单控制器*/
+- (void)backOrder:(NSIndexPath *)indexPath {
     
+    YYBackOrderController *backOrderController = [[YYBackOrderController alloc] init];
+    YYOrderModel *order = self.dataSource[indexPath.row];
+    if ([order.paystatus isEqualToString:@"3"]) {//申请中
+        
+        backOrderController.isNeverCommited = NO;
+    }else if ([order.paystatus isEqualToString:@"4"]) {//已退单
+        backOrderController.isNeverCommited = NO;
+    }else {
+        backOrderController.isNeverCommited = YES;
+    }
+    backOrderController.orderId = order.orderId;
+    __weak typeof(order) weakModel = order;
     YYWeakSelf
-    YYUser *user = [YYUser shareUser];
-    [YYHttpNetworkTool GETRequestWithUrlstring:cancelOrderUrl parameters:@{@"userid":user.userid,@"orderid":orderId} success:^(id response) {
+    backOrderController.backSucceedBlock = ^(NSString *orderId) {
         
-        YYOrderModel *model = weakSelf.dataSource[indexPath.row];
-        model.paystatus = @"3";
-        [weakSelf.dataSource replaceObjectAtIndex:indexPath.row withObject:model];
+        weakModel.paystatus = @"3";
+        [weakSelf.dataSource replaceObjectAtIndex:indexPath.row withObject:weakModel];
         [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        [SVProgressHUD showSuccessWithStatus:@"已提交退单申请，稍后工作人员会与您联系，请保持通讯畅通"];
-        [SVProgressHUD dismissWithDelay:2];
-    } failure:^(NSError *error) {
-        
-    } showSuccessMsg:nil];
+    };
+    [self.navigationController pushViewController:backOrderController animated:YES];
 }
 
 
@@ -222,12 +228,18 @@
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf
-        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
-            
+        
+        YYStateHeader *stateHeader = [YYStateHeader headerWithRefreshingBlock:^{
+            YYStrongSelf
+            [strongSelf loadData];
+        }];
+        _tableView.mj_header = stateHeader;
+        
+        YYBackNormalFooter *stateFooter = [YYBackNormalFooter footerWithRefreshingBlock:^{
+
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

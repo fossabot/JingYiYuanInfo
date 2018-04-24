@@ -24,6 +24,9 @@ UIKIT_EXTERN NSString * const Production_VIP_1;
 /** 顶部导航栏和状态栏的高度和*/
 //UIKIT_EXTERN CGFloat const YYTopNaviHeight;
 
+/** 统一的所有界面的分组间隔*/
+UIKIT_EXTERN CGFloat const YYCommonSectionMargin;
+
 /** 分页cell的tab高度*/
 UIKIT_EXTERN CGFloat const TabHeaderH;
 
@@ -57,6 +60,11 @@ UIKIT_EXTERN CGFloat const YYCommonCellRightMargin;
 UIKIT_EXTERN CGFloat const YYCommonCellTopMargin;
 
 UIKIT_EXTERN CGFloat const YYCommonCellBottomMargin;
+
+/** 新闻的cell的顶部和底部的间距*/
+UIKIT_EXTERN CGFloat const YYNewsCellTopMargin;
+UIKIT_EXTERN CGFloat const YYNewsCellBottomMargin;
+
 
 /** 新闻列表的通用间隙*/
 UIKIT_EXTERN CGFloat const YYInfoCellCommonMargin;
@@ -134,6 +142,9 @@ UIKIT_EXTERN NSString * const YYTabbarItemDidRepeatClickNotification;
 
 /** 接收到远程消息的通知*/
 UIKIT_EXTERN NSString * const YYReceivedRemoteNotification;
+
+/** 接收到365推送，并且当且停留的页面即为365页面 通知刷新页面的通知*/
+UIKIT_EXTERN NSString * const YYReceived365RemoteNotification;
 
 /** 首页tableview上滑到顶部的通知*/
 UIKIT_EXTERN NSString * const YYMainVCGoTopNotificationName;

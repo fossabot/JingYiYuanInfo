@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "THBaseTableView.h"
 
-@interface YYBaseTabView : UIView<UITableViewDelegate,UITableViewDataSource>
 
+@interface YYBaseTabView : UIView<UITableViewDelegate,UITableViewDataSource>
+{
+    CGFloat YYContentInsetBottom;
+}
 @property (nonatomic, strong) THBaseTableView *tableView;
 @property (nonatomic, assign) BOOL canScroll;
 

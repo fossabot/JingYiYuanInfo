@@ -8,7 +8,6 @@
 
 #import "THBaseScrollViewController.h"
 
-
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
@@ -23,13 +22,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    YYLogFunc
     [self.view addSubview:self.baseScrollView];
-    
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    YYLogFunc
     CGFloat baseViewHeight = 0;
     CGFloat baseViewWidth = 0;
     NSArray *subViews = self.baseScrollView.subviews;
@@ -49,31 +48,35 @@
         
     }
     
-    CGFloat contentWidth = baseViewWidth > kScreenWidth ? baseViewWidth : kScreenWidth;
-  
-    CGFloat contentHeight = baseViewHeight >= kScreenHeight ? baseViewHeight+20 : kScreenHeight;
+    CGFloat contentWidth = baseViewWidth > kScreenWidth ? baseViewWidth : 0;
+    YYLog(@"baseScrollView -- contentWidth  %lf",contentWidth);
+    if (self.stableWidth) {
+        contentWidth = self.stableWidth;
+    }
     
+    CGFloat contentHeight = baseViewHeight >= kScreenHeight ? baseViewHeight+20 : kScreenHeight+20;
+    YYLog(@"baseScrollView -- contentHeight  %lf",contentHeight);
     self.baseScrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
     
 }
-
-
 
 
 #pragma mark -- lazyMethods 懒加载区域
 
 - (UIScrollView *)baseScrollView{
     if (!_baseScrollView) {
-        _baseScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+        CGRect rect;
+        if (self.navigationController) {
+            rect = CGRectMake(0, 0, kScreenWidth, kScreenHeight-YYTopNaviHeight);
+        }else {
+            rect = self.view.bounds;
+        }
+        _baseScrollView = [[UIScrollView alloc] initWithFrame:rect];
     }
     return _baseScrollView;
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-}
 
 
 

@@ -173,7 +173,6 @@
     }
 }
 
-
 #pragma mark -------  setter -------------------------
 
 - (void)setVideoTitle:(NSString *)videoTitle {

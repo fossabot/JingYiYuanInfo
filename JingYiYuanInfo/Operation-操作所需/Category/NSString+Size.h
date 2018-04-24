@@ -12,4 +12,8 @@
 
 - (CGSize)sizeWithFont:(UIFont *)font;
 
+- (CGSize)sizeWithFont:(UIFont *)font size:(CGSize)size;
+
+- (CGSize)subClassString:(NSAttributedString *)attrStr sizeWithFont:(UIFont *)font size:(CGSize)size;
+
 @end

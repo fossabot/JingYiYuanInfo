@@ -7,12 +7,13 @@
 //
 
 #import "YYNiuMoreController.h"
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 
 #import "THBaseTableView.h"
 #import "YYNiuManCell.h"
 #import "YYNiuManModel.h"
-#import "YYNiuManDetailViewController.h"
+//#import "YYNiuManDetailViewController.h"
+#import "YYNiuManController.h"
 
 #import "YYNiuMoreVM.h"
 @interface YYNiuMoreController ()
@@ -30,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationItem.title = @"牛人";
     [self.view addSubview:self.tableView];
     [self loadNewData];
 }
@@ -96,10 +98,9 @@
             YYStrongSelf
             
             YYNiuManModel *niuManModel = (YYNiuManModel *)data;
-            YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
-            niuManDetail.niuid = niuManModel.niu_id;
-            niuManDetail.imgUrl = niuManModel.niu_img;
-            [strongSelf.navigationController pushViewController:niuManDetail animated:YES];
+            YYNiuManController *niuManVc = [[YYNiuManController alloc] init];
+            niuManVc.niuManModel = niuManModel;
+            [strongSelf.navigationController pushViewController:niuManVc animated:YES];
         };
         
     }
@@ -115,23 +116,27 @@
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
         [self.tableView registerClass:[YYNiuManCell class] forCellReuseIdentifier:YYNiuManCellID];
-        _tableView.separatorInset = UIEdgeInsetsMake(0, -YYInfoCellSubMargin, 0, YYInfoCellCommonMargin);
+//        _tableView.separatorInset = UIEdgeInsetsMake(0, YYInfoCellCommonMargin, 0, YYInfoCellCommonMargin);
+        if ([_tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+            [_tableView setLayoutMargins:UIEdgeInsetsMake(0, YYInfoCellCommonMargin, 0, YYInfoCellCommonMargin)];
+        }
+        
+        if ([_tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+            [_tableView setSeparatorInset:UIEdgeInsetsMake(0, YYInfoCellCommonMargin, 0, YYInfoCellCommonMargin)];
+        }
 
         YYWeakSelf
-        MJRefreshAutoStateFooter *footer = [MJRefreshAutoStateFooter footerWithRefreshingBlock:^{
+        YYAutoFooter *footer = [YYAutoFooter footerWithRefreshingBlock:^{
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
-        [footer setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = footer;
         
-        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        YYStateHeader *header = [YYStateHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
-        [header setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_header = header;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

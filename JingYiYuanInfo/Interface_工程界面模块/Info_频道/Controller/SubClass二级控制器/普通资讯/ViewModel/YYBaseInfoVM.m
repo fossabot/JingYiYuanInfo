@@ -61,6 +61,9 @@
 /** playerModel*/
 @property (nonatomic, strong) ZFPlayerModel  *playerModel;
 
+/** _playingIndexPath*/
+@property (nonatomic, strong) NSIndexPath *playingIndexPath;
+
 @end
 
 @implementation YYBaseInfoVM
@@ -159,6 +162,28 @@
     }
 }
 
+- (void)deleteRow:(NSInteger)row {
+    
+    [self.infoDataSource removeObjectAtIndex:row];
+}
+
+- (UIView *)headerForShowSection:(NSInteger)section {
+    UIView * header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 40)];
+    header.backgroundColor = WhiteColor;
+    
+    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(YYInfoCellCommonMargin, 12, 2, 16)];
+    redView.backgroundColor = ThemeColor;
+    [header addSubview:redView];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(YYInfoCellCommonMargin*2, 10, 80, 20)];
+    label.textColor = SubTitleColor;
+    label.font = TitleFont;
+    label.text = section == 0 ? @"最新推荐" : @"猜你喜欢";
+    [header addSubview:label];
+    
+    return header;
+}
+
 
 #pragma mark -------  ZFPlayer delegate  ----------------------
 
@@ -170,6 +195,16 @@
 
 
 #pragma -- mark TableViewDelegate  -------------------------------
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    
+    if ([_classid isEqualToString:@"23"]) {//演出
+        
+        return [self headerForShowSection:section];
+    }
+    return nil;
+}
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
@@ -186,7 +221,13 @@
     return nil;
 }
 
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if ([_classid isEqualToString:@"23"]) {//演出
+       
+        return 40;
+    }
     return 0.0001;
 }
 
@@ -195,6 +236,10 @@
     if (self.rankDataSource.count && section == 0 ) {
         
         return 30;
+    }
+    if ([_classid isEqualToString:@"23"]) {//演出
+        
+        return 10;
     }
     return 0.0001;
 }
@@ -216,7 +261,7 @@
     }else if (self.recommendDataSource.count && section == 0) {
         return 1;
     }
-    tableView.mj_footer.hidden = (self.infoDataSource.count%10 != 0);
+    tableView.mj_footer.hidden = (self.infoDataSource.count%10 != 0) || self.infoDataSource.count == 0;
     return self.infoDataSource.count;
 }
 
@@ -307,7 +352,7 @@
                 return 110;
             }else {
                 
-                return 120;
+                return 200;
             }
         }
             break;
@@ -350,7 +395,19 @@
             case YYBaseInfoTypeVideo:{
 
                 YYBaseVideoModel *model = self.infoDataSource[indexPath.row];
-                NSDictionary *dic = @{@"data":model,@"seekTime":@(_seekTime)};
+
+                YYUser *user = [YYUser shareUser];
+                NSDictionary *dic;
+                if (self.playerModel.indexPath == indexPath) {
+                    dic = @{@"data":model,@"seekTime":@(_seekTime)};
+                }else{
+                    if (user.onlyWIFIPlay && user.netStatus!=YYHttpNetStatusWIFI) {
+                        dic = @{@"data":model,@"seekTime":@(0)};
+                    }else{
+                        dic = @{@"data":model,@"seekTime":@(1)};
+                    }
+                }
+                
                 _cellSelectedBlock(YYBaseInfoTypeVideo, indexPath, dic);
             }
                 break;
@@ -440,6 +497,7 @@
             YYChannelVideoCell *videoCell = [tableView dequeueReusableCellWithIdentifier:YYChannelVideoCellId];
             videoCell.videoModel = model;
             __block NSIndexPath *weakIndexPath = indexPath;
+            __weak typeof(_playingIndexPath) weakPlayingIndexPath = _playingIndexPath;
             __weak typeof(videoCell) weakCell = (YYChannelVideoCell *)videoCell;
             __weak typeof(tableView) weakTableView = tableView;
             // 取出字典中的第一视频URL
@@ -449,6 +507,7 @@
             videoCell.playBlock = ^{
                 
                 YYStrongSelf
+                strongSelf.playingIndexPath = weakIndexPath;
                 strongSelf.playerModel.title            = model.v_name;
                 strongSelf.playerModel.videoURL         = videoURL;
                 strongSelf.playerModel.placeholderImage = imageNamed(@"loading_bgView");
@@ -463,19 +522,39 @@
                 strongSelf.playerView.hasDownload = NO;
                 strongSelf.playerView.hasPreviewView = YES;
                 
-                if (user.onlyWIFIPlay) {
-                    
-                    [weakSelf showAlert:^(BOOL permit) {
-                        
-                        if (permit) {
+                switch (user.netStatus) {
+                    case YYHttpNetStatusUnreachable:
+                        [weakSelf showAlertWithTitle:@"暂无网络链接" message:@"无法播放视频" completion:^(BOOL permit) {
                             
+                        }];
+                        break;
+                        
+                    case YYHttpNetStatusWIFI:
+                        // 自动播放
+                        [strongSelf.playerView autoPlayTheVideo];
+                        break;
+                        
+                    case YYHttpNetStatusWWAN:{
+                        
+                        if (user.onlyWIFIPlay) {
+                            
+                            [weakSelf showAlertWithTitle:@"即将使用流量播放视频" message:@"如需关闭提醒，请到设置中关闭仅WiFi下播放视频" completion:^(BOOL permit) {
+                                
+                                if (permit) {
+                                    
+                                    // 自动播放
+                                    [strongSelf.playerView autoPlayTheVideo];
+                                }
+                            }];
+                        }else {
                             // 自动播放
                             [strongSelf.playerView autoPlayTheVideo];
                         }
-                    }];
-                }else {
-                    // 自动播放
-                    [strongSelf.playerView autoPlayTheVideo];
+                    }
+                        break;
+                        
+                    default:
+                        break;
                 }
                 
                 
@@ -520,12 +599,13 @@
 }
 
 
-- (void)showAlert:(void(^)(BOOL permit))permition {
+/** 弹框提示流量播放*/
+- (void)showAlertWithTitle:(NSString *)title message:(NSString *)message completion:(void(^)(BOOL permit))permition {
     
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"即将使用流量播放视频" message:@"如需关闭提醒，请到设置中关闭仅WiFi下播放视频" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *permit = [UIAlertAction actionWithTitle:@"播放" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *permit = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         permition(YES);
     }];

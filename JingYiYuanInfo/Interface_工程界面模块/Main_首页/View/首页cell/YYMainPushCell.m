@@ -54,16 +54,16 @@
     _postmsgmodel = postmsgmodel;
     
     _castType.text = [self keyWord:postmsgmodel.keyword1];
-    _castTime.text = postmsgmodel.addtime;
+    _castTime.text = postmsgmodel.formatterTime;
     _castTitle.text = postmsgmodel.title;
     
     NSMutableParagraphStyle *para = [[NSMutableParagraphStyle alloc] init];
+    para.firstLineHeadIndent = 25;
     para.lineSpacing = 5;
     para.paragraphSpacing = 10;
     para.lineBreakMode = NSLineBreakByTruncatingTail;
     NSMutableAttributedString *attr = [[NSMutableAttributedString alloc] initWithString:postmsgmodel.remark attributes:@{NSParagraphStyleAttributeName : para                                                                                                                       }];
     _castDesc.attributedText = attr;
-    
 }
 
 /**
@@ -133,6 +133,8 @@
     [[self parentNavigationController] pushViewController:push animated:YES];
 }
 
+
+
 #pragma mark -------  辅助方法  -------------------------
 
 /** 返回keywords*/
@@ -194,7 +196,6 @@
         _moreBtn.titleLabel.font = SubTitleFont;
         [_moreBtn setTitleColor:UnenableTitleColor forState:UIControlStateNormal];
         [_moreBtn setImage:imageNamed(@"more") forState:UIControlStateNormal];
-//        _moreBtn.buttonPositionStyle = BAButtonPositionStyleRight;
         [_moreBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -16, 0, 16)];
         [_moreBtn setImageEdgeInsets:UIEdgeInsetsMake(0, 44, 0, -24)];
         [_moreBtn addTarget:self action:@selector(more) forControlEvents:UIControlEventTouchUpInside];
@@ -233,12 +234,8 @@
     if (!_castDesc) {
         _castDesc = [[UILabel alloc] init];
         _castDesc.textColor = SubTitleColor;
-        _castDesc.font = SubTitleFont;
+        _castDesc.font = TitleFont;
         _castDesc.numberOfLines = 3;
-        _castDesc.userInteractionEnabled = YES;
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(more)];
-        [_castDesc addGestureRecognizer:tap];
     }
     return _castDesc;
 }

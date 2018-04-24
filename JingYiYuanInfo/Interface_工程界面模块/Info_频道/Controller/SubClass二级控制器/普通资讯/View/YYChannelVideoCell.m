@@ -9,6 +9,7 @@
 #import "YYChannelVideoCell.h"
 #import <AVFoundation/AVFoundation.h>
 #import "YYEdgeLabel.h"
+#import "YYTagView.h"
 #import "ShareView.h"
 #import "YYBaseVideoModel.h"
 
@@ -32,10 +33,10 @@
 @property (nonatomic, strong) YYEdgeLabel *time;
 
 /** 标签1*/
-@property (nonatomic, strong) YYEdgeLabel *tag1;
+@property (nonatomic, strong) YYTagView *tag1;
 
 /** 标签2*/
-@property (nonatomic, strong) YYEdgeLabel *tag2;
+@property (nonatomic, strong) YYTagView *tag2;
 
 /** 来源*/
 @property (nonatomic, strong) UILabel *source;
@@ -109,21 +110,13 @@
     self.time = time;
     
     
-    YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
-    tag1.font = TagLabelFont;
-    tag1.textColor = ThemeColor;
-    tag1.layer.borderColor = ThemeColor.CGColor;
-    tag1.layer.cornerRadius = 3.0;
-    tag1.layer.masksToBounds = YES;
+    YYTagView *tag1 = [[YYTagView alloc] init];
+    tag1.rightMargin = YYInfoCellSubMargin;
     [self.contentView addSubview:tag1];
     self.tag1 = tag1;
     
-    YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
-    tag2.font = TagLabelFont;
-    tag2.textColor = ThemeColor;
-    tag2.layer.borderColor = ThemeColor.CGColor;
-    tag2.layer.cornerRadius = 3.0;
-    tag2.layer.masksToBounds = YES;
+    YYTagView *tag2 = [[YYTagView alloc] init];
+    tag2.rightMargin = YYInfoCellSubMargin;
     [self.contentView addSubview:tag2];
     self.tag2 = tag2;
     
@@ -201,14 +194,14 @@
     
     [self.tag2 makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.tag1.right).offset(YYInfoCellCommonMargin);
+        make.left.equalTo(self.tag1.right);
 //        make.top.equalTo(self.videoImg.bottom).offset(YYInfoCellSubMargin);
         make.centerY.equalTo(self.share);
     }];
 
     [self.source makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.tag2.right).offset(YYInfoCellCommonMargin);
+        make.left.equalTo(self.tag2.right);
 //        make.top.equalTo(self.videoImg.bottom).offset(YYInfoCellSubMargin);
         make.centerY.equalTo(self.share);
     }];
@@ -228,20 +221,32 @@
     if ([videoModel.v_tag containsString:@" "]) {
        
         NSArray *tags = [videoModel.v_tag componentsSeparatedByString:@" "];
-        self.tag1.text = tags[0];
-        self.tag2.text = tags[1];
+        self.tag1.title = tags[0];
+        self.tag2.title = tags[1];
     }else if ([videoModel.v_tag containsString:@","]){
         
         NSArray *tags = [videoModel.v_tag componentsSeparatedByString:@","];
-        self.tag1.text = tags[0];
-        self.tag2.text = tags[1];
-    }else {
+        self.tag1.title = tags[0];
+        self.tag2.title = tags[1];
+    }else if (![videoModel.v_tag isEqualToString:@""] ) {
         
-        self.tag1.text = videoModel.v_tag;
+        self.tag1.title = videoModel.v_tag;
+        self.tag2.title = @"";
+//        [self.source updateConstraints:^(MASConstraintMaker *make) {
+//
+//            make.left.equalTo(self.tag1.right).offset(YYInfoCellCommonMargin);
+//        }];
+    }else {
+//        [self.source updateConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(self.videoImg.left);
+//        }];
+        self.tag1.title = @"";
+        self.tag2.title = @"";
     }
     
+    [self.tag1 setNeedsLayout];
+    [self.tag2 setNeedsLayout];
     self.source.text = videoModel.v_source;
-    
     
 }
 

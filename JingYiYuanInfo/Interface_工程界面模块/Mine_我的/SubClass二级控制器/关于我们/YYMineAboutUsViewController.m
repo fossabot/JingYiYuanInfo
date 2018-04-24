@@ -9,9 +9,11 @@
 #import "YYMineAboutUsViewController.h"
 #import "YYMineIntroduceDetailController.h"
 #import "UIView+YYCategory.h"
+#import "NSString+YYDevice.h"
 
 static NSString * const reviewURL = @"http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=1266188538&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8";
 
+static NSString *const reviewURL_ios11 = @"itms-apps://itunes.apple.com/cn/app/id1266188538?mt=8&action=write-review";
 
 @interface YYMineAboutUsViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -52,6 +54,7 @@ static NSString * const reviewURL = @"http://itunes.apple.com/WebObjects/MZStore
 
 - (void)configSubView {
     
+    self.navigationItem.title = @"关于我们";
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 120) style:UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
@@ -71,22 +74,21 @@ static NSString * const reviewURL = @"http://itunes.apple.com/WebObjects/MZStore
     UILabel *version = [[UILabel alloc] init];
     version.textColor = UnenableTitleColor;
     version.font = UnenableTitleFont;
-    version.text = [NSString stringWithFormat:@"当前版本  %@",kAppVersion];
+    version.text = [NSString stringWithFormat:@"当前版本 V%@",kAppVersion];
     version.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:version];
     self.version = version;
-    
     
     UILabel *tip = [[UILabel alloc] init];
     tip.numberOfLines = 0;
     tip.yy_y = kSCREENHEIGHT-45;
     tip.textColor = UnenableTitleColor;
     tip.font = UnenableTitleFont;
-    tip.text = @"【投资是一种生活】\n顺势而为，止盈止损，细水长流是王道\n借力上行，稳中求胜，互利共赢是共识";
+//    tip.text = @"【投资是一种生活】\n顺势而为，止盈止损，细水长流是王道\n借力上行，稳中求胜，互利共赢是共识";
+    tip.text = @"Copyright© 2018 \n北京京壹元资讯服务有限公司";
     tip.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:tip];
     self.tip = tip;
-    
     
     
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
@@ -96,10 +98,19 @@ static NSString * const reviewURL = @"http://itunes.apple.com/WebObjects/MZStore
         make.height.equalTo(120);
     }];
     
+    CGFloat margin;
+    DeviceScreenSize size = [NSString currentDeviceScreenSize];
+    if (size == DeviceScreenSizeMini) {
+        margin = 60;
+    }else if (size == DeviceScreenSizeMiddle) {
+        margin = 90;
+    }else {
+        margin = 120;
+    }
     [self.version makeConstraints:^(MASConstraintMaker *make) {
         
         make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.tableView.top).offset(-60);
+        make.bottom.equalTo(self.tableView.top).offset(-margin);
     }];
     
     [self.logoImageView makeConstraints:^(MASConstraintMaker *make) {
@@ -148,9 +159,12 @@ static NSString * const reviewURL = @"http://itunes.apple.com/WebObjects/MZStore
             
         default:{
             
-            if([kApplication canOpenURL:[NSURL URLWithString:reviewURL]]) {
-            
-                [kApplication openURL:[NSURL URLWithString:reviewURL]];
+//            if([kApplication canOpenURL:[NSURL URLWithString:reviewURL]]) {
+//
+//                [kApplication openURL:[NSURL URLWithString:reviewURL]];
+//            }else
+            if ([kApplication canOpenURL:[NSURL URLWithString:reviewURL_ios11]]) {
+                [kApplication openURL:[NSURL URLWithString:reviewURL_ios11]];
             }
         }
             break;

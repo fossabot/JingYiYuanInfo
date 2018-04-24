@@ -9,7 +9,7 @@
 #import "YYCompanyListController.h"
 #import "THBaseTableView.h"
 #import "YYProductionVM.h"
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 
 @interface YYCompanyListController ()
 
@@ -73,18 +73,17 @@
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshHeader headerWithRefreshingBlock:^{
+        _tableView.mj_header = [YYStateHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
         
-        _tableView.mj_footer = [MJRefreshFooter footerWithRefreshingBlock:^{
+        _tableView.mj_footer = [YYBackNormalFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-//        _tableView.mj_footer.automaticallyHidden = YES;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
         configer.emptyImage = imageNamed(emptyImageName);

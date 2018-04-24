@@ -26,15 +26,6 @@
 /** 产品描述*/
 @property (nonatomic, strong) UILabel *subTitle;
 
-/** 标签1*/
-@property (nonatomic, strong) YYEdgeLabel *tag1;
-
-///** 标签2*/
-//@property (nonatomic, strong) YYEdgeLabel *tag2;
-//
-///** 标签3*/
-//@property (nonatomic, strong) YYEdgeLabel *tag3;
-
 /** 价格*/
 @property (nonatomic, strong) UILabel *price;
 
@@ -68,6 +59,7 @@
     self.leftImageView = leftImageView;
     
     UILabel *imageTagLabel = [[UILabel alloc] init];
+    imageTagLabel.textAlignment = NSTextAlignmentCenter;
     imageTagLabel.font = UnenableTitleFont;
     imageTagLabel.textColor = WhiteColor;
     imageTagLabel.backgroundColor = OrangeColor;
@@ -86,27 +78,6 @@
     subTitle.numberOfLines = 2;
     [self.contentView addSubview:subTitle];
     self.subTitle = subTitle;
-    
-//    YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
-//    tag1.font = TagLabelFont;
-//    tag1.textColor = ThemeColor;
-//    tag1.layer.borderColor = ThemeColor.CGColor;
-//    [self.contentView addSubview:tag1];
-//    self.tag1 = tag1;
-    
-//    YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
-//    tag2.font = TagLabelFont;
-//    tag2.textColor = ThemeColor;
-//    tag2.layer.borderColor = ThemeColor.CGColor;
-//    [self.contentView addSubview:tag2];
-//    self.tag2 = tag2;
-//    
-//    YYEdgeLabel *tag3 = [[YYEdgeLabel alloc] init];
-//    tag3.font = TagLabelFont;
-//    tag3.textColor = ThemeColor;
-//    tag3.layer.borderColor = ThemeColor.CGColor;
-//    [self.contentView addSubview:tag3];
-//    self.tag3 = tag3;
     
     UILabel *price = [[UILabel alloc] init];
     price.font = UnenableTitleFont;

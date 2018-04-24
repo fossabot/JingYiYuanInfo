@@ -24,8 +24,10 @@
 @implementation YYPushViewModel
 {
     NSIndexPath *_lastIndexPath;
+    NSString *_lastSelectedDate;
     NSDate *_preDate;
     NSDate *_nextDate;
+    
     
     NSDateComponents *_dateComponents;
 }
@@ -58,6 +60,11 @@
 /** 推送历史列表请求方法*/
 - (void)fetchDataWithDate:(NSString *)date completion:(void(^)(BOOL success))completion{
     
+    if (_lastSelectedDate && ![_lastSelectedDate isEqualToString:date]) {
+        [self resetLastIndexPath];
+    }
+    _lastSelectedDate = date;
+    
     [YYHttpNetworkTool GETRequestWithUrlstring:pushListUrl parameters:@{@"date":date} success:^(id response) {
 
         if (response) {
@@ -74,6 +81,11 @@
     
 }
 
+/** 当日期改变时，如果已经点击了展开与关闭的按钮，那么当前VM会记住lastIndexPath，但是切换日期后，加入新的数据源数据没有上一个日期的数据源多，正巧lastindexpath记住的又是上一个日期超过这个日期数据源个数之外的，也就意味着，在点击新的cell时，同时将lastindexpath的cell收起，就会找不到那个cell，数组越界，所以切换日期后需将lastIndexPath置为nil*/
+- (void)resetLastIndexPath {
+    _lastIndexPath = nil;
+}
+
 #pragma -- mark TableViewDelegate  -----------------
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.dataSource.count;
@@ -83,6 +95,15 @@
     
     YYPushListCellModel *model = self.dataSource[indexPath.row];
     return [model cellHeight];
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    YYPushCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+    [cell extened];
+    
 }
 
 #pragma -- mark TableViewDataSource  --------------
@@ -106,7 +127,7 @@
         }else {
             arr = [NSArray arrayWithObject:index];
         }
-        [weakTableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationNone];
+        [weakTableView reloadRowsAtIndexPaths:arr withRowAnimation:UITableViewRowAnimationFade];
         _lastIndexPath = index;
     };
     

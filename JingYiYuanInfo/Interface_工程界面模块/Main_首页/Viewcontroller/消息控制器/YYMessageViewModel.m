@@ -65,6 +65,24 @@
 }
 
 
+#pragma mark -- inner Methods 自定义方法  -------------------------------
+
+- (UIView *)headerForSection:(NSString *)sectionTitle {
+    
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 30)];
+    backView.backgroundColor = WhiteColor;
+    
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 300, 30)];
+    title.text = sectionTitle;
+    title.font = SubTitleFont;
+    title.textColor = TitleColor;
+    
+    [backView addSubview:title];
+    return backView;
+    
+}
+
+
 #pragma -- mark TableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -73,7 +91,16 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.1;
+    return YYCommonSectionMargin;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    YYMessageSectionModel *secModel = self.dataSource[section];
+    return [self headerForSection:secModel.date];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [[UIView alloc] init];
 }
 
 
@@ -88,11 +115,6 @@
     return secModel.info.count;
 }
 
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    YYMessageSectionModel *secModel = self.dataSource[section];
-    return secModel.date;
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

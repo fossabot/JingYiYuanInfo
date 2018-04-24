@@ -97,6 +97,7 @@ YYSingletonM(User)
 }
 
 - (void)setExpiretime:(NSString *)expiretime {
+//    NSString *temp = [expiretime substringToIndex:9];
     [kUserDefaults setValue:expiretime forKey:@"user_expiretime"];
     [kUserDefaults synchronize];
     [YYUser alertNotification];
@@ -105,7 +106,8 @@ YYSingletonM(User)
 - (void)setIntegral:(NSString *)integral {
     
     NSString *str = [NSString stringWithFormat:@"%@",integral];
-    if ([str isKindOfClass:[NSNull class]] || str.length == 0 || [integral isKindOfClass:[NSNull class]]) {
+    YYLog(@"我的积分   -------    %@",str);
+    if (!str.length) {
         str = @"0";
     }
     [kUserDefaults setValue:str forKey:@"user_integral"];
@@ -179,12 +181,14 @@ YYSingletonM(User)
 }
 
 - (NSString *)expiretime{
-    return [kUserDefaults objectForKey:@"user_expiretime"];
+    
+    NSString *temp = [kUserDefaults objectForKey:@"user_expiretime"];
+    return [temp substringToIndex:10];
 }
 
 - (NSString *)integral {
     NSString *integralStr = [NSString stringWithFormat:@"%@",[kUserDefaults objectForKey:@"user_integral"]];
-    if (!integralStr.length) {
+    if (integralStr.length == 0 || !self.isLogin) {
         return @"0";
     }
     return integralStr;
@@ -204,23 +208,23 @@ YYSingletonM(User)
 
 - (NSString *)webFontStr {
     CGFloat webfont = self.webfont;
-    if (webfont == 1.0) {
+    if (webfont == 1.0f) {
         return @"标准";
-    }else if (webfont == 1.2) {
+    }else if (webfont == 1.2f) {
         return @"大";
-    }else if (webfont == 1.5) {
+    }else if (webfont == 1.5f) {
         return @"极大";
-    }else if (webfont == 2.0) {
+    }else if (webfont == 2.0f) {
         return @"超级大";
     }
-    return @"大";
+    return @"标准";
 }
 
 - (NSInteger)currentPoint {
     
-    NSArray *fontArr = @[@1.0,@1.2,@1.5,@2.0];
+    NSArray *fontArr = @[@1.0f,@1.2f,@1.5f,@2.0f];
     CGFloat currentFont = [self webfont];
-    return [fontArr indexOfObject:@(currentFont)];
+    return [fontArr indexOfObject:@(currentFont)]+1;
 }
 
 - (BOOL)isLogin{
@@ -274,6 +278,7 @@ YYSingletonM(User)
     YYWeakSelf
     [[kUserDefaults dictionaryRepresentation] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop)
      {
+        
          if([key hasPrefix:@"user_"])
          {
              [kUserDefaults removeObjectForKey:key];
@@ -281,6 +286,7 @@ YYSingletonM(User)
          [kUserDefaults setBool:NO forKey:LOGINSTATUS];
          [kUserDefaults synchronize];
          [weakSelf alertNotification];
+         
      }];
     
 //    [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
@@ -289,7 +295,6 @@ YYSingletonM(User)
 //    for (NSString *property in properties) {
 //        [kUserDefaults removeObjectForKey:property];
 //    }
-    
 }
 
 /** 提醒代理 该干活了*/

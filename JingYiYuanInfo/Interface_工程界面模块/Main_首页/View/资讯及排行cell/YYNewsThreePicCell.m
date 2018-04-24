@@ -7,10 +7,12 @@
 //
 
 #import "YYNewsThreePicCell.h"
-#import "LabelContainer.h"
 #import "YYHotInfoModel.h"
-#import "YYEdgeLabel.h"
+#import "YYTagView.h"
 #import "YYHotPicsModel.h"
+
+#define imgWidth ((kSCREENWIDTH-30)/3)
+
 @interface YYNewsThreePicCell()
 
 /** cell对应的新闻的id  留着给记录阅读状态使用*/
@@ -32,13 +34,10 @@
 @property (nonatomic, strong) UIImageView *newsPic3;
 
 /** tag标签*/
-@property (nonatomic, strong) LabelContainer *container;
+@property (nonatomic, strong) YYTagView *tagLabel1;
 
 /** tag标签*/
-@property (nonatomic, strong) UILabel *tagLabel1;
-
-/** tag标签*/
-@property (nonatomic, strong) UILabel *tagLabel2;
+@property (nonatomic, strong) YYTagView *tagLabel2;
 
 /** source来源*/
 @property (nonatomic, strong) UILabel *source;
@@ -71,7 +70,14 @@
 //    NSArray *images = @[weakSelf.newsPic1, weakSelf.newsPic2, weakSelf.newsPic3];
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     
-    YYHotPicsModel *model1 = hotinfoModel.picarr[0];
+    NSArray *tempArr = hotinfoModel.picarr;
+    if (tempArr.count == 0) {
+        YYHotPicsModel *model = [[YYHotPicsModel alloc] init];
+        model.img = @"";
+        model.desc = @"";
+        tempArr = [NSArray arrayWithObjects:model,model,model, nil];
+    }
+    YYHotPicsModel *model1 = tempArr[0];
     NSURL *imageUrl = [NSURL URLWithString:model1.img];
     [_newsPic1 sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
@@ -90,7 +96,7 @@
         }];
     }];
 
-    YYHotPicsModel *model2 = hotinfoModel.picarr[1];
+    YYHotPicsModel *model2 = tempArr[1];
     NSURL *imageUrl2 = [NSURL URLWithString:model2.img];
     [_newsPic2 sd_setImageWithURL:imageUrl2 placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
@@ -109,7 +115,7 @@
         }];
     }];
     
-    YYHotPicsModel *model3 = hotinfoModel.picarr[2];
+    YYHotPicsModel *model3 = tempArr[2];
     NSURL *imageUrl3 = [NSURL URLWithString:model3.img];
     [_newsPic3 sd_setImageWithURL:imageUrl3 placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
@@ -164,29 +170,34 @@
     _time.text = hotinfoModel.posttime;
     _source.text = hotinfoModel.source;
     
-    if (hotinfoModel.keywords.length) {
+    if (![hotinfoModel.keywords isEqualToString:@""] ) {
         if ([hotinfoModel.keywords containsString:@" "]) {
             NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@" "];
-            self.tagLabel1.text = keywoeds[0];
-            self.tagLabel2.text = keywoeds[1];
+            self.tagLabel1.title = keywoeds[0];
+            self.tagLabel2.title = keywoeds[1];
         }else if ([hotinfoModel.keywords containsString:@","]){
             
             NSArray *keywoeds = [hotinfoModel.keywords componentsSeparatedByString:@","];
-            self.tagLabel1.text = keywoeds[0];
-            self.tagLabel2.text = keywoeds[1];
+            self.tagLabel1.title = keywoeds[0];
+            self.tagLabel2.title = keywoeds[1];
         }else{
             
-            self.tagLabel1.text = hotinfoModel.keywords;
-            [self.source updateConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self.tagLabel1.right).offset(YYInfoCellSubMargin);
-            }];
+            self.tagLabel1.title = hotinfoModel.keywords;
+            self.tagLabel2.title = @"";
+//            [self.source updateConstraints:^(MASConstraintMaker *make) {
+//                make.left.equalTo(self.tagLabel1.right).offset(YYInfoCellSubMargin);
+//            }];
         }
     }else{
-        [self.source updateConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView).offset(YYInfoCellCommonMargin);
-        }];
+        self.tagLabel1.title = @"";
+        self.tagLabel2.title = @"";
+//        [self.source updateConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(self.contentView).offset(YYInfoCellCommonMargin);
+//        }];
     }
     
+    [self.tagLabel1 setNeedsLayout];
+    [self.tagLabel2 setNeedsLayout];
 }
 
 
@@ -219,21 +230,23 @@
     [self.contentView addSubview:newsPic3];
     self.newsPic3 = newsPic3;
         
-    YYEdgeLabel *tagLabel1 = [[YYEdgeLabel alloc] init];
-    tagLabel1.font = TagLabelFont;
-    tagLabel1.textColor = ThemeColor;
-    tagLabel1.layer.borderColor = ThemeColor.CGColor;
+    YYTagView *tagLabel1 = [[YYTagView alloc] init];
+    tagLabel1.rightMargin = YYInfoCellSubMargin;
+//    tagLabel1.font = TagLabelFont;
+//    tagLabel1.textColor = ThemeColor;
+//    tagLabel1.layer.borderColor = ThemeColor.CGColor;
 //    tagLabel1.layer.borderWidth = 0.5;
-    tagLabel1.layer.cornerRadius = 3;
+//    tagLabel1.layer.cornerRadius = 3;
     [self.contentView addSubview:tagLabel1];
     self.tagLabel1 = tagLabel1;
     
-    YYEdgeLabel *tagLabel2 = [[YYEdgeLabel alloc] init];
-    tagLabel2.font = TagLabelFont;
-    tagLabel2.textColor = ThemeColor;
-    tagLabel2.layer.borderColor = ThemeColor.CGColor;
+    YYTagView *tagLabel2 = [[YYTagView alloc] init];
+    tagLabel2.rightMargin = YYInfoCellSubMargin;
+//    tagLabel2.font = TagLabelFont;
+//    tagLabel2.textColor = ThemeColor;
+//    tagLabel2.layer.borderColor = ThemeColor.CGColor;
 //    tagLabel2.layer.borderWidth = 0.5;
-    tagLabel2.layer.cornerRadius = 3;
+//    tagLabel2.layer.cornerRadius = 3;
     [self.contentView addSubview:tagLabel2];
     self.tagLabel2 = tagLabel2;
     
@@ -258,14 +271,15 @@
     
     //底部分隔线的约束
     [self.cellSeparator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.contentView.bottom).offset(-1);
+        make.bottom.equalTo(self.contentView.bottom).offset(-0.5);
         make.left.equalTo(self.contentView.left).offset(YYInfoCellCommonMargin);
         make.right.equalTo(self.contentView.right).offset(-YYInfoCellCommonMargin);
         make.height.equalTo(0.5);
     }];
     
     [self.title makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self.contentView).offset(YYInfoCellCommonMargin);
+        make.top.equalTo(YYNewsCellTopMargin);
+        make.left.equalTo(self.contentView).offset(YYInfoCellCommonMargin);
         make.right.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
     }];
     
@@ -278,18 +292,17 @@
 //        make.height.equalTo((9/16)*(kSCREENWIDTH-30)/3);
 //    }];
     
-    [arr mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedSpacing:10 leadSpacing:10 tailSpacing:10];
+    [arr mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedSpacing:5 leadSpacing:10 tailSpacing:10];
     
     [arr makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.title.bottom).offset(YYInfoCellSubMargin);
-//        make.bottom.equalTo(-2);
-//        make.width.equalTo(40);
-        make.height.equalTo(0.21*(kSCREENWIDTH-30));
+        make.top.equalTo(self.title.bottom).offset(YYInfoCellCommonMargin);
+        make.height.equalTo(imgWidth*7/11);
     }];
     
     [self.time makeConstraints:^(MASConstraintMaker *make) {
-        make.right.bottom.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
-        make.top.equalTo(self.newsPic1.bottom).offset(YYInfoCellSubMargin);
+        make.bottom.equalTo(-YYNewsCellBottomMargin);
+        make.right.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
+        make.top.equalTo(self.newsPic1.bottom).offset(YYInfoCellCommonMargin);
     }];
 
     
@@ -299,12 +312,12 @@
     }];
     
     [self.tagLabel2 makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.tagLabel1.right).offset(YYInfoCellSubMargin);
+        make.left.equalTo(self.tagLabel1.right);
         make.centerY.equalTo(self.time);
     }];
     
     [self.source makeConstraints:^(MASConstraintMaker *make) {//来源label的约束
-        make.left.equalTo(self.tagLabel2.right).offset(YYInfoCellSubMargin);
+        make.left.equalTo(self.tagLabel2.right);
         make.top.equalTo(self.time.top);
     }];
     

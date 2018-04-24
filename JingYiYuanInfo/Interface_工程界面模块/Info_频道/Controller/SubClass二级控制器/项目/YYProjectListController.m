@@ -9,7 +9,7 @@
 #import "YYProjectListController.h"
 
 #import "YYProjectVM.h"
-#import "MJRefresh.h"
+#import "YYRefresh.h"
 #import "YYProjectModel.h"
 #import "YYProjectCell.h"
 #import "YYProjectDetailController.h"
@@ -95,22 +95,20 @@
         _tableView.dataSource = self.viewModel;
         
         [_tableView registerClass:[YYProjectCell class] forCellReuseIdentifier:YYProjectCellId];
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, YYCommonCellRightMargin);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, YYCommonCellLeftMargin, 0, YYCommonCellRightMargin);
         
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        _tableView.mj_header = [YYNormalHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
         
-        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        YYBackStateFooter *stateFooter = [YYBackStateFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-
-        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
         

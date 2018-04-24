@@ -168,6 +168,7 @@
     YYUserCommonCellModel *commonModel6 = [[YYUserCommonCellModel alloc] init];
     commonModel6.title = @"QQ绑定";
     commonModel6.isBundleSDK = user.qqnum.length ? YES : NO;
+    commonModel6.isHaveIndicator = YES;
 //    commonModel6.subTitle = user.qqnum;
     commonModel6.cellHeight = 44;
     commonModel6.userInfoCellType = YYUserInfoCellTypeBundle;
@@ -175,6 +176,7 @@
     YYUserCommonCellModel *commonModel7 = [[YYUserCommonCellModel alloc] init];
     commonModel7.title = @"微信绑定";
     commonModel7.isBundleSDK = user.weixin.length ? YES : NO;
+    commonModel7.isHaveIndicator = YES;
 //    commonModel7.subTitle = user.weixin;
     commonModel7.cellHeight = 44;
     commonModel7.userInfoCellType = YYUserInfoCellTypeBundle;
@@ -183,6 +185,7 @@
     commonModel8.title = @"微博绑定";
     commonModel8.isBundleSDK = user.weibo.length ? YES : NO;
 //    commonModel8.subTitle = user.weibo;
+    commonModel8.isHaveIndicator = YES;
     commonModel8.cellHeight = 44;
     commonModel8.userInfoCellType = YYUserInfoCellTypeBundle;
     
@@ -196,11 +199,19 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    return 10;
+    return YYCommonSectionMargin;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0.001;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [[UIView alloc] init];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [[UIView alloc] init];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -302,8 +313,7 @@
 //            telCell.selectionStyle = UITableViewCellSelectionStyleNone;
 //            return telCell;
 //        }
-            
-            break;
+//            break;
             
         case YYUserInfoCellTypeBundle:{
             YYBundleSDKCell *bundleCell = [tableView dequeueReusableCellWithIdentifier:YYBundleSDKCellID];
@@ -327,7 +337,7 @@
          
             YYCommonCell *commonCell = [tableView dequeueReusableCellWithIdentifier:YYCommonCellId];
             commonCell.accessoryType = model.isHaveIndicator ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
-            commonCell.fiveConstraints.constant = model.isHaveIndicator ? 0 : 20;
+            commonCell.fiveConstraints.constant = model.isHaveIndicator ? 0 : 38;
             commonCell.title.text = model.title;
             if (indexPath.section == 1 && indexPath.row == 0) {
                 
@@ -335,7 +345,6 @@
             }else if (indexPath.section == 1 && indexPath.row == 1){
                 commonCell.detail.text = [model.subTitle stringByAppendingString:@"万"];
             }else {
-                
                 commonCell.detail.text = model.subTitle;
             }
         

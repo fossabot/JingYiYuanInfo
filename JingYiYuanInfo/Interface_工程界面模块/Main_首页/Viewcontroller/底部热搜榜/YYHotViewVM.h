@@ -45,6 +45,9 @@ typedef void(^YYHotViewCellSelectBlock)(NSInteger picstate, id data, NSIndexPath
  */
 - (void)fetchMoreDataCompletion:(void(^)(BOOL success))completion;
 
-
+/**
+ *  删除该行数据
+ */
+- (void)deleteRow:(NSInteger)row;
 
 @end

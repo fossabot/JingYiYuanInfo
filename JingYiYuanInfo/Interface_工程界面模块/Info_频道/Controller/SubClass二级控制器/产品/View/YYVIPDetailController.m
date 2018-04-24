@@ -8,6 +8,8 @@
 
 #import "YYVIPDetailController.h"
 #import "YYIAPTool.h"
+#import <DateTools/DateTools.h>
+#import "UIAlertController+YYShortAlert.h"
 
 @interface YYVIPDetailController ()
 
@@ -38,10 +40,7 @@
     [kNotificationCenter addObserver:self selector:@selector(pop:) name:YYIapSucceedNotification object:nil];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 
 /** 购买会员*/
@@ -54,13 +53,27 @@
         return;
     }
     
-//    if (![user.groupid containsString:@"3"]) {
-//        [SVProgressHUD showInfoWithStatus:@"非会员用户不能购买该产品"];
-//        [SVProgressHUD dismissWithDelay:1];
-//        return;
-//    }
+    NSDate *now = [NSDate date];
+    NSString *expireTime = [user.expiretime substringToIndex:10];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = yyyyMMdd;
+    NSDate *expireDate = [formatter dateFromString:expireTime];
+    NSDate *fourYearAfter = [now dateByAddingYears:4];
+    
+    if (![expireDate isEarlierThan:fourYearAfter]) {//如果到期时间比现在往后推4年还早的话，说明购买一年到期时间会比现在往后推5年还早，也就是可以购买
+        UIAlertController *alert = [UIAlertController showAlertWithTitle:@"提示" subtitle:@"您的会员时间已达五年，暂无法购买" cancelTitle:nil confirmTitle:@"确认" cancel:^{
+            
+        } confirm:^{
+            
+        }];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        return;
+    }
     
     [YYIAPTool buyProductByProductionId:@"com.yyapp_vip_1" type:@"1"];
+    
 }
 
 - (void)pop:(NSNotification *)notice {
@@ -70,12 +83,6 @@
 
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
-
-
-//- (void)ttest {
-// 
-//    [YYIAPTool printReceipt];
-//}
 
 
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
@@ -92,18 +99,6 @@
     return _buy;
 }
 
-
-//- (UIButton *)test {
-//    
-//    if (!_test) {
-//        _test = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_test setTitle:@"test" forState:UIControlStateNormal];
-//        [_test setTitleColor:WhiteColor forState:UIControlStateNormal];
-//        [_test setBackgroundColor:ThemeColor];
-//        [_test addTarget:self action:@selector(ttest) forControlEvents:UIControlEventTouchUpInside];
-//    }
-//    return _test;
-//}
 
 
 #pragma mark -------  wkWebview 代理方法  --------------------------------

@@ -88,10 +88,10 @@
     [self.view addSubview:navView];
     
     UIButton *exit = [UIButton buttonWithType:UIButtonTypeCustom];
-    [exit setImage:imageNamed(@"nav_back_white_20x20") forState:UIControlStateNormal];
+    [exit setImage:imageNamed(@"nav_back_white_30x30") forState:UIControlStateNormal];
+    exit.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [exit setTitle:@"返回" forState:UIControlStateNormal];
     exit.titleLabel.font = NavTitleFont;
-    [exit setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 10)];
     [exit addTarget:self action:@selector(exitbuttonClick) forControlEvents:UIControlEventTouchUpInside];
     self.exit = exit;
     [self.navView addSubview:exit];
@@ -111,6 +111,7 @@
     telephoneTextfield.font = TitleFont;
     telephoneTextfield.placeholder = @"请输入手机号";
     telephoneTextfield.tintColor = ThemeColor;
+    telephoneTextfield.returnKeyType = UIReturnKeyNext;
     [telephoneTextfield setLeftViewWithImage:@"textfield_leftview_telephone_25x25_"];
     [self.container addSubview:telephoneTextfield];
     self.telephoneTextfield = telephoneTextfield;
@@ -125,6 +126,7 @@
     verificationtextField.font = TitleFont;
     verificationtextField.placeholder = @"请输入验证码";
     verificationtextField.tintColor = ThemeColor;
+    verificationtextField.returnKeyType = UIReturnKeyNext;
     [verificationtextField setLeftViewWithImage:@"textfield_leftview_verification_25x25_"];
     [self.container addSubview:verificationtextField];
     self.verificationTextfield = verificationtextField;
@@ -185,9 +187,8 @@
     
     [self.exit makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(10);
-        make.bottom.equalTo(self.navView).offset(-10);
-//        make.width.height.equalTo(25);
+        make.left.equalTo(5);
+        make.bottom.equalTo(self.navView).offset(-8);
     }];
     
     [self.titleView makeConstraints:^(MASConstraintMaker *make) {
@@ -377,6 +378,8 @@
 
 /** 注册按钮事件*/
 - (void)registeButtonClick:(UIButton *)sender {
+    
+    [self.view endEditing:YES];
     //注册操作，尚未完成
     //发送手机号 验证码 密码等给后台  注册用户  同时密码加密
     [YYLoginManager registeAccount:self.telephoneTextfield.text verification:self.verificationTextfield.text password:self.passwordTextfield.text response:^(BOOL success) {

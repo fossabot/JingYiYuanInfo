@@ -10,12 +10,19 @@
 
 typedef void(^NiuNewsCellSelectBlock)(id data, NSIndexPath *indexPath);
 
+typedef void(^HiddenHeaderBlock)(BOOL hidden);
+
 @interface YYNiuManDetailVM : YYBaseViewModel
 
 /** cell选中*/
 @property (nonatomic, copy) NiuNewsCellSelectBlock cellSelectedBlock;
 
+@property (nonatomic, copy) HiddenHeaderBlock hiddenHeaderBlock;
+
 /** niuid*/
 @property (nonatomic, copy) NSString *niuid;
+
+/** aid*/
+@property (nonatomic, copy) NSString *aid;
 
 @end

@@ -13,6 +13,7 @@
 /** 手机号格式验证*/
 + (BOOL) isValidMobileNumber:(NSString *)phoneNumber {
 //    NSString* const MOBILE = @"^1(3|4|5|7|8)\\d{9}$";
+//    ^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}
     NSString *mobile = @"^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|7[0678])\\d{8}$";
     
     NSPredicate* predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", mobile];

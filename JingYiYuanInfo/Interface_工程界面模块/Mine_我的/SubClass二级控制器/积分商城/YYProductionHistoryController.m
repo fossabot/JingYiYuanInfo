@@ -8,7 +8,7 @@
 
 #import "YYProductionHistoryController.h"
 
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 #import <MJExtension/MJExtension.h>
 #import "YYIOModel.h"
 #import "YYGoodsIOCell.h"
@@ -125,7 +125,7 @@
 - (UITableView *)tableView{
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
-//        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 20, 0, 20);
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -133,19 +133,18 @@
         
         YYWeakSelf
         
-        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        YYNormalHeader *header = [YYNormalHeader headerWithRefreshingBlock:^{
            
             YYStrongSelf
             [strongSelf loadNewData];
         }];
         _tableView.mj_header = header;
         
-        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        YYBackStateFooter *stateFooter = [YYBackStateFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

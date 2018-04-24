@@ -12,6 +12,7 @@
 #import "YYCommentView.h"
 #import "THBaseTableView.h"
 #import "UIViewController+BackButtonHandler.h"
+#import "UIAlertController+YYShortAlert.h"
 
 #import "YYCommentModel.h"
 #import "YYCommentCell.h"
@@ -96,7 +97,7 @@
 - (void)share {
     
     YYWeakSelf
-    [ShareView shareWithTitle:self.navigationItem.title subTitle:@"" webUrl:self.url imageUrl:self.shareImgUrl isCollected:NO shareViewContain:ShareViewTypeWechat | ShareViewTypeWechatTimeline | ShareViewTypeQQ | ShareViewTypeQQZone | ShareViewTypeMicroBlog | ShareViewTypeFont | ShareViewTypeCopyLink shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
+    [ShareView shareWithTitle:self.navigationItem.title subTitle:self.subTitle webUrl:self.url imageUrl:self.shareImgUrl isCollected:NO shareViewContain:ShareViewTypeWechat | ShareViewTypeWechatTimeline | ShareViewTypeQQ | ShareViewTypeQQZone | ShareViewTypeMicroBlog | ShareViewTypeFont | ShareViewTypeCopyLink shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
         
         switch (shareViewType) {
             case ShareViewTypeFont:{
@@ -104,8 +105,22 @@
                 YYUser *user = [YYUser shareUser];
                 [PageSlider showPageSliderWithCurrentPoint:user.currentPoint fontChanged:^(CGFloat rate) {
                    
-                    NSString *js = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%ld%%'",(NSInteger)(100*rate)];
-                    [weakSelf.wkWebview evaluateJavaScript:js completionHandler:nil];
+                    YYLog(@"webview改变之前的高度 ---  %lf",weakSelf.wkWebview.yy_height);
+                    NSString *js = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%ld%%'",(long)(100*rate)];
+                    [weakSelf.wkWebview evaluateJavaScript:js completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+                        
+                        YYLog(@"webview改变之后的高度 ---  %lf",weakSelf.wkWebview.scrollView.contentSize.height);
+                    }];
+                    
+                    
+                    [weakSelf.wkWebview evaluateJavaScript:@"document.body.offsetHeight;" completionHandler:^(id _Nullable result,NSError *_Nullable error) {
+                        
+                        YYLog(@"webview测量js值得到的高度   ---   %lf",[result floatValue]);
+                        //获取页面高度，并重置webview的高度
+                        weakSelf.wkWebview.yy_height = [result floatValue];
+                        [weakSelf.tableView reloadData];
+
+                    }];
                 }];
             }
                 break;
@@ -168,7 +183,6 @@
 
 /* 回复评论的回调*/
 - (void)writeComment:(YYCommentModel *)model {
-    
 
     YYUser *user = [YYUser shareUser];
     YYCommentView *commmentView = [[YYCommentView alloc] init];
@@ -317,11 +331,21 @@
 }
 
 
+
+
 #pragma mark -------  wkWebview 代理方法  --------------------------------
 
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
    
     self.navigationItem.rightBarButtonItem.enabled = NO;
+    YYUser *user = [YYUser shareUser];
+    //调整字体大小
+    //document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%ld%%'
+    NSString *js = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%ld%%'",(NSInteger)user.webfont*100];
+    [self.wkWebview evaluateJavaScript:js completionHandler:nil];
+//    if (!self.wkWebview.isLoading) {
+//        [self.wkWebview reload];
+//    }
     [SVProgressHUD show];
 }
 
@@ -331,82 +355,65 @@
     
     self.navigationItem.rightBarButtonItem.enabled = YES;
     YYWeakSelf
+    YYUser *user = [YYUser shareUser];
+    NSString *js = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%ld%%'",(long)(100*user.webfont)];
+    [webView evaluateJavaScript:js completionHandler:nil];
     
     [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError * _Nullable error) {
         weakSelf.navigationItem.title = title;
     }];
     
-    YYUser *user = [YYUser shareUser];
-    NSString *js = [NSString stringWithFormat:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '%ld%%'",(NSInteger)user.webfont*100];
-    [webView evaluateJavaScript:js completionHandler:nil];
     [SVProgressHUD dismiss];
     self.toolBar.transform = CGAffineTransformMakeTranslation(0, -ToolBarHeight);
     [self checkCollectState];
-//    if (self.dataSource) {
+    
     [webView evaluateJavaScript:@"document.body.offsetHeight;" completionHandler:^(id _Nullable result,NSError *_Nullable error) {
         
         YYLog(@"result   ---   %lf",[result floatValue]);
         //获取页面高度，并重置webview的frame
-        
-//        weakSelf.wkWebview.yy_height = [result floatValue];
+    
         YYLog(@"webview 高度 ---  %lf",weakSelf.wkWebview.yy_height);
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             weakSelf.wkWebview.yy_height = weakSelf.wkWebview.scrollView.contentSize.height;
             [weakSelf.tableView reloadData];
+            
         });
     }];
     
-//    }
-   
 }
 
-//- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
-//    
-//    NSURL *URL = navigationAction.request.URL;
-//    NSString *scheme = [URL scheme];
-//    UIApplication *app = [UIApplication sharedApplication];
-//    // 打电话
-//    if ([scheme isEqualToString:@"tel"]) {
-//        if ([app canOpenURL:URL]) {
-//            [app openURL:URL];
-//            // 一定要加上这句,否则会打开新页面
-//            decisionHandler(WKNavigationActionPolicyCancel);
-//            return;
-//        }
-//    }
-//    // 打开appstore
-//    if ([URL.absoluteString containsString:@"ituns.apple.com"]) {
-//        if ([app canOpenURL:URL]) {
-//            [app openURL:URL];
-//            decisionHandler(WKNavigationActionPolicyCancel);
-//            return;
-//        }
-//        decisionHandler(WKNavigationActionPolicyAllow);
-//    }
-//}
 
 
 - (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addAction:([UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    
+    UIAlertController *alertController = [UIAlertController showAlertWithTitle:@"提示" subtitle:message?:@"" cancelTitle:nil confirmTitle:@"确认" cancel:^{
+        
+    } confirm:^{
         completionHandler();
-    }])];
+    }];
+    
     [self presentViewController:alertController animated:YES completion:nil];
     
 }
 - (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler{
-    //    DLOG(@"msg = %@ frmae = %@",message,frame);
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:message?:@"" preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addAction:([UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    
+    YYWeakSelf
+    UIAlertController *alertController = [UIAlertController showAlertWithTitle:@"提示" subtitle:message?:@"" cancelTitle:@"取消" confirmTitle:@"确认" cancel:^{
+        
         completionHandler(NO);
-    }])];
-    [alertController addAction:([UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    } confirm:^{
+        
         completionHandler(YES);
-    }])];
+        if (weakSelf.dislikeBlock) {
+            weakSelf.dislikeBlock(weakSelf.newsId);
+        }
+    }];
+    
     [self presentViewController:alertController animated:YES completion:nil];
 }
 - (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable))completionHandler{
+    
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:prompt message:@"" preferredStyle:UIAlertControllerStyleAlert];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.text = defaultText;
@@ -422,11 +429,12 @@
 
     [self showPlaceHolder];
 
-//    self.tipView.hidden = NO;
     [SVProgressHUD showErrorWithStatus:@"网络出错"];
     [SVProgressHUD dismissWithDelay:1];
     
 }
+
+
 
 #pragma mark -------  YYDetailToolBarDelegate -----------------------
 

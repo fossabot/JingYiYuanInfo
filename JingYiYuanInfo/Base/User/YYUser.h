@@ -9,6 +9,12 @@
 #import <Foundation/Foundation.h>
 #define setUpInfo @"setUpInfo"
 
+typedef enum : NSUInteger {
+    YYHttpNetStatusWWAN,
+    YYHttpNetStatusWIFI,
+    YYHttpNetStatusUnreachable
+} YYHttpNetStatus;
+
 @interface YYUser : NSObject
 
 YYSingletonH(User)
@@ -73,6 +79,9 @@ YYSingletonH(User)
 
 /** deviceToken*/
 @property (nonatomic, copy) NSString *deviceToken;
+
+/** netStatus*/
+@property (nonatomic, assign) YYHttpNetStatus netStatus;
 
 /**
  填充个人信息

@@ -173,7 +173,7 @@
     [favor setTitle:@"收藏" forState:UIControlStateNormal];
     [favor addTarget:self action:@selector(collectProject:) forControlEvents:UIControlEventTouchUpInside];
     [favor setImage:imageNamed(@"project_favor_normal_20x20") forState:UIControlStateNormal];
-    [favor setImage:imageNamed(@"project_favor_select_20x20") forState:UIControlStateSelected];
+    [favor setImage:imageNamed(@"project_favor_white_20x20") forState:UIControlStateSelected];
     [favor setBackgroundColor:ThemeColor];
     [self.view addSubview:favor];
     self.favor = favor;

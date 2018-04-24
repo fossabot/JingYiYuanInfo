@@ -11,7 +11,7 @@
 #import "YYMessageDetailController.h"
 #import "YYMainMessageCell.h"
 
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 
 @interface YYMessageController ()
 
@@ -94,10 +94,11 @@
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
         _tableView.rowHeight = 50;
+        _tableView.contentInset = UIEdgeInsetsMake(YYCommonSectionMargin, 0, 0, 0);
         [_tableView registerClass:[YYMainMessageCell class] forCellReuseIdentifier:YYMainMessageCellId];
         _tableView.tableFooterView = [[UIView alloc] init];
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        _tableView.mj_header = [YYStateHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];

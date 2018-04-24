@@ -74,7 +74,7 @@
     [self.upImageView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_centerY);
         make.width.equalTo(15);
-        make.right.equalTo(self.contentView).offset(-YYInfoCellCommonMargin);
+        make.right.equalTo(self.contentView).offset(-YYInfoCellCommonMargin+2);
     }];
     
     [self.renqiValue makeConstraints:^(MASConstraintMaker *make) {

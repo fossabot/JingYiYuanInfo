@@ -49,7 +49,6 @@
     for (YYMainSrollpicModel *model in srollpicModels) {
         [self.images addObject:model.picurl];
     }
-    
     _cycleScrollView.imageURLStringsGroup = self.images;
 }
 

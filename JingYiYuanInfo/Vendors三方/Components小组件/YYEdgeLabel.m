@@ -46,10 +46,12 @@
         self.layer.cornerRadius = 3;
         self.layer.borderColor = UnenableTitleColor.CGColor;
         self.textColor = SubTitleColor;
+        self.clipsToBounds = YES;
     }
     return self;
     
 }
+
 
 // 修改绘制文字的区域，edgeInsets增加bounds
 -(CGRect)textRectForBounds:(CGRect)bounds limitedToNumberOfLines:(NSInteger)numberOfLines

@@ -25,6 +25,15 @@ typedef void(^FontChangedBlock)(CGFloat rate);
 @property (nonatomic, copy) FontChangedBlock fontChangedBlock;
 
 
+
+/**
+ 弹起滑动选择框  输入总节点数和当前节点位置（1~···） 还有每个节点的文字（数组），根据我这个字体调节设置的字体变化的回调
+
+ @param totalPoint 总节点
+ @param currentPoint 当前节点
+ @param pointNames 节点名称
+ @param fontChanged 字体变化的回调
+ */
 + (void)showPageSliderWithTotalPoint:(NSInteger)totalPoint currentPoint:(NSInteger)currentPoint pointNames:(NSArray *)pointNames fontChanged:(FontChangedBlock)fontChanged;
 
 

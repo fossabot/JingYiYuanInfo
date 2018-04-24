@@ -31,7 +31,7 @@
     if ([_v_picture containsString:@"http"]) {
         return _v_picture;
     }
-    return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_v_picture];
+    return [NSString stringWithFormat:@"%@%@",yyfwJointUrl,_v_picture];
 }
 
 - (NSString *)v_modtime {

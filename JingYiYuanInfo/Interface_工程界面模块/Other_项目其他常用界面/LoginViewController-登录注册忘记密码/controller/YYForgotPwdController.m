@@ -87,10 +87,10 @@
     [self.view addSubview:navView];
     
     UIButton *exit = [UIButton buttonWithType:UIButtonTypeCustom];
-    [exit setImage:imageNamed(@"nav_back_white_20x20") forState:UIControlStateNormal];
+    [exit setImage:imageNamed(@"nav_back_white_30x30") forState:UIControlStateNormal];
+    exit.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [exit setTitle:@"返回" forState:UIControlStateNormal];
     exit.titleLabel.font = NavTitleFont;
-    [exit setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 10)];
     [exit addTarget:self action:@selector(dismissCurrentVc) forControlEvents:UIControlEventTouchUpInside];
     self.exit = exit;
     [self.navView addSubview:exit];
@@ -110,6 +110,7 @@
     teleTextField.font = TitleFont;
     teleTextField.placeholder = @"请输入手机号";
     teleTextField.tintColor = ThemeColor;
+    teleTextField.returnKeyType = UIReturnKeyNext;
     [teleTextField setLeftViewWithImage:@"textfield_leftview_telephone_25x25_"];
     [self.container addSubview:teleTextField];
     self.teleTextField = teleTextField;
@@ -124,6 +125,7 @@
     verificationtextField.font = TitleFont;
     verificationtextField.placeholder = @"请输入验证码";
     verificationtextField.tintColor = ThemeColor;
+    verificationtextField.returnKeyType = UIReturnKeyNext;
     [verificationtextField setLeftViewWithImage:@"textfield_leftview_verification_25x25_"];
     [self.container addSubview:verificationtextField];
     self.verificationtextField = verificationtextField;
@@ -165,7 +167,7 @@
     sendNewPasswordButton.enabled = NO;
     sendNewPasswordButton.titleLabel.font = TitleFont;
     sendNewPasswordButton.backgroundColor = UnactiveButtonColor;
-    [sendNewPasswordButton setTitle:@"发送" forState:UIControlStateNormal];
+    [sendNewPasswordButton setTitle:@"确定" forState:UIControlStateNormal];
     [sendNewPasswordButton setTitleColor:WhiteColor forState:UIControlStateNormal];
     [sendNewPasswordButton addTarget:self action:@selector(sendNewPasswordButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     sendNewPasswordButton.layer.cornerRadius = 5;
@@ -184,9 +186,8 @@
     
     [self.exit makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(10);
-        make.bottom.equalTo(self.navView).offset(-10);
-//        make.width.height.equalTo(25);
+        make.left.equalTo(5);
+        make.bottom.equalTo(self.navView).offset(-8);
     }];
     
     [self.titleView makeConstraints:^(MASConstraintMaker *make) {
@@ -375,6 +376,7 @@
 /** 发送更新密码*/
 - (void)sendNewPasswordButtonClick:(UIButton *)sender {
     
+    [self.view endEditing:YES];
     YYWeakSelf
     [YYLoginManager resetPasswordWithAccount:self.teleTextField.text
                                     password:self.resetPasswordTextField.text

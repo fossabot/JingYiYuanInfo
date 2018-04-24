@@ -10,6 +10,7 @@
 #import "BRAddressPickerView.h"
 #import "YYCommentTextView.h"
 #import "YYTextFilter.h"
+#import "NSString+Predicate.h"
 
 @interface YYAddressController ()<YYTextFilterDelegate,UITextFieldDelegate,UITextViewDelegate>
 
@@ -126,6 +127,7 @@
     UIButton *districtBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     districtBtn.titleLabel.font = TitleFont;
     [districtBtn setTitleColor:UnenableTitleColor forState:UIControlStateNormal];
+//    districtBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
     [districtBtn setTitle:@"请选择" forState:UIControlStateNormal];
     [districtBtn addTarget:self action:@selector(chooseDistrict:) forControlEvents:UIControlEventTouchUpInside];
     self.districtBtn = districtBtn;
@@ -163,7 +165,7 @@
     
     [self.receivedManText makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.equalTo(self.receivedMan.right).offset(YYInfoCellCommonMargin);
+        make.left.equalTo(self.receivedMan.right).offset(YYInfoCellCommonMargin*3);
         make.centerY.equalTo(self.receivedMan);
         make.right.equalTo(-YYCommonCellRightMargin);
     }];
@@ -184,7 +186,7 @@
     
     [self.mobileText makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.mobile.right).offset(YYInfoCellCommonMargin);
+        make.left.equalTo(self.receivedManText);
         make.centerY.equalTo(self.mobile);
         make.right.equalTo(-YYCommonCellRightMargin);
     }];
@@ -206,7 +208,8 @@
     [self.districtBtn makeConstraints:^(MASConstraintMaker *make) {
         
         make.centerY.equalTo(self.district);
-        make.right.equalTo(-YYCommonCellRightMargin);
+        make.left.equalTo(self.receivedManText);
+//        make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
     [self.seperator3 makeConstraints:^(MASConstraintMaker *make) {
@@ -237,12 +240,11 @@
                              maxLen:11
                            allowNum:YES
                             allowCH:NO
-                        allowLetter:YES
-                        allowLETTER:YES
-                        allowSymbol:YES
+                        allowLetter:NO
+                        allowLETTER:NO
+                        allowSymbol:NO
                         allowOthers:nil];
 }
-
 
 //获取地址   http://yyapp.1yuaninfo.com/app/application/useraddress.php
 - (void)loadData {
@@ -289,7 +291,6 @@
         return;
     }
     
-    
     YYUser *user = [YYUser shareUser];
     NSDictionary *para = nil;
     if (_isFirstEdit) {
@@ -322,7 +323,6 @@
     //地址选择器的选择回调
     if (!_isFirstEdit) {
         
-        
     }
     
     [BRAddressPickerView showAddressPickerWithDefaultSelected:@[@0,@0,@0] isAutoSelect:NO resultBlock:^(NSArray *selectAddressArr) {
@@ -344,7 +344,8 @@
         return NO;
     }
     
-    if (self.mobileText.text.length != 11) {
+    if (self.mobileText.text.length != 11 || ![self.mobileText.text hasPrefix:@"1"]) {
+        
         [SVProgressHUD showImage:nil status:@"手机号格式不正确"];
         [SVProgressHUD dismissWithDelay:1];
         return NO;

@@ -26,8 +26,29 @@
 #import <MJExtension/MJExtension.h>
 
 #define edgeMargin 20
-#define buttonW 50
-#define buttonH 75
+#define buttonW 40
+#define buttonH 60
+#define buttonFont  13
+
+@interface YYEightBtn : UIControl
+
+/** top*/
+@property (nonatomic, copy) NSString *imageName;
+
+/** title*/
+@property (nonatomic, copy) NSString *title;
+
+@end
+
+@interface YYEightBtn()
+
+/** image*/
+@property (nonatomic, strong) UIImageView *topImage;
+
+/** title*/
+@property (nonatomic, strong) UILabel *titleLabel;
+
+@end
 
 @interface YYMainEightBtnCell()
 {
@@ -49,7 +70,6 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self createSubview];
     }
@@ -63,14 +83,17 @@
     
     NSMutableArray *arr = [NSMutableArray array];
     for (int i=0; i<4; i++) {
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        btn.buttonPositionStyle = BAButtonPositionStyleTop;
-        [btn setImage:imageNamed(self.images[i]) forState:UIControlStateNormal];
-        [btn setTitleColor:SubTitleColor forState:UIControlStateNormal];
-        [btn setTitle:self.titles[i] forState:UIControlStateNormal];
-        btn.titleLabel.font = sysFont(afterScale(14));
-        [btn setImageEdgeInsets:UIEdgeInsetsMake(-afterScale(10), 5, afterScale(20), 0)];
-        [btn setTitleEdgeInsets:UIEdgeInsetsMake(afterScale(35), -afterScale(41), 0, 0)];
+        YYEightBtn *btn = [[YYEightBtn alloc] init];
+//        [btn setImage:imageNamed(self.images[i]) forState:UIControlStateNormal];
+//        [btn setTitleColor:SubTitleColor forState:UIControlStateNormal];
+//        [btn setTitle:self.titles[i] forState:UIControlStateNormal];
+//        btn.titleLabel.font = sysFont(12);
+//        [btn setImageEdgeInsets:UIEdgeInsetsMake(-afterScale(10), 5, afterScale(15), 0)];
+//        [btn setTitleEdgeInsets:UIEdgeInsetsMake(30, -afterScale(12)-25, 0, 0)];
+
+        [btn setTitle:self.titles[i]];
+        [btn setImageName:self.images[i]];
+        
         btn.tag = 100+i;
         [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
         [arr addObject:btn];
@@ -79,20 +102,23 @@
     
     [arr mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedItemLength:afterScale(buttonW) leadSpacing:afterScale(YYInfoCellCommonMargin*2) tailSpacing:afterScale(YYInfoCellCommonMargin*2)];
     [arr makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(YYInfoCellCommonMargin);
+        make.top.equalTo(YYCommonCellTopMargin);
         make.height.equalTo(afterScale(buttonH));
     }];
     
     NSMutableArray *arr1 = [NSMutableArray array];
     for (int i=4; i<8; i++) {
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        btn.buttonPositionStyle = BAButtonPositionStyleTop;
-        [btn setTitle:self.titles[i] forState:UIControlStateNormal];
-        [btn setTitleColor:SubTitleColor forState:UIControlStateNormal];
-        [btn setImage:imageNamed(self.images[i]) forState:UIControlStateNormal];
-        btn.titleLabel.font = sysFont(afterScale(14));
-        [btn setImageEdgeInsets:UIEdgeInsetsMake(-afterScale(10), 5, afterScale(20), 0)];
-        [btn setTitleEdgeInsets:UIEdgeInsetsMake(afterScale(35), -afterScale(41), 0, 0)];
+        YYEightBtn *btn = [[YYEightBtn alloc] init];
+//        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [btn setTitle:self.titles[i] forState:UIControlStateNormal];
+//        [btn setTitleColor:SubTitleColor forState:UIControlStateNormal];
+//        [btn setImage:imageNamed(self.images[i]) forState:UIControlStateNormal];
+//        btn.titleLabel.font = sysFont(buttonFont);
+//        [btn setImageEdgeInsets:UIEdgeInsetsMake(-afterScale(10), 5, afterScale(15), 0)];
+//        [btn setTitleEdgeInsets:UIEdgeInsetsMake(30, -afterScale(12)-25, 0, 0)];
+        [btn setTitle:self.titles[i]];
+        [btn setImageName:self.images[i]];
+        
         btn.tag = 100+i;
         [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
         [arr1 addObject:btn];
@@ -108,7 +134,7 @@
     [arr1 makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(btn.bottom).offset(YYInfoCellCommonMargin);
         make.height.equalTo(afterScale(buttonH));
-        make.bottom.equalTo(-YYInfoCellCommonMargin);
+        make.bottom.equalTo(-YYCommonCellBottomMargin);
     }];
 }
 
@@ -234,3 +260,55 @@
 
     
 @end
+
+
+
+
+@implementation YYEightBtn
+
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self initConfig];
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    CGFloat width = self.bounds.size.width;
+    CGFloat height = self.bounds.size.height;
+    self.topImage.frame = CGRectMake(0, 0, width, width);
+    self.titleLabel.frame = CGRectMake(0, width+5, width, height-width-5);
+}
+
+- (void)setImageName:(NSString *)imageName {
+    _imageName = imageName;
+    [self.topImage setImage:[UIImage imageNamed:imageName]];
+}
+
+- (void)setTitle:(NSString *)title {
+    _title = title;
+    self.titleLabel.text = title;
+}
+
+/** 初始化*/
+- (void)initConfig {
+
+    UIImageView *topImageView = [[UIImageView alloc] init];
+    self.topImage = topImageView;
+    [self addSubview:topImageView];
+    
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.font = sysFont(buttonFont);
+    titleLabel.textColor = SubTitleColor;
+    self.titleLabel = titleLabel;
+    [self addSubview:titleLabel];
+
+}
+
+@end
+

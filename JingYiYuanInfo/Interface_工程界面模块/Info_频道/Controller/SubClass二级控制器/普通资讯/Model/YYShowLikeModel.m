@@ -39,10 +39,20 @@
     return [NSString stringWithFormat:@"地点:%@",_palace];
 }
 
-//- (NSString *)price {
-//    
-//    return [NSString stringWithFormat:@"￥%@",_price];
-//}
+- (NSString *)tag {
+    return [_tag stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+}
+
+
+- (NSString *)price {
+    if ([_price containsString:@"￥"]) {
+        return _price;
+    }else if (!_price.length) {
+        return @"暂无价格";
+    }
+    
+    return [NSString stringWithFormat:@"￥%@",_price];
+}
 
 - (NSString *)indeximg {
     

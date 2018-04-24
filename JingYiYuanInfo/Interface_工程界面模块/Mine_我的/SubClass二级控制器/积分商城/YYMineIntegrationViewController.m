@@ -16,7 +16,7 @@
 #import "YYIntegrationShopSecHeaderView.h"
 #import "YYGoodsCollectionCell.h"
 #import "YYGoodsModel.h"
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 #import <MJExtension/MJExtension.h>
 
 @interface YYMineIntegrationViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
@@ -77,12 +77,6 @@
     
     [kNotificationCenter removeObserver:self name:YYUserInfoDidChangedNotification object:nil];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-}
-
 
 #pragma mark -- network   数据请求方法  ---------------------------
 
@@ -148,6 +142,7 @@
 
 - (void)configSubView {
     
+    self.navigationItem.title = @"积分商城";
 //    UIBarButtonItem *buy = [[UIBarButtonItem alloc] initWithTitle:@"购买积分" style:UIBarButtonItemStyleDone target:self action:@selector(buyIntegral)];
 //    self.navigationItem.rightBarButtonItem = buy;
     
@@ -227,25 +222,31 @@
 - (void)refreshHeader:(NSNotification *)notice {
     
     YYUser *user = [YYUser shareUser];
-    
     self.integrationLabel.text = [NSString stringWithFormat:@"%@",user.integral];
 }
 
+/** 选中segmentcontrol的一个item*/
 - (void)selectSegView:(UISegmentedControl *)segView {
     
-    if (segView.selectedSegmentIndex == 0) {
+    YYUser *user = [YYUser shareUser];
+    NSInteger segmentIndex = segView.selectedSegmentIndex;
+    
+    if (segmentIndex == 0) {
         
         YYIntegrationRulesDetailController *rule = [[YYIntegrationRulesDetailController alloc] init];
         rule.url = integrationRuleUrl;
         [self.navigationController pushViewController:rule animated:YES];
-    }else if (segView.selectedSegmentIndex == 1){
+    }else if (segmentIndex == 1 && user.isLogin){
         
         YYIODetailController *IODetailVc = [[YYIODetailController alloc] init];
         [self.navigationController pushViewController:IODetailVc animated:YES];
-    }else if (segView.selectedSegmentIndex == 2){
+    }else if (segmentIndex == 2 && user.isLogin){
         
         YYProductionHistoryController *history = [[YYProductionHistoryController alloc] init];
         [self.navigationController pushViewController:history animated:YES];
+    }else {
+        [SVProgressHUD showInfoWithStatus:@"账号未登录"];
+        [SVProgressHUD dismissWithDelay:1];
     }
     
 }
@@ -327,7 +328,7 @@
     if (!_flowLayout) {
         _flowLayout = [[UICollectionViewFlowLayout alloc] init];
         _flowLayout.itemSize = CGSizeMake((kSCREENWIDTH-30)/2, (kSCREENWIDTH-30)/2+70);
-        _flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
+        _flowLayout.sectionInset = UIEdgeInsetsMake(20, 10, 20, 10);
         _flowLayout.headerReferenceSize = CGSizeMake(kSCREENWIDTH, 40);
         _flowLayout.minimumLineSpacing = 10;
         _flowLayout.minimumInteritemSpacing = 10;
@@ -346,19 +347,17 @@
         [_collectionView registerClass:[YYGoodsCollectionCell class] forCellWithReuseIdentifier:YYGoodsCollectionCellId];
         [_collectionView registerClass:[YYIntegrationShopSecHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reusableSectionHeader];
         YYWeakSelf
-        _collectionView.mj_header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        _collectionView.mj_header = [YYStateHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
         
-        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        YYBackStateFooter *stateFooter = [YYBackStateFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-        
-        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _collectionView.mj_footer = stateFooter;
         
         

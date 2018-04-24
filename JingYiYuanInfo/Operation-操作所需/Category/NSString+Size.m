@@ -12,13 +12,18 @@
 
 - (CGSize)sizeWithFont:(UIFont *)font {
     
+    return [self sizeWithFont:font size:CGSizeMake(MAXFLOAT, MAXFLOAT)];
+}
+
+- (CGSize)sizeWithFont:(UIFont *)font size:(CGSize)size {
+    
     NSDictionary *attr = @{
                            NSFontAttributeName:font
                            };
-    CGSize contentSize = [self boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT)
-                                                 options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
-                                              attributes:attr
-                                                 context:nil].size;
+    CGSize contentSize = [self boundingRectWithSize:size
+                                            options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                         attributes:attr
+                                            context:nil].size;
     return contentSize;
 }
 

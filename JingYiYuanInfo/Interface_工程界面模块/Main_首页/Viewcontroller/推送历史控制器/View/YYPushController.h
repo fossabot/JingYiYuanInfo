@@ -13,4 +13,12 @@
 /** pushId*/
 @property (nonatomic, copy) NSString *pushId;
 
+/** today*/
+@property (nonatomic, copy) NSString *today;
+
+/** nsdate today*/
+@property (nonatomic, copy) NSString *todate;
+
+
+
 @end

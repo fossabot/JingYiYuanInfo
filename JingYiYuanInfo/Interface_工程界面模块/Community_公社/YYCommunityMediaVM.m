@@ -106,12 +106,12 @@
 
 
 /** 弹框提示流量播放*/
-- (void)showAlert:(void(^)(BOOL permit))permition {
+- (void)showAlertWithTitle:(NSString *)title message:(NSString *)message completion:(void(^)(BOOL permit))permition {
     
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"即将使用流量播放视频" message:@"如需关闭提醒，请到设置中关闭仅WiFi下播放视频" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *permit = [UIAlertAction actionWithTitle:@"播放" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *permit = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         permition(YES);
     }];
@@ -130,7 +130,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     // 隐藏尾部刷新控件
-    tableView.mj_footer.hidden = (self.mediaDataSource.count%10 != 0);
+    tableView.mj_footer.hidden = (self.mediaDataSource.count%10 != 0) || self.mediaDataSource.count == 0;
     return self.mediaDataSource.count;
 }
 
@@ -175,24 +175,42 @@
         // 下载功能
         strongSelf.playerView.hasDownload = NO;
         strongSelf.playerView.hasPreviewView = YES;
-        // 自动播放
-//        [strongSelf.playerView autoPlayTheVideo];
 
-        if (user.onlyWIFIPlay) {
-            
-            [weakSelf showAlert:^(BOOL permit) {
-                
-                if (permit) {
+        switch (user.netStatus) {
+            case YYHttpNetStatusUnreachable:
+                [weakSelf showAlertWithTitle:@"无法播放视频" message:@"暂无网络链接" completion:^(BOOL permit) {
                     
+                }];
+                break;
+                
+            case YYHttpNetStatusWIFI:
+                // 自动播放
+                [strongSelf.playerView autoPlayTheVideo];
+                break;
+                
+            case YYHttpNetStatusWWAN:{
+             
+                if (user.onlyWIFIPlay) {
+                    
+                    [weakSelf showAlertWithTitle:@"即将使用流量播放视频" message:@"如需关闭提醒，请到设置中关闭仅WiFi下播放视频" completion:^(BOOL permit) {
+                        
+                        if (permit) {
+                            
+                            // 自动播放
+                            [strongSelf.playerView autoPlayTheVideo];
+                        }
+                    }];
+                }else {
                     // 自动播放
                     [strongSelf.playerView autoPlayTheVideo];
                 }
-            }];
-        }else {
-            // 自动播放
-            [strongSelf.playerView autoPlayTheVideo];
+            }
+                break;
+                
+            default:
+                break;
         }
-
+        
     };
 
     return cell;

@@ -15,7 +15,7 @@
 #import "YYNiuManCell.h"
 
 #import <MJExtension/MJExtension.h>
-
+#import "UITableView+FDTemplateLayoutCell.h"
 
 @interface YYCommunityPersonVM()
 
@@ -154,10 +154,31 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.section == 0) {
-        return 100;
-    }else {
-        return 90;
+//    if (indexPath.section == 0) {
+//        return 130;
+//    }else {
+//        return 106;
+//    }
+    switch (indexPath.section) {
+        case 0:
+        {
+            CGFloat height = [tableView fd_heightForCellWithIdentifier:YYNiuManCellID cacheByIndexPath:indexPath configuration:^(YYNiuManCell *cell) {
+                [cell setNiuManModel:self.niuManDataSource[indexPath.row] andIndex:indexPath.row];
+            }];
+            return height;
+        }
+            
+            break;
+            
+        default:
+        {
+            CGFloat height = [tableView fd_heightForCellWithIdentifier:YYNiuArticleCellID cacheByIndexPath:indexPath configuration:^(YYNiuArticleCell *cell) {
+                cell.niuArtModel = self.niuArtDataSource[indexPath.row];
+            }];
+            return height;
+            //            return 106;
+        }
+            break;
     }
     
 }
@@ -173,7 +194,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 10;
+    return YYCommonSectionMargin;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return [[UIView alloc] init];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

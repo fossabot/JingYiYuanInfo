@@ -21,7 +21,7 @@
 #import "YYSecondCommentController.h"
 
 #import <MJExtension/MJExtension.h>
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 
 @interface YYFirstCommentController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -41,6 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationItem.title = @"全部评论";
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.toolBar];
     [self loadComment];
@@ -56,20 +57,21 @@
     
     YYUser *user = [YYUser shareUser];
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"firstmore",@"act",self.newsId,@"articleid",user.userid,USERID, nil];
+    YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:articleCommentUrl parameters:para success:^(id response) {
         
-        [self.tableView.mj_header endRefreshing];
+        [weakSelf.tableView.mj_header endRefreshing];
         if (response) {
             
-            self.dataSource = [YYCommentModel mj_objectArrayWithKeyValuesArray:response[@"first_comment"]];
-            self.lastid = response[LASTID];
-            if (self.dataSource.count < 10) {
-                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            weakSelf.dataSource = [YYCommentModel mj_objectArrayWithKeyValuesArray:response[@"first_comment"]];
+            weakSelf.lastid = response[LASTID];
+            if (weakSelf.dataSource.count < 10) {
+                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
             }
-            [self.tableView reloadData];
+            [weakSelf.tableView reloadData];
         }
     } failure:^(NSError *error) {
-        [self.tableView.mj_header endRefreshing];
+        [weakSelf.tableView.mj_header endRefreshing];
         YYLog(@"加载全部评论  --  error %@",error);
     } showSuccessMsg:nil];
     
@@ -86,21 +88,22 @@
     
     YYUser *user = [YYUser shareUser];
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"firstmore",@"act",self.newsId,@"articleid",user.userid,USERID, nil];
+    YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:articleCommentUrl parameters:para success:^(id response) {
-        [self.tableView.mj_footer endRefreshing];
+        [weakSelf.tableView.mj_footer endRefreshing];
         if (response) {
             
             NSMutableArray *arr = [YYCommentModel mj_objectArrayWithKeyValuesArray:response[@"first_comment"]];
-            [self.dataSource addObjectsFromArray:arr];
-            self.lastid = response[LASTID];
+            [weakSelf.dataSource addObjectsFromArray:arr];
+            weakSelf.lastid = response[LASTID];
             if (arr.count < 10) {
-                [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
             }
-            [self.tableView reloadData];
+            [weakSelf.tableView reloadData];
         }
     } failure:^(NSError *error) {
         
-        [self.tableView.mj_footer endRefreshing];
+        [weakSelf.tableView.mj_footer endRefreshing];
     } showSuccessMsg:nil];
 }
 
@@ -225,7 +228,7 @@
     if (section == 0) {
         return self.hotDataSource.count;
     }
-    tableView.mj_footer.hidden = (self.dataSource.count%10 != 0);
+    tableView.mj_footer.hidden = (self.dataSource.count%10 != 0) || self.dataSource.count == 0;
     return self.dataSource.count;
 }
 
@@ -254,7 +257,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    return 30;
+    return 25;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -281,7 +284,6 @@
 }
 
 
-
 #pragma mark tableview 数据源方法  ---------------------------------
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -293,6 +295,17 @@
         model = self.dataSource[indexPath.row];
     }
     YYCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:YYCommentCellId];
+    //  隐藏每个分区最后一个cell的分割线
+    if (indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1)
+    {
+        // 2.自定义Cell
+        cell.separatorView.hidden = YES;
+    }
+    else
+    {
+        cell.separatorView.hidden = NO;
+    }
+    
     YYWeakSelf
     cell.zanBlock = ^(id data, YYCommentCell *cell, BOOL zanState) {
         
@@ -334,21 +347,21 @@
 - (THBaseTableView *)tableView {
     
     if (!_tableView) {
-        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStyleGrouped];
+        _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, ToolBarHeight, 0);
         [_tableView registerClass:[YYCommentCell class] forCellReuseIdentifier:YYCommentCellId];
-        //        _tableView.separatorInset = UIEdgeInsetsMake(0, 50, 0, 0);
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf
         
-        _tableView.mj_footer = [MJRefreshBackFooter footerWithRefreshingBlock:^{
-           
+        YYBackFooter *footer = [YYBackFooter footerWithRefreshingBlock:^{
+            
             YYStrongSelf
             [strongSelf loadMoreComment];
         }];
+        _tableView.mj_footer = footer;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
         configer.emptyImage = imageNamed(emptyImageName);

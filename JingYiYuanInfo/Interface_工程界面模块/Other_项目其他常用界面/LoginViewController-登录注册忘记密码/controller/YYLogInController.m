@@ -11,6 +11,10 @@
 #import "YYForgotPwdController.h"
 #import "YYRegistController.h"
 
+
+#import "TestViewController.h"
+
+
 #import <SAMKeychain/SAMKeychain.h>
 #import "YYLoginManager.h"
 #import "NSString+Predicate.h"
@@ -82,10 +86,10 @@
     [self.view addSubview:navView];
     
     UIButton *exit = [UIButton buttonWithType:UIButtonTypeCustom];
-    [exit setImage:imageNamed(@"nav_back_white_20x20") forState:UIControlStateNormal];
+    [exit setImage:imageNamed(@"nav_back_white_30x30") forState:UIControlStateNormal];
+    exit.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [exit setTitle:@"返回" forState:UIControlStateNormal];
     exit.titleLabel.font = NavTitleFont;
-    [exit setImageEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 10)];
     [exit addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
     self.exit = exit;
     [self.navView addSubview:exit];
@@ -105,6 +109,7 @@
     teleTextField.font = TitleFont;
     teleTextField.placeholder = @"请输入手机号";
     teleTextField.tintColor = ThemeColor;
+    teleTextField.returnKeyType = UIReturnKeyNext;
     [teleTextField setLeftViewWithImage:@"textfield_leftview_telephone_25x25_"];
     [self.container addSubview:teleTextField];
     self.teleTextField = teleTextField;
@@ -113,7 +118,6 @@
     separator1.backgroundColor = LightGraySeperatorColor;
     self.separator1 = separator1;
     [self.container addSubview:separator1];
-    
     
     UITextField *pwdTextField = [[UITextField alloc] init];
     pwdTextField.delegate = self;
@@ -132,7 +136,7 @@
     
     UIButton *regist = [UIButton buttonWithType:UIButtonTypeCustom];
     regist.titleLabel.font = SubTitleFont;
-    [regist setTitle:@"注册壹元" forState:UIControlStateNormal];
+    [regist setTitle:@"立即注册" forState:UIControlStateNormal];
     [regist setTitleColor:ThemeColor forState:UIControlStateNormal];
     [regist addTarget:self action:@selector(registerButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     self.regist = regist;
@@ -154,7 +158,6 @@
     [logIn setTitleColor:WhiteColor forState:UIControlStateNormal];
     [logIn addTarget:self action:@selector(loginButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     logIn.layer.cornerRadius = 5;
-//    logIn.layer.masksToBounds = YES;
     
     self.logIn = logIn;
     [self.view addSubview:logIn];
@@ -171,8 +174,8 @@
     
     [self.exit makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.equalTo(10);
-        make.bottom.equalTo(self.navView).offset(-10);
+        make.left.equalTo(5);
+        make.bottom.equalTo(self.navView).offset(-8);
 //        make.width.height.equalTo(25);
     }];
     
@@ -246,14 +249,13 @@
 }
 
 
-
-
-
 /** 注册账号按钮点击事件*/
 - (void)registerButtonClick:(UIButton *)sender {
     
     YYRegistController *regist = [[YYRegistController alloc] init];
     [self presentViewController:regist animated:YES completion:nil];
+//    TestViewController *test = [[TestViewController alloc] init];
+//    [self presentViewController:test animated:YES completion:nil];
     
 }
 
@@ -269,11 +271,13 @@
 /** 登录按钮点击事件*/
 - (void)loginButtonClick:(UIButton *)sender {
     
+    [self.view endEditing:YES];
+    YYWeakSelf
     [YYLoginManager loginSucceedWithAccount:self.teleTextField.text password:self.pwdTextField.text responseMsg:^(BOOL success) {
         
         //loginmanager 内部已经处理好了所有用户体验的东西,包括，这里拿到登录状态跳转页面
         if (success) {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
             //这时候登录成功了，可以全局通知，我登录成功了，该刷新的刷新去吧
             [kUserDefaults setBool:YES forKey:LOGINSTATUS];
             [kUserDefaults synchronize];
@@ -312,10 +316,12 @@
 /** 配置输入框的相关属性*/
 - (void)configTextfield{
     
+    YYWeakSelf
+    __weak typeof(self.teleTextField)  weakTeleTextField = self.teleTextField;
     [self.teleTextField setLeftViewWithImage:@"textfield_leftview_telephone_25x25_"];
     self.textFilterAccount = [[YYTextFilter alloc] init];
-    [self.textFilterAccount SetFilter:self.teleTextField
-                             delegate:self
+    [self.textFilterAccount SetFilter:weakTeleTextField
+                             delegate:weakSelf
                                maxLen:11
                              allowNum:YES
                               allowCH:NO
@@ -324,10 +330,11 @@
                           allowSymbol:NO
                           allowOthers:nil];
     
+    __weak typeof(self.pwdTextField)  weakPwdTextField = self.pwdTextField;
     [self.pwdTextField setLeftViewWithImage:@"textfield_leftview_password_25x25_"];
     self.textFilterPassword = [[YYTextFilter alloc] init];
-    [self.textFilterPassword SetFilter:self.pwdTextField
-                              delegate:self
+    [self.textFilterPassword SetFilter:weakPwdTextField
+                              delegate:weakSelf
                                 maxLen:30
                               allowNum:YES
                                allowCH:NO

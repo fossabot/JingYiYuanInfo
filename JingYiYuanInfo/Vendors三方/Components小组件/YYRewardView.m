@@ -74,9 +74,13 @@
     containerBottom.backgroundColor = [UIColor whiteColor];
     [self.containerView addSubview:containerBottom];
     self.containerBottom = containerBottom;
+
     
     UIButton *close = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self addSubview:close];
+    [close setImage:imageNamed(@"searchdelete_44x44") forState:UIControlStateNormal];
+    [close addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    [self.containerView addSubview:close];
+    [self.containerView bringSubviewToFront:close];
     
     UIButton *top = [UIButton buttonWithType:UIButtonTypeCustom];
     [top setTitle:@"打赏数额" forState:UIControlStateNormal];
@@ -128,6 +132,12 @@
         make.height.equalTo(50);
     }];
     
+    [close makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.right.top.equalTo(top);
+        make.width.height.equalTo(40);
+    }];
+    
 //    [self.containerTop makeConstraints:^(MASConstraintMaker *make) {
 //        
 //        make.left.top.right.equalTo(self.containerView);
@@ -137,7 +147,7 @@
     [self.containerBottom makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.bottom.right.equalTo(self.containerView);
-        make.height.equalTo(100);
+        make.height.equalTo(80);
     }];
     
     [self.containerMiddle makeConstraints:^(MASConstraintMaker *make) {
@@ -152,7 +162,7 @@
     
     //九宫格
     [self.containerMiddle.subviews mas_distributeSudokuViewsWithFixedItemWidth:0
-                                                               fixedItemHeight:0
+                                                               fixedItemHeight:30
                                                               fixedLineSpacing:0
                                                          fixedInteritemSpacing:0
                                                                      warpCount:3
@@ -166,7 +176,8 @@
         
         make.center.equalTo(self.containerBottom);
         make.height.equalTo(40);
-        make.width.equalTo(200);
+        make.width.equalTo(afterScale(150));
+        
     }];
     
     [self layoutIfNeeded];

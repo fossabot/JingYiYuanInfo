@@ -19,6 +19,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationItem.title = @"推送历史记录";
+    
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     [self setTabBarFrame:CGRectMake(0, 0, screenSize.width, 40)
         contentViewFrame:CGRectMake(0, 40, screenSize.width, kSCREENHEIGHT-40-64)];
@@ -27,14 +30,15 @@
     self.tabBar.itemTitleSelectedColor = ThemeColor;
     self.tabBar.itemTitleFont = TitleFont;
     self.tabBar.itemTitleSelectedFont = TitleFont;
-    self.tabBar.leftAndRightSpacing = 0;
-    self.tabBar.itemSelectedBgColor = ThemeColor;
-    [self.tabBar setItemSelectedBgInsets:UIEdgeInsetsMake(38, 0, 0, 0) tapSwitchAnimated:YES];
+    [self.tabBar setIndicatorInsets:UIEdgeInsetsMake(38, 0, 0, 0) tapSwitchAnimated:YES];
+
+    self.tabBar.indicatorColor = ThemeColor;
+//    self.tabBar.indicatorAnimationStyle = YPTabBarIndicatorAnimationStyle1;
     
-    self.tabBar.itemSelectedBgScrollFollowContent = YES;
     self.tabBar.itemColorChangeFollowContentScroll = NO;
     
-    [self setContentScrollEnabledAndTapSwitchAnimated:YES];
+    [self setContentScrollEnabled:YES tapSwitchAnimated:YES];
+    self.interceptRightSlideGuetureInFirstPage = YES;
     self.loadViewOfChildContollerWhileAppear = YES;
     self.tabBar.delegate = self;
     

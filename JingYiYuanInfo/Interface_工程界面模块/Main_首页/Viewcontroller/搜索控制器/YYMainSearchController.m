@@ -102,10 +102,11 @@
     
     [self.searchBtn makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.equalTo(self.textField.right).offset(YYInfoCellCommonMargin);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.left.equalTo(self.textField.right).offset(YYInfoCellSubMargin);
+        make.right.equalTo(-YYInfoCellSubMargin);
         make.bottom.equalTo(self.searchBar).offset(-YYInfoCellSubMargin);
         make.height.equalTo(30);
+        make.width.equalTo(40);
     }];
     
     [self.searchListTable makeConstraints:^(MASConstraintMaker *make) {
@@ -232,11 +233,11 @@
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 40)];
     backView.backgroundColor = WhiteColor;
     
-    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, 2, 20)];
+    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(15, 10, 2, 20)];
     redView.backgroundColor = ThemeColor;
     [backView addSubview:redView];
     
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 200, 20)];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(23, 10, 200, 20)];
     title.textColor = TitleColor;
     title.font = NavTitleFont;
     YYSearchSecModel *secModel = self.myDataSource[section];
@@ -483,7 +484,8 @@
 - (UIView *)searchBar{
     if (!_searchBar) {
         _searchBar = [[UIView alloc] init];
-        _searchBar.backgroundColor = [ThemeColor colorWithAlphaComponent:0.9];
+        _searchBar.backgroundColor = ThemeColor;
+//        [ThemeColor colorWithAlphaComponent:0.9];
         UITextField *textField = [[UITextField alloc] init];
 
         textField.delegate = self;
@@ -505,7 +507,7 @@
         self.textField = textField;
         
         UIButton *back = [UIButton buttonWithType:UIButtonTypeCustom];
-        [back setImage:imageNamed(@"nav_back_white_20x20") forState:UIControlStateNormal];
+        [back setImage:imageNamed(@"nav_back_white_30x30") forState:UIControlStateNormal];
         [back addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
         self.backBtn = back;
         [_searchBar addSubview:back];
@@ -513,7 +515,7 @@
         UIButton *search = [UIButton buttonWithType:UIButtonTypeCustom];
         [search setTitle:@"搜索" forState:UIControlStateNormal];
         [search setTitleColor:SubTitleColor forState:UIControlStateNormal];
-        search.titleLabel.font = SubTitleFont;
+        search.titleLabel.font = TitleFont;
         [search setTitleColor:WhiteColor forState:UIControlStateNormal];
         [search addTarget:self action:@selector(searching:) forControlEvents:UIControlEventTouchUpInside];
         self.searchBtn = search;

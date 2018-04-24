@@ -11,7 +11,7 @@
 #import "YYPeriodVM.h"
 #import "YYPeriodModel.h"
 #import "YYPeriodCell.h"
-#import <MJRefresh/MJRefresh.h>
+#import "YYRefresh.h"
 
 @interface YYPeriodicalController ()
 
@@ -30,11 +30,6 @@
     
     [self.view addSubview:self.tableView];
     [self loadNewData];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -98,22 +93,20 @@
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
-        _tableView.separatorInset = UIEdgeInsetsMake(0, YYCommonCellLeftMargin, 0, YYCommonCellRightMargin);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, YYCommonCellLeftMargin*2, 0, YYCommonCellRightMargin);
         [_tableView registerClass:[YYPeriodCell class] forCellReuseIdentifier:YYPeriodCellId];
         YYWeakSelf
-        _tableView.mj_header = [MJRefreshStateHeader headerWithRefreshingBlock:^{
+        _tableView.mj_header = [YYStateHeader headerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadNewData];
         }];
         
-        MJRefreshBackStateFooter *stateFooter = [MJRefreshBackStateFooter footerWithRefreshingBlock:^{
+        YYBackStateFooter *stateFooter = [YYBackStateFooter footerWithRefreshingBlock:^{
             
             YYStrongSelf
             [strongSelf loadMoreData];
         }];
-//        stateFooter.automaticallyHidden = YES;
-        [stateFooter setTitle:@"壹元君正努力为您加载中..." forState:MJRefreshStateRefreshing];
         _tableView.mj_footer = stateFooter;
         
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];

@@ -17,15 +17,16 @@
              };
 }
 
-- (void)setAddtime:(NSString *)addtime {
+- (NSString *)formatterTime {
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSDate *date = [formatter dateFromString:addtime];
+    NSDate *date = [formatter dateFromString:_addtime];
     [formatter setDateFormat:@"HH:mm:ss"];
     NSString *returnDate = [formatter stringFromDate:date];
     
-    _addtime = returnDate;
+    _formatterTime = returnDate;
+    return returnDate;
 }
 
 @end

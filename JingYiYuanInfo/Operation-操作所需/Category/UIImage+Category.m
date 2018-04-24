@@ -12,6 +12,7 @@
 #define YY_SWAP(_a_, _b_)  do { __typeof__(_a_) _tmp_ = (_a_); (_a_) = (_b_); (_b_) = _tmp_; } while (0)
 @implementation UIImage (Category)
 
+
 - (UIImage*)imageRotatedByDegrees:(CGFloat)degrees
 {
     
@@ -93,6 +94,8 @@
     UIGraphicsEndImageContext();
     return newImage;
 }
+
+
 + (UIImage*) imageWithColor:(UIColor *)color {
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
     UIGraphicsBeginImageContext(rect.size);

@@ -181,7 +181,7 @@
         return self.recommendDataSource.count;
     }
     
-//    tableView.mj_footer.hidden = (self.companyDataSource.count%10 != 0);
+    tableView.mj_footer.hidden = (self.companyDataSource.count%10 != 0) || self.companyDataSource.count == 0;
     return self.companyDataSource.count;
 }
 

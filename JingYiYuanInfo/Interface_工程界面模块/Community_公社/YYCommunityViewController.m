@@ -31,14 +31,17 @@
     self.tabBar.itemTitleSelectedColor = ThemeColor;
     self.tabBar.itemTitleFont = TitleFont;
     self.tabBar.itemTitleSelectedFont = TitleFont;
-    self.tabBar.leftAndRightSpacing = 0;
-    self.tabBar.itemSelectedBgColor = ThemeColor;
-    [self.tabBar setItemSelectedBgInsets:UIEdgeInsetsMake(38, 0, 0, 0) tapSwitchAnimated:YES];
+//    self.tabBar.leftAndRightSpacing = 0;
+//    self.tabBar.itemSelectedBgColor = ThemeColor;
+    [self.tabBar setIndicatorInsets:UIEdgeInsetsMake(38, 0, 0, 0) tapSwitchAnimated:YES];
     
-    self.tabBar.itemSelectedBgScrollFollowContent = YES;
+    self.tabBar.indicatorColor = ThemeColor;
+    self.tabBar.indicatorAnimationStyle = YPTabBarIndicatorAnimationStyle1;
+
     self.tabBar.itemColorChangeFollowContentScroll = NO;
     
-    [self setContentScrollEnabledAndTapSwitchAnimated:YES];
+    [self setContentScrollEnabled:YES tapSwitchAnimated:YES];
+    self.interceptRightSlideGuetureInFirstPage = YES;
     self.loadViewOfChildContollerWhileAppear = YES;
     self.tabBar.delegate = self;
     [self setUpAllChildViewControllers];
@@ -60,6 +63,7 @@
     questionVc.classid = @"3";
     
     self.viewControllers = [NSArray arrayWithObjects:personVc, mediaVc,questionVc, nil];
+    
 }
 
 

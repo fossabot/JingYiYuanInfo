@@ -26,7 +26,9 @@
 @end
 
 @implementation YYVideoDetailController
-
+{
+    NSIndexPath *_selectedIndexPath;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -138,6 +140,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (_selectedIndexPath && _selectedIndexPath == indexPath) {
+        return;
+    }
+    _selectedIndexPath = indexPath;
     YYBaseVideoModel *model = self.dataSource[indexPath.row];
     self.playerView.videoURL = [NSURL URLWithString:model.v_url];
     self.playerView.videoTitle = model.v_name;
@@ -169,7 +175,7 @@
         _tableView = [[THBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 10);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, YYCommonCellLeftMargin, 0, YYCommonCellRightMargin);
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
         _tableView.tableFooterView = [[UIView alloc] init];
         [_tableView registerClass:[YYVideoDetailCell class] forCellReuseIdentifier:YYVideoDetailCellId];

@@ -106,7 +106,7 @@ typedef void(^Click)();
     
     UILabel *top = [[UILabel alloc] init];
     top.text = @"签到成功";
-    top.font = sysFont(17);
+    top.font = sysFont(20);
     top.textColor = ThemeColor;
     top.textAlignment = NSTextAlignmentCenter;
     [whiteBgView addSubview:top];
@@ -120,7 +120,7 @@ typedef void(^Click)();
     
     UILabel *middle = [[UILabel alloc] init];
     middle.text = @"已成功获得";
-    middle.font = sysFont(13);
+    middle.font = sysFont(15);
     middle.textColor = UnenableTitleColor;
     middle.textAlignment = NSTextAlignmentCenter;
     [whiteBgView addSubview:middle];
@@ -132,7 +132,7 @@ typedef void(^Click)();
     
     UILabel *integrationLabel = [[UILabel alloc] init];
     integrationLabel.text = [integration stringByAppendingString:@"积分"];
-    integrationLabel.font = sysFont(14);
+    integrationLabel.font = sysFont(17);
     integrationLabel.textColor = ThemeColor;
     integrationLabel.textAlignment = NSTextAlignmentCenter;
     [whiteBgView addSubview:integrationLabel];
@@ -141,7 +141,7 @@ typedef void(^Click)();
     UIButton *go = [UIButton buttonWithType:UIButtonTypeCustom];
     go.backgroundColor = ThemeColor;
     [go setTitle:@"积分兑换" forState:UIControlStateNormal];
-    go.titleLabel.font = SubTitleFont;
+    go.titleLabel.font = TitleFont;
     [go addTarget:self action:@selector(goShop:) forControlEvents:UIControlEventTouchUpInside];
     [whiteBgView addSubview:go];
     placeHolder.go = go;
@@ -149,47 +149,46 @@ typedef void(^Click)();
     [whiteBgView makeConstraints:^(MASConstraintMaker *make) {
        
         make.center.equalTo(placeHolder);
-        make.width.equalTo(180);
+        make.width.equalTo(230);
     }];
     
     [close makeConstraints:^(MASConstraintMaker *make) {
        
-//        make.left.equalTo(whiteBgView.right).offset(20);
-//        make.bottom.equalTo(whiteBgView.top).offset(-20);
         make.right.top.equalTo(whiteBgView);
-        make.width.height.equalTo(30);
+        make.width.height.equalTo(40);
     }];
     
     [top makeConstraints:^(MASConstraintMaker *make) {
        
-        make.top.equalTo(whiteBgView.top).offset(10);
+        make.top.equalTo(whiteBgView.top).offset(30);
         make.centerX.equalTo(placeHolder);
     }];
     
     [middle makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(top.bottom).offset(10);
+        make.top.equalTo(top.bottom).offset(20);
         make.centerX.equalTo(placeHolder);
     }];
     
     [money makeConstraints:^(MASConstraintMaker *make) {
        
-        make.top.equalTo(middle.bottom).offset(10);
+        make.top.equalTo(middle.bottom).offset(20);
         make.centerX.equalTo(placeHolder);
     }];
     
     [integrationLabel makeConstraints:^(MASConstraintMaker *make) {
        
-        make.top.equalTo(money.bottom).offset(10);
+        make.top.equalTo(money.bottom).offset(15);
         make.centerX.equalTo(placeHolder);
     }];
     
     [go makeConstraints:^(MASConstraintMaker *make) {
        
-        make.top.equalTo(integrationLabel.bottom).offset(10);
+        make.top.equalTo(integrationLabel.bottom).offset(15);
         make.centerX.equalTo(placeHolder);
-        make.width.equalTo(whiteBgView).offset(-40);
-        make.bottom.equalTo(whiteBgView.bottom).offset(-10);
+        make.height.equalTo(30);
+        make.width.equalTo(whiteBgView).offset(-60);
+        make.bottom.equalTo(whiteBgView.bottom).offset(-20);
     }];
     
 }

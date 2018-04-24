@@ -13,6 +13,9 @@ static NSString * const YYGoodsCollectionCellId = @"YYGoodsCollectionCell";
 
 @interface YYGoodsCollectionCell : UICollectionViewCell
 
+/** borderView*/
+@property (nonatomic, strong) UIView *borderView;
+
 /** imageView*/
 @property (nonatomic, strong) UIImageView *imageView;
 

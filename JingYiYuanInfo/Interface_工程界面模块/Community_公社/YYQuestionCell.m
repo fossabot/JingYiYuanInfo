@@ -87,7 +87,7 @@
        
         make.left.right.bottom.equalTo(self.contentView);
         make.top.equalTo(self.question.bottom).offset(15);
-        make.height.equalTo(5);
+        make.height.equalTo(8);
     }];
     
 }

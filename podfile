@@ -6,11 +6,11 @@ target 'JingYiYuanInfo' do
   # use_frameworks!
 
   # Pods for JingYiYuanInfo
-  pod 'AFNetworking' 
+  pod 'AFNetworking' #(3.1.0)
   pod 'SDCycleScrollView','~> 1.66'  # 轮播组件
   pod 'SDWebImage'
-  pod 'SDWebImage/GIF'    # 添加动态图库
-  pod 'Masonry'
+  pod 'SDWebImage/GIF'    # 添加动态图库 FLAnimatedImage (1.0.12)
+  pod 'Masonry'  #  (1.0.2)
   pod 'MJRefresh', '~> 3.1.15'
   pod 'MJExtension'
 #  pod 'RTRootNavigationController' # 导航栏
@@ -19,21 +19,45 @@ target 'JingYiYuanInfo' do
 #  pod 'IQKeyboardManager' # 处理键盘遮挡
 #  pod 'ZFPlayer', '~> 2.1.5'  # 播放器
   pod 'PPNetworkHelper'   # 网络请求数据缓存（按请求为key缓存)
-#  pod 'DZNEmptyDataSet'   # tableview无数据时的占位
-  pod 'FORScrollViewEmptyAssistant'  # tableview  collectionview无数据时的占位
+#  pod 'DZNEmptyDataSet'   # tableview无数据时的占位  (1.8.1)
+  pod 'FORScrollViewEmptyAssistant'  # tableview  collectionview无数据时的占位(1.1.0)
 #  pod 'XHLaunchAd'        # 启动广告
   pod 'WZLBadge'          # uiview的角标
-  pod 'DateTools'         # 时间计算库
+  pod 'DateTools'         # 时间计算库  (2.0.0)
   
   use_frameworks!
   pod 'FSCalendar'        # 日历库
   pod 'MLeaksFinder'      # 检测内存泄漏的工具，微信阅读团队开发的工具
-  pod 'FMDB'              # 数据库SQLite的工具类库
-  pod 'Bugly'             # 腾讯错误统计SDK
+  pod 'FMDB'              # 数据库SQLite的工具类库  (2.7.2)
+  pod 'Bugly'             # 腾讯错误统计SDK  (2.5.0)  FBRetainCycleDetector (0.1.3)
   pod 'SAMKeychain'       # 钥匙串
   pod 'YPTabBarController' #顶部滑动选择器
   pod 'IAPHelper'          #IAP苹果内购库
   
+#  Using AFNetworking (3.1.0)
+#  Using Bugly (2.5.0)
+#  Using DZNEmptyDataSet (1.8.1)
+#  Using DateTools (2.0.0)
+#  Using FBRetainCycleDetector (0.1.3)
+#  Using FLAnimatedImage (1.0.12)
+#  Using FMDB (2.7.2)
+#  Using FORScrollViewEmptyAssistant (1.1.0)
+#  Using FSCalendar (2.7.9)
+#  Using IAPHelper (1.1)
+#  Using MJExtension (3.0.13)
+#  Using MJRefresh (3.1.15.1)
+#  Using MLeaksFinder (0.2.1)
+#  Using Masonry (1.0.2)
+#  Using PPNetworkHelper (0.8.0)
+#  Using SAMKeychain (1.5.2)
+#  Using SDCycleScrollView (1.73)
+#  Using SDWebImage (4.0.0)
+#  Using SVProgressHUD (2.2.2)
+#  Using UMengUShare (6.4.5)
+#  Using WZLBadge (1.2.6)
+#  Using YPTabBarController (2.4.4)
+#  Using YYCache (1.0.4)
+
   
   # 集成微信(精简版0.2M)
   pod ‘UMengUShare/Social/ReducedWeChat'

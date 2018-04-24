@@ -39,7 +39,7 @@
 
 - (void)configLayout {
     [self.cycleScrollView makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(kSCREENWIDTH*0.6);
+        make.height.equalTo(kSCREENWIDTH*0.5);
         make.edges.equalTo(self.contentView);
     }];
 }

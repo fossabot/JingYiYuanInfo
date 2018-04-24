@@ -45,9 +45,6 @@
 /** 功能标签*/
 @property (nonatomic, strong) YYEdgeLabel *tag2;
 
-/** 认证标签*/
-@property (nonatomic, strong) YYEdgeLabel *tag3;
-
 /** separatorView分隔线*/
 @property (nonatomic, strong) UIView *separatorView;
 
@@ -79,7 +76,6 @@
     
     [self configSubView];
     [self masonrySubView];
-
     [self loadData];
     
 }
@@ -103,32 +99,25 @@
 
 /** 网络请求得到数据 刷新控件*/
 - (void)refreshData {
+  
     
     [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:self.companyDetailModel.logo] placeholderImage:imageNamed(@"placeholder")];
     
     self.companyName.text = self.companyDetailModel.gname;
     self.regMoney.text = self.companyDetailModel.regmoney;
+    
     if (self.companyDetailModel.comtype) {
-        
         self.tag1.text = self.companyDetailModel.comtype;
-    }else {
-        [self.tag1 updateConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.logoImageView.right);
-            make.width.equalTo(0);
-        }];
-    }
-    if (self.companyDetailModel.auth_tag) {
-        
-        self.tag2.text = self.companyDetailModel.auth_tag;
-    }else {
-        
-        [self.tag1 updateConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.tag1.right);
-            make.width.equalTo(0);
+    }else{
+        [self.tag2 updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.companyName.left);
         }];
     }
     
-
+    if (self.companyDetailModel.auth_tag) {
+        self.tag2.text = self.companyDetailModel.auth_tag;
+    }
+    
     [self.tableView reloadData];
 }
 
@@ -138,6 +127,7 @@
 /** 加载数据*/
 - (void)loadData {
 
+    [SVProgressHUD showWithStatus:@"加载中..."];
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:self.comid,@"comid", nil];
     YYWeakSelf
     [PPNetworkHelper GET:companyDetailUrl parameters:para responseCache:^(id responseCache) {
@@ -147,6 +137,7 @@
             weakSelf.relativeProductions = [YYProductionCommonModel mj_objectArrayWithKeyValuesArray:responseCache[@"prod_arr"]];
             [weakSelf refreshData];
         }
+        [SVProgressHUD dismissWithDelay:1];
     } success:^(id responseObject) {
         
         if (responseObject) {
@@ -155,6 +146,7 @@
             weakSelf.relativeProductions = [YYProductionCommonModel mj_objectArrayWithKeyValuesArray:responseObject[@"prod_arr"]];
             [weakSelf refreshData];
         }
+        [SVProgressHUD dismissWithDelay:1];
     } failure:^(NSError *error) {
         
         [SVProgressHUD showErrorWithStatus:@"网络出错"];
@@ -205,7 +197,7 @@
         if (!self.relativeProductions.count) {
             return 250;
         }
-        return 90;
+        return 110;
 //        [tableView fd_heightForCellWithIdentifier:YYProductionCellId cacheByIndexPath:indexPath configuration:^(YYProductionCell *cell) {
         
 //            cell.commonModel = self.relativeProductions[indexPath.row];
@@ -217,7 +209,7 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 2) {
+    if (indexPath.section == 2 && self.relativeProductions.count) {
         
         YYProductionDetailController *productionDetail = [[YYProductionDetailController alloc] init];
         YYProductionCommonModel *commonModel = self.relativeProductions[indexPath.row];
@@ -312,24 +304,20 @@
 - (void)configSubView {
     
     UIView *headerView = [[UIView alloc] init];
-//                          WithFrame:CGRectMake(0, 0, kSCREENWIDTH, 1)];
     headerView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:headerView];
     self.headerView = headerView;
     
     UIImageView *logoImageView = [[UIImageView alloc] init];
-//                                  WithFrame:CGRectMake(10, 10, 100, 70)];
     [self.view addSubview:logoImageView];
     self.logoImageView = logoImageView;
     
     UILabel *companyName = [[UILabel alloc] init];
-//                            WithFrame:CGRectMake(CGRectGetMaxX(logoImageView.frame)+10, 10, kSCREENWIDTH-CGRectGetMaxX(logoImageView.frame)-20, 20)];
     companyName.font = TitleFont;
     [self.view addSubview:companyName];
     self.companyName = companyName;
     
     UILabel *regMoney = [[UILabel alloc] init];
-//                         WithFrame:CGRectMake(CGRectGetMinX(companyName.frame), CGRectGetMaxY(companyName.frame), companyName.yy_width, 17)];
     regMoney.font = UnenableTitleFont;
     regMoney.textColor = UnenableTitleColor;
     [self.view addSubview:regMoney];
@@ -337,31 +325,23 @@
     
     YYEdgeLabel *tag1 = [[YYEdgeLabel alloc] init];
     tag1.font = TagLabelFont;
-    tag1.layer.borderColor = ThemeColor.CGColor;
     tag1.textColor = ThemeColor;
+    tag1.layer.borderColor = ThemeColor.CGColor;
     [self.view addSubview:tag1];
     self.tag1 = tag1;
     
     YYEdgeLabel *tag2 = [[YYEdgeLabel alloc] init];
-    tag2.font = UnenableTitleFont;
-    tag2.layer.borderColor = ThemeColor.CGColor;
+    tag2.font = TagLabelFont;
     tag2.textColor = ThemeColor;
+    tag2.layer.borderColor = ThemeColor.CGColor;
     [self.view addSubview:tag2];
     self.tag2 = tag2;
     
-//    YYEdgeLabel *tag3 = [[YYEdgeLabel alloc] init];
-//    tag3.layer.borderColor = ThemeColor.CGColor;
-//    tag3.textColor = ThemeColor;
-//    [self.view addSubview:tag3];
-//    self.tag3 = tag3;
-    
     UIView *separatorView = [[UIView alloc] init];
-//                             WithFrame:CGRectMake(10, CGRectGetMaxY(logoImageView.frame)+20, kSCREENWIDTH-20, 0.5)];
     [self.view addSubview:separatorView];
     self.separatorView = separatorView;
     
     LabelContainer *labelContainer = [[LabelContainer alloc] init];
-//                                      WithFrame:CGRectMake(10, CGRectGetMaxY(separatorView.frame)+10, kSCREENWIDTH-20, 0.001)];
     [self.view addSubview:labelContainer];
     self.labelContainer = labelContainer;
     
@@ -389,35 +369,29 @@
     
     [self.companyName makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.equalTo(self.logoImageView.right).offset(10);
+        make.left.equalTo(self.logoImageView.right).offset(YYInfoCellCommonMargin);
         make.top.equalTo(self.logoImageView);
-        make.right.equalTo(self.view.right).offset(-10);
+        make.right.equalTo(self.view.right).offset(-YYInfoCellCommonMargin);
     }];
     
     [self.regMoney makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.equalTo(self.logoImageView.right).offset(10);
+        make.left.equalTo(self.logoImageView.right).offset(YYInfoCellCommonMargin);
         make.top.equalTo(self.companyName.bottom).offset(2);
-        make.right.equalTo(self.view.right).offset(-10);
+        make.right.equalTo(self.view.right).offset(-YYInfoCellCommonMargin);
     }];
     
     [self.tag1 makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.logoImageView.right).offset(10);
+        make.left.equalTo(self.logoImageView.right).offset(YYInfoCellCommonMargin);
         make.bottom.equalTo(self.logoImageView.bottom);
     }];
     
     [self.tag2 makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.tag1.right).offset(5);
+        make.left.equalTo(self.tag1.right).offset(YYInfoCellSubMargin);
         make.bottom.equalTo(self.logoImageView.bottom);
     }];
-    
-//    [self.tag3 makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.left.equalTo(self.tag2.right).offset(5);
-//        make.bottom.equalTo(self.logoImageView.bottom);
-//    }];
     
     [self.separatorView makeConstraints:^(MASConstraintMaker *make) {
        
@@ -435,8 +409,6 @@
 //        make.bottom.equalTo(self.headerView.bottom).offset(-10);
         make.height.equalTo(0.001);
     }];
-    
-    
     
     [self.tabView makeConstraints:^(MASConstraintMaker *make) {
         
@@ -479,7 +451,6 @@
 - (YYThreeSeekTabView *)tabView{
     if (!_tabView) {
         _tabView = [[YYThreeSeekTabView alloc] init];
-//                    WithFrame:CGRectMake(0, CGRectGetMaxY(self.headerView.frame)+10, kSCREENWIDTH, 40)];
         _tabView.delegate = self;
     }
     return _tabView;
@@ -491,12 +462,10 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = WhiteColor;
-//        _tableView.estimatedRowHeight = 100;
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTopNaviHeight, 0);
         [_tableView registerClass:[YYThreeSeekIntroduceCell class] forCellReuseIdentifier:YYThreeSeekIntroduceCellId];
         [_tableView registerClass:[YYProductionCell class] forCellReuseIdentifier:YYProductionCellId];
         [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([YYEmptyDataCell class]) bundle:nil] forCellReuseIdentifier:YYEmptyDataCellId];
-//        [_tableView registerClass:[YYEmptyDataCell class] forCellReuseIdentifier:YYEmptyDataCellId];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         YYWeakSelf

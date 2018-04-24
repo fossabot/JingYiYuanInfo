@@ -44,6 +44,9 @@
     BOOL AllowSymbol;
     NSString *OtherString;
     
+    NSInteger m_max_number;//最大数值
+    CGFloat m_max_money;//判断金额时的最大金额
+    BOOL m_only_number;//仅仅是数字的模式（只准输入正整数）
     BOOL m_money_mode; //置为YES时为判断金额的模式
     BOOL m_count_CH_len; //置为YES时将中文统计为2个字符，否则为一个
 }
@@ -79,8 +82,11 @@
       allowOthers:(NSString *)otherString;
 
 //对于一个想作为金额输入的UITextField，使用这个方法。
-- (void)SetMoneyFilter:(UITextField *)textField
+- (void)SetMoneyFilter:(UITextField *)textField maxMoney:(CGFloat)maxMoney
               delegate:(id<YYTextFilterDelegate>)delegate;
+
+//设置一个只能输入数字并且可以设置数字最大数值的TextFilter
+- (void)setNumberfilter:(UITextField *)textField maxNum:(NSInteger)maxNum delegate:(id<YYTextFilterDelegate>)delegate;
 
 @end
 

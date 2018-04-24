@@ -92,9 +92,15 @@
  */
 - (void)shareMusic {
     
+    
+//    [ShareView shareWithTitle:self.musicModel.sname subTitle:self.musicModel.singer webUrl:@"http:\/\/yyapp.1yuaninfo.com\/app\/houtai\/uploads\/media\/20180315\/1521088701.mp3" imageUrl:self.musicModel.picurl isCollected:NO shareViewContain:nil shareContentType:ShareContentTypeMusic finished:^(ShareViewType shareViewType, BOOL isFavor) {
+    
+//    }];
     [ShareView shareWithTitle:self.musicModel.sname subTitle:self.musicModel.singer webUrl:self.musicModel.URL imageUrl:self.musicModel.picurl isCollected:NO shareViewContain:nil shareContentType:ShareContentTypeMusic finished:^(ShareViewType shareViewType, BOOL isFavor) {
-        
+    
     }];
+    
+    
 }
 
 @end

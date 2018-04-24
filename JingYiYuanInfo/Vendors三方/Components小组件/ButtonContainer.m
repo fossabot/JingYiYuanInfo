@@ -148,7 +148,7 @@
         if (i == 0) {
             tagButton.selected = YES;
             self.selectedButton = tagButton;
-            tagButton.layer.borderColor = [UIColor whiteColor].CGColor;
+            tagButton.layer.borderColor = ThemeColor.CGColor;
         }
        
         i++;
@@ -169,9 +169,10 @@
 }
 
 - (void)tagButtonClick:(TagButton *)button {
-    button.layer.borderColor = [UIColor whiteColor].CGColor;
+    
+    button.layer.borderColor = ThemeColor.CGColor;
     self.selectedButton.selected = NO;
-    self.selectedButton.layer.borderColor = YYRGBCOLOR_HEX(0x626262).CGColor;
+    self.selectedButton.layer.borderColor = self.buttonBorderColor.CGColor;
     button.selected = YES;
     self.selectedButton = button;
     

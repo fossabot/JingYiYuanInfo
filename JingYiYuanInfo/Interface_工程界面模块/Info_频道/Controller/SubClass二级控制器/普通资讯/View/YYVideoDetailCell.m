@@ -7,7 +7,7 @@
 //
 
 #import "YYVideoDetailCell.h"
-#import "YYEdgeLabel.h"
+#import "YYTagView.h"
 #import "YYBaseVideoModel.h"
 
 @interface YYVideoDetailCell()
@@ -19,7 +19,7 @@
 @property (nonatomic, strong) UILabel *title;
 
 //标签
-@property (nonatomic, strong) YYEdgeLabel *tagLabel;
+@property (nonatomic, strong) YYTagView *tagLabel;
 
 //来源
 @property (nonatomic, strong) UILabel *source;
@@ -57,11 +57,8 @@
     self.title = title;
     [self.contentView addSubview:title];
     
-    YYEdgeLabel *tagLabel = [[YYEdgeLabel alloc] init];
-    tagLabel.textColor = ThemeColor;
-    tagLabel.font = TagLabelFont;
-    tagLabel.layer.cornerRadius = 3.0;
-    tagLabel.layer.masksToBounds = YES;
+    YYTagView *tagLabel = [[YYTagView alloc] init];
+    tagLabel.rightMargin = YYInfoCellSubMargin;
     self.tagLabel = tagLabel;
     [self.contentView addSubview:tagLabel];
     
@@ -79,7 +76,8 @@
     
     [self.videoImageView makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.top.equalTo(YYInfoCellCommonMargin);
+        make.top.equalTo(YYCommonCellTopMargin);
+        make.left.equalTo(YYCommonCellLeftMargin);
         make.width.equalTo(100);
         make.height.equalTo(70);
     }];
@@ -88,7 +86,7 @@
         
         make.left.equalTo(self.videoImageView.right).offset(YYInfoCellCommonMargin);
         make.top.equalTo(self.videoImageView);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
     [self.tagLabel makeConstraints:^(MASConstraintMaker *make) {
@@ -99,13 +97,13 @@
     
     [self.source makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.tagLabel.right).offset(YYInfoCellSubMargin);
+        make.left.equalTo(self.tagLabel.right);
         make.centerY.equalTo(self.tagLabel);
     }];
     
     [self.hits makeConstraints:^(MASConstraintMaker *make) {
         
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.right.equalTo(-YYCommonCellRightMargin);
         make.bottom.equalTo(self.videoImageView);
     }];
     
@@ -117,7 +115,17 @@
     _model = model;
     [self.videoImageView sd_setImageWithURL:[NSURL URLWithString:model.v_picture] placeholderImage:imageNamed(placeHolderMini)];
     self.title.text = model.v_name;
-    self.tagLabel.text = model.v_tag;
+    self.tagLabel.title = model.v_tag;
+//    if (![model.v_tag isEqualToString:@""] ) {
+//
+//        self.tagLabel.text = model.v_tag;
+//    }else {
+//        self.tagLabel.text = @"";
+//        [self.source updateConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(self.title.left);
+//        }];
+//    }
+    [self.tagLabel setNeedsLayout];
     self.source.text = model.v_source;
     self.hits.text = model.v_hits;
 
