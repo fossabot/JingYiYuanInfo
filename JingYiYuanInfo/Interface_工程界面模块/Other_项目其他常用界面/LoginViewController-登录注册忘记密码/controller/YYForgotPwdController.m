@@ -164,9 +164,9 @@
     
     
     UIButton *sendNewPasswordButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    sendNewPasswordButton.enabled = NO;
+//    sendNewPasswordButton.enabled = NO;
     sendNewPasswordButton.titleLabel.font = TitleFont;
-    sendNewPasswordButton.backgroundColor = UnactiveButtonColor;
+    sendNewPasswordButton.backgroundColor = ThemeColor;
     [sendNewPasswordButton setTitle:@"确定" forState:UIControlStateNormal];
     [sendNewPasswordButton setTitleColor:WhiteColor forState:UIControlStateNormal];
     [sendNewPasswordButton addTarget:self action:@selector(sendNewPasswordButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -311,11 +311,11 @@
                                allowOthers:nil];
     
     //输入框添加监听事件，监听输入长度，使重置密码按钮可点击
-    [self.teleTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
-    
-    [self.resetPasswordTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
-    
-    [self.verificationtextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+//    [self.teleTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+//
+//    [self.resetPasswordTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+//
+//    [self.verificationtextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
 }
 
 
@@ -323,17 +323,34 @@
 - (void)observeLengthForTextField:(UITextField *)textField {
     
     //输入框都满足条件，则注册按钮可点击
-    self.sendNewPasswordButton.enabled = [self validToSend];
-    self.sendNewPasswordButton.backgroundColor = [self validToSend] ? ThemeColor : UnactiveButtonColor;
+//    self.sendNewPasswordButton.enabled = [self validToSend];
+//    self.sendNewPasswordButton.backgroundColor = [self validToSend] ? ThemeColor : UnactiveButtonColor;
 }
 
 - (BOOL)validToSend {
     
-    if(self.teleTextField.text.length == 11 && self.resetPasswordTextField.text.length >= 6 && self.verificationtextField.text.length == 6){
-        return YES;
-    }else {
+//    if(self.teleTextField.text.length == 11 && self.resetPasswordTextField.text.length >= 6 && self.verificationtextField.text.length == 6){
+//        return YES;
+//    }else {
+//        return NO;
+//    }
+    
+    if (self.teleTextField.text.length < 11 ){
+        [SVProgressHUD showErrorWithStatus:@"手机号格式不正确"];
+        [SVProgressHUD dismissWithDelay:1];
         return NO;
+    }else if (self.resetPasswordTextField.text.length < 6) {
+        [SVProgressHUD showErrorWithStatus:@"密码长度不足6位"];
+        [SVProgressHUD dismissWithDelay:1];
+        return NO;
+    }else if (self.verificationtextField.text.length != 6) {
+        [SVProgressHUD showErrorWithStatus:@"验证码长度不正确"];
+        [SVProgressHUD dismissWithDelay:1];
+        return NO;
+    }else {
+        return YES;
     }
+    
 }
 
 
@@ -375,6 +392,8 @@
 
 /** 发送更新密码*/
 - (void)sendNewPasswordButtonClick:(UIButton *)sender {
+    
+    if (![self validToSend]) return;
     
     [self.view endEditing:YES];
     YYWeakSelf

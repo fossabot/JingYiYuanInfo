@@ -96,10 +96,11 @@
     
     return [tableView fd_heightForCellWithIdentifier:YYQuestionCellId cacheByIndexPath:indexPath configuration:^(YYQuestionCell *cell) {
         
-        [cell.icon sd_setImageWithURL:[NSURL URLWithString:model.niu_img] placeholderImage:imageNamed(@"placeholder")];
+        [cell.icon sd_setImageWithURL:[NSURL URLWithString:model.niu_img1] placeholderImage:imageNamed(placeHolderAvatar)];
+        cell.time.text = model.posttime;
         cell.name.text = model.niu_name;
         cell.title.text = model.title;
-        cell.question.text = model.desc;
+        cell.question.attributedText = model.descAttributeStr;
     }];
     
 }
@@ -118,10 +119,11 @@
     
     YYQuestionCell * cell = [tableView dequeueReusableCellWithIdentifier:YYQuestionCellId];
     YYCommunityQuestionModel *model = self.questionDataSource[indexPath.row];
-    [cell.icon sd_setImageWithURL:[NSURL URLWithString:model.niu_img] placeholderImage:imageNamed(@"placeholder")];
+    [cell.icon sd_setImageWithURL:[NSURL URLWithString:model.niu_img1] placeholderImage:imageNamed(placeHolderAvatar)];
     cell.name.text = model.niu_name;
     cell.title.text = model.title;
-    cell.question.text = model.desc;
+    cell.question.attributedText = model.descAttributeStr;
+    cell.time.text = model.posttime;
     
     //  隐藏每个分区最后一个cell的分割线
     if (indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1)

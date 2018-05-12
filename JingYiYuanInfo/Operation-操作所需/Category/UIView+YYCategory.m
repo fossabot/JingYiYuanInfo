@@ -37,4 +37,22 @@
     self.layer.mask = shapeLayer;
 }
 
+
+
+/**
+ cut一个已知约束的控件的圆角
+
+ @param rect 控件的frame
+ @param radius 圆角半径
+ */
+- (void)cutCornerRect:(CGRect)rect radius:(CGFloat)radius {
+    
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.frame = rect;
+    
+    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius];
+    maskLayer.path = bezierPath.CGPath;
+    [self.layer setMask:maskLayer];
+}
+
 @end

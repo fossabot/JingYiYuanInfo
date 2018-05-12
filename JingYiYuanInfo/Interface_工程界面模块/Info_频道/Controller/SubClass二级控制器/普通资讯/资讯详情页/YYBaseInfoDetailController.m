@@ -40,6 +40,11 @@
 
 @property (nonatomic, strong) NSMutableArray *dataSource;
 
+/** iamges*/
+@property (nonatomic, strong) NSMutableArray *imagesArr;
+
+/** bgView*/
+@property (nonatomic, strong) UIScrollView *bgView;
 
 @end
 
@@ -97,7 +102,7 @@
 - (void)share {
     
     YYWeakSelf
-    [ShareView shareWithTitle:self.navigationItem.title subTitle:self.subTitle webUrl:self.url imageUrl:self.shareImgUrl isCollected:NO shareViewContain:ShareViewTypeWechat | ShareViewTypeWechatTimeline | ShareViewTypeQQ | ShareViewTypeQQZone | ShareViewTypeMicroBlog | ShareViewTypeFont | ShareViewTypeCopyLink shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
+    [ShareView shareWithTitle:self.navigationItem.title subTitle:self.subTitle webUrl:self.shareUrl imageUrl:self.shareImgUrl isCollected:NO shareViewContain:ShareViewTypeWechat | ShareViewTypeWechatTimeline | ShareViewTypeQQ | ShareViewTypeQQZone | ShareViewTypeMicroBlog | ShareViewTypeFont | ShareViewTypeCopyLink shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
         
         switch (shareViewType) {
             case ShareViewTypeFont:{
@@ -129,6 +134,7 @@
                 break;
         }
     }];
+    
 }
 
 
@@ -231,6 +237,7 @@
                 [SVProgressHUD showSuccessWithStatus:@"评论成功"];
                 
                 YYCommentModel *model = [[YYCommentModel alloc] init];
+                model.commentid = response[@"id"];
                 model.zan_count = @"0";
                 model.avatar = user.avatar;
                 model.username = user.username;
@@ -238,8 +245,8 @@
                 model.reply_msg = commentStr;
                 model.create_date = now;
                 model.flag = @"0";
-                [self.dataSource insertObject:model atIndex:0];
-                NSIndexPath *indexPath0 = [NSIndexPath  indexPathForRow:0 inSection:0];
+                [self.dataSource addObject:model];
+                NSIndexPath *indexPath0 = [NSIndexPath indexPathForRow:self.dataSource.count-1 inSection:0];
                 [self.tableView insertRowsAtIndexPaths:@[indexPath0] withRowAnimation:UITableViewRowAnimationNone];
             }else {
                 
@@ -254,6 +261,7 @@
     } showSuccessMsg:nil];
 
 }
+
 
 #pragma mark tableview 代理方法  ---------------------------------
 
@@ -381,8 +389,36 @@
         });
     }];
     
+    ZWHTMLOption *option = [[ZWHTMLOption alloc] init];
+    http://yyapp.1yuaninfo.com/app/yyfwapp/img/dianzan.png
+    option.filterURL = @[@"http://yyapp.1yuaninfo.com/app/yyfwapp/img/dianzan.png",@"http://yyapp.1yuaninfo.com/app/yyfwapp/img/shanchu.png",@"http://yyapp.1yuaninfo.com/app/yyfwapp/img/dianzan-cur.png"];
+    option.getAllImageCoreJS = OPTION_DefaultCoreJS;
+    self.htmlSDK = [ZWHTMLSDK zw_loadBridgeJSWebview:webView withOption:option];
+    
 }
 
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+//    NSString *requestString = [[navigationAction.request URL] absoluteString];
+    //hasPrefix 判断创建的字符串内容是否以pic:字符开始
+//    if ([requestString hasPrefix:@"myweb:imageClick:"]) {
+//        NSString *imageUrl = [requestString substringFromIndex:@"myweb:imageClick:".length];
+//        if (self.bgView) {
+//            //设置不隐藏，还原放大缩小，显示图片
+//            self.bgView.hidden = NO;
+//            NSArray *imageIndex = [NSMutableArray arrayWithArray:[imageUrl componentsSeparatedByString:@"LQXindex"]];
+//            int i = [imageIndex.lastObject intValue];
+//            [self.bgView setContentOffset:CGPointMake(kSCREENWIDTH *i, 0)];
+//        }else{
+//            [self showBigImage:imageUrl];//创建视图并显示图片
+//        }
+//
+//    }
+    
+    decisionHandler(WKNavigationActionPolicyAllow);
+    [self.htmlSDK zw_handlePreviewImageRequest:navigationAction.request];
+    
+}
 
 
 - (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler{
@@ -396,6 +432,8 @@
     [self presentViewController:alertController animated:YES completion:nil];
     
 }
+
+
 - (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler{
     
     YYWeakSelf
@@ -576,6 +614,11 @@
     return _tableView;
 }
 
-
+- (NSMutableArray *)imagesArr{
+    if (!_imagesArr) {
+        _imagesArr = [NSMutableArray array];
+    }
+    return _imagesArr;
+}
 
 @end

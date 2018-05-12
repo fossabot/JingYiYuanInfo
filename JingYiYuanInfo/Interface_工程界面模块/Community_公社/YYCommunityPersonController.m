@@ -19,8 +19,8 @@
 #import "YYPersonBannerModel.h"
 
 #import "YYNiuMoreController.h"
-//#import "YYNiuManDetailViewController.h"
-#import "YYNiuManController.h"
+#import "YYNiuManDetailViewController.h"
+//#import "YYNiuManController.h"
 #import "YYNiuNewsDetailViewController.h"
 #import "YYCommunityBannerDetailController.h"
 
@@ -111,17 +111,23 @@
 
             if (indexPath.section == 0) {
                 YYNiuManModel *model = (YYNiuManModel *)data;
-//                YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
-//                niuManDetail.niuid = model.niu_id;
-//                niuManDetail.aid = model.aid;
-//                niuManDetail.imgUrl = model.niu_img;
-//                niuManDetail.niuName = model.niu_name;
-//                niuManDetail.hotValue = model.niu_pop;
-//                niuManDetail.introduce = model.niu_introduce;
-
-                YYNiuManController *niuManVc = [[YYNiuManController alloc] init];
-                niuManVc.niuManModel = model;
-                [strongSelf.navigationController pushViewController:niuManVc animated:YES];
+                YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
+                niuManDetail.niuid = model.niu_id;
+                niuManDetail.aid = model.aid;
+                niuManDetail.imgUrl = model.niu_img1;
+                niuManDetail.niuName = model.niu_name;
+                niuManDetail.hotValue = model.niu_pop;
+                niuManDetail.followValue = model.niu_follow;
+                niuManDetail.introduce = model.niu_introduce;
+  
+                __weak typeof(model) weakModel = model;
+                niuManDetail.focusChangedBlock = ^(NSString *focusCount){
+                    
+                    weakModel.niu_follow = focusCount;
+                };
+//                YYNiuManController *niuManVc = [[YYNiuManController alloc] init];
+//                niuManVc.niuManModel = model;
+                [strongSelf.navigationController pushViewController:niuManDetail animated:YES];
                 
             }else {
                 
@@ -203,10 +209,10 @@
 - (SDCycleScrollView *)banner{
     if (!_banner) {
         _banner = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENWIDTH*0.4)];
-        _banner.delegate = self;
+        _banner.delegate = self.viewModel;
         _banner.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _banner.infiniteLoop = YES;
-        _banner.placeholderImage = imageNamed(@"placeholder");
+        _banner.placeholderImage = imageNamed(placeHolderLarge);
         _banner.bannerImageViewContentMode = UIViewContentModeScaleToFill;
     }
     return _banner;

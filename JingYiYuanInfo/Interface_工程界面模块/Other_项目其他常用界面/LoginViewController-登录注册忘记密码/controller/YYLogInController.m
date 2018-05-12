@@ -14,13 +14,13 @@
 
 #import "TestViewController.h"
 
-
 #import <SAMKeychain/SAMKeychain.h>
 #import "YYLoginManager.h"
 #import "NSString+Predicate.h"
 #import "UITextField+LeftView.h"
 #import "YYTextFilter.h"
 #import "UIView+YYCategory.h"
+
 
 @interface YYLogInController ()<YYTextFilterDelegate,UITextFieldDelegate>
 
@@ -151,9 +151,9 @@
     [self.view addSubview:forgot];
     
     UIButton *logIn = [UIButton buttonWithType:UIButtonTypeCustom];
-    logIn.enabled = NO;
+//    logIn.enabled = NO;
     logIn.titleLabel.font = TitleFont;
-    [logIn setBackgroundColor:UnactiveButtonColor];
+    [logIn setBackgroundColor:ThemeColor];
     [logIn setTitle:@"登录" forState:UIControlStateNormal];
     [logIn setTitleColor:WhiteColor forState:UIControlStateNormal];
     [logIn addTarget:self action:@selector(loginButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -271,6 +271,7 @@
 /** 登录按钮点击事件*/
 - (void)loginButtonClick:(UIButton *)sender {
     
+    if (![self validToLogin]) return;
     [self.view endEditing:YES];
     YYWeakSelf
     [YYLoginManager loginSucceedWithAccount:self.teleTextField.text password:self.pwdTextField.text responseMsg:^(BOOL success) {
@@ -344,8 +345,8 @@
                            allowOthers:nil];
     
     //输入框添加监听事件，监听输入长度，使重置密码按钮可点击
-    [self.teleTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
-    [self.pwdTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+//    [self.teleTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+//    [self.pwdTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
 }
 
 /** 监听手机号和密码的输入长度*/
@@ -354,15 +355,22 @@
 //        self.pwdTextField.text = [SAMKeychain passwordForService:KEYCHAIN_SERVICE_LOGIN account:self.teleTextField.text];
 //    }
     //输入框都满足条件，则注册按钮可点击
-    self.logIn.enabled = [self validToLogin];
-    self.logIn.backgroundColor = [self validToLogin] ? ThemeColor : UnactiveButtonColor;
+//    self.logIn.enabled = [self validToLogin];
+//    self.logIn.backgroundColor = [self validToLogin] ? ThemeColor : UnactiveButtonColor;
 }
 
 - (BOOL)validToLogin {
-    if(self.teleTextField.text.length == 11 && self.pwdTextField.text.length >= 6){
-        return YES;
-    }else {
+    
+    if (self.teleTextField.text.length < 11 ){
+        [SVProgressHUD showErrorWithStatus:@"手机号格式不正确"];
+        [SVProgressHUD dismissWithDelay:1];
         return NO;
+    }else if (self.pwdTextField.text.length < 6) {
+        [SVProgressHUD showErrorWithStatus:@"密码长度不足6位"];
+        [SVProgressHUD dismissWithDelay:1];
+        return NO;
+    }else {
+        return YES;
     }
 }
 

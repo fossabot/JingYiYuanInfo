@@ -55,6 +55,9 @@
 /** 新闻详情页 webUrl*/
 @property (nonatomic, copy) NSString *webUrl;
 
+/** shareUrl*/
+@property (nonatomic, copy) NSString *shareUrl;
+
 /** cellHeight*/
 @property (nonatomic, assign) CGFloat cellHeight;
 

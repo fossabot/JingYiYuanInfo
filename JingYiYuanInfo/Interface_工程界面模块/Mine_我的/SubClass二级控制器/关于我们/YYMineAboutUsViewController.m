@@ -65,11 +65,25 @@ static NSString *const reviewURL_ios11 = @"itms-apps://itunes.apple.com/cn/app/i
     [self.view addSubview:tableView];
     self.tableView = tableView;
     
+    CGFloat margin;
+    CGFloat width;
+    DeviceScreenSize size = [NSString currentDeviceScreenSize];
+    if (size == DeviceScreenSizeMini) {
+        margin = 60;
+        width = 60;
+    }else if (size == DeviceScreenSizeMiddle) {
+        margin = 70;
+        width = 80;
+    }else {
+        margin = 90;
+        width = 100;
+    }
     
-    UIImageView *logoImageView = [[UIImageView alloc] initWithImage:imageNamed(@"logo")];
+    UIImageView *logoImageView = [[UIImageView alloc] init];
+    logoImageView.image = imageNamed(@"logo");
     self.logoImageView = logoImageView;
     [self.view addSubview:logoImageView];
-    [logoImageView cutRoundViewRadius:10];
+    [logoImageView cutCornerRect:CGRectMake(0, 0, width, width) radius:10];
     
     UILabel *version = [[UILabel alloc] init];
     version.textColor = UnenableTitleColor;
@@ -98,15 +112,7 @@ static NSString *const reviewURL_ios11 = @"itms-apps://itunes.apple.com/cn/app/i
         make.height.equalTo(120);
     }];
     
-    CGFloat margin;
-    DeviceScreenSize size = [NSString currentDeviceScreenSize];
-    if (size == DeviceScreenSizeMini) {
-        margin = 60;
-    }else if (size == DeviceScreenSizeMiddle) {
-        margin = 90;
-    }else {
-        margin = 120;
-    }
+    
     [self.version makeConstraints:^(MASConstraintMaker *make) {
         
         make.centerX.equalTo(self.view);
@@ -117,6 +123,7 @@ static NSString *const reviewURL_ios11 = @"itms-apps://itunes.apple.com/cn/app/i
         
         make.centerX.equalTo(self.view);
         make.bottom.equalTo(self.version.top).offset(-10);
+        make.width.height.equalTo(width);
     }];
     
     

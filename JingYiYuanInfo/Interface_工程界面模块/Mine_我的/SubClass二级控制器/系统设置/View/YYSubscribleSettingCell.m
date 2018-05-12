@@ -7,6 +7,7 @@
 //
 
 #import "YYSubscribleSettingCell.h"
+#import "UIView+YYCategory.h"
 
 @interface YYSubscribleSettingCell()
 
@@ -24,6 +25,7 @@
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         [self configSubView];
+        [self.redDot cutCornerRect:CGRectMake(0, 0, 8, 8) radius:4];
     }
     return self;
 }
@@ -37,7 +39,7 @@
     
     UILabel *title = [[UILabel alloc] init];
     title.font = TitleFont;
-    title.textColor = [UIColor blackColor];
+    title.textColor = TitleColor;
     [self.contentView addSubview:title];
     self.title = title;
     
@@ -49,14 +51,17 @@
     
     UISwitch *switchBtn = [[UISwitch alloc] init];
     switchBtn.onTintColor = ThemeColor;
+    switchBtn.tintColor = GrayColor;
+    switchBtn.transform = CGAffineTransformMakeScale(0.8, 0.8);
     [switchBtn addTarget:self action:@selector(switchSelect:) forControlEvents:UIControlEventValueChanged];
+    switchBtn.enabled = NO;
     [self.contentView addSubview:switchBtn];
     self.switchBtn = switchBtn;
     
     [self.title makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.equalTo(3*YYInfoCellCommonMargin);
-        make.top.equalTo(YYInfoCellCommonMargin);
+        make.left.equalTo(4*YYInfoCellCommonMargin);
+        make.top.equalTo(YYCommonCellLeftMargin);
     }];
     
     [self.subTitle makeConstraints:^(MASConstraintMaker *make) {
@@ -67,17 +72,18 @@
     
     [self.redDot makeConstraints:^(MASConstraintMaker *make) {
         
-        make.centerY.equalTo(self.title);
+        make.centerY.equalTo(self.contentView);
         make.right.equalTo(self.title.left).offset(-YYInfoCellCommonMargin);
-        make.width.height.equalTo(4);
+        make.width.height.equalTo(8);
     }];
     
     [self.switchBtn makeConstraints:^(MASConstraintMaker *make) {
        
+//        make.top.equalTo(0);
         make.right.equalTo(-20);
         make.centerY.equalTo(self.contentView);
-        make.width.equalTo(40);
-        make.height.equalTo(20);
+//        make.width.equalTo(40);
+//        make.height.equalTo(20);
     }];
     
 }

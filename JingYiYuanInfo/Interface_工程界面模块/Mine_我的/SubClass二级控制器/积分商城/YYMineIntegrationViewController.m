@@ -17,7 +17,11 @@
 #import "YYGoodsCollectionCell.h"
 #import "YYGoodsModel.h"
 #import "YYRefresh.h"
+#import "YYEightBtn.h"
 #import <MJExtension/MJExtension.h>
+
+#define buttonW 60
+#define buttonH 67
 
 @interface YYMineIntegrationViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
 
@@ -54,13 +58,20 @@
 @end
 
 @implementation YYMineIntegrationViewController
-
+{
+    CGFloat cellWidth;
+    CGFloat cellHeight;
+}
 
 #pragma mark -- lifeCycle 生命周期  --------------------------------
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    cellWidth = (kSCREENWIDTH-38)/2;
+    cellHeight = (132.f/169.f)*cellWidth+73;
+    
+    self.view.backgroundColor = GrayBackGroundColor;
     [self configSubView];
     [self refreshHeader:nil];
     [self loadNewData];
@@ -147,34 +158,39 @@
 //    self.navigationItem.rightBarButtonItem = buy;
     
     UIView *headerView = [[UIView alloc] init];
-    headerView.backgroundColor = ThemeColor;
+    headerView.backgroundColor = WhiteColor;
     [self.view addSubview:headerView];
     self.headerView = headerView;
     
-    UIImageView *moneyImageView = [[UIImageView alloc] initWithImage:imageNamed(@"yyfw_mine_integration_white_20x20")];
-    [self.headerView addSubview:moneyImageView];
-    self.moneyImageView = moneyImageView;
+    NSArray *imageArr = @[@"integration",@"incomeDetail",@"exchangeList",@"earnIntegration"];
+    NSArray *fourBtnArr = @[@"0积分",@"收支明细",@"兑换记录",@"获取积分"];
+    NSInteger index = 0;
+    NSMutableArray *temp = [NSMutableArray array];
+    for (NSString *title in fourBtnArr) {
+        
+        YYEightBtn *btn = [[YYEightBtn alloc] init];
+        btn.contentMode = UIViewContentModeCenter;
+        btn.imageName = imageArr[index];
+        btn.title = title;
+        btn.titleColor = index == 0 ? ThemeColor : SubTitleColor;
+        btn.userInteractionEnabled = index != 0;
+        btn.titleMargin = 0;
+        btn.buttonFont = 14;
+        btn.tag = index + 100;
+        btn.imageRect = CGRectMake(0, 0, buttonW, 44);
+        btn.titleRect = CGRectMake(0, 53, buttonW, 14);
+        [btn addTarget:self action:@selector(selectFourBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [self.headerView addSubview:btn];
+        [temp addObject:btn];
+        index ++;
+    }
     
-    UILabel *integrationLabel = [[UILabel alloc] init];
-    integrationLabel.textColor = WhiteColor;
-    integrationLabel.font = sysFont(25);
-    integrationLabel.text = @"0";
-    [self.headerView addSubview:integrationLabel];
-    self.integrationLabel = integrationLabel;
-    
-    UISegmentedControl *segmentView = [[UISegmentedControl alloc] initWithItems:@[@"获取积分",@"收支明细",@"兑换记录"]];
-    segmentView.layer.cornerRadius = 15.f;
-    segmentView.layer.borderWidth = 1;
-    segmentView.layer.borderColor = WhiteColor.CGColor;
-    segmentView.layer.masksToBounds = YES;
-    [segmentView setTitleTextAttributes:@{NSForegroundColorAttributeName:WhiteColor,NSFontAttributeName:SubTitleFont} forState:UIControlStateNormal];
-    segmentView.apportionsSegmentWidthsByContent = NO;
-    segmentView.tintColor = WhiteColor;
-    segmentView.backgroundColor = ThemeColor;
-    segmentView.momentary = YES;
-    [segmentView addTarget:self action:@selector(selectSegView:) forControlEvents:UIControlEventValueChanged];
-    self.segmentView = segmentView;
-    [self.headerView addSubview:segmentView];
+    [temp mas_distributeViewsAlongAxis:MASAxisTypeHorizontal withFixedItemLength:afterScale(buttonW) leadSpacing:afterScale(YYInfoCellCommonMargin) tailSpacing:afterScale(YYInfoCellCommonMargin)];
+    [temp makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(21);
+        make.height.equalTo(buttonH);
+        make.bottom.equalTo(-32);
+    }];
     
     [self.view addSubview:self.collectionView];
     
@@ -182,34 +198,13 @@
     [self.headerView makeConstraints:^(MASConstraintMaker *make) {
        
         make.left.top.right.equalTo(self.view);
-    }];
-    
-    [self.moneyImageView makeConstraints:^(MASConstraintMaker *make) {
-       
-        make.right.equalTo(self.integrationLabel.left).offset(-10);
-        make.bottom.equalTo(self.integrationLabel);
-    }];
-    
-    [self.integrationLabel makeConstraints:^(MASConstraintMaker *make) {
-       
-        make.centerX.equalTo(self.headerView);
-//        make.centerY.equalTo(self.headerView).offset(-20);
-        make.top.equalTo(20);
-    }];
-    
-    [self.segmentView makeConstraints:^(MASConstraintMaker *make) {
-       
-        make.top.equalTo(self.integrationLabel.bottom).offset(20);
-        make.centerX.equalTo(self.headerView);
-        make.height.equalTo(30);
-        make.width.equalTo(250);
-        make.bottom.equalTo(self.headerView.bottom).offset(-20);
+        make.height.equalTo(buttonH+21+32);
     }];
     
     [self.collectionView makeConstraints:^(MASConstraintMaker *make) {
     
         make.left.right.equalTo(self.view);
-        make.top.equalTo(self.headerView.bottom);
+        make.top.equalTo(self.headerView.bottom).offset(8);
         make.bottom.equalTo(self.view);
     }];
     
@@ -222,28 +217,38 @@
 - (void)refreshHeader:(NSNotification *)notice {
     
     YYUser *user = [YYUser shareUser];
-    self.integrationLabel.text = [NSString stringWithFormat:@"%@",user.integral];
+//    self.integrationLabel.text = [NSString stringWithFormat:@"%@",user.integral];
+    NSString *temp;
+    NSInteger integra = [user.integral integerValue];
+    if (integra > 10000) {
+        temp = [NSString stringWithFormat:@"%.2f万",(float)integra/10000.f];
+    }else {
+        temp = user.integral;
+    }
+    YYEightBtn *btn = [self.headerView viewWithTag:100];
+    btn.title = [NSString stringWithFormat:@"%@",temp];
+    
 }
 
 /** 选中segmentcontrol的一个item*/
-- (void)selectSegView:(UISegmentedControl *)segView {
+- (void)selectFourBtn:(YYEightBtn *)fourBtn {
     
     YYUser *user = [YYUser shareUser];
-    NSInteger segmentIndex = segView.selectedSegmentIndex;
-    
-    if (segmentIndex == 0) {
+//    NSInteger segmentIndex = segView.selectedSegmentIndex;
+    NSInteger index = fourBtn.tag - 100;
+    if (index == 1) {
+        
+        YYIODetailController *IODetailVc = [[YYIODetailController alloc] init];
+        [self.navigationController pushViewController:IODetailVc animated:YES];
+    }else if (index == 2 && user.isLogin){
+        
+        YYProductionHistoryController *history = [[YYProductionHistoryController alloc] init];
+        [self.navigationController pushViewController:history animated:YES];
+    }else if (index == 3 && user.isLogin){
         
         YYIntegrationRulesDetailController *rule = [[YYIntegrationRulesDetailController alloc] init];
         rule.url = integrationRuleUrl;
         [self.navigationController pushViewController:rule animated:YES];
-    }else if (segmentIndex == 1 && user.isLogin){
-        
-        YYIODetailController *IODetailVc = [[YYIODetailController alloc] init];
-        [self.navigationController pushViewController:IODetailVc animated:YES];
-    }else if (segmentIndex == 2 && user.isLogin){
-        
-        YYProductionHistoryController *history = [[YYProductionHistoryController alloc] init];
-        [self.navigationController pushViewController:history animated:YES];
     }else {
         [SVProgressHUD showInfoWithStatus:@"账号未登录"];
         [SVProgressHUD dismissWithDelay:1];
@@ -301,8 +306,30 @@
     return self.tj_arr.count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
     
+    
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.frame = CGRectMake(0, 0, cellWidth, cellHeight);
+    
+//    CAShapeLayer *borderLayer = [CAShapeLayer layer];
+//    borderLayer.frame = CGRectMake(0, 0, cellWidth, cellHeight);
+//    borderLayer.lineWidth = 1.f;
+//    borderLayer.strokeColor = lineColor.CGColor;
+//    borderLayer.fillColor = [UIColor clearColor].CGColor;
+    
+    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, cellWidth, cellHeight) cornerRadius:5];
+    maskLayer.path = bezierPath.CGPath;
+//    borderLayer.path = bezierPath.CGPath;
+    
+//    [cell.contentView.layer insertSublayer:borderLayer atIndex:0];
+    [cell.layer setMask:maskLayer];
+     
+     
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     YYGoodsCollectionCell *collectionCell = [collectionView dequeueReusableCellWithReuseIdentifier:YYGoodsCollectionCellId forIndexPath:indexPath];
     YYGoodsModel *good;
@@ -311,12 +338,13 @@
     }else {
         good = self.tj_arr[indexPath.row];
     }
-    [collectionCell.imageView sd_setImageWithURL:[NSURL URLWithString:good.pro_picture] placeholderImage:imageNamed(@"placeholder")];
+    [collectionCell.imageView sd_setImageWithURL:[NSURL URLWithString:good.pro_picture] placeholderImage:imageNamed(placeHolderMini)];
     collectionCell.title.text = good.pro_name;
     collectionCell.tagLabel.text = good.pro_label;
-    collectionCell.integration.text = good.pro_presentprice;
+    collectionCell.integration.text = [good.pro_presentprice stringByAppendingString:@"积分"];
     
     return collectionCell;
+    
 }
 
 
@@ -327,11 +355,14 @@
 - (UICollectionViewFlowLayout *)flowLayout{
     if (!_flowLayout) {
         _flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        _flowLayout.itemSize = CGSizeMake((kSCREENWIDTH-30)/2, (kSCREENWIDTH-30)/2+70);
-        _flowLayout.sectionInset = UIEdgeInsetsMake(20, 10, 20, 10);
-        _flowLayout.headerReferenceSize = CGSizeMake(kSCREENWIDTH, 40);
-        _flowLayout.minimumLineSpacing = 10;
-        _flowLayout.minimumInteritemSpacing = 10;
+//        cellWidth = (kSCREENWIDTH-38)/2;
+////        cellHeight = (kSCREENWIDTH-39)/2+70;
+//        cellHeight = (132.f/169.f)*cellWidth+73;
+        _flowLayout.itemSize = CGSizeMake(cellWidth, cellHeight);
+        _flowLayout.sectionInset = UIEdgeInsetsMake(9, 15, 9, 15);
+        _flowLayout.headerReferenceSize = CGSizeMake(kSCREENWIDTH, 45);
+        _flowLayout.minimumLineSpacing = 9;
+        _flowLayout.minimumInteritemSpacing = 8;
         _flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     }
     return _flowLayout;
@@ -340,7 +371,7 @@
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:self.flowLayout];
-        _collectionView.backgroundColor = WhiteColor;
+        _collectionView.backgroundColor = GrayBackGroundColor;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;

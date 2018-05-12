@@ -236,7 +236,11 @@
         UMSocialPlatformType type = [self translateIntoUMSocialPlatformType:shareViewType];
         
         if (self.shareContentType == ShareContentTypeWeb) {
-            [YYUMShareManager shareWeburl:self.webUrl title:self.title desc:self.subTitle thumbUrl:self.imageUrl platform:type];
+            [YYUMShareManager shareWeburl:self.webUrl title:self.title desc:self.subTitle thumbUrl:self.imageUrl platform:type completion:^(BOOL complete) {
+                if (complete && _finishedBlock) {
+                    _finishedBlock(ShareViewTypeQQ, YES);
+                }
+            }];
         }else if (self.shareContentType == ShareContentTypeMusic) {
             [YYUMShareManager shareMusic:self.webUrl title:self.title desc:self.subTitle thumbUrl:self.imageUrl toPlatformType:type];
         }else if (self.shareContentType == ShareContentTypeImage) {

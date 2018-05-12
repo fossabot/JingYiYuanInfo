@@ -12,8 +12,8 @@
 #import "THBaseTableView.h"
 #import "YYNiuManCell.h"
 #import "YYNiuManModel.h"
-//#import "YYNiuManDetailViewController.h"
-#import "YYNiuManController.h"
+#import "YYNiuManDetailViewController.h"
+//#import "YYNiuManController.h"
 
 #import "YYNiuMoreVM.h"
 @interface YYNiuMoreController ()
@@ -97,10 +97,19 @@
             //跳转到相应的详情页（牛人详情或者新闻详情）
             YYStrongSelf
             
-            YYNiuManModel *niuManModel = (YYNiuManModel *)data;
-            YYNiuManController *niuManVc = [[YYNiuManController alloc] init];
-            niuManVc.niuManModel = niuManModel;
-            [strongSelf.navigationController pushViewController:niuManVc animated:YES];
+            YYNiuManModel *model = (YYNiuManModel *)data;
+            YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
+//            YYNiuManController *niuManVc = [[YYNiuManController alloc] init];
+//            niuManVc.niuManModel = niuManModel;
+            niuManDetail.niuid = model.niu_id;
+            niuManDetail.aid = model.aid;
+            niuManDetail.imgUrl = model.niu_img1;
+            niuManDetail.niuName = model.niu_name;
+            niuManDetail.hotValue = model.niu_pop;
+            niuManDetail.followValue = model.niu_follow;
+            niuManDetail.introduce = model.niu_introduce;
+            
+            [strongSelf.navigationController pushViewController:niuManDetail animated:YES];
         };
         
     }

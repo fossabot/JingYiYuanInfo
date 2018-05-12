@@ -10,12 +10,12 @@
 
 #import "YYNiuManDetailViewController.h"
 #import "YYNiuManIntroduceController.h"
-
+#import "NSCalendar+YYCommentDate.h"
 
 @interface YYNiuManController ()
 
 /** focus*/
-@property (nonatomic, strong) UIBarButtonItem *focusItem;
+@property (nonatomic, strong) UIButton *focusButton;
 
 /** niuid*/
 @property (nonatomic, copy) NSString *niu_id;
@@ -50,10 +50,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBarButtonItem *focusItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:self action:@selector(focus)];
-    focusItem.image = imageNamed(@"project_favor_normal_20x20");
+    UIButton *focusButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    focusButton.frame = CGRectMake(0, 0, 44, 44);
+    [focusButton setImageEdgeInsets:UIEdgeInsetsMake(0, 20, 0, -5)];
+    [focusButton setImage:imageNamed(@"project_favor_normal_20x20") forState:UIControlStateNormal];
+    [focusButton setImage:imageNamed(@"project_favor_white_20x20") forState:UIControlStateSelected];
+    [focusButton addTarget: self action:@selector(focus:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *focusItem = [[UIBarButtonItem alloc] initWithCustomView:focusButton];
+    
+//    UIBarButtonItem *focusItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:self action:@selector(focus)];
+//    focusItem.image = imageNamed(@"project_favor_normal_20x20");
     self.navigationItem.rightBarButtonItem = focusItem;
-    self.focusItem = focusItem;
+    self.focusButton = focusButton;
     
     self.navigationItem.title = self.niuManModel.niu_name;
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -121,7 +129,8 @@
         if (response) {
             if ([response[@"info"] isEqualToString:@"1"]) {
                 //                [_focusItem setTitle:@"已关注"];
-                [_focusItem setImage:imageNamed(@"project_favor_white_20x20")];
+//                [_focusItem setImage:imageNamed(@"project_favor_white_20x20")];
+                self.focusButton.selected = YES;
                 _followState = YES;
             }else {
                 _followState = NO;
@@ -135,7 +144,7 @@
 /**
  *  关注牛人
  */
-- (void)focus {
+- (void)focus:(UIButton *)sender {
     
     //关注后修改右耳目为已关注
     //  info=  1查询时候标识已经关注/添加时候表示成功 0未关注/添加失败
@@ -156,7 +165,8 @@
                 if ([response[@"info"] isEqualToString:@"1"]) {
                     [SVProgressHUD showSuccessWithStatus:@"关注成功"];
                     //                    [_focusItem setTitle:@"已关注"];
-                    [_focusItem setImage:imageNamed(@"project_favor_white_20x20")];
+//                    [_focusItem setImage:imageNamed(@"project_favor_white_20x20")];
+                    sender.selected = YES;
                     _followState = YES;
                 }else if([response[@"info"] isEqualToString:@"1"]){
                     [SVProgressHUD showErrorWithStatus:@"文章错误或者牛人不存在"];
@@ -180,7 +190,8 @@
                 if ([response[STATE] isEqualToString:@"1"]) {
                     [SVProgressHUD showSuccessWithStatus:@"取消关注"];
                     //                    [_focusItem setTitle:@"关注"];
-                    [_focusItem setImage:imageNamed(@"project_favor_normal_20x20")];
+//                    [_focusItem setImage:imageNamed(@"project_favor_normal_20x20")];
+                    sender.selected = NO;
                     _followState = NO;
                 }else {
                     [SVProgressHUD showErrorWithStatus:@"网络错误"];

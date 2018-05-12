@@ -58,7 +58,7 @@
 -(void)setNiuArtModel:(YYNiuArticleModel *)niuArtModel {
     _niuArtModel = niuArtModel;
     
-    [_leftImageView sd_setImageWithURL:[NSURL URLWithString:niuArtModel.picurl] placeholderImage:imageNamed(@"placeholder") completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+    [_leftImageView sd_setImageWithURL:[NSURL URLWithString:niuArtModel.picurl] placeholderImage:imageNamed(placeHolderMini) completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         
     }];
     _title.text = niuArtModel.title;

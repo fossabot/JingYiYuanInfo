@@ -34,6 +34,7 @@
     if (self) {
         
         [self configSubView];
+        [self.avatar cutCornerRect:CGRectMake(0, 0, 30, 30) radius:15];
     }
     return self;
 }
@@ -136,9 +137,6 @@
         make.bottom.equalTo(-YYInfoCellCommonMargin);
     }];
     
-//    [self.contentView layoutIfNeeded];
-//    [self.avatar cutRoundView];
-    
 }
 
 
@@ -147,7 +145,9 @@
 - (void)setModel:(YYCommentModel *)model {
     
     _model = model;
-//    [self.avatar sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:imageNamed(placeHolderAvatar)];
+    [self.avatar sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:imageNamed(placeHolderAvatar)];
+ 
+    /**
     YYWeakSelf
     [self.avatar sd_setImageWithURL:[NSURL URLWithString:model.avatar] placeholderImage:imageNamed(placeHolderAvatar) completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
      
@@ -176,6 +176,7 @@
         //结束上下文
         UIGraphicsEndImageContext();
     }];
+    */
     
     self.name.text = model.username;
     [self.zan setTitle:model.zan_count forState:UIControlStateNormal];
@@ -183,14 +184,14 @@
     self.comment.text = model.reply_msg;
     self.time.text = model.create_date;
     
-//    [self.contentView layoutIfNeeded];
-//    [self.avatar cutRoundView];
 }
 
 - (void)setSecModel:(YYSecCommentModel *)secModel {
     
     _secModel = secModel;
-    YYWeakSelf
+
+    [self.avatar sd_setImageWithURL:[NSURL URLWithString:secModel.from_user_avatar] placeholderImage:imageNamed(placeHolderAvatar)];
+/**
     [self.avatar sd_setImageWithURL:[NSURL URLWithString:secModel.from_user_avatar] placeholderImage:imageNamed(placeHolderAvatar) completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         
         if (image == nil) return;
@@ -218,7 +219,8 @@
         //结束上下文
         UIGraphicsEndImageContext();
     }];
-    
+*/
+
     if ([_secModel.to_user_name isEqualToString:_fatherCommentUserName]) {
         
         self.name.text = secModel.from_user_name;
@@ -230,8 +232,6 @@
     self.comment.text = secModel.reply_msg;
     self.time.text = secModel.create_date;
     
-//    [self.contentView layoutIfNeeded];
-//    [self.avatar cutRoundView];
 }
 
 /*  点赞*/
@@ -290,16 +290,6 @@
     
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-//    [self.avatar cutRoundView];
-}
-
-//
-//- (void)layoutSublayersOfLayer:(CALayer *)layer {
-//    
-//    [self.avatar cutRoundView];
-//}
 
 
 @end

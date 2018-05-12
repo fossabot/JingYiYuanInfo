@@ -23,32 +23,33 @@
 
 #import "YYChannel.h"
 #import "YYSubtitle.h"
+#import "YYEightBtn.h"
 #import <MJExtension/MJExtension.h>
 
 #define edgeMargin 20
 #define buttonW 40
 #define buttonH 60
-#define buttonFont  13
+//#define buttonFont  13
 
-@interface YYEightBtn : UIControl
+//@interface YYEightBtn : UIControl
+//
+///** top*/
+//@property (nonatomic, copy) NSString *imageName;
+//
+///** title*/
+//@property (nonatomic, copy) NSString *title;
+//
+//@end
 
-/** top*/
-@property (nonatomic, copy) NSString *imageName;
-
-/** title*/
-@property (nonatomic, copy) NSString *title;
-
-@end
-
-@interface YYEightBtn()
-
-/** image*/
-@property (nonatomic, strong) UIImageView *topImage;
-
-/** title*/
-@property (nonatomic, strong) UILabel *titleLabel;
-
-@end
+//@interface YYEightBtn()
+//
+///** image*/
+//@property (nonatomic, strong) UIImageView *topImage;
+//
+///** title*/
+//@property (nonatomic, strong) UILabel *titleLabel;
+//
+//@end
 
 @interface YYMainEightBtnCell()
 {
@@ -91,6 +92,9 @@
 //        [btn setImageEdgeInsets:UIEdgeInsetsMake(-afterScale(10), 5, afterScale(15), 0)];
 //        [btn setTitleEdgeInsets:UIEdgeInsetsMake(30, -afterScale(12)-25, 0, 0)];
 
+        btn.buttonFont = 13;
+        btn.titleColor = SubTitleColor;
+        btn.titleMargin = 5;
         [btn setTitle:self.titles[i]];
         [btn setImageName:self.images[i]];
         
@@ -116,6 +120,9 @@
 //        btn.titleLabel.font = sysFont(buttonFont);
 //        [btn setImageEdgeInsets:UIEdgeInsetsMake(-afterScale(10), 5, afterScale(15), 0)];
 //        [btn setTitleEdgeInsets:UIEdgeInsetsMake(30, -afterScale(12)-25, 0, 0)];
+        btn.buttonFont = 13;
+        btn.titleColor = SubTitleColor;
+        btn.titleMargin = 5;
         [btn setTitle:self.titles[i]];
         [btn setImageName:self.images[i]];
         
@@ -264,51 +271,51 @@
 
 
 
-@implementation YYEightBtn
-
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self initConfig];
-    }
-    return self;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    CGFloat width = self.bounds.size.width;
-    CGFloat height = self.bounds.size.height;
-    self.topImage.frame = CGRectMake(0, 0, width, width);
-    self.titleLabel.frame = CGRectMake(0, width+5, width, height-width-5);
-}
-
-- (void)setImageName:(NSString *)imageName {
-    _imageName = imageName;
-    [self.topImage setImage:[UIImage imageNamed:imageName]];
-}
-
-- (void)setTitle:(NSString *)title {
-    _title = title;
-    self.titleLabel.text = title;
-}
-
-/** 初始化*/
-- (void)initConfig {
-
-    UIImageView *topImageView = [[UIImageView alloc] init];
-    self.topImage = topImageView;
-    [self addSubview:topImageView];
-    
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.font = sysFont(buttonFont);
-    titleLabel.textColor = SubTitleColor;
-    self.titleLabel = titleLabel;
-    [self addSubview:titleLabel];
-
-}
-
-@end
+//@implementation YYEightBtn
+//
+//
+//- (instancetype)initWithFrame:(CGRect)frame
+//{
+//    self = [super initWithFrame:frame];
+//    if (self) {
+//        [self initConfig];
+//    }
+//    return self;
+//}
+//
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//    CGFloat width = self.bounds.size.width;
+//    CGFloat height = self.bounds.size.height;
+//    self.topImage.frame = CGRectMake(0, 0, width, width);
+//    self.titleLabel.frame = CGRectMake(0, width+5, width, height-width-5);
+//}
+//
+//- (void)setImageName:(NSString *)imageName {
+//    _imageName = imageName;
+//    [self.topImage setImage:[UIImage imageNamed:imageName]];
+//}
+//
+//- (void)setTitle:(NSString *)title {
+//    _title = title;
+//    self.titleLabel.text = title;
+//}
+//
+///** 初始化*/
+//- (void)initConfig {
+//
+//    UIImageView *topImageView = [[UIImageView alloc] init];
+//    self.topImage = topImageView;
+//    [self addSubview:topImageView];
+//
+//    UILabel *titleLabel = [[UILabel alloc] init];
+//    titleLabel.textAlignment = NSTextAlignmentCenter;
+//    titleLabel.font = sysFont(buttonFont);
+//    titleLabel.textColor = SubTitleColor;
+//    self.titleLabel = titleLabel;
+//    [self addSubview:titleLabel];
+//
+//}
+//
+//@end
 

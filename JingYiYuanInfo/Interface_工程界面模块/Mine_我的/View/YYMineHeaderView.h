@@ -22,10 +22,15 @@
 /** delegate*/
 @property (nonatomic, weak) id<YYHeaderViewDestinationDelegate> delegate;
 
+/** signView*/
+@property (nonatomic, strong) YYSignBgView *signView;
 
 /** 个人信息模型*/
 @property (nonatomic, strong) YYUser *user;
 
 + (instancetype)headerView;
+
+//更新签到状态
+- (void)changeSignState;
 
 @end

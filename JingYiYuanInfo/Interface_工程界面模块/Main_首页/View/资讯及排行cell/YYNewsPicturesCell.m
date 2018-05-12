@@ -77,12 +77,12 @@
             
             imageUrl = [NSURL URLWithString:model.img];
         }else {
-            imageUrl = [NSURL URLWithString:@"placeholder"];
+            imageUrl = [NSURL URLWithString:placeHolderMini];
         }
         YYLog(@"imageurl %@ ",model.img);
     }
     YYWeakSelf
-    [_newsPic sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [_newsPic sd_setImageWithURL:imageUrl placeholderImage:imageNamed(placeHolderLarge) options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
         [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
             if (isInCache) {

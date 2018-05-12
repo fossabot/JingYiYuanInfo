@@ -9,6 +9,7 @@
 #import "YYChannelShowLikeCell.h"
 #import "YYEdgeLabel.h"
 #import "YYShowLikeModel.h"
+#import "UIView+YYCategory.h"
 
 @interface YYChannelShowLikeCell()
 
@@ -50,6 +51,7 @@
         
         [self configSubView];
         [self masonrySubView];
+        [self.leftImageView cutCornerRect:CGRectMake(0, 0, 120, 180) radius:3];
     }
     return self;
 }
@@ -190,8 +192,8 @@
 - (void)setLikeModel:(YYShowLikeModel *)likeModel {
     
     _likeModel = likeModel;
-    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:likeModel.indeximg] placeholderImage:imageNamed(@"placeholder")];
-    [self cutRoundView:self.leftImageView];
+    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:likeModel.indeximg] placeholderImage:imageNamed(placeHolderMini)];
+//    [self cutRoundView:self.leftImageView];
     self.title.text = likeModel.actionname;
     self.time.text = likeModel.actiontime;
     self.place.text = likeModel.palace;

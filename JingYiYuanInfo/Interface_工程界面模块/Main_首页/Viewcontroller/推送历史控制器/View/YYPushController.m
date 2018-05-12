@@ -11,7 +11,7 @@
 #import "YYCalendarTopView.h"
 #import "YYPushCell.h"
 #import "YYCalendarController.h"
-
+#import "YYYanbaoDetailController.h"
 
 @interface YYPushController ()
 
@@ -195,8 +195,14 @@
 
 - (YYPushViewModel *)viewModel{
     if (!_viewModel) {
+        YYWeakSelf
         _viewModel = [[YYPushViewModel alloc] init];
-        
+        _viewModel.yanBaoBlock = ^(NSString *yanBaoUrl) {
+          
+            YYYanbaoDetailController *detail = [[YYYanbaoDetailController alloc] init];
+            detail.url = yanBaoUrl;
+            [weakSelf.navigationController pushViewController:detail animated:YES];
+        };
     }
     return _viewModel;
 }

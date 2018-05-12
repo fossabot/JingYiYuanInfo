@@ -114,7 +114,7 @@
     
     YYGoodsIOCell * cell = [tableView dequeueReusableCellWithIdentifier:YYGoodsIOCellId];
     YYIOModel *model = self.dataSource[indexPath.row];
-    [cell.leftImageView sd_setImageWithURL:[NSURL URLWithString:model.goodimg] placeholderImage:imageNamed(@"placeholder")];
+    [cell.leftImageView sd_setImageWithURL:[NSURL URLWithString:model.goodimg] placeholderImage:imageNamed(placeHolderMini)];
     cell.title.text = model.goodtitle;
     cell.time.text = model.addtime;
     cell.integral.text = model.amount;
@@ -125,7 +125,7 @@
 - (UITableView *)tableView{
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 20, 0, 20);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self;
         _tableView.dataSource = self;

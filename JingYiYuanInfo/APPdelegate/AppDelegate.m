@@ -114,15 +114,6 @@
 }
 
 
-- (void)showAlert:(NSString *)title {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:@"" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    [alert addAction:cancel];
-    [kKeyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
-}
-
 #pragma mark -- tabbarcontroller  delegate
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {

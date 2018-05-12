@@ -165,12 +165,12 @@
     UIButton *connect = [UIButton buttonWithType:UIButtonTypeCustom];
     [connect setTitle:@"在线咨询" forState:UIControlStateNormal];
     [connect addTarget:self action:@selector(connectUs:) forControlEvents:UIControlEventTouchUpInside];
-    [connect setBackgroundColor:OrangeColor];
+    [connect setBackgroundColor:ThemeColor];
     [self.view addSubview:connect];
     self.connect = connect;
     
     UIButton *favor = [UIButton buttonWithType:UIButtonTypeCustom];
-    [favor setTitle:@"收藏" forState:UIControlStateNormal];
+//    [favor setTitle:@"收藏" forState:UIControlStateNormal];
     [favor addTarget:self action:@selector(collectProject:) forControlEvents:UIControlEventTouchUpInside];
     [favor setImage:imageNamed(@"project_favor_normal_20x20") forState:UIControlStateNormal];
     [favor setImage:imageNamed(@"project_favor_white_20x20") forState:UIControlStateSelected];
@@ -178,21 +178,24 @@
     [self.view addSubview:favor];
     self.favor = favor;
     
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:favor];
+    self.navigationItem.rightBarButtonItem = right;
+    
     [self.connect makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.view);
-        make.bottom.equalTo(self.view);
+        make.left.right.bottom.equalTo(self.view);
+//        make.bottom.equalTo(self.view);
         make.height.equalTo(50);
     }];
     
-    [self.favor makeConstraints:^(MASConstraintMaker *make) {
-       
-        make.left.equalTo(self.connect.right);
-        make.bottom.equalTo(self.view);
-        make.height.equalTo(50);
-        make.right.equalTo(self.view);
-        make.width.equalTo(self.connect);
-    }];
+//    [self.favor makeConstraints:^(MASConstraintMaker *make) {
+//
+//        make.left.equalTo(self.connect.right);
+//        make.bottom.equalTo(self.view);
+//        make.height.equalTo(50);
+//        make.right.equalTo(self.view);
+//        make.width.equalTo(self.connect);
+//    }];
     
 }
 
@@ -217,7 +220,21 @@
     [webView evaluateJavaScript:js completionHandler:nil];
     [SVProgressHUD dismiss];
     
+    ZWHTMLOption *option = [[ZWHTMLOption alloc] init];
+    option.filterURL = @[@"http://yyapp.1yuaninfo.com/app/yyfwapp/img/dianzan.png",@"http://yyapp.1yuaninfo.com/app/yyfwapp/img/shanchu.png"];
+    option.getAllImageCoreJS = OPTION_DefaultCoreJS;
+    self.htmlSDK = [ZWHTMLSDK zw_loadBridgeJSWebview:webView withOption:option];
+    
+    
 }
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    
+    decisionHandler(WKNavigationActionPolicyAllow);
+    [self.htmlSDK zw_handlePreviewImageRequest:navigationAction.request];
+    
+}
+
 
 -(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     self.favor.enabled = NO;

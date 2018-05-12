@@ -34,10 +34,11 @@
 //    [self loadNewData];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self loadNewData];
 }
+
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 
@@ -109,10 +110,12 @@
             YYCommunityQuestionModel *model = (YYCommunityQuestionModel *)data;
             YYQuestionDetailController *questionDetail = [[YYQuestionDetailController alloc] init];
             questionDetail.articleId = model.articleId;
-            questionDetail.iconUrl = model.niu_img;
+            questionDetail.niu_id = model.niu_id;
+            questionDetail.iconUrl = model.niu_img1;
             questionDetail.nameStr = model.niu_name;
+            questionDetail.timeStr = model.posttime;
             questionDetail.titleStr = model.title;
-            questionDetail.questionStr = model.desc;
+            questionDetail.questionStr = model.descAttributeStr;
             [strongSelf.navigationController pushViewController:questionDetail animated:YES];
         };
         

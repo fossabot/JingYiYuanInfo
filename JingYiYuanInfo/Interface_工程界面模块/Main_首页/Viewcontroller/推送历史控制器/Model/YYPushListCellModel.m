@@ -40,6 +40,32 @@
              };
 }
 
+- (BOOL)isShowYanBao {
+    
+    NSString *keyword = self.keyword1;
+    if ([keyword isEqualToString:@"上午分享"] || [keyword isEqualToString:@"下午分享"] ) {
+        
+        if (self.extendState) {//如果 是展开状态 肯定是有展开按钮 这是展示研报
+            
+            return YES;
+        }else {
+            
+            if (self.isHaveExtendBtn) {//如果有展开按钮，但是不是展开状态，则隐藏
+                
+                return NO;
+            }else {//如果没有展开按钮，并且还不是展开状态，则只能显示
+                
+                return YES;
+            }
+        }
+        
+    }else {//不是分享 不用展示研报按钮
+        
+        return NO;
+    }
+    
+}
+
 - (NSAttributedString *)pushAttributedString {
     
     if (_attributeStr.length) {
@@ -122,7 +148,7 @@
 
         NSString *tempStr = [mutableTemp substringToIndex:mutableTemp.length-6];
         mutableTemp = [[NSMutableString alloc] initWithString:tempStr];
-        [mutableTemp insertString:@"<div style=\"font-size:14px;color:#666666;\">" atIndex:0];
+        [mutableTemp insertString:@"<div style=\"line-height:1.5; font-size:15px;color:#666666;\">" atIndex:0];
         temp = [NSString stringWithString:mutableTemp];
         temp = [temp stringByAppendingString:@"</div>"];
     }
@@ -137,18 +163,9 @@
 //        temp = [temp stringByAppendingString:@"<br />"];
     }
     
-//    temp = [temp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     YYLog(@"返回的数据：------%@",temp);
     
     NSAttributedString *attrTemp = [[NSAttributedString alloc] initWithData:[temp dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType} documentAttributes:nil error:nil];
-    
-//    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//    paragraphStyle.alignment = NSTextAlignmentLeft;
-//    paragraphStyle.headIndent = 2.0;
-//    paragraphStyle.lineSpacing = 2.0;
-//    paragraphStyle.paragraphSpacing = 2.f;
-    
-//    NSAttributedString *attributeStr = [[NSAttributedString alloc] initWithString:attrTemp attributes:@{NSParagraphStyleAttributeName:paragraphStyle,NSFontAttributeName:TitleFont,NSForegroundColorAttributeName:SubTitleColor}];
     
     _attributeStr = attrTemp;
     _cellHeight = [self cellHeight];
@@ -196,7 +213,7 @@
     }
     _lastExtendState = _extendState;
     
-    CGFloat height = [self sizeForAttributeString:[self pushAttributedString] font:TitleFont maxSize:CGSizeMake(kSCREENWIDTH-72, MAXFLOAT)].height;
+    CGFloat height = [self sizeForAttributeString:[self pushAttributedString] font:TitleFont maxSize:CGSizeMake(kSCREENWIDTH-82, MAXFLOAT)].height;
     //返回的高度需考虑cell上部一个title的高度和底部的展开按钮高度 顶部30 底部20
 //    CGSize size = [[self pushAttributedString] boundingRectWithSize:CGSizeMake(kSCREENWIDTH-72, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil].size;
 //    YYLog(@"size ---- %@",NSStringFromCGSize(size));
@@ -299,16 +316,7 @@
 
 - (CGSize)sizeForAttributeString:(NSAttributedString *)string font:(UIFont *)font maxSize:(CGSize)maxSize {
     
-    //    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-    //    /** 行高 */
-    //    paraStyle.lineSpacing = 3;
-    //    paraStyle.paragraphSpacing = 5;
-    
-//    NSDictionary *attrs = @{NSFontAttributeName:font};
-    
     return [string boundingRectWithSize:maxSize options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin context:nil].size;
-//    return [string boundingRectWithSize:maxSize options:NSStringDrawingUsesFontLeading |  NSStringDrawingUsesLineFragmentOrigin context:nil];
-//    return [string boundingRectWithSize:maxSize options:NSStringDrawingUsesFontLeading |  NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
     
 }
 

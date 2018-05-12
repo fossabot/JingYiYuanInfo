@@ -28,6 +28,7 @@
     
     self.arrowView.image = imageNamed(@"arrow");
     
+    
     //一些其他属性设置
     /*
      // 设置字体

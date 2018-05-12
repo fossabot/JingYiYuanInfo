@@ -32,9 +32,9 @@
     
     self.navigationItem.title = @"订阅设置";
     
-    UIBarButtonItem *save = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
-    save.enabled = NO;
-    self.navigationItem.rightBarButtonItem = save;
+//    UIBarButtonItem *save = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStyleDone target:self action:@selector(save)];
+//    save.enabled = NO;
+//    self.navigationItem.rightBarButtonItem = save;
 //http://yyapp.1yuaninfo.com/app/application/setmsg.php?act=dayservice&userid=USERID  获取订阅设置
     
 //http://yyapp.1yuaninfo.com/app/application/setmsg.php?act=moddayservice&dayservice=0,1,1,1,1,1,1,1&userid=USERID   保存
@@ -61,11 +61,13 @@
 /** 给tableview加footer*/
 - (void)addTableFooterView {
     
-    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, 80)];
-    UILabel *tip = [[UILabel alloc] initWithFrame:CGRectMake(YYCommonCellLeftMargin, 0, kSCREENWIDTH-YYCommonCellLeftMargin-YYCommonCellRightMargin, 80)];
+    CGFloat height = 100;
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, height)];
+    bottomView.backgroundColor = ClearColor;
+    UILabel *tip = [[UILabel alloc] initWithFrame:CGRectMake(YYCommonCellLeftMargin, 0, kSCREENWIDTH-YYCommonCellLeftMargin-YYCommonCellRightMargin, height)];
     tip.numberOfLines = 0;
     tip.backgroundColor = ClearColor;
-    tip.text = @"\n\n       免责声明：以上产品文章内容和数据仅供参考，不构成投资建议。投资者据此做出的任何投资决策与壹元服务无关。";
+    tip.text = @"免责声明：以上产品文章内容和数据仅供参考，不构成投资建议。投资者据此做出的任何投资决策与壹元服务无关。";
     tip.font = SubTitleFont;
     tip.textColor = UnenableTitleColor;
     [bottomView addSubview:tip];
@@ -94,6 +96,9 @@
     
     YYUser *user = [YYUser shareUser];
     NSString *servieceStr = [self.dataSource componentsJoinedByString:@","];
+    while ([servieceStr hasSuffix:@","]) {
+        servieceStr = [servieceStr substringToIndex:servieceStr.length-2];
+    }
     NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:@"moddayservice",@"act",servieceStr,@"dayservice",user.userid,USERID,nil];
     [YYHttpNetworkTool GETRequestWithUrlstring:settingUrl parameters:para success:^(id response) {
         
@@ -129,13 +134,14 @@
     YYSubscribleSettingCell * cell = [tableView dequeueReusableCellWithIdentifier:YYSubscribleSettingCellId];
     
     NSDictionary *dic = self.stables[indexPath.row];
-    NSNumber *on = self.dataSource[indexPath.row];
+//    NSNumber *on = self.dataSource[indexPath.row];
     cell.title.text = dic[@"title"];
     cell.subTitle.text = dic[@"subTitle"];
-    cell.switchBtn.on = [on integerValue];
+//    cell.switchBtn.on = [on integerValue];
+    cell.switchBtn.on = NO;
     YYWeakSelf
     cell.switchBlock = ^(id cell, BOOL isOn) {
-      
+        
         NSIndexPath *index = [weakSelf.tableView indexPathForCell:cell];
         NSNumber *switchStatus = isOn ? @1 : @0;
         NSMutableArray *arr = [weakSelf.dataSource mutableCopy];
@@ -152,11 +158,13 @@
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        _tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, YYCommonCellRightMargin);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, YYCommonCellLeftMargin, 0, YYCommonCellRightMargin);
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 40, 0);
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.rowHeight = 60;
+        _tableView.rowHeight = 75;
         [_tableView registerClass:[YYSubscribleSettingCell class] forCellReuseIdentifier:YYSubscribleSettingCellId];
+        _tableView.backgroundColor = GrayBackGroundColor;
         YYWeakSelf
         FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
         configer.emptyImage = imageNamed(emptyImageName);

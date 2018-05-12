@@ -19,6 +19,13 @@
              };
 }
 
+- (NSString *)col_img {
+    if ([_col_img containsString:@"http"]) {
+        return _col_img;
+    }
+    return [NSString stringWithFormat:@"%@%@",yyfwJointUrl,_col_img];
+}
+
 //类型:1资讯文章,2资讯视频 3牛人文章 4公社视频 5项目
 - (NSString *)col_type {
     if ([_col_type isEqualToString:@"1"]) {
@@ -45,23 +52,55 @@
 
 - (NSString *)webUrl {
     
+    if (_webUrl) {
+        return _webUrl;
+    }
     switch ([_col_type integerValue]) {
         case 1:
-            return [NSString stringWithFormat:@"%@%@",infoWebJointUrl,_col_id];
+            _webUrl = [NSString stringWithFormat:@"%@%@",infoWebJointUrl,_col_id];
             break;
             
         case 3:
-            return [NSString stringWithFormat:@"%@%@",niuWebJointUrl,_col_id];
+            _webUrl = [NSString stringWithFormat:@"%@%@",niuWebJointUrl,_col_id];
             break;
             
         case 5:
-            return [NSString stringWithFormat:@"%@%@",projecyJointUrl,_col_id];
+            _webUrl = [NSString stringWithFormat:@"%@%@",projecyJointUrl,_col_id];
             break;
             
         default:
-            return nil;
+            _webUrl = @" ";
             break;
     }
+    return _webUrl;
+}
+
+
+
+- (NSString *)shareUrl {
+ 
+    if (_shareUrl) {
+        return _shareUrl;
+    }
+    switch ([_col_type integerValue]) {
+        case 1:
+            _shareUrl = [NSString stringWithFormat:@"%@%@",infoWebShareJointUrl,_col_id];
+            break;
+            
+        case 3:
+            _shareUrl = [NSString stringWithFormat:@"%@%@",niuWebJointUrl,_col_id];
+            break;
+            
+        case 5:
+            _shareUrl = [NSString stringWithFormat:@"%@%@",projecyJointUrl,_col_id];
+            break;
+            
+        default:
+            _shareUrl = @" ";
+            break;
+    }
+    
+    return _shareUrl;
 }
 
 @end

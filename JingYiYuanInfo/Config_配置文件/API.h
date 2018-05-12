@@ -17,6 +17,11 @@
 #define showWebJointUrl  @"http://yyapp.1yuaninfo.com/app/yyfwapp/showdetails.php?id=" // 演出详情拼接的地址
 #define infoVideoJointUrl @"http://yyapp.1yuaninfo.com/app/houtai/" // 视频拼接的地址
 #define infoWebJointUrl  @"http://yyapp.1yuaninfo.com/app/yyfwapp/news-details.php?id=" //资讯详情拼接的地址
+
+#define infoWebShareJointUrl @"http://yyapp.1yuaninfo.com/app/yyfwapp/sharearticles.php?id="  //资讯详情分享拼接的地址
+
+#define picsWebShareJointUrl  @"http://yyapp.1yuaninfo.com/app/yyfwapp/sharepicarticle.php?id="
+
 #define niuWebJointUrl @"http://yyapp.1yuaninfo.com/app/yyfwapp/niu_article.php?id=" //牛人观点详情拼接的地址
 #define projecyJointUrl  @"http://yyapp.1yuaninfo.com/app/yyfwapp/xiangmu-details.php?xmid="
 
@@ -36,9 +41,12 @@
 
 #define pushSellDetailHointUrl @"http://yyapp.1yuaninfo.com/app/houtai/sellpush.php?id="  //推送卖出消息的详情页
 
-#define shareVideoJointUrl @"http://yyapp.1yuaninfo.com/app/share/video_share.php?id="
+#define pushTestDetailJointUrl @"http://yyapp.1yuaninfo.com/app/houtai/pushtest.php"  //测试推送信息的详情页
 
-#define shareNiuVideoJointUrl @"http://yyapp.1yuaninfo.com/app/share/video_share.php?type=niu&id="
+
+#define shareVideoJointUrl @"http://yyapp.1yuaninfo.com/app/share/video_share.php?id="  //资讯视频
+
+#define shareNiuVideoJointUrl @"http://yyapp.1yuaninfo.com/app/share/video_share.php?type=niu&id="  //牛人视频
 
 //请求参数宏
 #define USERID @"userid"

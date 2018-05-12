@@ -25,4 +25,7 @@ typedef void(^HiddenHeaderBlock)(BOOL hidden);
 /** aid*/
 @property (nonatomic, copy) NSString *aid;
 
+/** introduce*/
+@property (nonatomic, copy) NSString *introduce;
+
 @end

@@ -321,7 +321,7 @@
             return;
         }
     }
-    [self.icon sd_setImageWithURL:[NSURL URLWithString:musicModel.picurl] placeholderImage:imageNamed(@"placeholder")];
+    [self.icon sd_setImageWithURL:[NSURL URLWithString:musicModel.picurl] placeholderImage:imageNamed(placeHolderAvatar)];
     [self cutRoundView:self.icon];
     self.songName.text = musicModel.sname;
     self.singerName.text = musicModel.singer;

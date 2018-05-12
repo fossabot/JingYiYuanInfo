@@ -13,6 +13,7 @@
 #import "YYNiuManHeader.h"
 #import "YYNiuManDetailVM.h"
 #import "YYNiuArticleCell.h"
+#import "YYNiuManIntroduceCell.h"
 #import "YYNiuManEmptyCell.h"
 #import "YYNiuArticleModel.h"
 #import "YYNiuNewsDetailViewController.h"
@@ -44,9 +45,11 @@
     [super viewDidLoad];
     
     _followState = NO;
+    self.navigationItem.title = @"牛人";
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.tableView];
     [self loadNewData];
+    [self refreshHeader];
     
 }
 
@@ -74,12 +77,16 @@
 - (void)refreshHeader {
     
     YYNiuManHeader *header = [[NSBundle mainBundle] loadNibNamed:@"YYNiuManHeader" owner:nil options:nil].firstObject;
-    header.frame = CGRectMake(0, 0, kSCREENWIDTH, 195);
+    header.frame = CGRectMake(0, 0, kSCREENWIDTH, 144);
     header.icon = self.imgUrl;
     header.name = self.niuName;
     header.hotVlaue = self.hotValue;
+    header.followVlaue = self.followValue;
     header.introduce = self.introduce;
+    header.niu_id = self.niuid;
     self.tableView.tableHeaderView = header;
+    
+    [header checkFollowState];
     
     YYWeakSelf
     __weak typeof(header) weakHeader = header;
@@ -90,7 +97,17 @@
         weakHeader.frame = frame;
         weakSelf.tableView.tableHeaderView = weakHeader;
     };
+    
+    header.focusChangedBlock = ^(NSString *focusCount){
+        
+        if (weakSelf.focusChangedBlock) {
+            weakSelf.focusChangedBlock(focusCount);
+        }
+    };
 }
+
+
+
 
 /**
  *  加载最新牛人观点
@@ -137,8 +154,6 @@
 
 
 
-
-
 #pragma mark -- lazyMethods 懒加载区域  --------------------------
 
 
@@ -146,6 +161,8 @@
     if (!_viewModel) {
         _viewModel = [[YYNiuManDetailVM alloc] init];
         _viewModel.aid = self.aid;
+        _viewModel.introduce = self.introduce;
+        _viewModel.niuid = self.niuid;
         YYWeakSelf
         _viewModel.cellSelectedBlock = ^(id data, NSIndexPath *indexPath) {
             
@@ -157,6 +174,7 @@
 //            niuNewsDetail.niuId = model.niu_id;
             niuNewsDetail.url = model.webUrl;
             niuNewsDetail.shareImgUrl = model.picurl;
+            niuNewsDetail.newsTitle = model.title;
             [strongSelf.navigationController pushViewController:niuNewsDetail animated:YES];
             
         };
@@ -173,7 +191,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight) style:UITableViewStyleGrouped];
         _tableView.contentInset = UIEdgeInsetsMake(0, 0, YYTabBarH, 0);
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.delegate = self.viewModel;
@@ -187,6 +205,8 @@
         }
         
         [self.tableView registerClass:[YYNiuArticleCell class] forCellReuseIdentifier:YYNiuArticleCellID];
+        [self.tableView registerClass:[YYNiuManIntroduceCell class] forCellReuseIdentifier:YYNiuManIntroduceCellID];
+//        [self.tableView registerNib:[UINib nibWithNibName:@"YYNiuManIntroduceCell" bundle:nil] forCellReuseIdentifier:YYNiuManIntroduceCellID];
         [self.tableView registerNib:[UINib nibWithNibName:@"YYNiuManEmptyCell" bundle:nil] forCellReuseIdentifier:YYNiuManEmptyCellId];
         YYWeakSelf
         YYAutoFooter *footer = [YYAutoFooter footerWithRefreshingBlock:^{
@@ -201,20 +221,6 @@
             [strongSelf loadNewData];
         }];
         _tableView.mj_header = header;
-        
-//        FOREmptyAssistantConfiger *configer = [FOREmptyAssistantConfiger new];
-//        configer.emptyImage = imageNamed(emptyImageName);
-//        configer.emptyTitle = @"暂无数据,点此重新加载";
-//        configer.emptyTitleColor = UnenableTitleColor;
-//        configer.emptyTitleFont = SubTitleFont;
-//        configer.allowScroll = YES;
-//        configer.emptyViewTapBlock = ^{
-//            [weakSelf.tableView.mj_header beginRefreshing];
-//        };
-//        configer.emptyViewDidAppear = ^{
-//            weakSelf.tableView.mj_footer.hidden = YES;
-//        };
-//        [self.tableView emptyViewConfiger:configer];
     }
     return _tableView;
 }

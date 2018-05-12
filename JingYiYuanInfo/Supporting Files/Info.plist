@@ -196,6 +196,8 @@
 	<string>App需要您的同意,才能访问麦克风</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App需要您的同意,才能访问相册</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>App需要您的同意,才能访问图片库资源</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

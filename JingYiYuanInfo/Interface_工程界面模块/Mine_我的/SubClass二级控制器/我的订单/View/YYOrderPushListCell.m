@@ -20,8 +20,18 @@
     [super awakeFromNib];
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.backView.layer.borderWidth = 1.f;
-    self.backView.layer.borderColor = ThemeColor.CGColor;
+//    self.backView.layer.borderWidth = 1.f;
+//    self.backView.layer.borderColor = ThemeColor.CGColor;
+    
+}
+
+
+/** 查看股票详情*/
+- (IBAction)checkDetail:(UIButton *)sender {
+ 
+    if (_recordDetailBlock) {
+        _recordDetailBlock(self);
+    }
     
 }
 
@@ -29,7 +39,7 @@
 - (IBAction)checkYanbao:(UIButton *)sender {
     
     if (_yanbaoBlock) {
-        _yanbaoBlock(self.yanbaoUrl);
+        _yanbaoBlock();
     }
 }
 

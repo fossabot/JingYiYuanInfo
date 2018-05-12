@@ -79,7 +79,7 @@
     }
     YYHotPicsModel *model1 = tempArr[0];
     NSURL *imageUrl = [NSURL URLWithString:model1.img];
-    [_newsPic1 sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [_newsPic1 sd_setImageWithURL:imageUrl placeholderImage:imageNamed(placeHolderMini) options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
         [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
             if (isInCache) {
@@ -98,7 +98,7 @@
 
     YYHotPicsModel *model2 = tempArr[1];
     NSURL *imageUrl2 = [NSURL URLWithString:model2.img];
-    [_newsPic2 sd_setImageWithURL:imageUrl2 placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [_newsPic2 sd_setImageWithURL:imageUrl2 placeholderImage:imageNamed(placeHolderMini) options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
         [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
             if (isInCache) {
@@ -117,7 +117,7 @@
     
     YYHotPicsModel *model3 = tempArr[2];
     NSURL *imageUrl3 = [NSURL URLWithString:model3.img];
-    [_newsPic3 sd_setImageWithURL:imageUrl3 placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [_newsPic3 sd_setImageWithURL:imageUrl3 placeholderImage:imageNamed(placeHolderMini) options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
         [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
             if (isInCache) {

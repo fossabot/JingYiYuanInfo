@@ -9,8 +9,8 @@
 #import "YYMineSubscriptionViewController.h"
 #import "YYSubscribeCell.h"
 #import "YYNiuSubscribeModel.h"
-//#import "YYNiuManDetailViewController.h"
-#import "YYNiuManController.h"
+#import "YYNiuManDetailViewController.h"
+//#import "YYNiuManController.h"
 
 #import <MJExtension/MJExtension.h>
 #import "YYRefresh.h"
@@ -136,13 +136,25 @@
     
     YYWeakSelf
     YYNiuSubscribeModel *model = self.dataSource[indexPath.row];
-    YYNiuManController *niuManVc = [[YYNiuManController alloc] init];
-    niuManVc.subscribleModel = model;
-    niuManVc.focusChangedBlock = ^{
+//    YYNiuManController *niuManVc = [[YYNiuManController alloc] init];
+//    niuManVc.subscribleModel = model;
+    YYNiuManDetailViewController *niuManDetail = [[YYNiuManDetailViewController alloc] init];
+    //            YYNiuManController *niuManVc = [[YYNiuManController alloc] init];
+    //            niuManVc.niuManModel = niuManModel;
+    niuManDetail.niuid = model.niu_id;
+    niuManDetail.aid = model.aid;
+    niuManDetail.imgUrl = model.niu_head;
+    niuManDetail.niuName = model.niu_name;
+    niuManDetail.hotValue = model.niu_pop;
+    niuManDetail.followValue = model.niu_follow;
+    niuManDetail.introduce = model.niu_introduction;
+    
+//    __weak typeof(model) weakModel = model;
+    niuManDetail.focusChangedBlock = ^(NSString *focusCount){
         [weakSelf loadData];
     };
     
-    [self.navigationController pushViewController:niuManVc animated:YES];
+    [self.navigationController pushViewController:niuManDetail animated:YES];
 }
 
 

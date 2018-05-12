@@ -81,7 +81,6 @@
         }
         [strongSelf.tableView.mj_header endRefreshing];
     }];
-
 }
 
 
@@ -127,8 +126,21 @@
             if (indexPath.section == 0) {
                 
                 YYNiuManModel *model = (YYNiuManModel *)data;
-                YYNiuManController *niuManVc = [[YYNiuManController alloc] init];
-                niuManVc.niuManModel = model;
+                YYNiuManDetailViewController *niuManVc = [[YYNiuManDetailViewController alloc] init];
+//                niuManVc.niuManModel = model;
+                niuManVc.imgUrl = model.niu_img1;
+                niuManVc.niuName = model.niu_name;
+                niuManVc.hotValue = model.niu_pop;
+                niuManVc.followValue = model.niu_follow;
+                niuManVc.introduce = model.niu_introduce;
+                niuManVc.aid = model.aid;
+                niuManVc.niuid = model.niu_id;
+                
+                __weak typeof(model) weakModel = model;
+                niuManVc.focusChangedBlock = ^(NSString *focusCount){
+                    
+                    weakModel.niu_follow = focusCount;
+                };
                 niuManVc.jz_wantsNavigationBarVisible = YES;
                 [strongSelf.parentNavigationController pushViewController:niuManVc animated:YES];
                 

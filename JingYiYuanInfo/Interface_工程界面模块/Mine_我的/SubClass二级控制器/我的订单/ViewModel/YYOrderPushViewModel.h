@@ -10,6 +10,8 @@
 
 typedef void(^YanbaoBLock)(NSString *url);
 
+typedef void(^RecordDetailBlock)(NSString *pushId);
+
 @interface YYOrderPushViewModel : YYBaseViewModel
 
 /** orderid*/
@@ -17,5 +19,7 @@ typedef void(^YanbaoBLock)(NSString *url);
 
 /** block*/
 @property (nonatomic, copy) YanbaoBLock yanbaoBlock;
+
+@property (nonatomic, copy) RecordDetailBlock recordDetailBlock;
 
 @end

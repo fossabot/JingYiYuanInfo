@@ -100,7 +100,7 @@
         make.top.equalTo(YYInfoCellCommonMargin);
         make.left.equalTo(YYCommonCellLeftMargin);
         make.width.equalTo(100);
-        make.height.equalTo(70);
+        make.height.equalTo(80);
     }];
     
     [self.companyName makeConstraints:^(MASConstraintMaker *make) {
@@ -148,7 +148,7 @@
 - (void)setCompanyModel:(YYCompanyModel *)companyModel {
     
     _companyModel = companyModel;
-    [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:companyModel.logo] placeholderImage:imageNamed(@"placeholder")];
+    [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:companyModel.logo] placeholderImage:imageNamed(placeHolderMini)];
     self.companyName.text = companyModel.gname;
     self.regMoney.text = companyModel.regmoney;
     

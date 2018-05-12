@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"快讯";
+    self.title = @"快讯列表";
     [self.view addSubview:self.tableView];
     [self loadNewData];
 }
@@ -97,7 +97,14 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     YYFastMsgSecionModel *secModel = self.dataSource[section];
-    tableView.mj_footer.hidden = (secModel.info.count%10 != 0) || secModel.info.count == 0;
+    
+//    tableView.mj_footer.hidden = (secModel.info.count%10 != 0) || secModel.info.count == 0;
+    
+    if ((secModel.info.count%10 != 0) || secModel.info.count == 0) {
+        [tableView.mj_footer endRefreshingWithNoMoreData];
+        tableView.mj_footer.hidden = secModel.info.count == 0;
+    }
+    
     return secModel.info.count;
 }
 
@@ -163,7 +170,7 @@
         _tableView.dataSource = self;
         //contentinset的上边距应该和tableview的高度同步，否则将tableview上移之后，但是高度没有增加，则尾部的加载更多的按钮会出现
         _tableView.contentInset = UIEdgeInsetsMake(-20, 0, 0, 0);
-        _tableView.separatorInset = UIEdgeInsetsMake(0, YYCommonCellLeftMargin, 0, YYCommonCellLeftMargin);
+        _tableView.separatorInset = UIEdgeInsetsMake(0, 16, 0, 14);
         YYWeakSelf
         _tableView.mj_header = [YYNormalHeader headerWithRefreshingBlock:^{
             

@@ -89,7 +89,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 135;
+    return 148;
 }
 
 
@@ -101,6 +101,7 @@
     cell.serviceTimeLabel.text = model.addtime;
     cell.codeNameLabel.text = model.gpdm;
     cell.stateLabel.text = model.isgain;
+    cell.stateImg.image = imageNamed(model.stateImageName);
     cell.yanbaoUrl = model.yanbao;
     
     YYWeakSelf
@@ -109,6 +110,16 @@
         
         [weakSelf checkYanbao:weakModel.yanbao];
     };
+    
+    __weak typeof(tableView) weakTableView = tableView;
+    cell.recordDetailBlock = ^(id cell) {
+      
+        YYOrderPushListCell *pushCell = (YYOrderPushListCell *)cell;
+        NSInteger index = [weakTableView indexPathForCell:pushCell].row;
+        YYOrderPushModel *model = weakSelf.dataSource[index];
+        [weakSelf checkRecordDetail:model.pushId];
+    };
+    
     return cell;
 }
 
@@ -119,6 +130,13 @@
     
     if (_yanbaoBlock) {
         _yanbaoBlock(yanbaoUrl);
+    }
+}
+
+- (void)checkRecordDetail:(NSString *)pushId {
+    
+    if (_recordDetailBlock) {
+        _recordDetailBlock(pushId);
     }
 }
 

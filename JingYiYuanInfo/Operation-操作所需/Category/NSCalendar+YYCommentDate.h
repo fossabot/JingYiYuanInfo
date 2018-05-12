@@ -20,4 +20,14 @@
  */
 + (NSString *)commentDateByOriginalDate:(NSString *)originalDate withDateFormat:(NSString *)dateFormat;
 
+/**
+ *  根据传入参数时间 参照当前时间 更改原始时间的表述方式
+ *
+ *  @param originalDate 原始时间
+ *  @param dateFormat   传入原始日期的格式 such as @"yyyy-MM-dd HH:mm:ss"
+ *
+ *  @return 返回一个根据现在时间间隔 处理过的 日期/时间表示方法
+ */
++ (NSString *)niuCommentDateByOriginalDate:(NSString *)originalDate withDateFormat:(NSString *)dateFormat;
+
 @end

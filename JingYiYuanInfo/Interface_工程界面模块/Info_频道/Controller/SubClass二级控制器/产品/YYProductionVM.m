@@ -145,7 +145,7 @@
     if ([_classid isEqualToString:@"1"]) {
         return 110;
     }
-    return 90;
+    return 100;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

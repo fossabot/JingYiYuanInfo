@@ -206,6 +206,7 @@ static NSString * cellId = @"cellid";
                     YYHotInfoModel *hotInfoModel = (YYHotInfoModel *)data;
                     infoDetail.jz_wantsNavigationBarVisible = YES;
                     infoDetail.url = hotInfoModel.webUrl;
+                    infoDetail.shareUrl = hotInfoModel.shareUrl;
                     infoDetail.shareImgUrl = hotInfoModel.picurl;
                     infoDetail.newsId = hotInfoModel.infoid;
                     __weak typeof(indexPath) weakIndex = indexPath;
@@ -220,12 +221,17 @@ static NSString * cellId = @"cellid";
                     break;
                   
                 case 4:{
-                    YYPicsDetailController *picsDetail = [[YYPicsDetailController alloc] init];
-                    YYHotInfoModel *hotInfoModel = (YYHotInfoModel *)data;
-                    picsDetail.picsModels = hotInfoModel.picarr;
-                    picsDetail.jz_wantsNavigationBarVisible = NO;
+                    YYPicsDetailController *detail = [[YYPicsDetailController alloc] init];
+                    YYHotInfoModel *model = (YYHotInfoModel *)data;
+                    detail.picsModels = model.picarr;
+                    detail.picsModels = model.picarr;
+                    detail.shareTitle = model.title;
+                    detail.shareImageUrl = model.picurl;
+                    detail.shareSubTitle = model.infodescription;
+                    detail.picsId = model.infoid;
+                    detail.jz_wantsNavigationBarVisible = NO;
                     YYLog(@"hotView的父navigationcontroller的地址  %p",strongSelf.parentNavigationController);
-                    [strongSelf.parentNavigationController pushViewController:picsDetail animated:YES];
+                    [strongSelf.parentNavigationController pushViewController:detail animated:YES];
                 }
                     break;
                     

@@ -18,6 +18,9 @@ static NSString * const YYQuestionCellId = @"YYQuestionCell";
 /** 牛人名字*/
 @property (nonatomic, strong) UILabel *name;
 
+/** 提问时间*/
+@property (nonatomic, strong) UILabel *time;
+
 /** title*/
 @property (nonatomic, strong) UILabel *title;
 

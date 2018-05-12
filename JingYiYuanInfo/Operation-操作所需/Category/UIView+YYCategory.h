@@ -16,5 +16,14 @@
 /// 切圆角 必须等View确定尺寸后才能切割  否则视图空白
 - (void)cutRoundViewRadius:(CGFloat)radius;
 
+/**
+ cut一个已知约束的控件的圆角
+ 
+ @param rect 控件的frame
+ @param radius 圆角半径
+ */
+- (void)cutCornerRect:(CGRect)rect radius:(CGFloat)radius;
+
+
 @end
 

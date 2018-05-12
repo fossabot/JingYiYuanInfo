@@ -44,13 +44,13 @@
     self.navigationItem.title = @"我的收藏";
     
     [self.view addSubview:self.tableView];
-    [self loadNewData];
+//    [self loadNewData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    
+    [self loadNewData];
 }
 
 
@@ -131,14 +131,16 @@
         
         YYBaseInfoDetailController *baseInfoDetailVc = [[YYBaseInfoDetailController alloc] init];
         baseInfoDetailVc.newsId = collectionModel.col_id;
-        baseInfoDetailVc.url = [NSString stringWithFormat:@"%@%@",infoWebJointUrl,collectionModel.col_id];
+        baseInfoDetailVc.url = collectionModel.webUrl;
+        baseInfoDetailVc.shareUrl = collectionModel.shareUrl;
         baseInfoDetailVc.shareImgUrl = collectionModel.col_img;
         [self.navigationController pushViewController:baseInfoDetailVc animated:YES];
     }else if ([collectionModel.col_type isEqualToString:@"3"]) {
         
         YYNiuNewsDetailViewController *niuNewsDetailVc = [[YYNiuNewsDetailViewController alloc] init];
         niuNewsDetailVc.niuNewsId = collectionModel.col_id;
-        niuNewsDetailVc.url = [NSString stringWithFormat:@"%@%@",niuWebJointUrl,collectionModel.col_id];
+        niuNewsDetailVc.url = collectionModel.webUrl;
+        niuNewsDetailVc.shareUrl = collectionModel.shareUrl;
         niuNewsDetailVc.shareImgUrl = collectionModel.col_img;
         niuNewsDetailVc.newsTitle = collectionModel.col_title;
         [self.navigationController pushViewController:niuNewsDetailVc animated:YES];
@@ -146,14 +148,12 @@
         
         YYProjectDetailController *projectDetailVc = [[YYProjectDetailController alloc] init];
         projectDetailVc.projectId = collectionModel.col_id;
-        projectDetailVc.url = [NSString stringWithFormat:@"%@%@",projecyJointUrl,collectionModel.col_id];
+        projectDetailVc.url = collectionModel.webUrl;
+        projectDetailVc.shareUrl = collectionModel.shareUrl;
         projectDetailVc.shareImgUrl = collectionModel.col_img;
         [self.navigationController pushViewController:projectDetailVc animated:YES];
     }
 }
-
-
-
 
 
 #pragma -- mark TableViewDelegate  -----------------

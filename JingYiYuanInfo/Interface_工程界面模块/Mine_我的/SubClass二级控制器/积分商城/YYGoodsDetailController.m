@@ -36,7 +36,7 @@
 - (UIButton *)buy{
     if (!_buy) {
         _buy = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_buy setTitle:@"兑换商品" forState:UIControlStateNormal];
+        [_buy setTitle:@"立即兑换" forState:UIControlStateNormal];
         [_buy setTitleColor:WhiteColor forState:UIControlStateNormal];
         [_buy setBackgroundColor:ThemeColor];
         [_buy addTarget:self action:@selector(alertUser) forControlEvents:UIControlEventTouchUpInside];

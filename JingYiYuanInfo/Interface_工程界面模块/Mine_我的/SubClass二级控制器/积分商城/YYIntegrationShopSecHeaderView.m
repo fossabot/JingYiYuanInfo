@@ -14,7 +14,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = LightGraySeperatorColor;
+        self.backgroundColor = WhiteColor;
         [self configSubView];
     }
     return self;
@@ -28,13 +28,13 @@
     
     UILabel *tip = [[UILabel alloc] init];
     tip.textColor = SubTitleColor;
-    tip.font = TitleFont;
+    tip.font = shabiFont5;
     [self addSubview:tip];
     self.tip = tip;
     
     [redView makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.equalTo(YYInfoCellCommonMargin);
+        make.left.equalTo(14);
         make.centerY.equalTo(self);
         make.height.equalTo(15);
         make.width.equalTo(2);
@@ -42,7 +42,7 @@
     
     [tip makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(redView.right).offset(5);
+        make.left.equalTo(redView.right).offset(11);
         make.centerY.equalTo(self);
     }];
     

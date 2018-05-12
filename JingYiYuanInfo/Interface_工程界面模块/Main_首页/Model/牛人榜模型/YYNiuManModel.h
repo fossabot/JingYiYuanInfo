@@ -39,6 +39,8 @@
 
 /** 牛人图片*/
 @property (nonatomic, copy) NSString *niu_img;
+@property (nonatomic, copy) NSString *niu_img1;//方图
+
 
 /** 牛人人气值*/
 @property (nonatomic, copy) NSString *niu_pop;

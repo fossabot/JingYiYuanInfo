@@ -131,6 +131,13 @@
         _lastIndexPath = index;
     };
     
+    cell.yanBaoBlock = ^(NSString *yanBaoUrl) {
+      
+        if (weakSelf.yanBaoBlock) {
+            weakSelf.yanBaoBlock(yanBaoUrl);
+        }
+    };
+    
     //  隐藏每个分区最后一个cell的分割线
     if (indexPath.row == [tableView numberOfRowsInSection:indexPath.section]-1)
     {

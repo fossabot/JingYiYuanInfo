@@ -30,6 +30,10 @@
 /** yanbao 空值为未上传*/
 @property (nonatomic, copy) NSString *yanbao;
 
+/** stateImageName自定义属性 返回该模型对应的状态图片名*/
+@property (nonatomic, copy) NSString *stateImageName;
 
+/** pushId*/
+@property (nonatomic, copy) NSString *pushId;
 
 @end

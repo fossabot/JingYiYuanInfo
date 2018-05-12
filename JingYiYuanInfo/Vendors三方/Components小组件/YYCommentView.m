@@ -113,7 +113,11 @@
         frame.origin.y = keyBoardEndY - 120;
         weakSelf.textViewContainer.frame = frame;
         YYLog(@"_textViewContainerframe:%@",NSStringFromCGRect(weakSelf.textViewContainer.frame));
-    } completion:nil];
+    } completion:^(BOOL finished) {
+        if (keyBoardEndY == kSCREENHEIGHT && finished) {
+            [self resignResponder];
+        }
+    }];
     
 }
 
@@ -224,7 +228,7 @@
     if (!_send) {
         _send = [UIButton buttonWithType:UIButtonTypeCustom];
         [_send setTitle:@"发送" forState:UIControlStateNormal];
-        [_send setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_send setTitleColor:TitleColor forState:UIControlStateNormal];
         [_send setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
         _send.titleLabel.font = TitleFont;
         _send.enabled = NO;
@@ -239,7 +243,7 @@
     if (!_cancel) {
         _cancel = [UIButton buttonWithType:UIButtonTypeCustom];
         [_cancel setTitle:@"取消" forState:UIControlStateNormal];
-        [_cancel setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_cancel setTitleColor:TitleColor forState:UIControlStateNormal];
         _cancel.titleLabel.font = TitleFont;
         [_cancel addTarget:self action:@selector(cancelSend) forControlEvents:UIControlEventTouchUpInside];
     }

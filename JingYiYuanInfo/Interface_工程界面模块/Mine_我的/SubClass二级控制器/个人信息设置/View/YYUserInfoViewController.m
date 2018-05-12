@@ -104,12 +104,13 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
     
-    UIImage *editImage = [editingInfo objectForKey:UIImagePickerControllerOriginalImage];
+//    UIImage *editImage = [editingInfo objectForKey:UIImagePickerControllerEditedImage];
+    UIImage *editImage = image;
     NSData *imageData = UIImageJPEGRepresentation(editImage, 1.0);
     while (imageData.length > 1024*1024) {
         imageData = UIImageJPEGRepresentation([UIImage imageWithData:imageData], 0.5);
     }
-    
+    [picker dismissViewControllerAnimated:YES completion:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
     [self.userInfoViewModel uploadIconToserver:[UIImage imageWithData:imageData] completion:^(BOOL success) {
 

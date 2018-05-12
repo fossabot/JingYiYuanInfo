@@ -327,7 +327,7 @@
             
         case 3:{
             YYMainMarketDataCell *marketdataCell = [tableView dequeueReusableCellWithIdentifier:YYMainMarketDataCellID];
-            [marketdataCell.dataImageView sd_setImageWithURL:[NSURL URLWithString:self.mainModel.zhishu.picurl] placeholderImage:imageNamed(@"placeholder")];
+            [marketdataCell.dataImageView sd_setImageWithURL:[NSURL URLWithString:self.mainModel.zhishu.picurl] placeholderImage:imageNamed(placeHolderLarge)];
             return marketdataCell;
         }
             break;
@@ -364,7 +364,7 @@
     
     CGFloat contentOffsetY = scrollView.contentOffset.y;
     
-    if (contentOffsetY < -40 && self.navView.alpha == 1 && _lock == NO) {
+    if (contentOffsetY < -30 && self.navView.alpha == 1 && _lock == NO) {
         _lock = YES;
         [UIView animateWithDuration:.5f delay:.5 options:UIViewAnimationOptionCurveLinear animations:^{
             self.navView.alpha = 0;
@@ -446,18 +446,55 @@
     YYLogFunc
     YYLog(@"userinfo  ----  %@",notice.userInfo);
     AppDelegate *delegate = (AppDelegate *)kAppDelegate;
+    NSDictionary *userInfo = notice.userInfo;
+    NSString *type = userInfo[@"type"];
+    NSString *isTest = userInfo[@"istest"];
     if (delegate.remoteNotice) {
+        
         //未运行APP接收到远程推送并打开
-        [self handleRemoteNotice:delegate.remoteNotice];
+        if ([type isEqualToString:@"1"] || [type isEqualToString:@"2"] || [type isEqualToString:@"3"] || [type isEqualToString:@"365"] || type == nil) {//1普通资讯, 2演出 3牛人资讯 365推送 仅仅是一条普通通知
+            
+            [self handleRemoteNotice:delegate.remoteNotice];
+        }else if ([type isEqualToString:@"sp_time"] || [type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_sell"]) {//按时间推送  按次数推送  卖出消息
+            
+            if ([isTest isEqualToString:@"1"]) {//1 测试状态 0 非测试状态
+                
+                //测试状态，直接跳转到特色服务的详情页，仅为了查看排版
+                [self lookUpTestService:userInfo];
+            }else {// 0 非测试状态
+                
+                //非测试状态，特色服务必须都得弹框，获取用户的点击意愿
+                [self showAlertNotice:userInfo];
+            }
+            
+        }else if(type == nil) {
+            
+            YYLog(@"后台啥也没发 就是提醒一下用户而已，刷存在感");
+        }else {
+            
+            [self showAlertNotice:userInfo];
+            YYLog(@"发送的type有可能是售出的推送  ----  %@",type);
+        }
+        
         delegate.remoteNotice = nil;
     }else {
-        //    [self handleRemoteNotice:notice.userInfo];
+        
         //已经运行APP之后接收到了远程消息，
-        [self showAlertNotice:notice.userInfo];
+//        if ([isTest isEqualToString:@"1"]) {//1 测试状态 0 非测试状态
+//
+//            //测试状态，直接跳转到特色服务的详情页，仅为了查看排版
+//            [self lookUpTestService:userInfo];
+//        }else {// 0 非测试状态
+//
+//        }
+        //非测试状态，特色服务或者其他普通消息必须都得弹框，获取用户的点击意愿
+        [self showAlertNotice:userInfo];
+    
     }
 }
 
-/** 处理推送的后续动作 跳转详情页*/
+
+/** 处理推送的后续动作 跳转普通资讯的详情页*/
 - (void)handleRemoteNotice:(NSDictionary *)userInfo {
     
     NSString *type = userInfo[@"type"];
@@ -487,7 +524,7 @@
         [vc.navigationController pushViewController:detail animated:YES];
     }else if ([type isEqualToString:@"365"]) {//365推送
         
-        if ([vc isKindOfClass:[YYPushController class]]) {
+        if ([vc isKindOfClass:[YYPushController class]]) {//如果现在正在365推送的界面，那么直接刷新数据就行，不用跳转界面
             [kNotificationCenter postNotificationName:YYReceived365RemoteNotification object:nil userInfo:userInfo];
             return;
         }
@@ -495,21 +532,24 @@
         push.pushId = userInfo[@"id"];
         push.jz_wantsNavigationBarVisible = YES;
         [vc.navigationController pushViewController:push animated:YES];
-    }else if ([type isEqualToString:@"sp_time"]) {//按时间推送
-        
-        [self showAlertNotice:userInfo];
-    }else if ([type isEqualToString:@"sp_num"]) {//按次数推送
-        
-        [self showAlertNotice:userInfo];
     }else if(type == nil) {
         
         YYLog(@"后台啥也没发 就是提醒一下用户而已，刷存在感");
-    }else {
-        
-        [self showAlertNotice:userInfo];
-        YYLog(@"发送的type是售出的推送  ----  %@",type);
     }
+//    else if ([type isEqualToString:@"sp_time"]) {//按时间推送
+//
+//        [self showAlertNotice:userInfo];
+//    }else if ([type isEqualToString:@"sp_num"]) {//按次数推送
+//
+//        [self showAlertNotice:userInfo];
+//    }else {
+//
+//        [self showAlertNotice:userInfo];
+//        YYLog(@"发送的type是售出的推送  ----  %@",type);
+//    }
+    
 }
+
 
 //特色服务需弹框,APP在前台需弹框提醒，是否查看新闻
 - (void)showAlertNotice:(NSDictionary *)userInfo {
@@ -519,6 +559,7 @@
     
     alertTitle = userInfo[@"aps"][@"alert"][@"title"];
     alertBody = userInfo[@"aps"][@"alert"][@"body"];
+    
     NSString *type = userInfo[@"type"];
     
     if ([type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_time"]) {
@@ -531,28 +572,34 @@
     NSString *confirmStr = [[self type:userInfo[@"tip"]] isEqualToString:@"0"] ? @"确定" : @"查看";
     
     YYWeakSelf
-    if(![type isEqualToString:@"sp_sell"]) {//卖出消息
+    if(![type isEqualToString:@"sp_sell"]) {//不是卖出消息才有取消按钮
         
         [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             YYLog(@"点击了取消");
-            if ([type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_time"]) {//按次数推送
+            if ([type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_time"]) {//按次数推送 按时间推送
                 
+                //只有按次数推送或者按时间推送 点击取消才要给后台反馈
                 [weakSelf feedback:userInfo isLookUp:@"0"];
+                
             }else {
-                [weakSelf handleRemoteNotice:userInfo];
+                
+                //如果不是卖出消息到这了，又不是按次或按时间的，说明只能是普通资讯或者365消息，这时候可以不做处理
+                //[weakSelf handleRemoteNotice:userInfo];
             }
         }]];
     }
     
     [alert addAction:[UIAlertAction actionWithTitle:confirmStr style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        if ([type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_time"]) {//按次数推送
+        if ([userInfo[@"istest"] isEqualToString:@"1"]) {//测试的
+            
+            [weakSelf lookUpTestService:userInfo];
+        }else if ([type isEqualToString:@"sp_num"] || [type isEqualToString:@"sp_time"] || [type isEqualToString:@"sp_sell"]) {//按次数推送 或者按时间推送 卖出消息
             
             [weakSelf feedback:userInfo isLookUp:@"1"];
-        }else if ([type isEqualToString:@"sp_sell"]) {//卖出消息
             
-            [weakSelf feedback:userInfo isLookUp:@"1"];
-        }else {
+        }else { //普通资讯或者365
+            
             [weakSelf handleRemoteNotice:userInfo];
         }
     }]];
@@ -561,22 +608,36 @@
 }
 
 
-/* 第一次点击按次推送的消息  确认已查看*/
-- (void)feedback:(NSDictionary *)userInfo isLookUp:(NSString *)isLookUp{
+/**
+ 查看特色服务的方法
+
+ @param userInfo 推送信息
+ @param isLookUp 0不看  1看
+ */
+- (void)feedback:(NSDictionary *)userInfo isLookUp:(NSString *)isLookUp {
     
     YYUser *user = [YYUser shareUser];
     //权限判断
     NSString *type = [self type:userInfo[@"tip"]];
     if ([userInfo[@"type"] isEqualToString:@"sp_sell"]) {
-        //卖出消息
-        NSString *detailUrl = [NSString stringWithFormat:@"%@%@&",pushSellDetailHointUrl,userInfo[@"id"]];
+        
+        
+        //卖出消息 (只有确定按钮，能到这里一定是要跳转详情页)
+        NSString *detailUrl = [NSString stringWithFormat:@"%@%@",pushSellDetailHointUrl,userInfo[@"id"]];
         [self pushDetail:detailUrl];
+        
+        
     }else if ([type isEqualToString:@"1"] && [isLookUp isEqualToString:@"1"]) {
+        
+        
         //有权限并且还点击了查看按钮
         NSString *detailUrl = [NSString stringWithFormat:@"%@?userid=%@&id=%@&type=%@&yesno=%@&orderid=%@",pushDetailJointUrl,user.userid,userInfo[@"id"],type,isLookUp,userInfo[@"orderid"]];
         [self pushDetail:detailUrl];
-    }else {
-        //取消查看的按钮
+        
+        
+    }else {//有权限但点击取消了的操作，或者没权限点击查看都只需要告诉后台，记录一下就好
+       
+        
         NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:userInfo[@"id"],@"id",user.userid,USERID,type,@"type",isLookUp,@"yesno", nil];
         YYWeakSelf
         [YYHttpNetworkTool GETRequestWithUrlstring:pushFeedBackJointUrl parameters:para success:^(id response) {
@@ -590,10 +651,23 @@
         } failure:^(NSError *error) {
             
         } showSuccessMsg:nil];
+        
+        
     }
     
 }
 
+
+/** 查阅测试详情页的方法 为了和正常跳转做区分*/
+- (void)lookUpTestService:(NSDictionary *)userInfo {
+    
+    NSString *detailUrl = [NSString stringWithFormat:@"%@?id=%@&type=%@",pushTestDetailJointUrl,userInfo[@"id"],userInfo[@"type"]];
+    [self pushDetail:detailUrl];
+   
+}
+
+
+/** 服务的跳转方法，最后一步*/
 - (void)pushDetail:(NSString *)detailUrl {
     
     YYTabBarViewController *tab = (YYTabBarViewController *)kKeyWindow.rootViewController;

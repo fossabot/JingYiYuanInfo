@@ -12,6 +12,8 @@ static NSString * const YYOrderPushListCellId = @"YYOrderPushListCell";
 
 typedef void(^YanbaoBlock)();
 
+typedef void(^RecordBlock)(id data);
+
 @interface YYOrderPushListCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel *serviceTimeLabel;
@@ -19,9 +21,12 @@ typedef void(^YanbaoBlock)();
 @property (weak, nonatomic) IBOutlet UILabel *codeNameLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *stateLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *stateImg;
 
 @property (nonatomic, copy) NSString *yanbaoUrl;
 
 @property (nonatomic, copy) YanbaoBlock yanbaoBlock;
+
+@property (nonatomic, copy) RecordBlock recordDetailBlock;
 
 @end

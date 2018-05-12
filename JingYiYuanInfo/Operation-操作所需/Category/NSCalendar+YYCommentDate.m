@@ -48,18 +48,72 @@
         if (![self isSameYearWithOriginalDate:originalTime]) {
             
             NSDateFormatter *tempFormatter = [[NSDateFormatter alloc] init];
-            tempFormatter.dateFormat = @"yyyy-MM-dd";
+            tempFormatter.dateFormat = @"yyyy-MM-dd HH:mm";
             NSString *yearDate = [tempFormatter stringFromDate:originalTime];
             return yearDate;
         }
         
         //去掉秒
-        dateFormatter.dateFormat = @"MM-dd";
+        dateFormatter.dateFormat = @"MM-dd HH:mm";
         return [dateFormatter stringFromDate:originalTime];
     }
     
-    return nil;
+    return @"";
 }
+
+
+/** 牛人问答列表的时间格式*/
++ (NSString *)niuCommentDateByOriginalDate:(NSString *)originalDate withDateFormat:(NSString *)dateFormat {
+    
+    if (!originalDate.length || !dateFormat.length) return @"暂无时间";
+    
+    // 创建日期格式器
+    NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = dateFormat;
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
+    // 获得原始时间
+    NSDate * originalTime = [dateFormatter dateFromString:originalDate];
+    
+    // 详细日期判断
+    if ([self isTheSameDayWithOriginalDate:originalTime]) { // 今天
+        
+        NSCalendar * calendar = [NSCalendar currentCalendar];
+        NSDateComponents * cmp = [calendar components:NSCalendarUnitHour | NSCalendarUnitMinute fromDate:originalTime toDate:[NSDate date] options:NSCalendarWrapComponents];
+        if (cmp.hour >= 1) { // 大于一小时
+            
+            dateFormatter.dateFormat = @"今天 HH:mm:ss";
+//            return [NSString stringWithFormat:@"%ld小时前",cmp.hour];
+            return [dateFormatter stringFromDate:originalTime];
+        } else if (cmp.minute > 1) { // 小于一小时
+            
+            return [NSString stringWithFormat:@"%zd分钟前", cmp.minute];
+        } else { // 小于一分钟
+            return @"刚刚";
+        }
+        
+    } else if ([self isTheYesterdayDayWithOriginalDate:originalTime]) { // 昨天
+        //去掉秒
+        dateFormatter.dateFormat = @"昨天 HH:mm:ss";
+        return [dateFormatter stringFromDate:originalTime];
+    } else { // 昨天之前
+        
+        // 判断是否为同年
+        if (![self isSameYearWithOriginalDate:originalTime]) {
+            
+            NSDateFormatter *tempFormatter = [[NSDateFormatter alloc] init];
+            tempFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+            NSString *yearDate = [tempFormatter stringFromDate:originalTime];
+            return yearDate;
+        }
+        
+        //去掉秒
+        dateFormatter.dateFormat = @"MM-dd HH:mm:ss";
+        return [dateFormatter stringFromDate:originalTime];
+    }
+    
+    return @"暂无时间";
+}
+
 
 
 // 判断是否为同年

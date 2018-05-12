@@ -145,7 +145,10 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     YYOrderModel *model = self.dataSource[indexPath.row];
-    [self checkMore:model.orderId];
+    if (![model.packname isEqualToString:@"产品:365会员"]) {
+        
+        [self checkMore:model.orderId];
+    }
 }
 
 #pragma mark tableview 数据源方法  ---------------------------------

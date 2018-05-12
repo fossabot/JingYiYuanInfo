@@ -175,7 +175,7 @@
     redView.backgroundColor = ThemeColor;
     [header addSubview:redView];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(YYInfoCellCommonMargin*2, 10, 80, 20)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(YYInfoCellCommonMargin*2, 10, 130, 20)];
     label.textColor = SubTitleColor;
     label.font = TitleFont;
     label.text = section == 0 ? @"最新推荐" : @"猜你喜欢";
@@ -388,7 +388,7 @@
             case YYBaseInfoTypeNewsPics:{
                 
                 YYHotInfoModel *model = self.infoDataSource[indexPath.row];
-                _cellSelectedBlock(YYBaseInfoTypeNewsPics, indexPath, model.picarr);
+                _cellSelectedBlock(YYBaseInfoTypeNewsPics, indexPath, model);
             }
                 break;
                 

@@ -100,11 +100,14 @@
                 [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     
                     [YYUser logOut];
+//                    isLoginInotherDevice(YES);
 //                    [kNotificationCenter postNotificationName:YYUserInfoDidChangedNotification object:nil userInfo:@{LASTLOGINSTATUS:@"1"}];
                 }]];
                 [kKeyWindow.rootViewController presentViewController:alert animated:YES completion:^{
                     
                 }];
+            }else {
+                
             }
         }
     } failure:^(NSError *error) {

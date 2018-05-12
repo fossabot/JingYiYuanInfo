@@ -27,4 +27,25 @@
     return contentSize;
 }
 
++ (CGSize)attributeString:(NSAttributedString *)attributeString size:(CGSize)size {
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 3;
+    
+    NSDictionary *info = @{NSFontAttributeName:sysFont(13),NSParagraphStyleAttributeName:paragraphStyle};
+    return [self attributeString:attributeString attribute:info size:size];
+    
+}
+
++ (CGSize)attributeString:(NSAttributedString *)attributeString attribute:(NSDictionary *)attribute size:(CGSize)size {
+    
+    CGSize contentSize = [attributeString.string boundingRectWithSize:size
+                                                              options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                                           attributes:attribute
+                                                              context:nil].size;
+
+    return contentSize;
+}
+
+
 @end

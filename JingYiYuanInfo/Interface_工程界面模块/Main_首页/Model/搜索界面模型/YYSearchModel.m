@@ -19,4 +19,15 @@
              };
 }
 
+- (NSString *)webUrl {
+    
+    _webUrl = [NSString stringWithFormat:@"%@%@",infoWebJointUrl,_searchId];
+    return _webUrl;
+}
+
+- (NSString *)shareUrl {
+    _shareUrl = [NSString stringWithFormat:@"%@%@",infoWebShareJointUrl,_searchId];
+    return _shareUrl;
+}
+
 @end

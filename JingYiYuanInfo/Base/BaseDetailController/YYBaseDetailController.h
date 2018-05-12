@@ -12,11 +12,15 @@
 #import "BAButton.h"
 #import <WebKit/WebKit.h>
 #import "PageSlider.h"
+#import "ZWHTMLSDK.h"
 
 @interface YYBaseDetailController : THBaseViewController<WKNavigationDelegate,WKUIDelegate>
 
 /** webview详情页的url*/
 @property (nonatomic, copy) NSString *url;
+
+/** shareUrl分享的链接*/
+@property (nonatomic, copy) NSString *shareUrl;
 
 /** 文章的id*/
 @property (nonatomic, copy) NSString *artId;
@@ -35,6 +39,8 @@
 
 /** tipView*/
 @property (nonatomic, strong) BAButton *tipView;
+
+@property (nonatomic, strong) ZWHTMLSDK *htmlSDK;
 
 /**
  *  分享方法

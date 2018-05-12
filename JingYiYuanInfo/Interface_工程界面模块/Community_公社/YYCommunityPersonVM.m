@@ -278,7 +278,7 @@
     redview.backgroundColor = ThemeColor;
     [view addSubview:redview];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 15, 100, 20)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 15, 150, 20)];
     label.backgroundColor = [UIColor whiteColor];
     label.text = @[@"牛人推荐",@"牛人观点推荐"][section];
     label.textAlignment = NSTextAlignmentLeft;

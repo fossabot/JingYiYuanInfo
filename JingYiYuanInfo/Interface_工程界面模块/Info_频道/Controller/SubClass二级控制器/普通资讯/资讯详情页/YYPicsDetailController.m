@@ -9,8 +9,7 @@
 #import "YYPicsDetailController.h"
 #import "PhotoCell.h"
 #import "YYHotPicsModel.h"
-
-//#import "JPNavigationControllerKit.h"
+#import "ShareView.h"
 
 @interface YYPicsDetailController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
 
@@ -22,6 +21,9 @@
 
 /** back*/
 @property (nonatomic, strong) UIButton *back;
+
+/** share*/
+@property (nonatomic, strong) UIButton *share;
 
 /** images*/
 @property (nonatomic, strong) NSMutableArray *images;
@@ -70,6 +72,7 @@
     
     [self.view addSubview:self.collectionView];
     [self.view addSubview:self.back];
+    [self.view addSubview:self.share];
     
     UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(0, kSCREENHEIGHT-40, kSCREENWIDTH, 40)];
     commentView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
@@ -113,9 +116,19 @@
 }
 
 
+/** 返回*/
 - (void)pop {
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+/** 分享图集*/
+- (void)shareWeb:(UIButton *)sender {
+    
+    NSString *shareUrl = [NSString stringWithFormat:@"%@%@",picsWebShareJointUrl,self.picsId];
+    [ShareView shareWithTitle:self.shareTitle subTitle:@"" webUrl:shareUrl imageUrl:self.shareImageUrl isCollected:NO shareViewContain:nil shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
+        
+    }];
 }
 
 
@@ -172,6 +185,7 @@
             
             strongSelf.commentView.hidden = !strongSelf.commentView.hidden;
             strongSelf.back.hidden = strongSelf.commentView.hidden;
+            strongSelf.share.hidden = strongSelf.commentView.hidden;
         }];
     };
     
@@ -216,6 +230,18 @@
         [_back addTarget:self action:@selector(pop) forControlEvents:UIControlEventTouchUpInside];
     }
     return _back;
+}
+
+- (UIButton *)share {
+    
+    if (!_share) {
+        _share = [UIButton buttonWithType:UIButtonTypeCustom];
+        _share.frame = CGRectMake(kSCREENWIDTH - 50, 30, 40, 40);
+        _share.showsTouchWhenHighlighted = YES;
+        [_share setImage:imageNamed(@"share_32x32") forState:UIControlStateNormal];
+        [_share addTarget:self action:@selector(shareWeb:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _share;
 }
 
 

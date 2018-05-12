@@ -19,6 +19,7 @@
 #import "YYOrderPushViewModel.h"
 #import "YYOrderPushListCell.h"
 #import "YYYanbaoDetailController.h"
+#import "YYPushRecordController.h"
 
 #import "YYRefresh.h"
 
@@ -37,6 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = GrayBackGroundColor;
     self.navigationItem.title = @"服务记录";
     [self.view addSubview:self.tableView];
     [self loadData];
@@ -94,9 +96,11 @@
 - (THBaseTableView *)tableView{
     if (!_tableView) {
         _tableView = [[THBaseTableView alloc] initWithFrame:CGRectMake(0, 0, kSCREENWIDTH, kSCREENHEIGHT-YYTopNaviHeight)    style:UITableViewStylePlain];
+        _tableView.backgroundColor = GrayBackGroundColor;
         _tableView.delegate = self.viewModel;
         _tableView.dataSource = self.viewModel;
         _tableView.tableFooterView = [[UIView alloc] init];
+        _tableView.contentInset = UIEdgeInsetsMake(10, 0, 10, 0);
         [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([YYOrderPushListCell class]) bundle:nil] forCellReuseIdentifier:YYOrderPushListCellId];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
@@ -150,6 +154,13 @@
                 [SVProgressHUD showImage:nil status:@"暂无研报"];
                 [SVProgressHUD dismissWithDelay:1];
             }
+        };
+        
+        _viewModel.recordDetailBlock = ^(NSString *pushId) {
+          
+            YYPushRecordController *pushRecordVc = [[YYPushRecordController alloc] init];
+            pushRecordVc.pushId = pushId;
+            [weakSelf.navigationController pushViewController:pushRecordVc animated:YES];
         };
     }
     return _viewModel;

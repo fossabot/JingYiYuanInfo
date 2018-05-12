@@ -248,6 +248,7 @@
                     YYBaseInfoDetailController *detail = [[YYBaseInfoDetailController alloc] init];
                     YYHotInfoModel *hotInfoModel = (YYHotInfoModel *)data;
                     detail.url = hotInfoModel.webUrl;
+                    detail.shareUrl = hotInfoModel.shareUrl;
                     detail.shareImgUrl = hotInfoModel.picurl;
                     detail.subTitle = hotInfoModel.infodescription;
                     detail.newsId = hotInfoModel.infoid;
@@ -264,8 +265,12 @@
                 case YYBaseInfoTypeNewsPics:{
                     //多图新闻
                     YYPicsDetailController *detail = [[YYPicsDetailController alloc] init];
-                    detail.picsModels = (NSArray *)data;
-//                    detail.shareImgUrl = hotInfoModel.picurl;
+                    YYHotInfoModel *model = (YYHotInfoModel *)data;
+                    detail.picsModels = model.picarr;
+                    detail.shareTitle = model.title;
+                    detail.shareImageUrl = model.picurl;
+                    detail.shareSubTitle = model.infodescription;
+                    detail.picsId = model.infoid;
                     detail.jz_wantsNavigationBarVisible = NO;
                     [strongSelf.navigationController pushViewController:detail animated:YES];
                 }

@@ -12,6 +12,7 @@
 #import "MJExtension.h"
 
 #import "ShareView.h"
+#import "YYUser.h"
 
 @interface YYMineViewModel()
 
@@ -110,9 +111,13 @@
         }
         
     }else if ([model.destinationVc isEqualToString:@""]) {//分享壹元服务
-        [ShareView shareWithTitle:@"壹元服务" subTitle:@"提供专业的投资理财咨询" webUrl:@"http://www.1yuaninfo.com" imageUrl:nil isCollected:NO shareViewContain:nil shareContentType:nil finished:^(ShareViewType shareViewType, BOOL isFavor) {
+        [ShareView shareWithTitle:@"壹元服务" subTitle:@"提供专业的投资理财咨询" webUrl:@"https://itunes.apple.com/us/app/壹元服务/id1266188538?l=zh&ls=1&mt=8" imageUrl:nil isCollected:NO shareViewContain:nil shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
             
-            //不是收藏和字体，无须操作，分享接口直接调用umeng分享接口将信息分享出去
+            if (isFavor) {
+                
+                //不是收藏和字体，无须操作，分享接口直接调用umeng分享接口将信息分享出去
+                [self shareAppSuccess];
+            }
         }];
         
     }else {
@@ -125,13 +130,36 @@
     
 }
 
+/** 分享APP成功*/
+- (void)shareAppSuccess {
+    
+    YYUser *user = [YYUser shareUser];
+    NSDictionary *para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,@"fenxiang",@"act", nil];
+    [YYHttpNetworkTool GETRequestWithUrlstring:mineChangeUserInfoUrl parameters:para success:^(id response) {
+        
+        NSString *toast = response[@"addintegral"];
+        YYLog(@"修改成功获得 %@ 积分",toast);
+        if (toast.length) {
+            [SVProgressHUD showImage:nil status:[NSString stringWithFormat:@"修改成功获得 %@ 积分",toast]];
+        }else {
+            [SVProgressHUD showImage:nil status:@"修改成功"];
+        }
+        [SVProgressHUD dismissWithDelay:1];
+    
+    } failure:^(NSError *error) {
+        
+    } showSuccessMsg:nil];
+}
+
+
 #pragma -- mark TableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString*cellID = @"cellID";
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator ;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.textColor = TitleColor;
     }
     YYMineCellModel *model = self.dataSource[indexPath.section][indexPath.row];
     cell.imageView.image = imageNamed(model.icon);

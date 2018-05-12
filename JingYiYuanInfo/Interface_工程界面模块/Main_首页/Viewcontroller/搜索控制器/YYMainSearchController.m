@@ -326,6 +326,7 @@
             YYBaseInfoDetailController * detail = [[YYBaseInfoDetailController alloc] init];
             detail.newsId = searchModel.searchId;
             detail.url = [NSString stringWithFormat:@"%@%@",infoWebJointUrl,searchModel.searchId];
+            detail.shareUrl = searchModel.shareUrl;
             detail.jz_wantsNavigationBarVisible = YES;
             [self.navigationController pushViewController:detail animated:YES];
         }

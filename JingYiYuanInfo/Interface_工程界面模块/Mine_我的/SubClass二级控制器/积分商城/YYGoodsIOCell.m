@@ -35,13 +35,13 @@
     [self.contentView addSubview:title];
     
     UILabel *integral = [[UILabel alloc] init];
-    integral.textColor = ThemeColor;
-    integral.font = UnenableTitleFont;
+    integral.textColor = OrangeColor;
+    integral.font = SubTitleFont;
     self.integral = integral;
     [self.contentView addSubview:integral];
     
     UILabel *time = [[UILabel alloc] init];
-    time.font = UnenableTitleFont;
+    time.font = shabiFont2;
     time.textColor = UnenableTitleColor;
     self.time = time;
     [self.contentView  addSubview:time];
@@ -50,7 +50,7 @@
        
         make.left.top.equalTo(self.contentView).offset(15);
         make.width.equalTo(100);
-        make.height.equalTo(70);
+        make.height.equalTo(80);
         
     }];
     
@@ -58,18 +58,18 @@
        
         make.left.equalTo(self.leftImageView.right).offset(10);
         make.top.equalTo(self.leftImageView);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.right.equalTo(-YYCommonCellRightMargin);
     }];
     
     [self.integral makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.equalTo(self.title.left);
-        make.top.equalTo(self.title.bottom).offset(2);
+        make.left.equalTo(self.title.left).offset(1);
+        make.bottom.equalTo(self.leftImageView.bottom);
     }];
     
     [self.time makeConstraints:^(MASConstraintMaker *make) {
        
-        make.left.equalTo(self.title);
+        make.right.equalTo(-YYCommonCellRightMargin);
         make.bottom.equalTo(self.leftImageView);
     }];
     

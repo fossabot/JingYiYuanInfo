@@ -7,25 +7,43 @@
 //
 
 #import "YYOrderPushModel.h"
+#import <MJExtension/MJExtension.h>
 
 @implementation YYOrderPushModel
 
++ (NSDictionary *)mj_replacedKeyFromPropertyName {
+    
+    return @{
+             @"pushId":@"id"
+             };
+}
+
 - (NSString *)addtime {
-    return [NSString stringWithFormat:@"购买时间：%@",_addtime];
+    return [NSString stringWithFormat:@"服务时间：%@",_addtime];
 }
 
 - (NSString *)gpdm {
-    return [NSString stringWithFormat:@"股票代码：%@",_gpdm];
+    return [NSString stringWithFormat:@"代码名称：%@",_gpdm];
+}
+
+- (NSString *)stateImageName {
+    if ([_isgain isEqualToString:@"0"]) {
+        return @"order_success";
+    }else if ([_isgain isEqualToString:@"1"]){
+        return @"order_fail";
+    }else {
+        return @"order_holding";
+    }
 }
 
 - (NSString *)isgain {
     
     if ([_isgain isEqualToString:@"0"]) {
-        return @"状态：成功";
+        return @"成功";
     }else if ([_isgain isEqualToString:@"1"]){
-        return @"状态：失败";
+        return @"失败";
     }else {
-        return @"状态：持股中";
+        return @"持股中";
     }
 }
 

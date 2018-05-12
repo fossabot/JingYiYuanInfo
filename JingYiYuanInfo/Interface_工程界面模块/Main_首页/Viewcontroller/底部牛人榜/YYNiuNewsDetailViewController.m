@@ -77,8 +77,6 @@
 }
 
 
-
-
 #pragma mark -- inner Methods 自定义方法  -------------------------------
 
 - (void)share {
@@ -129,8 +127,20 @@
     self.toolBar.transform = CGAffineTransformMakeTranslation(0, -ToolBarHeight);
     [self checkCollectState];
     
+    ZWHTMLOption *option = [[ZWHTMLOption alloc] init];
+//    option.filterURL = @[@"http://yyapp.1yuaninfo.com/app/yyfwapp/img/dianzan.png",@"http://yyapp.1yuaninfo.com/app/yyfwapp/img/shanchu.png"];
+    option.getAllImageCoreJS = OPTION_DefaultCoreJS;
+    self.htmlSDK = [ZWHTMLSDK zw_loadBridgeJSWebview:webView withOption:option];
+    
+    
 }
 
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    
+    decisionHandler(WKNavigationActionPolicyAllow);
+    [self.htmlSDK zw_handlePreviewImageRequest:navigationAction.request];
+    
+}
 
 -(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     

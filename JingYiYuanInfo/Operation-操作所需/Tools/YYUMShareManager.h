@@ -23,7 +23,7 @@
  @param imageUrl 图片地址，没有回默认是logo
  @param umsocialType 分享的平台
  */
-+ (void)shareWeburl:(NSString *)weburl title:(NSString *)title desc:(NSString *)desc thumbUrl:(NSString *)imageUrl platform:(UMSocialPlatformType)umsocialType;
++ (void)shareWeburl:(NSString *)weburl title:(NSString *)title desc:(NSString *)desc thumbUrl:(NSString *)imageUrl platform:(UMSocialPlatformType)umsocialType completion:(void(^)(BOOL complete))complettion;
 
 /**
  分享图片的接口

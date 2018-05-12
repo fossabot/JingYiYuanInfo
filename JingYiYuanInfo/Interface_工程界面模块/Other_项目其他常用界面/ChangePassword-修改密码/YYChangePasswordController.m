@@ -75,8 +75,8 @@
                               allowOthers:nil];
     
     //输入框添加监听事件，监听输入长度，使重置密码按钮可点击
-    [self.oldPwdTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
-    [self.changedPwdTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+//    [self.oldPwdTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+//    [self.changedPwdTextField addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
 }
 
 
@@ -120,7 +120,7 @@
     UIButton *changePwd = [UIButton buttonWithType:UIButtonTypeCustom];
     [changePwd setTitle:@"确定" forState:UIControlStateNormal];
     changePwd.layer.cornerRadius = 5;
-    changePwd.backgroundColor = UnactiveButtonColor;
+    changePwd.backgroundColor = ThemeColor;
     [changePwd setTitleColor:WhiteColor forState:UIControlStateNormal];
     changePwd.titleLabel.font = TitleFont;
     [changePwd addTarget:self action:@selector(commit:) forControlEvents:UIControlEventTouchUpInside];
@@ -163,7 +163,7 @@
     [self.changePwd makeConstraints:^(MASConstraintMaker *make) {
        
         make.centerX.equalTo(self.view);
-        make.top.equalTo(self.view2.bottom).offset(50);
+        make.top.equalTo(self.view2.bottom).offset(40);
         make.width.equalTo(kSCREENWIDTH-60);
         make.height.equalTo(40);
     }];
@@ -196,12 +196,18 @@
 
 - (BOOL)validToChange {
     
-    if(self.oldPwdTextField.text.length >= 6 && self.changedPwdTextField.text.length >= 6){
-        
+    if (self.oldPwdTextField.text.length < 6 ){
+        [SVProgressHUD showErrorWithStatus:@"旧密码长度不足6位"];
+        [SVProgressHUD dismissWithDelay:1];
+        return NO;
+    }else if (self.changedPwdTextField.text.length < 6 ){
+        [SVProgressHUD showErrorWithStatus:@"新密码长度不足6位"];
+        [SVProgressHUD dismissWithDelay:1];
+        return NO;
+    }else {
         return YES;
     }
     
-    return NO;
 }
 
 

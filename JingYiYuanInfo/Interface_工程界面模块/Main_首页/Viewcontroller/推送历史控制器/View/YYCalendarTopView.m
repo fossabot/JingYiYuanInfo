@@ -115,6 +115,9 @@
 /** 根据weekday转换成中文周几*/
 - (NSString *)weekDayFromComponents:(NSDateComponents *)components {
     
+    if ([[NSDate date] isEqualToComponents:components]) {//今天
+        return @"今天";
+    }
     switch (components.weekday) {
         case 1:
             return @"周日";
@@ -191,6 +194,11 @@
     YYCalendarCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CalendarCollectionCellID forIndexPath:indexPath];
     YYCalendarTopViewModel *model = self.dataSource[indexPath.row];
     cell.weekDayLabel.text = model.weekDay;
+    if ([model.weekDay isEqualToString:@"今天"]) {
+        cell.weekDayLabel.textColor = ThemeColor;
+    }else {
+        cell.weekDayLabel.textColor = BlackColor;
+    }
     [cell.dateButton setTitle:model.dateStr forState:UIControlStateNormal];
 //    [cell.dateButton setTitle:model.dateStr forState:UIControlStateSelected];
     if (model.isSelected) {

@@ -8,7 +8,7 @@
 
 #import "THBaseViewController.h"
 
-typedef void(^FocusChangedBlock)();
+typedef void(^FocusBlock)(NSString *focusCount);
 
 @interface YYNiuManDetailViewController : THBaseViewController
 
@@ -25,11 +25,14 @@ typedef void(^FocusChangedBlock)();
 @property (nonatomic, copy) NSString *niuName;
 /** hotValue*/
 @property (nonatomic, copy) NSString *hotValue;
+/** followValue*/
+@property (nonatomic, copy) NSString *followValue;
+
 /** introduce*/
 @property (nonatomic, copy) NSString *introduce;
 
 
-@property (nonatomic, copy) FocusChangedBlock focusChangedBlock;
+@property (nonatomic, copy) FocusBlock focusChangedBlock;
 
 
 @end

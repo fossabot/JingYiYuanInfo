@@ -8,6 +8,11 @@
 
 #import "YYCalendarCollectionCell.h"
 
+@interface YYCalendarCollectionCell ()
+
+
+
+@end
 
 @implementation YYCalendarCollectionCell
 

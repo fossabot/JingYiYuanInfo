@@ -12,6 +12,7 @@ static NSString * const YYPushCellId = @"YYPushCell";
 
 @class YYPushListCellModel;
 
+typedef void(^YanBaoBlock)(NSString *yanBaoUrl);
 typedef void(^ExtendBlock)(id cell, BOOL selected);
 
 @interface YYPushCell : UITableViewCell
@@ -28,7 +29,12 @@ typedef void(^ExtendBlock)(id cell, BOOL selected);
 /** ExtendBlock*/
 @property (nonatomic, copy) ExtendBlock extendBlock;
 
+/** 研报block*/
+@property (nonatomic, copy) YanBaoBlock yanBaoBlock;
+
 /** 展开cell或者闭合*/
 - (void)extened;
+
+- (void)isHaveYanBao;
 
 @end

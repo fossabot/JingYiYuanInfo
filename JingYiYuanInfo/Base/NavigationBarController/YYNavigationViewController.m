@@ -27,12 +27,12 @@
     UINavigationBar *navBar = [UINavigationBar appearance];
     [navBar setBarTintColor:NaviColor];
     [navBar setTintColor:WhiteColor];
-    [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:18]}];
+    [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : WhiteColor, NSFontAttributeName : [UIFont systemFontOfSize:20]}];
     [navBar setBackgroundImage:[UIImage imageWithColor:ThemeColor] forBarMetrics:UIBarMetricsDefault];
     
     //导航栏左右文字主题
     UIBarButtonItem *barButtonItem = [UIBarButtonItem appearance];
-    [barButtonItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:16]} forState:UIControlStateNormal];
+    [barButtonItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:17]} forState:UIControlStateNormal];
     
 }
 

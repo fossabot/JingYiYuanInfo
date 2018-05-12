@@ -16,5 +16,10 @@
 //搜索结果的标题
 @property (nonatomic, copy) NSString *title;
 
+/** webUrl*/
+@property (nonatomic, copy) NSString *webUrl;
+
+/** shareUrl*/
+@property (nonatomic, copy) NSString *shareUrl;
 
 @end

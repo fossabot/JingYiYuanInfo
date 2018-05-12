@@ -64,44 +64,44 @@ static const CGFloat contentPadding = 16;
     
     UILabel *title = [[UILabel alloc] init];
     title.textColor = TitleColor;
-    title.font = TitleFont;
+    title.font = shabiFont5;
     self.title = title;
     [self.container addSubview:title];
     
     UILabel *state = [[UILabel alloc] init];
     state.textColor = ThemeColor;
-    state.font = TitleFont;
+    state.font = shabiFont5;
     state.textAlignment = NSTextAlignmentRight;
     self.state = state;
     [self.container addSubview:state];
     
     UILabel *orderId = [[UILabel alloc] init];
     orderId.textColor = TitleColor;
-    orderId.font = TitleFont;
+    orderId.font = shabiFont5;
     self.orderId = orderId;
     [self.container addSubview:orderId];
     
     UILabel *price = [[UILabel alloc] init];
     price.textColor = TitleColor;
-    price.font = TitleFont;
+    price.font = shabiFont5;
     self.price = price;
     [self.container addSubview:price];
     
     UILabel *expireTime = [[UILabel alloc] init];
     expireTime.textColor = TitleColor;
-    expireTime.font = TitleFont;
+    expireTime.font = shabiFont5;
     self.expireTime = expireTime;
     [self.container addSubview:expireTime];
     
     UILabel *money = [[UILabel alloc] init];
     money.textColor = TitleColor;
-    money.font = TitleFont;
+    money.font = shabiFont5;
     self.money = money;
     [self.container addSubview:money];
     
     UILabel *buyTime = [[UILabel alloc] init];
     buyTime.textColor = TitleColor;
-    buyTime.font = TitleFont;
+    buyTime.font = shabiFont5;
     self.buyTime = buyTime;
     [self.container addSubview:buyTime];
     
@@ -115,7 +115,7 @@ static const CGFloat contentPadding = 16;
     cancelOrderBtn.backgroundColor = ClearColor;
     [cancelOrderBtn setTitleColor:SubTitleColor forState:UIControlStateNormal];
     [cancelOrderBtn setTitleColor:UnenableTitleColor forState:UIControlStateDisabled];
-    cancelOrderBtn.titleLabel.font = sysFont(12);
+    cancelOrderBtn.titleLabel.font = shabiFont2;
     cancelOrderBtn.layer.borderColor = UnenableTitleColor.CGColor;
     cancelOrderBtn.layer.borderWidth = 1;
     cancelOrderBtn.layer.cornerRadius = 2;
@@ -206,9 +206,11 @@ static const CGFloat contentPadding = 16;
     self.buyTime.text = model.buytime;
     if ([model.packname isEqualToString:@"产品:365会员"]) {
         self.cancelOrderBtn.hidden = YES;
+        self.moreBtn.hidden = YES;
         return;
     }else {
         self.cancelOrderBtn.hidden = NO;
+        self.moreBtn.hidden = NO;
     }
     NSString *cancelState;
     BOOL cancelEnable = YES;
@@ -245,7 +247,7 @@ static const CGFloat contentPadding = 16;
 /** 查看研报*/
 - (void)checkMore {
     
-    if (_moreBlock) {
+    if (_moreBlock && ![self.model.packname isEqualToString:@"产品:365会员"]) {
         _moreBlock(_model.orderId);
     }
 }

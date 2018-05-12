@@ -67,7 +67,7 @@
 
 @implementation YYThreeSeekDetailController
 {
-    BOOL _tabSelecting;
+    BOOL _tabSelecting;//在手动选中tab时，调用setcontentOffset也会触发scrollViewDidScroll，这时如果不对手动状态加以判断的话，会不听调用if语句判断滑到哪儿了，然后乱闪
 }
 #pragma mark -- lifeCycle 生命周期  --------------------------------
 
@@ -101,7 +101,7 @@
 - (void)refreshData {
   
     
-    [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:self.companyDetailModel.logo] placeholderImage:imageNamed(@"placeholder")];
+    [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:self.companyDetailModel.logo] placeholderImage:imageNamed(placeHolderMini)];
     
     self.companyName.text = self.companyDetailModel.gname;
     self.regMoney.text = self.companyDetailModel.regmoney;
@@ -195,7 +195,7 @@
         }];
     }else {
         if (!self.relativeProductions.count) {
-            return 250;
+            return 210;
         }
         return 110;
 //        [tableView fd_heightForCellWithIdentifier:YYProductionCellId cacheByIndexPath:indexPath configuration:^(YYProductionCell *cell) {
@@ -278,15 +278,17 @@
     if (!_tabSelecting) {
         
         CGFloat offsetY = scrollView.contentOffset.y;
-        
-        if (offsetY <= [_tableView rectForHeaderInSection:1].origin.y ) { //公司简介的区域（小于section1的头部y）
+
+        if (scrollView.contentSize.height - offsetY <= scrollView.frame.size.height) {
+            
+            [self.tabView letMeSelectIndex:2];
+        }else if (offsetY <= [_tableView rectForHeaderInSection:1].origin.y ) { //公司简介的区域（小于section1的头部y）
             
             [self.tabView letMeSelectIndex:0];
         }else if (offsetY >= [_tableView rectForHeaderInSection:1].origin.y && offsetY < [_tableView rectForHeaderInSection:2].origin.y ) {
             
             [self.tabView letMeSelectIndex:1];
         }else {
-            
             [self.tabView letMeSelectIndex:2];
         }
     }
@@ -313,7 +315,9 @@
     self.logoImageView = logoImageView;
     
     UILabel *companyName = [[UILabel alloc] init];
-    companyName.font = TitleFont;
+    companyName.numberOfLines = 2;
+    companyName.textColor = YYRGB(37, 37, 37);
+    companyName.font = sysFont(18);
     [self.view addSubview:companyName];
     self.companyName = companyName;
     
@@ -347,6 +351,7 @@
     
     [self.view addSubview:self.tabView];
     [self.view addSubview:self.tableView];
+    
 }
 
 
@@ -363,7 +368,7 @@
     [self.logoImageView makeConstraints:^(MASConstraintMaker *make) {
        
         make.left.top.equalTo(self.view).offset(10);
-        make.height.equalTo(70);
+        make.height.equalTo(80);
         make.width.equalTo(100);
     }];
     
@@ -437,8 +442,8 @@
     
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 100, 20)];
     title.text = [[self titles] objectAtIndex:section];
-    title.font = TitleFont;
-    title.textColor = TitleColor;
+    title.font = NavTitleFont;
+    title.textColor = YYRGB(37, 37, 37);
     [view addSubview:title];
     
     return view;

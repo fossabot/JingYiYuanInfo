@@ -39,9 +39,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *integration;
 
 
-/** signView*/
-@property (nonatomic, strong) YYSignBgView *signView;
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *settingTopConstraint;
 
 @end
@@ -130,6 +127,7 @@
 
 
 - (YYSignBgView *)signView{
+
     if (!_signView) {
         _signView = [[YYSignBgView alloc] initWithFrame:CGRectMake(kSCREENWIDTH-signW, self.yy_height-signH, signW, signH)];
         [_signView addTarget:self action:@selector(signButtonClick:) forControlEvents:UIControlEventTouchUpInside];

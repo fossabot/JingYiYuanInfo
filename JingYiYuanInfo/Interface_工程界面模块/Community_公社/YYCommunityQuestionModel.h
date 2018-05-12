@@ -31,8 +31,14 @@
 /** niu_img*/
 @property (nonatomic, copy) NSString *niu_img;
 
+/** niu_img*/
+@property (nonatomic, copy) NSString *niu_img1;
+
 /** articleId*/
 @property (nonatomic, copy) NSString *articleId;
+
+/** niu_id*/
+@property (nonatomic, copy) NSString *niu_id;
 
 /** title*/
 @property (nonatomic, copy) NSString *title;
@@ -40,8 +46,14 @@
 /** description*/
 @property (nonatomic, copy) NSString *desc;
 
+/** descAttributeStr*/
+@property (nonatomic, copy) NSAttributedString *descAttributeStr;
+
 /** picurl*/
 @property (nonatomic, copy) NSString *picurl;
+
+/** posttime*/
+@property (nonatomic, copy) NSString *posttime;
 
 
 @end

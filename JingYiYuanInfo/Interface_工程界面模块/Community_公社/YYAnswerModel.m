@@ -19,21 +19,25 @@
              };
 }
 
-- (NSString *)content {
-    if (!_content) {
-        return @"暂无回复";
-    }
-    return _content;
-}
+//- (NSString *)content {
+//    if (!_content.length) {
+//        return @"暂无回复";
+//    }
+//    return _content;
+//}
 
 - (NSString *)posttime {
     
     if (_posttime && _posttime.length) {
-        NSString *time = [NSCalendar commentDateByOriginalDate:_posttime withDateFormat:yyyyMMddHHmmss];
+        NSString *time = [NSCalendar niuCommentDateByOriginalDate:_posttime withDateFormat:yyyyMMddHHmmss];
         
         return [NSString stringWithFormat:@"%@回复",time];
+    }else {
+        
+        NSString *time = [NSCalendar niuCommentDateByOriginalDate:_qtime withDateFormat:yyyyMMddHHmmss];
+        return [NSString stringWithFormat:@"%@",time];
     }
-    return @"";
+    
 }
 
 @end

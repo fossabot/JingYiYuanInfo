@@ -68,7 +68,7 @@
     if (!_sdCycleScrollView) {
         _sdCycleScrollView = [[SDCycleScrollView alloc] init];
         _sdCycleScrollView.delegate = self;
-        _sdCycleScrollView.placeholderImage = imageNamed(@"placeholder");
+        _sdCycleScrollView.placeholderImage = imageNamed(placeHolderLarge);
     }
     return _sdCycleScrollView;
 }

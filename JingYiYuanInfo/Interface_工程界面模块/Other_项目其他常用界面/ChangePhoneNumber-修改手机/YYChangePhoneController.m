@@ -76,8 +76,8 @@
                               allowOthers:nil];
     
     //输入框添加监听事件，监听输入长度，使重置密码按钮可点击
-    [self.telephoneText addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
-    [self.verificationText addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+//    [self.telephoneText addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+//    [self.verificationText addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
 }
 
 /** 监听新旧密码的输入长度*/
@@ -91,12 +91,19 @@
 }
 
 - (BOOL)validToChange {
-    if(self.telephoneText.text.length == 11 && self.verificationText.text.length >= 6){
-        
-        return YES;
-    }else {
+    
+    if (self.telephoneText.text.length < 11 ){
+        [SVProgressHUD showErrorWithStatus:@"手机号格式不正确"];
+        [SVProgressHUD dismissWithDelay:1];
         return NO;
+    }else if (self.verificationText.text.length < 6 ){
+        [SVProgressHUD showErrorWithStatus:@"验证码长度不足6位"];
+        [SVProgressHUD dismissWithDelay:1];
+        return NO;
+    }else {
+        return YES;
     }
+    
 }
 
 #pragma mark -- layout 子控件配置及相关布局方法  ---------------------------
@@ -149,7 +156,7 @@
     
     UIButton *changePhone = [UIButton buttonWithType:UIButtonTypeCustom];
     [changePhone setTitle:@"确定" forState:UIControlStateNormal];
-    changePhone.backgroundColor = UnactiveButtonColor;
+    changePhone.backgroundColor = ThemeColor;
     changePhone.layer.cornerRadius = 5;
     [changePhone setTitleColor:WhiteColor forState:UIControlStateNormal];
     changePhone.titleLabel.font = TitleFont;
@@ -210,6 +217,8 @@
 
 /** 修改手机号*/
 - (void)changePhoneNum {
+    
+    if (![self validToChange]) return;
     
     [self.view endEditing:YES];
     YYWeakSelf

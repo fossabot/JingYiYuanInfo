@@ -10,12 +10,18 @@
 
 @interface YYQuestionDetailController : THBaseViewController
 
+/** 牛人id  关注牛人时使用*/
+@property (nonatomic, copy) NSString *niu_id;
+
+
 /** articleId文章id  根据这个查相关回复*/
 @property (nonatomic, copy) NSString *articleId;
 
 @property (nonatomic, copy) NSString *iconUrl;
 @property (nonatomic, copy) NSString *nameStr;
+@property (nonatomic, copy) NSString *timeStr;
 @property (nonatomic, copy) NSString *titleStr;
-@property (nonatomic, copy) NSString *questionStr;
+@property (nonatomic, copy) NSAttributedString *questionStr;
+
 
 @end

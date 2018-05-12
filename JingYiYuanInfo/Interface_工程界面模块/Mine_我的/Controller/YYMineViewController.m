@@ -68,7 +68,9 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
     [YYLoginManager checkLogInOtherDevice];
+    
 }
 
 #pragma mark -- inner Methods 自定义方法  -------------------------------
@@ -87,6 +89,7 @@
         //登录成功,是登录操作发来的通知，换个人信息头部
         self.tableView.tableHeaderView = nil;
         self.tableView.tableHeaderView = self.headView;
+        [self.headView changeSignState];
         [self.headView setUser:user];
     }else if (notice && [notice.userInfo[LASTLOGINSTATUS] isEqualToString:@"1" ] && !loginStatus) {
         //退出成功,是退出操作发来的通知，换无信息头部
@@ -94,6 +97,7 @@
         self.tableView.tableHeaderView = self.logOutHeaderView;
     }else if (notice && [notice.userInfo[LASTLOGINSTATUS] isEqualToString:@"1" ] && loginStatus){
         //过去是登录，现在还是登录，说明只是简单的修改个人信息
+        [self.headView changeSignState];
         [self.headView setUser:user];
     }else if (loginStatus && !notice){
         //如果是没有通知，并且是登录状态，说明只是初始化登录过的MineVC而已
@@ -101,6 +105,7 @@
             self.tableView.tableHeaderView = nil;
             self.tableView.tableHeaderView = self.headView;
         }
+        [self.headView changeSignState];
         [self.headView setUser:user];
     }else if (!loginStatus && !notice) {
         //如果是退出状态，并且没有通知，说明只是初始化未登录的MineVC而已

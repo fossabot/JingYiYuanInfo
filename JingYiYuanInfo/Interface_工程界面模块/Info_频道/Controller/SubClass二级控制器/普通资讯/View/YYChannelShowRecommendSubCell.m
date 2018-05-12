@@ -7,6 +7,7 @@
 //
 
 #import "YYChannelShowRecommendSubCell.h"
+#import "UIView+YYCategory.h"
 
 @interface YYChannelShowRecommendSubCell()
 
@@ -26,25 +27,17 @@
         [self.imageView makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView).insets(UIEdgeInsetsZero);
         }];
+        [self.imageView cutCornerRect:CGRectMake(0, 0, 120, 90) radius:10];
     }
     return self;
 }
 
+
 - (void)setImgUrl:(NSString *)imgUrl {
     _imgUrl = imgUrl;
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:imageNamed(@"placeholder")];
-    [self cutRoundView:self.imageView];
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:imageNamed(placeHolderMini)];
 }
 
-// 切圆角
-- (void)cutRoundView:(UIImageView *)imageView
-{
-    CGFloat corner = 10;
-    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:imageView.bounds byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(corner, corner)];
-    shapeLayer.path = path.CGPath;
-    imageView.layer.mask = shapeLayer;
-}
 
 
 

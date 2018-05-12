@@ -165,9 +165,9 @@
     
     
     UIButton *registeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    registeButton.enabled = NO;
+//    registeButton.enabled = NO;
     registeButton.titleLabel.font = TitleFont;
-    registeButton.backgroundColor = UnactiveButtonColor;
+    registeButton.backgroundColor = ThemeColor;
     [registeButton setTitle:@"注册" forState:UIControlStateNormal];
     [registeButton setTitleColor:WhiteColor forState:UIControlStateNormal];
     [registeButton addTarget:self action:@selector(registeButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -314,9 +314,9 @@
                                allowOthers:nil];
     
     //输入框添加监听事件，监听输入长度，使注册按钮可点击
-    [self.telephoneTextfield addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
-    [self.passwordTextfield addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
-    [self.verificationTextfield addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+//    [self.telephoneTextfield addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+//    [self.passwordTextfield addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
+//    [self.verificationTextfield addTarget:self action:@selector(observeLengthForTextField:) forControlEvents:UIControlEventEditingChanged];
     
 }
 
@@ -329,11 +329,29 @@
 }
 
 - (BOOL)validToRegiste {
-    if(self.telephoneTextfield.text.length == 11 && self.passwordTextfield.text.length >= 6 && self.verificationTextfield.text.length == 6){
-        return YES;
-    }else {
+
+    //    if(self.telephoneTextfield.text.length == 11 && self.passwordTextfield.text.length >= 6 && self.verificationTextfield.text.length == 6){
+//        return YES;
+//    }else {
+//        return NO;
+//    }
+    
+    if (self.telephoneTextfield.text.length < 11 ){
+        [SVProgressHUD showErrorWithStatus:@"手机号格式不正确"];
+        [SVProgressHUD dismissWithDelay:1];
         return NO;
+    }else if (self.passwordTextfield.text.length < 6) {
+        [SVProgressHUD showErrorWithStatus:@"密码长度不足6位"];
+        [SVProgressHUD dismissWithDelay:1];
+        return NO;
+    }else if (self.verificationTextfield.text.length != 6) {
+        [SVProgressHUD showErrorWithStatus:@"验证码长度不正确"];
+        [SVProgressHUD dismissWithDelay:1];
+        return NO;
+    }else {
+        return YES;
     }
+    
 }
 
 
@@ -378,6 +396,8 @@
 
 /** 注册按钮事件*/
 - (void)registeButtonClick:(UIButton *)sender {
+    
+    if (![self validToRegiste]) return;
     
     [self.view endEditing:YES];
     //注册操作，尚未完成

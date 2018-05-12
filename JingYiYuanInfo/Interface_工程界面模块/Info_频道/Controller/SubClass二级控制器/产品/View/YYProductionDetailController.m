@@ -63,7 +63,7 @@
     if (!_mobile.length) {
         _mobile = @"010-87777077";
     }
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"产品提示" message:_tip preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:_tip preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         if ([kApplication canOpenURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@",_mobile]]]) {
@@ -105,7 +105,22 @@
     [webView evaluateJavaScript:js completionHandler:nil];
     _buy.enabled = YES;
     [SVProgressHUD dismiss];
+    
+    ZWHTMLOption *option = [[ZWHTMLOption alloc] init];
+    option.filterURL = @[@"http://yyapp.1yuaninfo.com/app/yyfwapp/img/dianzan.png",@"http://yyapp.1yuaninfo.com/app/yyfwapp/img/shanchu.png"];
+    option.getAllImageCoreJS = OPTION_DefaultCoreJS;
+    self.htmlSDK = [ZWHTMLSDK zw_loadBridgeJSWebview:webView withOption:option];
+    
+    
 }
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    
+    decisionHandler(WKNavigationActionPolicyAllow);
+    [self.htmlSDK zw_handlePreviewImageRequest:navigationAction.request];
+    
+}
+
 
 -(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     

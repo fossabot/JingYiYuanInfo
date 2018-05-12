@@ -8,6 +8,8 @@
 
 #import "YYCommunityQuestionModel.h"
 #import <MJExtension/MJExtension.h>
+#import "NSCalendar+YYCommentDate.h"
+
 
 @implementation YYCommunityQuestionModel
 
@@ -33,6 +35,20 @@
         return _niu_img;
     }
     return [NSString stringWithFormat:@"%@%@",yyappJointUrl,_niu_img];
+}
+
+- (NSString *)posttime {
+    return [NSCalendar niuCommentDateByOriginalDate:_posttime withDateFormat:yyyyMMddHHmmss];
+}
+
+- (void)setDesc:(NSString *)desc {
+    _desc = desc;
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 3;
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+    
+    self.descAttributeStr = [[NSAttributedString alloc] initWithString:desc attributes:@{NSFontAttributeName:sysFont(13),NSParagraphStyleAttributeName:paragraphStyle}];
 }
 
 @end

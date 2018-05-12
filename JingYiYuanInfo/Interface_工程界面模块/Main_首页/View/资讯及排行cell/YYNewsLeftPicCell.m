@@ -74,7 +74,7 @@
     NSURL *imageUrl = [NSURL URLWithString:hotinfoModel.picurl];
 //    [_newsPic sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder")];
     YYWeakSelf
-    [_newsPic sd_setImageWithURL:imageUrl placeholderImage:imageNamed(@"placeholder") options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [_newsPic sd_setImageWithURL:imageUrl placeholderImage:imageNamed(placeHolderMini) options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         
         [manager diskImageExistsForURL:imageURL completion:^(BOOL isInCache) {
             if (isInCache) {

@@ -43,6 +43,9 @@
 /** checktime 推送的时间*/
 @property (nonatomic, copy) NSString *checktime;
 
+/** 研报地址*/
+@property (nonatomic, copy) NSString *yanbao;
+
 /** extendState展开状态  默认是NO*/
 @property (nonatomic, assign) BOOL extendState;
 
@@ -50,6 +53,9 @@
 @property (nonatomic, assign) BOOL isHaveExtendBtn;
 
 @property (nonatomic, assign) NSInteger lines;
+
+/** isShowYanBao*/
+@property (nonatomic, assign) BOOL isShowYanBao;
 
 /**
  *  获取内容的属性字符串

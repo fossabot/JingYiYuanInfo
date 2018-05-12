@@ -106,7 +106,6 @@
         
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
-#warning 没有MJHeader
         
         YYWeakSelf
         YYBackStateFooter *footer = [YYBackStateFooter footerWithRefreshingBlock:^{

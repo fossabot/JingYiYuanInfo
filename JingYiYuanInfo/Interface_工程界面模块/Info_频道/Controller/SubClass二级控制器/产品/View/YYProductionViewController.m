@@ -45,11 +45,11 @@
 - (void)setUpAllChildViewControllers {
     
     YYProductionListController *produtionVc = [[YYProductionListController alloc] init];
-    produtionVc.yp_tabItemTitle = @"按产品分类";
+    produtionVc.yp_tabItemTitle = @"产品分类";
     produtionVc.classid = @"1";
     
     YYProductionListController *companyVc = [[YYProductionListController alloc] init];
-    companyVc.yp_tabItemTitle = @"按公司分类";
+    companyVc.yp_tabItemTitle = @"公司分类";
     companyVc.classid = @"2";
     
     self.viewControllers = [NSArray arrayWithObjects:produtionVc, companyVc, nil];

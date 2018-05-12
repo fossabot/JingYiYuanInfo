@@ -9,6 +9,9 @@
 #import "YYProjectCell.h"
 #import "YYProjectModel.h"
 #import "YYTagView.h"
+#import "YYMineOnlineChatViewController.h"
+#import "UIView+YYParentController.h"
+
 
 @interface YYProjectCell()
 
@@ -88,10 +91,11 @@
     self.hits = hits;
     
     UIButton *connect = [UIButton buttonWithType:UIButtonTypeCustom];
-    connect.titleLabel.font = SubTitleFont;
+    connect.titleLabel.font = shabiFont2;
     [connect setBackgroundColor:OrangeColor];
     [connect setTitleColor:WhiteColor forState:UIControlStateNormal];
     connect.layer.cornerRadius = 2;
+    [connect addTarget:self action:@selector(connectUs:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:connect];
     self.connect = connect;
     
@@ -134,8 +138,8 @@
     
     [self.hits makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.tag1.right).offset(YYInfoCellSubMargin);
-        make.centerY.equalTo(self.tag1);
+        make.left.equalTo(self.tag1.right);
+        make.bottom.equalTo(self.leftImageView);
     }];
     
     [self.connect makeConstraints:^(MASConstraintMaker *make) {
@@ -143,17 +147,40 @@
         make.right.offset(-YYCommonCellRightMargin);
         make.bottom.equalTo(self.leftImageView);
         make.width.equalTo(70);
-        make.height.equalTo(25);
+        make.height.equalTo(20);
     }];
     
 }
 
-
+/** 联系*/
+- (void)connectUs:(UIButton *)sender {
+    
+    YYWeakSelf
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请通过以下方式联系我们" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *qq = [UIAlertAction actionWithTitle:@"QQ交流" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        YYMineOnlineChatViewController *online = [[YYMineOnlineChatViewController alloc] init];
+        [weakSelf.parentNavigationController pushViewController:online animated:YES];
+    }];
+    UIAlertAction *mobile = [UIAlertAction actionWithTitle:@"电话沟通" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if ([kApplication canOpenURL:[NSURL URLWithString:@"telprompt://010-87777077"]]) {
+            [kApplication openURL:[NSURL URLWithString:@"telprompt://010-87777077"]];
+        }
+    }];
+    UIAlertAction *giveUp = [UIAlertAction actionWithTitle:@"放弃" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alert addAction:qq];
+    [alert addAction:mobile];
+    [alert addAction:giveUp];
+    
+    [kKeyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
+}
 
 - (void)setProjectModel:(YYProjectModel *)projectModel {
     
     _projectModel = projectModel;
-    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:projectModel.picurl] placeholderImage:imageNamed(@"placeholder")];
+    [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:projectModel.picurl] placeholderImage:imageNamed(placeHolderMini)];
     if (projectModel.label.length) {
         self.imageTagLabel.hidden = NO;
         self.imageTagLabel.text = projectModel.label;
@@ -163,13 +190,21 @@
     self.title.text = projectModel.title;
     self.subTitle.text = projectModel.desc;
     
-    self.tag1.title = projectModel.auth_tag;
-//    if (![projectModel.auth_tag isEqualToString:@""]) {
+
+    if (projectModel.auth_tag.length) {
+        self.tag1.title = projectModel.auth_tag;
+//        [self.hits updateConstraints:^(MASConstraintMaker *make) {
 //
-//    }else {
+//            make.centerY.equalTo(self.tag1);
+//        }];
+    }else {
+        self.tag1.title = @"";
+//        [self.hits updateConstraints:^(MASConstraintMaker *make) {
 //
-//    }
-    [self.tag1 setNeedsLayout];
+//            make.bottom.equalTo(self.leftImageView);
+//        }];
+    }
+//    [self.tag1 setNeedsLayout];
     self.hits.text = projectModel.hits;
     [self.connect setTitle:@"在线咨询" forState:UIControlStateNormal];
     

@@ -89,6 +89,7 @@ static NSString * const logOutCellID = @"logOutCell";
                     switchBtn.onTintColor = ThemeColor;
                     [switchBtn addTarget:self action:@selector(switchBtnClick:) forControlEvents:UIControlEventValueChanged];
                     cell.accessoryView = switchBtn;
+                    cell.textLabel.textColor = TitleColor;
                 }
 //                cell.detailTextLabel.font = SubTitleFont;
                 cell.textLabel.text = settingModel.title;
@@ -106,6 +107,7 @@ static NSString * const logOutCellID = @"logOutCell";
                 if (!cell) {
                     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:subTitleCellID];
                     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    cell.textLabel.textColor = TitleColor;
                 }
 //                cell.detailTextLabel.font = SubTitleFont;
                 cell.textLabel.text = settingModel.title;
@@ -122,6 +124,7 @@ static NSString * const logOutCellID = @"logOutCell";
             cell.accessoryType = UITableViewCellAccessoryNone;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textAlignment = NSTextAlignmentCenter;
+            cell.textLabel.textColor = TitleColor;
         }
         YYUser *user = [YYUser shareUser];
         if (user.isLogin) {

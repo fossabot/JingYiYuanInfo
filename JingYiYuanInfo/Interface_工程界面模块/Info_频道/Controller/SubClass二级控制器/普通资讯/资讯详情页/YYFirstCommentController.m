@@ -191,6 +191,7 @@
                 [SVProgressHUD showSuccessWithStatus:@"评论成功"];
                 
                 YYCommentModel *model = [[YYCommentModel alloc] init];
+                model.commentid = response[@"id"];
                 model.zan_count = @"0";
                 model.avatar = user.avatar;
                 model.username = user.username;
@@ -198,8 +199,8 @@
                 model.reply_msg = commentStr;
                 model.create_date = now;
                 model.flag = @"0";
-                [strongSelf.dataSource insertObject:model atIndex:0];
-                NSIndexPath *indexPath0 = [NSIndexPath  indexPathForRow:0 inSection:1];
+                [strongSelf.dataSource addObject:model];
+                NSIndexPath *indexPath0 = [NSIndexPath indexPathForRow:strongSelf.dataSource.count-1 inSection:1];
                 [strongSelf.tableView insertRowsAtIndexPaths:@[indexPath0] withRowAnimation:UITableViewRowAnimationNone];
                 [strongSelf.toolBar clearText];
             }else {
@@ -220,7 +221,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return 2;
+    NSInteger i = 0;
+    if (self.hotDataSource.count) {
+        i++;
+    }
+    if (self.dataSource.count) {
+        i++;
+    }
+    return i;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void(^YanBaoModelBlock)(NSString *yanBaoUrl);
 typedef void(^CellSelectBlock)(id cell, NSIndexPath *indexPath);
 
 @interface YYPushViewModel : NSObject<UITableViewDelegate,UITableViewDataSource>
@@ -18,6 +19,7 @@ typedef void(^CellSelectBlock)(id cell, NSIndexPath *indexPath);
 /** 推送历史列表请求方法*/
 - (void)fetchDataWithDate:(NSString *)date completion:(void(^)(BOOL success))completion;
 
-
+/** yan*/
+@property (nonatomic, copy) YanBaoModelBlock yanBaoBlock;
 
 @end

@@ -21,7 +21,7 @@
  @param umsocialType 分享的平台
  */
 
-+ (void)shareWeburl:(NSString *)weburl title:(NSString *)title desc:(NSString *)desc thumbUrl:(NSString *)imageUrl platform:(UMSocialPlatformType)umsocialType {
++ (void)shareWeburl:(NSString *)weburl title:(NSString *)title desc:(NSString *)desc thumbUrl:(NSString *)imageUrl platform:(UMSocialPlatformType)umsocialType completion:(void (^)(BOOL))complettion {
     
     //创建分享消息对象
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
@@ -42,6 +42,9 @@
     
     [[UMSocialManager defaultManager] shareToPlatform:umsocialType messageObject:messageObject currentViewController:nil completion:^(id result, NSError *error) {
         if (error) {
+            if (complettion) {
+                complettion(NO);
+            }
             [SVProgressHUD showErrorWithStatus:@"分享失败"];
             [SVProgressHUD dismissWithDelay:1];
             YYLog(@"************ 分享网页错误 ************");
@@ -51,6 +54,9 @@
                 YYLog(@"************ 友盟分享返回的信息 ：%@",response.message);
                 YYLog(@"************ 第三方原始的返回信息 ：%@",response.originalResponse);
                 
+                if (complettion) {
+                    complettion(YES);
+                }
                 [SVProgressHUD showSuccessWithStatus:@"分享成功"];
                 [SVProgressHUD dismissWithDelay:1];
             }else{

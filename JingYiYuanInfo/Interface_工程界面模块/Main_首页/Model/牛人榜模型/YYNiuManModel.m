@@ -28,9 +28,18 @@
     
     NSInteger pop = [_niu_pop integerValue];
     if (pop >= 10000) {
-        return [NSString stringWithFormat:@"%.2lf万",(float)pop/10000];
+        return [NSString stringWithFormat:@" %.2lf万",(float)pop/10000];
     }
-    return _niu_pop;
+    return [@" " stringByAppendingString:_niu_pop];
+}
+
+- (NSString *)niu_follow {
+    
+    NSInteger pop = [_niu_follow integerValue];
+    if (pop >= 10000) {
+        return [NSString stringWithFormat:@" %.2lf万",(float)pop/10000];
+    }
+    return [@" " stringByAppendingString:_niu_follow];
 }
 
 @end

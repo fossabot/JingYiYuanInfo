@@ -266,6 +266,7 @@
                 YYLog(@"回复er级评论成功");
                 [SVProgressHUD showSuccessWithStatus:@"评论成功"];
                 YYSecCommentModel *secModel = [[YYSecCommentModel alloc] init];
+                secModel.secComment_id = response[@"id"];
                 secModel.zan_count = @"0";
                 secModel.user_avatar = user.avatar;
                 secModel.from_user_name = user.username;

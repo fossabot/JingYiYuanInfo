@@ -22,7 +22,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate *date = [formatter dateFromString:_addtime];
-    [formatter setDateFormat:@"HH:mm:ss"];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString *returnDate = [formatter stringFromDate:date];
     
     _formatterTime = returnDate;

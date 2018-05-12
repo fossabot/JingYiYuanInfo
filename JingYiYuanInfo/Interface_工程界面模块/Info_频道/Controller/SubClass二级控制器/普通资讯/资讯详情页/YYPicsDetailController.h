@@ -15,4 +15,14 @@
 /** hotpicsModel*/
 @property (nonatomic, strong) NSArray<YYHotPicsModel *> *picsModels;
 
+/** shareTitle*/
+@property (nonatomic, copy) NSString *shareTitle;
+@property (nonatomic, copy) NSString *shareSubTitle;
+
+/** shareImageUrl*/
+@property (nonatomic, copy) NSString *shareImageUrl;
+
+/** picsId*/
+@property (nonatomic, copy) NSString *picsId;
+
 @end

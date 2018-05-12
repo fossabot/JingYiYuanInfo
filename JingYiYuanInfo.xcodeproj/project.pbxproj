@@ -18,6 +18,8 @@
 		BF0FAB202085DD1A0022F92F /* NSObjectSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = BF0FAB1F2085DD1A0022F92F /* NSObjectSafe.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BF0FAB23208613FD0022F92F /* YYNiuManController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF0FAB22208613FD0022F92F /* YYNiuManController.m */; };
 		BF0FAB26208614AC0022F92F /* YYNiuManIntroduceController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF0FAB25208614AC0022F92F /* YYNiuManIntroduceController.m */; };
+		BF1056D520A0760E001EC710 /* YYNiuManIntroduceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF1056D320A0760E001EC710 /* YYNiuManIntroduceCell.m */; };
+		BF1056D920A0D25D001EC710 /* YYEightBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = BF1056D820A0D25D001EC710 /* YYEightBtn.m */; };
 		BF1D12F11F76532900C389C4 /* YYBaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BF1D12F01F76532900C389C4 /* YYBaseViewModel.m */; };
 		BF21C88D1F6BAF0F00BB0DB7 /* YYProductionListController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF21C88C1F6BAF0F00BB0DB7 /* YYProductionListController.m */; };
 		BF21C8901F6BAF4E00BB0DB7 /* YYCompanyListController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF21C88F1F6BAF4E00BB0DB7 /* YYCompanyListController.m */; };
@@ -67,6 +69,7 @@
 		BF48FB0B2021CB4F0004BA5E /* YYOrderPushViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48FB0A2021CB4F0004BA5E /* YYOrderPushViewModel.m */; };
 		BF48FB0F2021EE460004BA5E /* YYOrderPushModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48FB0E2021EE460004BA5E /* YYOrderPushModel.m */; };
 		BF48FB12202218F10004BA5E /* YYYanbaoDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF48FB11202218F10004BA5E /* YYYanbaoDetailController.m */; };
+		BF51CEAB2092194D009C9F99 /* YYWebviewImageScanView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF51CEAA2092194D009C9F99 /* YYWebviewImageScanView.m */; };
 		BF538A12207381C800D50B96 /* YYBackNormalFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = BF538A11207381C800D50B96 /* YYBackNormalFooter.m */; };
 		BF538A15207382F400D50B96 /* YYStateHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = BF538A14207382F400D50B96 /* YYStateHeader.m */; };
 		BF538A1D20738D5D00D50B96 /* NSString+YYDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = BF538A1C20738D5D00D50B96 /* NSString+YYDevice.m */; };
@@ -166,6 +169,17 @@
 		BFC1FD201F7A44DE00593D81 /* YYIODetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC1FD1F1F7A44DE00593D81 /* YYIODetailController.m */; };
 		BFC1FD231F7A454100593D81 /* YYProductionHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC1FD221F7A454100593D81 /* YYProductionHistoryController.m */; };
 		BFC1FD261F7A79B000593D81 /* YYMainMarketDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC1FD251F7A79B000593D81 /* YYMainMarketDataModel.m */; };
+		BFCE02B820A18AB500E736B3 /* YYPushRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCE02B720A18AB500E736B3 /* YYPushRecordController.m */; };
+		BFCE02BB20A18B8800E736B3 /* YYPushRereadController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCE02BA20A18B8800E736B3 /* YYPushRereadController.m */; };
+		BFCE02CA20A1F6A900E736B3 /* ZWPagePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCE02BF20A1F6A800E736B3 /* ZWPagePickerView.m */; };
+		BFCE02CB20A1F6A900E736B3 /* ZWPhotoAskSaveView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCE02C020A1F6A800E736B3 /* ZWPhotoAskSaveView.m */; };
+		BFCE02CC20A1F6A900E736B3 /* ZWPhotoPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCE02C120A1F6A800E736B3 /* ZWPhotoPreviewCell.m */; };
+		BFCE02CD20A1F6A900E736B3 /* ZWPhotoPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCE02C520A1F6A800E736B3 /* ZWPhotoPreview.m */; };
+		BFCE02CE20A1F6A900E736B3 /* ZWPhotoPreviewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCE02C620A1F6A800E736B3 /* ZWPhotoPreviewConfig.m */; };
+		BFCE02CF20A1F6A900E736B3 /* ZWPhotoPreviewDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCE02C720A1F6A800E736B3 /* ZWPhotoPreviewDataModel.m */; };
+		BFCE02D620A1F6BF00E736B3 /* ZWHTMLSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCE02D120A1F6BE00E736B3 /* ZWHTMLSDK.m */; };
+		BFCE02D720A1F6BF00E736B3 /* ZWHTMLJS.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BFCE02D320A1F6BE00E736B3 /* ZWHTMLJS.bundle */; };
+		BFCE02D820A1F6BF00E736B3 /* ZWHTMLOption.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCE02D520A1F6BE00E736B3 /* ZWHTMLOption.m */; };
 		BFD1244C1F6AC8E2000AB5A9 /* YYPicsDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD1244B1F6AC8E2000AB5A9 /* YYPicsDetailController.m */; };
 		BFD124521F6AED37000AB5A9 /* DismissAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD1244F1F6AED37000AB5A9 /* DismissAnimation.m */; };
 		BFD124531F6AED37000AB5A9 /* PresentAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD124511F6AED37000AB5A9 /* PresentAnimation.m */; };
@@ -469,6 +483,10 @@
 		BF0FAB22208613FD0022F92F /* YYNiuManController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYNiuManController.m; sourceTree = "<group>"; };
 		BF0FAB24208614AC0022F92F /* YYNiuManIntroduceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYNiuManIntroduceController.h; sourceTree = "<group>"; };
 		BF0FAB25208614AC0022F92F /* YYNiuManIntroduceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYNiuManIntroduceController.m; sourceTree = "<group>"; };
+		BF1056D220A0760E001EC710 /* YYNiuManIntroduceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYNiuManIntroduceCell.h; sourceTree = "<group>"; };
+		BF1056D320A0760E001EC710 /* YYNiuManIntroduceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYNiuManIntroduceCell.m; sourceTree = "<group>"; };
+		BF1056D720A0D25D001EC710 /* YYEightBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYEightBtn.h; sourceTree = "<group>"; };
+		BF1056D820A0D25D001EC710 /* YYEightBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYEightBtn.m; sourceTree = "<group>"; };
 		BF11275F20722BFC004D7F31 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		BF1D12EF1F76532900C389C4 /* YYBaseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYBaseViewModel.h; sourceTree = "<group>"; };
 		BF1D12F01F76532900C389C4 /* YYBaseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYBaseViewModel.m; sourceTree = "<group>"; };
@@ -566,6 +584,8 @@
 		BF48FB0E2021EE460004BA5E /* YYOrderPushModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYOrderPushModel.m; sourceTree = "<group>"; };
 		BF48FB10202218F10004BA5E /* YYYanbaoDetailController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYYanbaoDetailController.h; sourceTree = "<group>"; };
 		BF48FB11202218F10004BA5E /* YYYanbaoDetailController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYYanbaoDetailController.m; sourceTree = "<group>"; };
+		BF51CEA92092194D009C9F99 /* YYWebviewImageScanView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYWebviewImageScanView.h; sourceTree = "<group>"; };
+		BF51CEAA2092194D009C9F99 /* YYWebviewImageScanView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYWebviewImageScanView.m; sourceTree = "<group>"; };
 		BF538A10207381C800D50B96 /* YYBackNormalFooter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYBackNormalFooter.h; sourceTree = "<group>"; };
 		BF538A11207381C800D50B96 /* YYBackNormalFooter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYBackNormalFooter.m; sourceTree = "<group>"; };
 		BF538A13207382F400D50B96 /* YYStateHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYStateHeader.h; sourceTree = "<group>"; };
@@ -758,6 +778,27 @@
 		BFC1FD221F7A454100593D81 /* YYProductionHistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYProductionHistoryController.m; sourceTree = "<group>"; };
 		BFC1FD241F7A79B000593D81 /* YYMainMarketDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYMainMarketDataModel.h; sourceTree = "<group>"; };
 		BFC1FD251F7A79B000593D81 /* YYMainMarketDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYMainMarketDataModel.m; sourceTree = "<group>"; };
+		BFCE02B620A18AB500E736B3 /* YYPushRecordController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYPushRecordController.h; sourceTree = "<group>"; };
+		BFCE02B720A18AB500E736B3 /* YYPushRecordController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYPushRecordController.m; sourceTree = "<group>"; };
+		BFCE02B920A18B8800E736B3 /* YYPushRereadController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYPushRereadController.h; sourceTree = "<group>"; };
+		BFCE02BA20A18B8800E736B3 /* YYPushRereadController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYPushRereadController.m; sourceTree = "<group>"; };
+		BFCE02BE20A1F6A800E736B3 /* ZWPhotoPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPhotoPreview.h; sourceTree = "<group>"; };
+		BFCE02BF20A1F6A800E736B3 /* ZWPagePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPagePickerView.m; sourceTree = "<group>"; };
+		BFCE02C020A1F6A800E736B3 /* ZWPhotoAskSaveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPhotoAskSaveView.m; sourceTree = "<group>"; };
+		BFCE02C120A1F6A800E736B3 /* ZWPhotoPreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPhotoPreviewCell.m; sourceTree = "<group>"; };
+		BFCE02C220A1F6A800E736B3 /* ZWPhotoPreviewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPhotoPreviewConfig.h; sourceTree = "<group>"; };
+		BFCE02C320A1F6A800E736B3 /* ZWPhotoPreviewDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPhotoPreviewDataModel.h; sourceTree = "<group>"; };
+		BFCE02C420A1F6A800E736B3 /* ZWPagePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPagePickerView.h; sourceTree = "<group>"; };
+		BFCE02C520A1F6A800E736B3 /* ZWPhotoPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPhotoPreview.m; sourceTree = "<group>"; };
+		BFCE02C620A1F6A800E736B3 /* ZWPhotoPreviewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPhotoPreviewConfig.m; sourceTree = "<group>"; };
+		BFCE02C720A1F6A800E736B3 /* ZWPhotoPreviewDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWPhotoPreviewDataModel.m; sourceTree = "<group>"; };
+		BFCE02C820A1F6A800E736B3 /* ZWPhotoPreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPhotoPreviewCell.h; sourceTree = "<group>"; };
+		BFCE02C920A1F6A800E736B3 /* ZWPhotoAskSaveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWPhotoAskSaveView.h; sourceTree = "<group>"; };
+		BFCE02D120A1F6BE00E736B3 /* ZWHTMLSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWHTMLSDK.m; sourceTree = "<group>"; };
+		BFCE02D220A1F6BE00E736B3 /* ZWHTMLOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWHTMLOption.h; sourceTree = "<group>"; };
+		BFCE02D320A1F6BE00E736B3 /* ZWHTMLJS.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ZWHTMLJS.bundle; sourceTree = "<group>"; };
+		BFCE02D420A1F6BE00E736B3 /* ZWHTMLSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZWHTMLSDK.h; sourceTree = "<group>"; };
+		BFCE02D520A1F6BE00E736B3 /* ZWHTMLOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZWHTMLOption.m; sourceTree = "<group>"; };
 		BFD1244A1F6AC8E2000AB5A9 /* YYPicsDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYPicsDetailController.h; sourceTree = "<group>"; };
 		BFD1244B1F6AC8E2000AB5A9 /* YYPicsDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYPicsDetailController.m; sourceTree = "<group>"; };
 		BFD1244E1F6AED37000AB5A9 /* DismissAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DismissAnimation.h; sourceTree = "<group>"; };
@@ -1584,6 +1625,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		BF51CEA820921916009C9F99 /* WebviewImageScanView */ = {
+			isa = PBXGroup;
+			children = (
+				BF51CEA92092194D009C9F99 /* YYWebviewImageScanView.h */,
+				BF51CEAA2092194D009C9F99 /* YYWebviewImageScanView.m */,
+			);
+			path = WebviewImageScanView;
+			sourceTree = "<group>";
+		};
 		BF538A0F2073816700D50B96 /* YYRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -1923,6 +1973,46 @@
 			name = ViewModel;
 			sourceTree = "<group>";
 		};
+		BFCE02BC20A1F66D00E736B3 /* WebviewScanTool */ = {
+			isa = PBXGroup;
+			children = (
+				BFCE02D020A1F6BE00E736B3 /* ZWHTMLImage */,
+				BFCE02BD20A1F6A800E736B3 /* ZWPhotoPreview */,
+			);
+			path = WebviewScanTool;
+			sourceTree = "<group>";
+		};
+		BFCE02BD20A1F6A800E736B3 /* ZWPhotoPreview */ = {
+			isa = PBXGroup;
+			children = (
+				BFCE02BE20A1F6A800E736B3 /* ZWPhotoPreview.h */,
+				BFCE02C520A1F6A800E736B3 /* ZWPhotoPreview.m */,
+				BFCE02C420A1F6A800E736B3 /* ZWPagePickerView.h */,
+				BFCE02BF20A1F6A800E736B3 /* ZWPagePickerView.m */,
+				BFCE02C920A1F6A800E736B3 /* ZWPhotoAskSaveView.h */,
+				BFCE02C020A1F6A800E736B3 /* ZWPhotoAskSaveView.m */,
+				BFCE02C820A1F6A800E736B3 /* ZWPhotoPreviewCell.h */,
+				BFCE02C120A1F6A800E736B3 /* ZWPhotoPreviewCell.m */,
+				BFCE02C220A1F6A800E736B3 /* ZWPhotoPreviewConfig.h */,
+				BFCE02C620A1F6A800E736B3 /* ZWPhotoPreviewConfig.m */,
+				BFCE02C320A1F6A800E736B3 /* ZWPhotoPreviewDataModel.h */,
+				BFCE02C720A1F6A800E736B3 /* ZWPhotoPreviewDataModel.m */,
+			);
+			path = ZWPhotoPreview;
+			sourceTree = "<group>";
+		};
+		BFCE02D020A1F6BE00E736B3 /* ZWHTMLImage */ = {
+			isa = PBXGroup;
+			children = (
+				BFCE02D120A1F6BE00E736B3 /* ZWHTMLSDK.m */,
+				BFCE02D220A1F6BE00E736B3 /* ZWHTMLOption.h */,
+				BFCE02D320A1F6BE00E736B3 /* ZWHTMLJS.bundle */,
+				BFCE02D420A1F6BE00E736B3 /* ZWHTMLSDK.h */,
+				BFCE02D520A1F6BE00E736B3 /* ZWHTMLOption.m */,
+			);
+			path = ZWHTMLImage;
+			sourceTree = "<group>";
+		};
 		BFD1244D1F6AED37000AB5A9 /* Transition */ = {
 			isa = PBXGroup;
 			children = (
@@ -2144,6 +2234,7 @@
 		BFF8BE851F5FD26100FBAB04 /* Libs三方库 */ = {
 			isa = PBXGroup;
 			children = (
+				BFCE02BC20A1F66D00E736B3 /* WebviewScanTool */,
 				BF0FAB1D2085DCD50022F92F /* NSObject-safe */,
 				BFE6E6D22022FC6F00FFF479 /* DaiDodgeKeyboard */,
 				BF6394171F7E241D00F3BD82 /* BRPickerView */,
@@ -2161,6 +2252,7 @@
 		BFF8BE861F5FD27A00FBAB04 /* Components小组件 */ = {
 			isa = PBXGroup;
 			children = (
+				BF51CEA820921916009C9F99 /* WebviewImageScanView */,
 				BF021294208DAC6100748A7C /* TagContainer */,
 				F61367571F8E0CA90020A47B /* searchView */,
 				BF7DC5A91F754B6D00FA3F23 /* EmptyData */,
@@ -2881,6 +2973,8 @@
 				BFF8C02D1F5FEA4A00FBAB04 /* YYMainRollwordsCell.m */,
 				BFF8C02E1F5FEA4A00FBAB04 /* YYMainSrollpicCell.h */,
 				BFF8C02F1F5FEA4A00FBAB04 /* YYMainSrollpicCell.m */,
+				BF1056D720A0D25D001EC710 /* YYEightBtn.h */,
+				BF1056D820A0D25D001EC710 /* YYEightBtn.m */,
 			);
 			path = "首页cell";
 			sourceTree = "<group>";
@@ -3117,6 +3211,10 @@
 				F61260481FA0D0C400441439 /* YYMineOrderCell.m */,
 				BF3573921FFA5DCB00F85E66 /* YYYanbaoController.h */,
 				BF3573931FFA5DCB00F85E66 /* YYYanbaoController.m */,
+				BFCE02B620A18AB500E736B3 /* YYPushRecordController.h */,
+				BFCE02B720A18AB500E736B3 /* YYPushRecordController.m */,
+				BFCE02B920A18B8800E736B3 /* YYPushRereadController.h */,
+				BFCE02BA20A18B8800E736B3 /* YYPushRereadController.m */,
 				BF48FB10202218F10004BA5E /* YYYanbaoDetailController.h */,
 				BF48FB11202218F10004BA5E /* YYYanbaoDetailController.m */,
 				BF48FB03202020C50004BA5E /* YYOrderPushListCell.h */,
@@ -3447,6 +3545,8 @@
 				BFA75E1C208078E800471803 /* YYNiuManEmptyCell.h */,
 				BFA75E1D208078E800471803 /* YYNiuManEmptyCell.m */,
 				BFA75E1E208078E800471803 /* YYNiuManEmptyCell.xib */,
+				BF1056D220A0760E001EC710 /* YYNiuManIntroduceCell.h */,
+				BF1056D320A0760E001EC710 /* YYNiuManIntroduceCell.m */,
 			);
 			path = "底部牛人榜";
 			sourceTree = "<group>";
@@ -3644,6 +3744,7 @@
 				BF273EF51F7CA5230013E7C3 /* guide_3.jpg in Resources */,
 				BF273EF31F7CA5230013E7C3 /* guide_1.png in Resources */,
 				BFF8C13E1F5FEA4B00FBAB04 /* YYBundleSDKCell.xib in Resources */,
+				BFCE02D720A1F6BF00E736B3 /* ZWHTMLJS.bundle in Resources */,
 				BFF8BE531F5FCEC800FBAB04 /* LaunchScreen.storyboard in Resources */,
 				BFF8C15F1F5FEA4B00FBAB04 /* YYRegisterViewController.xib in Resources */,
 				BFF8C1391F5FEA4B00FBAB04 /* YYMineIntroductionViewController.xib in Resources */,
@@ -3924,8 +4025,11 @@
 				BF21C8901F6BAF4E00BB0DB7 /* YYCompanyListController.m in Sources */,
 				BFEB31BE1F72749700EFB167 /* YYThreeSeekTabView.m in Sources */,
 				BFC1FCC91F77C2B800593D81 /* YYRegistController.m in Sources */,
+				BFCE02CA20A1F6A900E736B3 /* ZWPagePickerView.m in Sources */,
+				BFCE02CB20A1F6A900E736B3 /* ZWPhotoAskSaveView.m in Sources */,
 				F6CAEE631F8FB379004A4C56 /* YYVideoDetailCell.m in Sources */,
 				F6CAEE731F947C0C004A4C56 /* NSString+AttributedString.m in Sources */,
+				BFCE02CC20A1F6A900E736B3 /* ZWPhotoPreviewCell.m in Sources */,
 				BFF8BF0F1F5FD51E00FBAB04 /* UIView+YYParentController.m in Sources */,
 				BFF8C1011F5FEA4A00FBAB04 /* YYSearchModel.m in Sources */,
 				BF48FB02201B0F9A0004BA5E /* YYReasonView.m in Sources */,
@@ -3943,6 +4047,7 @@
 				BF63943C1F7E46C900F3BD82 /* YYNiuMoreVM.m in Sources */,
 				BF273EEF1F7C8B640013E7C3 /* YYPeriodicalController.m in Sources */,
 				BFF8C14D1F5FEA4B00FBAB04 /* YYMineSettingCellModel.m in Sources */,
+				BFCE02CE20A1F6A900E736B3 /* ZWPhotoPreviewConfig.m in Sources */,
 				BFEB31FA1F74F29700EFB167 /* UIWindow+CurrentViewController.m in Sources */,
 				BF269DAD1F6F77F8009539BB /* _JZNavigationInteractiveTransition.m in Sources */,
 				BFC1FCBB1F778E3200593D81 /* UIView+YYCategory.m in Sources */,
@@ -3994,6 +4099,7 @@
 				BF3573941FFA5DCB00F85E66 /* YYYanbaoController.m in Sources */,
 				BF63940A1F7D189A00F3BD82 /* UITableViewRowAction.m in Sources */,
 				BF60528D1F6A547F00354741 /* YYCompanyModel.m in Sources */,
+				BF51CEAB2092194D009C9F99 /* YYWebviewImageScanView.m in Sources */,
 				F6CAEE661F8FE3AD004A4C56 /* YYSearchHotModel.m in Sources */,
 				BFF8BF111F5FD51E00FBAB04 /* UIView+YYViewInWindow.m in Sources */,
 				BF273ED71F7ADB1B0013E7C3 /* YYIOModel.m in Sources */,
@@ -4002,6 +4108,7 @@
 				BFEB31D01F73C07500EFB167 /* NSArray+Sudoku.m in Sources */,
 				F6CAEE761F947C20004A4C56 /* NSString+Additions.m in Sources */,
 				BFF8C0E21F5FEA4A00FBAB04 /* YYProjectViewController.m in Sources */,
+				BFCE02CD20A1F6A900E736B3 /* ZWPhotoPreview.m in Sources */,
 				BF63943F1F7E4DCE00F3BD82 /* YYNiuManDetailVM.m in Sources */,
 				BFF8C1061F5FEA4A00FBAB04 /* YYHotTagModel.m in Sources */,
 				F613674B1F887A3B0020A47B /* YYIapModel.m in Sources */,
@@ -4049,6 +4156,7 @@
 				BFF8C0DB1F5FEA4A00FBAB04 /* YYBrokerViewController.m in Sources */,
 				BF6394101F7DD75700F3BD82 /* YYPeriodModel.m in Sources */,
 				BF0ABFAF1F6564E10057A3A0 /* YYBaseRankDetailController.m in Sources */,
+				BF1056D920A0D25D001EC710 /* YYEightBtn.m in Sources */,
 				BFF8C0D91F5FEA4A00FBAB04 /* YYVideoDetailController.m in Sources */,
 				BFF8BECA1F5FD32200FBAB04 /* YYCountDownButton.m in Sources */,
 				BF31E8791F62396700E8CF0E /* YYBaseInfoModel.m in Sources */,
@@ -4060,8 +4168,10 @@
 				BF48FAFF201B0C100004BA5E /* YYBackOrderController.m in Sources */,
 				BFF8C1301F5FEA4B00FBAB04 /* YYHotView.m in Sources */,
 				BFF8C1031F5FEA4A00FBAB04 /* YYHotInfoModel.m in Sources */,
+				BFCE02D820A1F6BF00E736B3 /* ZWHTMLOption.m in Sources */,
 				F6CAEECA1F988F8C004A4C56 /* YYSecondCommentController.m in Sources */,
 				BF31E8701F61805E00E8CF0E /* YYCommunityBannerDetailController.m in Sources */,
+				BF1056D520A0760E001EC710 /* YYNiuManIntroduceCell.m in Sources */,
 				BFF8C1081F5FEA4A00FBAB04 /* YYNiuManModel.m in Sources */,
 				BFF8C1021F5FEA4A00FBAB04 /* YYHotHotModel.m in Sources */,
 				BF1D12F11F76532900C389C4 /* YYBaseViewModel.m in Sources */,
@@ -4173,6 +4283,7 @@
 				BFC1FD231F7A454100593D81 /* YYProductionHistoryController.m in Sources */,
 				BF31E8951F62849200E8CF0E /* YYBaseVideoListModel.m in Sources */,
 				BF21C88D1F6BAF0F00BB0DB7 /* YYProductionListController.m in Sources */,
+				BFCE02B820A18AB500E736B3 /* YYPushRecordController.m in Sources */,
 				BFA75E17207E0F6300471803 /* YYNiuManHeader.m in Sources */,
 				BFF8C1371F5FEA4B00FBAB04 /* YYMineCellModel.m in Sources */,
 				BFF8C1811F603A8300FBAB04 /* YYNiuNewsDetailViewController.m in Sources */,
@@ -4216,6 +4327,7 @@
 				BFE999761F67848A009FE595 /* YYDetailToolBar.m in Sources */,
 				BFF8C1321F5FEA4B00FBAB04 /* YYNiuView.m in Sources */,
 				BFF8C1581F5FEA4B00FBAB04 /* YYChangePhoneNumViewController.m in Sources */,
+				BFCE02CF20A1F6A900E736B3 /* ZWPhotoPreviewDataModel.m in Sources */,
 				BF31E8671F61311800E8CF0E /* YYMainScrollPicDetailController.m in Sources */,
 				BFF8C1551F5FEA4B00FBAB04 /* YYMineViewModel.m in Sources */,
 				BF538A1D20738D5D00D50B96 /* NSString+YYDevice.m in Sources */,
@@ -4225,6 +4337,7 @@
 				BF6394021F7CD07F00F3BD82 /* YYMineCollectionModel.m in Sources */,
 				BF31E8A51F629B1D00E8CF0E /* YYChannelShowBannerView.m in Sources */,
 				BFE9997C1F68BE77009FE595 /* YYCommentTextView.m in Sources */,
+				BFCE02BB20A18B8800E736B3 /* YYPushRereadController.m in Sources */,
 				BFF8C11F1F5FEA4B00FBAB04 /* YYMainRollwordsCell.m in Sources */,
 				BF31E8631F612B0C00E8CF0E /* YYFastMsgCell.m in Sources */,
 				BFF8C12F1F5FEA4B00FBAB04 /* YYFastMsgController.m in Sources */,
@@ -4259,6 +4372,7 @@
 				BF60527B1F6A22D700354741 /* YPTabItem.m in Sources */,
 				BFF8C0DC1F5FEA4A00FBAB04 /* YYFundViewController.m in Sources */,
 				BFF8BF561F5FE4D400FBAB04 /* NSArray+Safe.m in Sources */,
+				BFCE02D620A1F6BF00E736B3 /* ZWHTMLSDK.m in Sources */,
 				BF7DC5A81F7548EC00FA3F23 /* UITableView+YYEmptyData.m in Sources */,
 				BF7DC5AC1F754B9200FA3F23 /* YYEmptyView.m in Sources */,
 				BF6394341F7E241E00F3BD82 /* BRStringPickerView.m in Sources */,

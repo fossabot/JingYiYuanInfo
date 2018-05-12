@@ -11,6 +11,8 @@
 #import "UIImage+Category.h"
 #import "UIView+YYCategory.h"
 
+#define defaultIndex @"defaultIndex"
+
 @interface YYRewardView()
 
 /** containerView*/
@@ -35,6 +37,7 @@
 @implementation YYRewardView
 {
     UIButton *_selectButton;
+    NSInteger _defaultIndex;
 }
 
 
@@ -97,8 +100,8 @@
         UIButton *integerationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         integerationBtn.tag = 100+i;
         integerationBtn.titleLabel.font = sysFont(15);
-        integerationBtn.layer.borderColor = GrayBackGroundColor.CGColor;
-        integerationBtn.layer.borderWidth = 0.5;
+        integerationBtn.layer.borderColor = LightGraySeperatorColor.CGColor;
+        integerationBtn.layer.borderWidth = .5;
         [integerationBtn setTitle:[NSString stringWithFormat:@"%ld积分",fen] forState:UIControlStateNormal];
         [integerationBtn setTitleColor:ThemeColor forState:UIControlStateNormal];
         [integerationBtn setTitleColor:WhiteColor forState:UIControlStateSelected];
@@ -106,6 +109,13 @@
         [integerationBtn setBackgroundImage:[UIImage imageWithColor:ThemeColor] forState:UIControlStateSelected];
         [integerationBtn addTarget:self action:@selector(chooseIntegration:) forControlEvents:UIControlEventTouchUpInside];
         [self.containerMiddle addSubview:integerationBtn];
+        
+//        _defaultIndex = [kUserDefaults integerForKey:defaultIndex];
+        
+//        if (_defaultIndex == i) {
+//            integerationBtn.selected = YES;
+//            _selectButton = integerationBtn;
+//        }
         
         i++;
     }
@@ -123,7 +133,7 @@
        
         make.centerX.equalTo(self);
         make.centerY.equalTo(YYInfoCellCommonMargin*2);
-        make.width.height.equalTo(afterScale(240));
+        make.width.height.equalTo(afterScale(250));
     }];
     
     [top makeConstraints:^(MASConstraintMaker *make) {
@@ -168,8 +178,8 @@
                                                                      warpCount:3
                                                                     topSpacing:0
                                                                  bottomSpacing:0
-                                                                   leadSpacing:0
-                                                                   tailSpacing:0];
+                                                                   leadSpacing:20
+                                                                   tailSpacing:20];
     
     
     [self.reward makeConstraints:^(MASConstraintMaker *make) {
@@ -198,6 +208,8 @@
     _selectButton.selected = NO;
     sender.selected = YES;
     _selectButton = sender;
+//    [kUserDefaults setInteger:sender.tag-100 forKey:defaultIndex];
+//    [kUserDefaults synchronize];
 }
 
 /** 打赏*/

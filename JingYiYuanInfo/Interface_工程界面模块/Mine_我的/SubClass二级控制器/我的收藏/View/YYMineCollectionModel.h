@@ -49,6 +49,9 @@
 /** webUrl*/
 @property (nonatomic, copy) NSString *webUrl;
 
+/** shareUrl*/
+@property (nonatomic, copy) NSString *shareUrl;
+
 /** newsType*/
 @property (nonatomic, assign) NSInteger newsType;
 

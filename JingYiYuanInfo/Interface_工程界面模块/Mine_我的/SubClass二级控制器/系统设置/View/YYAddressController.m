@@ -38,6 +38,8 @@
 @property (nonatomic, strong) UITextField *mobileText;
 //地区的输入框
 @property (nonatomic, strong) UIButton *districtBtn;
+//方向箭头
+@property (nonatomic, strong) UIImageView *right;
 //详细地址的输入框
 @property (nonatomic, strong) YYCommentTextView *detailAddressTextView;
 
@@ -55,7 +57,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _isFirstEdit = YES;
-    self.navigationItem.title = @"我的地址";
+    self.navigationItem.title = @"收货地址";
     self.view.backgroundColor = GrayBackGroundColor;
     
     [self configSubView];
@@ -78,13 +80,13 @@
     [receivedMan setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     receivedMan.text = @"收件人";
     receivedMan.textColor = SubTitleColor;
-    receivedMan.font = TitleFont;
+    receivedMan.font = shabiFont5;
     self.receivedMan = receivedMan;
     [self.view addSubview:receivedMan];
     
     UITextField *receivedManText = [[UITextField alloc] init];
     receivedManText.delegate = self;
-    receivedManText.font = TitleFont;
+    receivedManText.font = shabiFont5;
 //    receivedManText.placeholder = @"名称";
     receivedManText.tintColor = ThemeColor;
     self.receivedManText = receivedManText;
@@ -99,13 +101,13 @@
     [mobile setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     mobile.text = @"联系电话";
     mobile.textColor = SubTitleColor;
-    mobile.font = TitleFont;
+    mobile.font = shabiFont5;
     self.mobile = mobile;
     [self.view addSubview:mobile];
     
     UITextField *mobileText = [[UITextField alloc] init];
     mobileText.delegate = self;
-    mobileText.font = TitleFont;
+    mobileText.font = shabiFont5;
 //    mobileText.placeholder = @"联系电话";
     mobileText.tintColor = ThemeColor;
     self.mobileText = mobileText;
@@ -120,12 +122,18 @@
     [district setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     district.text = @"所在地区";
     district.textColor = SubTitleColor;
-    district.font = TitleFont;
+    district.font = shabiFont5;
     self.district = district;
     [self.view addSubview:district];
     
+    UIImageView *right = [[UIImageView alloc] init];
+    right.image = imageNamed(@"yyfw_push_calendararrow_right_20x20_");
+    right.contentMode = UIViewContentModeCenter;
+    [self.view addSubview:right];
+    self.right = right;
+    
     UIButton *districtBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    districtBtn.titleLabel.font = TitleFont;
+    districtBtn.titleLabel.font = shabiFont5;
     [districtBtn setTitleColor:UnenableTitleColor forState:UIControlStateNormal];
 //    districtBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
     [districtBtn setTitle:@"请选择" forState:UIControlStateNormal];
@@ -140,7 +148,7 @@
     
     YYCommentTextView *detailAddressTextView = [[YYCommentTextView alloc] initWithFrame:CGRectZero PlaceText:@"详细地址" PlaceColor:UnenableTitleColor];
     detailAddressTextView.delegate = self;
-    detailAddressTextView.font = TitleFont;
+    detailAddressTextView.font = shabiFont5;
 //    detailAddressTextView.placeColor = UnenableTitleColor;
 //    detailAddressTextView.placeText = @"详细地址";
     self.detailAddressTextView = detailAddressTextView;
@@ -205,18 +213,24 @@
         make.top.equalTo(self.seperator2.bottom).offset(YYInfoCellCommonMargin);
     }];
     
+    [self.right makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.centerY.equalTo(self.district);
+        make.right.equalTo(-YYCommonCellRightMargin);
+    }];
+    
     [self.districtBtn makeConstraints:^(MASConstraintMaker *make) {
         
         make.centerY.equalTo(self.district);
-        make.left.equalTo(self.receivedManText);
-//        make.right.equalTo(-YYCommonCellRightMargin);
+//        make.left.equalTo(self.receivedManText);
+        make.right.equalTo(self.right.left).offset(-2);
     }];
     
     [self.seperator3 makeConstraints:^(MASConstraintMaker *make) {
         
         make.top.equalTo(self.district.bottom).offset(YYCommonCellLeftMargin);
         make.left.equalTo(self.district);
-        make.right.equalTo(self.districtBtn);
+        make.right.equalTo(self.seperator2);
         make.height.equalTo(0.5);
     }];
     
@@ -282,6 +296,13 @@
 }
 
 
+#pragma mark -- inner Methods 自定义方法  -------------------------------
+
+- (void)pop {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 //保存编辑好的地址信息
 - (void)saveAddress {
     
@@ -299,11 +320,13 @@
     }else {
         para = [NSDictionary dictionaryWithObjectsAndKeys:user.userid,USERID,@"moduseradd",@"act",_receivedManText.text,@"re_name",_mobileText.text,@"re_phone",_provinceCityStr,@"prov_city",_detailAddressTextView.text,@"detailed_add", nil];
     }
+    YYWeakSelf
     [YYHttpNetworkTool GETRequestWithUrlstring:addressUrl parameters:para success:^(id response) {
         
         if (response && [response[@"state"] isEqualToString:@"1"]) {
             [SVProgressHUD showSuccessWithStatus:@"保存成功"];
             _isFirstEdit = NO;
+            [weakSelf pop];
         }else{
             [SVProgressHUD showErrorWithStatus:@"保存失败"];
         }

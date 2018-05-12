@@ -127,7 +127,8 @@
             
             YYStrongSelf
             YYMessageDetailController *detailVc = [[YYMessageDetailController alloc] init];
-            detailVc.url = webUrl;
+//            detailVc.url = webUrl;
+            detailVc.url = @"http://yyapp.1yuaninfo.com/app/houtai/pushRecord.php?id=9&type=1";
             detailVc.shareTitle = title;
             [strongSelf.navigationController pushViewController:detailVc animated:YES];
         };

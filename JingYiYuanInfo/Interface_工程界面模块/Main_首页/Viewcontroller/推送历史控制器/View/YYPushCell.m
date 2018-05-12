@@ -24,6 +24,9 @@
 /** content*/
 @property (nonatomic, strong) UILabel *content;
 
+/** yanBaoBtn*/
+@property (nonatomic, strong) UIButton *yanBaoBtn;
+
 /** extendBtn*/
 @property (nonatomic, strong) UIButton *extendBtn;
 
@@ -50,6 +53,27 @@
     self.title.text = pushModel.keyword1;
     self.extendBtn.hidden = !pushModel.isHaveExtendBtn;
     self.extendBtn.selected = pushModel.extendState;
+    
+    [self isHaveYanBao];
+    
+}
+
+
+- (void)isHaveYanBao {
+    
+    if ([_pushModel isShowYanBao]) {
+        
+        [self.yanBaoBtn updateConstraints:^(MASConstraintMaker *make) {
+            
+            make.height.equalTo(20);
+        }];
+    }else {
+        
+        [self.yanBaoBtn updateConstraints:^(MASConstraintMaker *make) {
+            
+            make.height.equalTo(0);
+        }];
+    }
 }
 
 /** 展开cell或者闭合*/
@@ -58,10 +82,18 @@
     [self extendOrNot:self.extendBtn];
 }
 
+/** 查看研报*/
+- (void)checkYanBao:(UIButton *)sender {
+    
+    if (_yanBaoBlock) {
+        _yanBaoBlock(self.pushModel.yanbao);
+    }
+}
+
 - (void)extendOrNot:(UIButton *)sender {
     
-//    sender.selected = !sender.selected;
     _pushModel.extendState = !sender.selected;
+    
     if (_extendBlock) {
         _extendBlock(self, !sender.selected);
     }
@@ -103,7 +135,21 @@
     self.content = content;
     [self.contentView addSubview:content];
     
+    UIButton *yanBaoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    yanBaoBtn.clipsToBounds = YES;
+    [yanBaoBtn setTitle:@"查看研报" forState:UIControlStateNormal];
+    [yanBaoBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, 0)];
+    yanBaoBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    yanBaoBtn.titleLabel.font = UnenableTitleFont;
+    [yanBaoBtn setTitleColor:SubTitleColor forState:UIControlStateNormal];
+    [yanBaoBtn setImage:imageNamed(@"order_yanbao") forState:UIControlStateNormal];
+    [yanBaoBtn addTarget:self action:@selector(checkYanBao:) forControlEvents:UIControlEventTouchUpInside];
+    self.yanBaoBtn = yanBaoBtn;
+    [self.contentView addSubview:yanBaoBtn];
+    
+    
     UIButton *extendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [extendBtn setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
     [extendBtn setTitle:@"展开" forState:UIControlStateNormal];
     [extendBtn setTitle:@"收起" forState:UIControlStateSelected];
     extendBtn.titleLabel.font = UnenableTitleFont;
@@ -157,13 +203,21 @@
         
         make.left.equalTo(self.title);
         make.top.equalTo(self.title.bottom).offset(YYInfoCellSubMargin);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.right.equalTo(-YYInfoCellCommonMargin*2);
     }];
 
+    [self.yanBaoBtn makeConstraints:^(MASConstraintMaker *make) {
+       
+        make.top.equalTo(self.content.bottom).offset(YYInfoCellCommonMargin);
+        make.left.equalTo(self.content);
+        make.height.equalTo(0);
+        make.width.equalTo(100);
+    }];
+    
     [self.extendBtn makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.content.bottom);
-        make.right.equalTo(-YYInfoCellCommonMargin);
+        make.top.equalTo(self.yanBaoBtn.bottom);
+        make.right.equalTo(-YYInfoCellCommonMargin*2);
         make.width.equalTo(60);
         make.height.equalTo(20);
         make.bottom.equalTo(-5);

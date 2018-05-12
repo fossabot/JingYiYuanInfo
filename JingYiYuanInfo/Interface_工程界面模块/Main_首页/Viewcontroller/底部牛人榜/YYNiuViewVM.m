@@ -224,11 +224,11 @@
     redview.backgroundColor = ThemeColor;
     [view addSubview:redview];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 70, 20)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 100, 20)];
     label.backgroundColor = [UIColor whiteColor];
     label.text = title;
     label.textAlignment = NSTextAlignmentLeft;
-    label.font = TitleFont;
+    label.font = shabiFont5;
     label.textColor = SubTitleColor;
     [view addSubview:label];
     return view;
