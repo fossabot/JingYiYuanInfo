@@ -268,6 +268,7 @@
                     YYHotInfoModel *model = (YYHotInfoModel *)data;
                     detail.picsModels = model.picarr;
                     detail.shareTitle = model.title;
+                    detail.shareUrl = model.sharePicsUrl;
                     detail.shareImageUrl = model.picurl;
                     detail.shareSubTitle = model.infodescription;
                     detail.picsId = model.infoid;

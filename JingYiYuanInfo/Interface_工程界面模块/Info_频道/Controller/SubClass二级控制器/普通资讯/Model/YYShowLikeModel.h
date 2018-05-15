@@ -6,9 +6,9 @@
 //  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "YYBaseModel.h"
 
-@interface YYShowLikeModel : NSObject
+@interface YYShowLikeModel : YYBaseModel
 
 //"xh_arr" 喜欢的列表: [{
 //   "id":         id         "301",

@@ -67,6 +67,7 @@
     _hotinfoModel = hotinfoModel;
     _infoid = hotinfoModel.infoid;
     _title.text = hotinfoModel.title;
+    self.title.textColor = hotinfoModel.selected ? UnenableTitleColor : TitleColor;
     _subTitle.text = hotinfoModel.infodescription;
     
     SDWebImageManager *manager = [SDWebImageManager sharedManager];

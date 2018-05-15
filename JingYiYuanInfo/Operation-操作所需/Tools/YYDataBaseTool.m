@@ -57,6 +57,7 @@ static YYDataBaseTool *theData = nil;
         //初始化数据表
         
         [self addIapTable];
+        [self addWebTable];
         
         [fmdb close];
         
@@ -208,5 +209,88 @@ static YYDataBaseTool *theData = nil;
     return state;
     
 }
+
+
+
+
+#pragma mark --- 这里是标记文章阅读状态的分隔线  ---------------
+
+/**
+ 储存已阅读的网页url
+ 
+ @param url url
+ */
+- (void)saveSelectedUrl:(NSString *)url {
+    
+    BOOL exist = [self isUrlHadReaded:url];
+    
+    if (!exist) {
+        
+        [fmdb open];
+        
+        NSString*SQL =@"insert into yyinfoarticle(webUrl) values(?)";
+        
+        BOOL isAddSuccess = [fmdb executeUpdate:SQL,url];
+        
+        if(!isAddSuccess) {
+            
+            YYLog(@"内购Table插入信息失败--%@",fmdb.lastErrorMessage);
+        }
+        
+        NSString *selectSql = @"select * from yyinfo";
+        FMResultSet *result = [fmdb executeQuery:selectSql];
+        while ([result next]) {
+            YYLog(@"webUrl  ---  %@",[result stringForColumn:@"webUrl"]);
+        }
+        
+        [fmdb close];
+        
+    }
+    
+}
+
+
+//初始化网页浏览记录表
+-(void)addWebTable{
+    
+    NSString*yyinfoSQL =@"create table if not exists yyinfoarticle (id integer Primary Key Autoincrement, webUrl text)";
+    
+    BOOL yyinfoSuccess = [fmdb executeUpdate:yyinfoSQL];
+    
+    if(!yyinfoSuccess) {
+        
+        YYLog(@"内购数据表创建失败---%@",fmdb.lastErrorMessage);
+        
+    }
+}
+
+
+/**
+ 查询某网址是否被阅读过  并返回状态 yes读过  no未读
+
+ @param url 网址
+ @return 阅读状态
+ */
+- (BOOL)isUrlHadReaded:(NSString *)url {
+    
+    [fmdb open];
+    
+    BOOL exist = NO;
+    
+    FMResultSet *result = [fmdb executeQuery:@"select * from yyinfoarticle where webUrl = ?",url];
+    
+    while([result next]) {
+        
+        exist = YES;
+    }
+    
+    [fmdb close];
+    
+    return exist;
+    
+}
+
+
+
 
 @end

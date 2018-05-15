@@ -6,9 +6,9 @@
 //  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "YYBaseModel.h"
 
-@interface YYBaseMusicModel : NSObject
+@interface YYBaseMusicModel : YYBaseModel
 
 //返回值: "m_arr":音乐数组 { "id": "254",
 //"picurl":  音乐图片 "uploads/image/20170906/1504667396.jpg",

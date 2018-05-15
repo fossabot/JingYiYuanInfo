@@ -231,26 +231,18 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (self.hotDataSource.count && indexPath.section == 0) {
         YYHotHotModel *hotModel = self.hotDataSource[indexPath.row];
+        hotModel.selected = YES;
         _selectedBlock(5, hotModel, indexPath);
         //自定义5位排行cell的点击
     }
     else {
         
         YYHotInfoModel *hotInfoModel = self.infoDataSource[indexPath.row];
-        switch (hotInfoModel.picstate) {
-            case 1:
-            case 2:
-            case 3:
-                _selectedBlock(hotInfoModel.picstate, hotInfoModel, indexPath);
-                break;
-                
-            case 4:
-                _selectedBlock(hotInfoModel.picstate, hotInfoModel, indexPath);
-                break;
-                
-            default:
-                break;
-        }
+        hotInfoModel.selected = YES;
+        
+        _selectedBlock(hotInfoModel.picstate, hotInfoModel, indexPath);
+    
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     
     }
 }

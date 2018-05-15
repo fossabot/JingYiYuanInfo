@@ -20,6 +20,8 @@
 
 #import <MJExtension/MJExtension.h>
 
+#import "YYDataBaseTool.h"
+
 #import "YYFirstCommentController.h"
 #import "YYSecondCommentController.h"
 
@@ -57,6 +59,8 @@
 - (void)viewDidLoad {
 
     [super viewDidLoad];
+    
+    [[YYDataBaseTool sharedDataBaseTool] saveSelectedUrl:self.url];
     
     [self loadComment];
     [self.view addSubview:self.tableView];

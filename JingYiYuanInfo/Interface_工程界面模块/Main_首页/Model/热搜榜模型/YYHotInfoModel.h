@@ -6,11 +6,11 @@
 //  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
 //  热搜榜的资讯模型
 
-#import <UIKit/UIKit.h>
+#import "YYBaseModel.h"
 
 @class YYHotPicsModel;
 
-@interface YYHotInfoModel : NSObject
+@interface YYHotInfoModel : YYBaseModel
 
 /** 
  "id": "17550",
@@ -60,6 +60,8 @@
 
 /** cellHeight*/
 @property (nonatomic, assign) CGFloat cellHeight;
+
+@property (nonatomic, copy) NSString *sharePicsUrl;
 
 
 @end

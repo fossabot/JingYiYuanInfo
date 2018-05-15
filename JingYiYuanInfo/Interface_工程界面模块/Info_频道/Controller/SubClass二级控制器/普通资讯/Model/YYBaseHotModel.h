@@ -6,9 +6,9 @@
 //  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
 //  频道普通资讯的排行模型
 
-#import <Foundation/Foundation.h>
+#import "YYBaseModel.h"
 
-@interface YYBaseHotModel : NSObject
+@interface YYBaseHotModel : YYBaseModel
 
 //"id": "2",
 //"self_name": "股市3",

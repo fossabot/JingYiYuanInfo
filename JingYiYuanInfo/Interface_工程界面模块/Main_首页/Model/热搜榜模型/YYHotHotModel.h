@@ -6,10 +6,10 @@
 //  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
 //  热搜榜 排行 模型
 
-#import <Foundation/Foundation.h>
+#import "YYBaseModel.h"
 #import "MJExtension.h"
 
-@interface YYHotHotModel : NSObject
+@interface YYHotHotModel : YYBaseModel
 /**
  *   "rname": "壹元服务一块钱",
  *   "rlink": "http://www.1yuaninfo.com",

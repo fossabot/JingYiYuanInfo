@@ -36,6 +36,24 @@ static CGFloat const leftPicH = 70;
              };
 }
 
+
+- (BOOL)selected {
+    
+    if (super.selected) {
+        self.selected = YES;
+        return YES;
+    }else {
+        if (_picstate == 4) {
+            super.selected = [[YYDataBaseTool sharedDataBaseTool] isUrlHadReaded:self.sharePicsUrl];
+        }else {
+            
+            super.selected = [[YYDataBaseTool sharedDataBaseTool] isUrlHadReaded:self.webUrl];
+        }
+        return super.selected;
+    }
+
+}
+
 - (NSString *)webUrl {
     
     YYUser *user = [YYUser shareUser];
@@ -60,6 +78,11 @@ static CGFloat const leftPicH = 70;
     return _shareUrl;
 }
 
+- (NSString *)sharePicsUrl {
+    
+    return [NSString stringWithFormat:@"%@%@",picsWebShareJointUrl,self.infoid];
+}
+
 
 - (NSString *)picurl {
     if (_picurl && ![_picurl containsString:@"http"]) {
@@ -75,6 +98,8 @@ static CGFloat const leftPicH = 70;
 - (NSString *)posttime {
     return [NSCalendar commentDateByOriginalDate:_posttime withDateFormat:yyyyMMddHHmmss];
 }
+
+
 /** 1为左图，2为大图，3为三图，4为图集*/
 - (CGFloat)cellHeight {
     

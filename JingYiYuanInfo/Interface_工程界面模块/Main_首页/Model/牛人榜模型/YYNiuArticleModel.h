@@ -6,9 +6,9 @@
 //  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
 //  牛人文章模型
 
-#import <Foundation/Foundation.h>
+#import "YYBaseModel.h"
 
-@interface YYNiuArticleModel : NSObject
+@interface YYNiuArticleModel : YYBaseModel
 
 /** 
  "id": "6",

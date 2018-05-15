@@ -10,6 +10,7 @@
 #import "NSDate+YYCalculation.h"
 #import "YYPushCell.h"
 #import "YYPushListCellModel.h"
+#import "YYUser.h"
 
 #import "UITableView+FDTemplateLayoutCell.h"
 #import <MJExtension/MJExtension.h>
@@ -65,7 +66,8 @@
     }
     _lastSelectedDate = date;
     
-    [YYHttpNetworkTool GETRequestWithUrlstring:pushListUrl parameters:@{@"date":date} success:^(id response) {
+    YYUser *user = [YYUser shareUser];
+    [YYHttpNetworkTool GETRequestWithUrlstring:pushListUrl parameters:@{@"date":date,@"userid":user.userid} success:^(id response) {
 
         if (response) {
             

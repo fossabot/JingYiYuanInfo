@@ -58,4 +58,25 @@
  */
 - (NSMutableArray *)getAllUnCompleteIap;
 
+
+
+
+/**
+ 储存已阅读的网页url
+
+ @param url url
+ */
+- (void)saveSelectedUrl:(NSString *)url;
+
+
+/**
+ 查询某网址是否被阅读过  并返回状态 yes读过  no未读
+ 
+ @param url 网址
+ @return 阅读状态
+ */
+- (BOOL)isUrlHadReaded:(NSString *)url;
+
+
+
 @end

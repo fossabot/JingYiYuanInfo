@@ -214,6 +214,7 @@
     
     _videoModel = videoModel;
     self.title.text = videoModel.v_name;
+    self.title.textColor = videoModel.selected ? UnenableTitleColor : TitleColor;
     [self.videoImg sd_setImageWithURL:[NSURL URLWithString:videoModel.v_picture] placeholderImage:imageNamed(@"loading_bgView")];
     self.playCount.text = videoModel.v_hits;
     self.time.text = videoModel.v_time;

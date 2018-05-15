@@ -65,6 +65,7 @@
     _hotinfoModel = hotinfoModel;
     _infoid = hotinfoModel.infoid;
     _title.text = hotinfoModel.title;
+    _title.textColor = hotinfoModel.selected ? UnenableTitleColor : TitleColor;
     
     YYWeakSelf
 //    NSArray *images = @[weakSelf.newsPic1, weakSelf.newsPic2, weakSelf.newsPic3];
@@ -214,6 +215,7 @@
     UILabel *title = [[UILabel alloc] init];
     title.font = TitleFont;
     title.textColor = TitleColor;
+//    title.textColor = self.selected ? UnenableTitleColor : TitleColor;
     title.numberOfLines = 0;
     [self.contentView addSubview:title];
     self.title = title;

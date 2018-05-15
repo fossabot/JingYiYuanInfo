@@ -179,22 +179,13 @@
     }];
 }
 
-// 切圆角
-- (void)cutRoundView:(UIImageView *)imageView
-{
-    CGFloat corner = 3;
-    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:imageView.bounds byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(corner, corner)];
-    shapeLayer.path = path.CGPath;
-    imageView.layer.mask = shapeLayer;
-}
 
 - (void)setLikeModel:(YYShowLikeModel *)likeModel {
     
     _likeModel = likeModel;
     [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:likeModel.indeximg] placeholderImage:imageNamed(placeHolderMini)];
-//    [self cutRoundView:self.leftImageView];
     self.title.text = likeModel.actionname;
+    self.title.textColor = likeModel.selected ? UnenableTitleColor : TitleColor;
     self.time.text = likeModel.actiontime;
     self.place.text = likeModel.palace;
     self.price.text = likeModel.price;

@@ -59,6 +59,7 @@
     _hotinfoModel = hotinfoModel;
     _infoid = hotinfoModel.infoid;
     self.title.text = hotinfoModel.title;
+    self.title.textColor = hotinfoModel.selected ? UnenableTitleColor : TitleColor;
     
     SDWebImageManager *manager = [SDWebImageManager sharedManager];
     NSURL *imageUrl = [NSURL URLWithString:hotinfoModel.picurl];

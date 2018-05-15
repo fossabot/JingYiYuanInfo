@@ -19,6 +19,20 @@
              };
 }
 
+- (BOOL)selected {
+    
+    if (super.selected) {
+        self.selected = YES;
+        return YES;
+    }else {
+    
+        super.selected = [[YYDataBaseTool sharedDataBaseTool] isUrlHadReaded:self.webUrl];
+        
+        return super.selected;
+    }
+    
+}
+
 
 - (NSString *)picurl {
     if (![_picurl containsString:@"http"]) {

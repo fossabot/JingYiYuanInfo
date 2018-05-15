@@ -374,6 +374,7 @@
             case YYBaseInfoTypeRank:{
                 
                 YYBaseHotModel *model = self.rankDataSource[indexPath.row];
+                model.selected = YES;
                 _cellSelectedBlock(YYBaseInfoTypeRank, indexPath, model.self_link);
             }
                 break;
@@ -381,6 +382,7 @@
             case YYBaseInfoTypeNews:{
                 
                 YYHotInfoModel *model = self.infoDataSource[indexPath.row];
+                model.selected = YES;
                 _cellSelectedBlock(YYBaseInfoTypeNews, indexPath, model);
             }
                 break;
@@ -388,6 +390,7 @@
             case YYBaseInfoTypeNewsPics:{
                 
                 YYHotInfoModel *model = self.infoDataSource[indexPath.row];
+                model.selected = YES;
                 _cellSelectedBlock(YYBaseInfoTypeNewsPics, indexPath, model);
             }
                 break;
@@ -395,7 +398,7 @@
             case YYBaseInfoTypeVideo:{
 
                 YYBaseVideoModel *model = self.infoDataSource[indexPath.row];
-
+                model.selected = YES;
                 YYUser *user = [YYUser shareUser];
                 NSDictionary *dic;
                 if (self.playerModel.indexPath == indexPath) {
@@ -415,6 +418,7 @@
             case YYBaseInfoTypeMusic:{
 
                 YYBaseMusicModel *model = self.infoDataSource[indexPath.row];
+                model.selected = YES;
                 _cellSelectedBlock(YYBaseInfoTypeMusic, indexPath, model);
             }
                 break;
@@ -422,6 +426,7 @@
             case YYBaseInfoTypeShow:{
                 
                 YYShowLikeModel *model = self.infoDataSource[indexPath.row];
+                model.selected = YES;
                 _cellSelectedBlock(YYBaseInfoTypeShow, indexPath, model.webUrl);
             }
                 break;
@@ -429,6 +434,8 @@
             default:
                 break;
         }
+        
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 

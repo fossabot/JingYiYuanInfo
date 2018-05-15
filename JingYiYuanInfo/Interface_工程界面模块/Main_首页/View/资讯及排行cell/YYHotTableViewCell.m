@@ -97,6 +97,7 @@
     _hotModel = hotModel;
     
     _title.text = hotModel.rname;
+    _title.textColor = hotModel.selected ? UnenableTitleColor : TitleColor;
     _link.text = hotModel.rlink;
     _renqiValue.text = hotModel.pop_num;
     
@@ -126,6 +127,7 @@
     
     _baseModel = baseModel;
     _title.text = baseModel.self_name;
+    _title.textColor = baseModel.selected ? UnenableTitleColor : TitleColor;
     _link.text = baseModel.self_link;
     _renqiValue.text = baseModel.pop_value;
     

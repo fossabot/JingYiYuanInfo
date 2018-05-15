@@ -6,13 +6,13 @@
 //  Copyright © 2017年 北京京壹元资讯信息服务有限公司. All rights reserved.
 //  热搜榜模型
 
-#import <Foundation/Foundation.h>
+#import "YYBaseModel.h"
 
 @class YYHotTagModel;
 @class YYHotHotModel;
 @class YYHotInfoModel;
 
-@interface YYHotModel : NSObject
+@interface YYHotModel : YYBaseModel
 
 /** 标签数组模型*/
 @property (nonatomic, strong) NSArray<YYHotTagModel *> *tag_arr;

@@ -8,12 +8,17 @@
 
 #import "THBaseViewController.h"
 
+#define replaceUrl @"yyapp.YYHotPicsModel.com?id="
+
 @class YYHotPicsModel;
 
 @interface YYPicsDetailController : THBaseViewController
 
 /** hotpicsModel*/
 @property (nonatomic, strong) NSArray<YYHotPicsModel *> *picsModels;
+
+/** shareUrl*/
+@property (nonatomic, copy) NSString *shareUrl;
 
 /** shareTitle*/
 @property (nonatomic, copy) NSString *shareTitle;

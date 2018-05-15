@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "YYDataBaseTool.h"
 
 @interface YYBaseModel : NSObject
 

@@ -54,6 +54,8 @@
     [super viewDidLoad];
 //    [self.navigationController setNavigationBarHidden:YES animated:YES];
 //    self.navigationController.navigationBarHidden = YES;
+    
+    [[YYDataBaseTool sharedDataBaseTool] saveSelectedUrl:self.shareUrl];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     self.view.backgroundColor = [UIColor blackColor];
@@ -125,8 +127,8 @@
 /** 分享图集*/
 - (void)shareWeb:(UIButton *)sender {
     
-    NSString *shareUrl = [NSString stringWithFormat:@"%@%@",picsWebShareJointUrl,self.picsId];
-    [ShareView shareWithTitle:self.shareTitle subTitle:@"" webUrl:shareUrl imageUrl:self.shareImageUrl isCollected:NO shareViewContain:nil shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
+    
+    [ShareView shareWithTitle:self.shareTitle subTitle:@"" webUrl:self.shareUrl imageUrl:self.shareImageUrl isCollected:NO shareViewContain:nil shareContentType:ShareContentTypeWeb finished:^(ShareViewType shareViewType, BOOL isFavor) {
         
     }];
 }
@@ -210,7 +212,7 @@
 
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
-        _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:self.flowLayout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:kKeyWindow.bounds collectionViewLayout:self.flowLayout];
         _collectionView.pagingEnabled = YES;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;

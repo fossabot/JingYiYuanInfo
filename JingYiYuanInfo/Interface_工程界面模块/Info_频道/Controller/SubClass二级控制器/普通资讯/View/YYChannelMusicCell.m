@@ -83,6 +83,7 @@
 - (void)setMusicModel:(YYBaseMusicModel *)musicModel {
     _musicModel = musicModel;
     self.songName.text = musicModel.sname;
+    self.songName.textColor = musicModel.selected ? UnenableTitleColor : TitleColor;
     self.singerName.text = musicModel.singer;
     
 }

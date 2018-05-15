@@ -161,7 +161,9 @@
         }else {
             
             YYNiuArticleModel *articleModel = self.niuArtDataSource[indexPath.row];
+            articleModel.selected = YES;
             _selectedBlock(articleModel, indexPath);
+            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         }
     }
 }

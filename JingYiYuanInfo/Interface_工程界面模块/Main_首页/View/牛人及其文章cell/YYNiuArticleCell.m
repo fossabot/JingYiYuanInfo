@@ -62,6 +62,7 @@
         
     }];
     _title.text = niuArtModel.title;
+    _title.textColor = niuArtModel.selected ? UnenableTitleColor : TitleColor;
     _desc.text = niuArtModel.art_description;
     _time.text = niuArtModel.posttime;
     
